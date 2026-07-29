@@ -1,0 +1,464 @@
+# ---------------------------------------------------------------------------
+# documentação dos conjuntos de dados
+# ---------------------------------------------------------------------------
+
+#' ocupacoesBR: da ocupação brasileira a medidas padronizadas de posição social
+#'
+#' Traduz a ocupação para a ISCO-88 e a ISCO-08 e, a partir delas, para o ISEI,
+#' o SIOPS, o EGP e um esquema de classes e estratos desenhado para o dado
+#' eleitoral.
+#'
+#' Duas portas de entrada, que levam ao mesmo lugar:
+#' \describe{
+#'   \item{TSE}{[tse_para_isco()] e companhia, para o código de ocupação
+#'     declarado nas candidaturas.}
+#'   \item{CBO}{[cbo2002_para_isco()] e companhia, para a Classificação
+#'     Brasileira de Ocupações usada na RAIS, no CAGED e no eSocial; e
+#'     [cbo94_para_isco()] para microdado anterior a 2003.}
+#' }
+#'
+#' O esquema de classes e estratos ([tse_para_classe()], [tse_para_estrato()])
+#' existe só para a porta do TSE: ele depende de categorias que o registro
+#' eleitoral cria — proprietários nomeados pelo próprio código de ocupação e
+#' vínculo público sem função — e que não têm equivalente na CBO.
+#'
+#' Toda tabela de conversão é **gerada por script** a partir dos arquivos
+#' originais guardados em `inst/extdata/fontes/`, nunca transcrita à mão. O script
+#' está em `data-raw/01_gera_dados.R` e pode ser reexecutado para reconferir
+#' qualquer valor contra a sua fonte.
+#'
+#' @keywords internal
+"_PACKAGE"
+
+#' Dicionário de ocupações do TSE
+#'
+#' Uma linha por código de ocupação (`CD_OCUPACAO`) das candidaturas.
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{cod_tse}{código de ocupação do TSE, como texto.}
+#'   \item{isco88}{ISCO-88 de quatro dígitos; `NA` quando o código não designa
+#'     ocupação (não informada, fora da PEA, vínculo sem função).}
+#'   \item{nivel}{número de dígitos da classificação de origem — 2, 3 ou 4.
+#'     A maioria é a dois dígitos; desce-se a três ou quatro só onde dois
+#'     fundiriam posições distantes demais, como médico e enfermeiro.}
+#'   \item{classe}{esquema de dez categorias para o dado eleitoral.}
+#'   \item{estrato}{classe alta, média, populares, ou uma das duas residuais.}
+#'   \item{componente_alta}{partição da classe alta em proprietária,
+#'     credenciada e dirigentes; `NA` fora dela.}
+#'   \item{politico}{a ocupação é o próprio mandato ou cargo político.}
+#'   \item{proprietario}{o código nomeia explicitamente um proprietário ou
+#'     empregador. Define a pertença à classe "Proprietários e empregadores"
+#'     no esquema de classes.}
+#'   \item{conta_propria}{a pessoa trabalha por conta própria — o `SEMPL = 2`
+#'     que as sintaxes do ISMF exigem para o EGP. É um **superconjunto** de
+#'     `proprietario`: o agricultor (601) e o pescador (604) trabalham por
+#'     conta própria sem pertencerem à classe proprietária. As duas marcas
+#'     eram uma só até julho de 2026, e enquanto foram, marcar o agricultor
+#'     como conta própria — o que o EGP exige para chegar a IVc — o promovia
+#'     junto à classe alta, que o patrimônio não sustenta. A evidência que
+#'     separou as duas está em [isco_posicao_br].}
+#' }
+#' @source Construído a partir dos microdados de candidaturas do Tribunal
+#'   Superior Eleitoral e da correspondência com a ISCO-88.
+"tse_isco"
+
+#' Medidas ancoradas na ISCO-88
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{isco88}{código ISCO-88 de quatro dígitos, incluindo as formas
+#'     arredondadas da hierarquia (2400 para o grande grupo 24).}
+#'   \item{isei88}{escore ISEI.}
+#'   \item{siops88}{escore de prestígio SIOPS, de Treiman.}
+#'   \item{egp}{classe EGP da tabela-base, **antes** das regras que dependem de
+#'     posição na ocupação e supervisão. Não use esta coluna diretamente: use
+#'     [isco88_para_egp()], que aplica as regras.}
+#'   \item{rotulo}{rótulo em inglês, quando a sintaxe original o traz.}
+#' }
+#' @source Módulos `iskoisei.sps`, `iskotrei.sps`, `iskoroot.sps` e
+#'   `iskolab.sps` do International Stratification and Mobility File,
+#'   de Harry B. G. Ganzeboom e Donald J. Treiman.
+#'   <http://www.harryganzeboom.nl/ismf/index.htm>
+"isco88_medidas"
+
+#' Medidas ancoradas na ISCO-08
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{isco08}{código ISCO-08 de quatro dígitos.}
+#'   \item{isei08}{escore ISEI-08, contínuo.}
+#'   \item{siops08}{escore SIOPS-08, contínuo.}
+#' }
+#' @source Módulos `isqoisei08.sps` e `isqotrei08.sps` do International
+#'   Stratification and Mobility File.
+#'   <http://www.harryganzeboom.nl/ismf/index.htm>
+"isco08_medidas"
+
+#' Ponte da ISCO-88 para a ISCO-08
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{isco88}{código de origem.}
+#'   \item{isco08}{código de destino, já truncado como manda a sintaxe.}
+#'   \item{n_alternativas}{quantos destinos a Organização Internacional do
+#'     Trabalho define para esse código de origem. Vale 1 quando a conversão é
+#'     unívoca; acima disso, a tradução é uma escolha entre alternativas, e
+#'     convém dizê-lo ao leitor.}
+#' }
+#' @source Módulo `isco8808.sps` do International Stratification and Mobility
+#'   File. <http://www.harryganzeboom.nl/ismf/index.htm>
+"isco88_isco08"
+
+#' Correspondência da CBO-2002 com a ISCO-88, por ocupação
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{cbo2002}{código de seis dígitos, sem hífen, como nos microdados.}
+#'   \item{titulo}{título da ocupação na CBO-2002.}
+#'   \item{familia}{os quatro primeiros dígitos.}
+#'   \item{cbo94}{código correspondente na CBO-94, sem pontuação.}
+#'   \item{isco88}{código ISCO-88 de quatro dígitos.}
+#' }
+#' @section Cobertura:
+#' A tábua do Ministério do Trabalho é uma conversão entre a CBO-2002 e a
+#' CBO-94, de modo que cobre apenas as ocupações presentes nas duas
+#' classificações. As ocupações criadas na revisão de 2002 e o grande grupo 0
+#' (forças armadas) não têm correspondência oficial com a CIUO-88 e não
+#' aparecem aqui.
+#' @source Tábua de conversão CBO2002--CBO94--CIUO88 do Ministério do Trabalho,
+#'   consultada família a família em
+#'   <http://www.mtecbo.gov.br/cbosite/pages/tabua/FiltroConversao_CBO2002_CBO94_CIUO88.jsf>
+"cbo2002_isco88"
+
+#' Correspondência da CBO-2002 com a ISCO-88, por família
+#'
+#' Para o microdado que publica apenas a família de quatro dígitos.
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{familia}{código de quatro dígitos.}
+#'   \item{isco88}{ISCO-88 **majoritário** entre as ocupações da família.}
+#'   \item{n_ocupacoes}{quantas ocupações da família a tábua do MTE cobre.}
+#'   \item{n_ocupacoes_cbo}{quantas ocupações a família tem **de fato**, pelo
+#'     domínio oficial da CBO-2002.}
+#'   \item{cobertura_familia}{`n_ocupacoes / n_ocupacoes_cbo`. Vale 1 quando a
+#'     família foi vista por inteiro — o caso de 175 das 436.}
+#'   \item{n_isco_distintos}{quantos ISCO diferentes aparecem na família.}
+#'   \item{concordancia}{proporção das ocupações que caem no ISCO majoritário,
+#'     **ou `NA` quando `cobertura_familia < 1`**. Vale 1 quando a família é
+#'     homogênea; abaixo disso, traduzir pela família mistura posições distintas.}
+#'   \item{concordancia_vista}{a mesma proporção calculada só sobre as ocupações
+#'     vistas. Sempre preenchida, mas não é diagnóstico da família.}
+#'   \item{empate}{`TRUE` quando a moda **não é maioria** — o ISCO escolhido só
+#'     venceu por ordenação. Tratar essas famílias como uma posição única é
+#'     arbitrário, e `concordancia` sozinha não distingue "dividida" de "cara ou
+#'     coroa".}
+#' }
+#' @section Por que há duas concordâncias:
+#' A tábua do MTE cobre metade da CBO-2002, e a concordância era apurada sobre
+#' as ocupações **vistas**, não sobre a família real. O resultado é que 131
+#' famílias tinham uma única ocupação na tábua e reportavam `concordancia = 1`
+#' — o valor que sinaliza ausência total de ambiguidade — e em **87** delas a
+#' família de fato tem mais de uma ocupação. Era certeza máxima onde a evidência
+#' era mínima, e o README chegava a afirmar que 1 significava "a família inteira
+#' cai num único ISCO".
+#'
+#' A separação resolve sem descartar informação: `concordancia` só é afirmada
+#' sobre família vista por inteiro; `concordancia_vista` guarda a proporção
+#' bruta para quem quiser inspecioná-la sabendo o que ela é.
+#' @source Agregado de [cbo2002_isco88]; o denominador vem do domínio oficial da
+#'   CBO-2002 na aba `cbo2002ocupação` do layout do Novo CAGED (2.777 ocupações),
+#'   distribuído em `inst/extdata/fontes/cbo2002_dominio.txt`.
+"cbo2002_familia_isco88"
+
+#' Escada hierárquica da CBO-2002 para quando a ocupação não está na tábua
+#'
+#' Um degrau por prefixo de CBO, para subir do código de seis dígitos até um
+#' nível em que a fonte permita afirmar um ISCO. Usada por
+#' [cbo2002_para_isco()] com `escada = TRUE`.
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{prefixo}{prefixo da CBO-2002, de 2 a 4 dígitos.}
+#'   \item{nivel}{quantos dígitos tem o prefixo: 4 = família, 3 = subgrupo,
+#'     2 = subgrupo principal.}
+#'   \item{isco88}{ISCO-88 comum às ocupações mapeadas sob o prefixo.}
+#'   \item{n_base}{quantas ocupações mapeadas sustentam o degrau.}
+#' }
+#' @section Como o degrau é apurado:
+#' Onde as ocupações mapeadas sob o prefixo não concordam num único ISCO, usa-se
+#' o **ancestral comum** delas na hierarquia da ISCO — a forma arredondada que o
+#' próprio ISMF publica: `2211` e `2212` viram `2210`; `2210` e `2230` viram
+#' `2200`. Só entram degraus cujo destino exista em [isco88_medidas], porque um
+#' ISCO sem ISEI não serve de nada. Não há destino inventado: sobe-se até onde a
+#' fonte permite afirmar, e não além.
+#'
+#' @section Por que para em dois dígitos:
+#' Descer a um dígito fecharia boa parte das 283 ocupações que sobram sem rota,
+#' e cometeria exatamente a armadilha que este pacote existe para impedir: o
+#' grande grupo 9 da CBO é reparação e manutenção (ISEI ~34) e o da ISCO é o das
+#' ocupações elementares (ISEI 16 a 30). Uma cobertura maior comprada com
+#' inversão de classe não é cobertura.
+#' @source Agregado de [cbo2002_isco88] pela hierarquia da própria CBO.
+"cbo2002_escada"
+
+#' Correspondência da CBO-94 com a ISCO-88
+#'
+#' Para microdado anterior a 2003.
+#'
+#' @format `data.frame` com as colunas:
+#' \describe{
+#'   \item{cbo94}{código da CBO-94, sem pontuação.}
+#'   \item{isco88}{ISCO-88 correspondente.}
+#' }
+#' @section Sem agregação:
+#' A tábua do MTE é 1:1 entre CBO-94 e CBO-2002 — cada linha traz um par —, de
+#' modo que não há maioria a apurar. Uma versão anterior desta tabela trazia uma
+#' coluna `concordancia` que era constante 1 por construção e sugeria um
+#' diagnóstico que não existia.
+#' @source Coluna CBO-94 da mesma tábua do Ministério do Trabalho.
+"cbo94_isco88"
+
+#' Vigências do cadastro de ocupações do TSE, 1998--2024
+#'
+#' Uma linha por **vigência**: o período em que um código carregou um dado
+#' rótulo. Um código que nunca mudou de nome tem uma linha; um que mudou tem uma
+#' por período. É a diferença entre um dicionário e a história de um cadastro.
+#'
+#' @format `data.frame` com 334 linhas e as colunas:
+#' \describe{
+#'   \item{cod_tse}{código de ocupação.}
+#'   \item{de, ate}{primeiro e último ano de eleição em que a vigência valeu.}
+#'   \item{rotulo}{o `DS_OCUPACAO` como o TSE o escreveu, forma modal do período.}
+#'   \item{n}{candidaturas na vigência.}
+#' }
+#' @section Vigência não é presença:
+#' Um código sem candidato numa eleição continua na vigência: o contrário faria
+#' uma ocupação rara "sumir e voltar" a cada pleito. A vigência se interrompe
+#' quando o **rótulo** muda, não quando a frequência cai a zero.
+#' @source `DS_OCUPACAO` dos arquivos `consulta_cand` do TSE, 1998--2024
+#'   (3.334.269 candidaturas, campo 100% preenchido nas 14 eleições).
+"tse_ocupacao_rotulos"
+
+#' Códigos de ocupação do TSE que mudaram de nome ou de sentido em 2002
+#'
+#' O TSE reeditou a tabela de ocupações entre as eleições de 2000 e 2002. Nem
+#' toda mudança de rótulo é problema, e é por isso que esta tabela tem a coluna
+#' `tipo`: só `reutilizado` invalida a tradução. Use [checa_periodo()] para
+#' saber se o seu dado é atingido, e [tse_vigencia()] para ver a história de um
+#' código.
+#'
+#' @format `data.frame` com 44 linhas e as colunas:
+#' \describe{
+#'   \item{cod_tse}{o código.}
+#'   \item{rotulo_ate_2000, rotulo_apos_2002}{como o TSE o chamava antes e depois.}
+#'   \item{ultimo_ano_antigo, primeiro_ano_novo}{as eleições comparadas.}
+#'   \item{n_ate_2000}{candidaturas com esse código até 2000.}
+#'   \item{similaridade}{sobreposição de palavras entre os dois rótulos (0 a 1).}
+#'   \item{pct_superior_ate_2000, pct_superior_apos_2002, delta_pp}{proporção com
+#'     ensino superior completo em cada período, e a diferença.}
+#'   \item{delta_vs_tendencia}{`delta_pp` menos a tendência geral do período
+#'     (+7,8 pp). `NA` onde há menos de 30 candidaturas em algum dos lados, que é
+#'     pouco para o sinal significar coisa alguma.}
+#'   \item{tipo}{`reutilizado`, `renomeado`, `redefinido` ou `refinado`.}
+#' }
+#' @section Por que `tipo` é um julgamento, e não uma fórmula:
+#' Há dois sinais disponíveis, e **nenhum dos dois basta**:
+#'
+#' O rótulo `601` foi de "TRABALHADOR AGRÍCOLA" para "AGRICULTOR": muda todo o
+#' léxico e é o mesmo ofício — a população sob o código nem se move (+2,2 pp,
+#' abaixo da tendência). Tratá-lo como reutilização mandaria descartar 50.139
+#' candidaturas válidas.
+#'
+#' O `215` foi de "OCUPANTE DE CARGO DE DIREÇÃO E ASSESSORAMENTO SUPERIOR" para
+#' "ARTISTA PLÁSTICO": reutilização inequívoca que **não move a escolaridade**
+#' (+6,5 pp), porque um DAS e um artista plástico têm perfil de diploma
+#' parecido. Foi por isso que a versão anterior desta tabela, que só olhava
+#' escolaridade, não o via — e ela documentava 3 códigos onde há 7.
+#'
+#' Quatro das sete reutilizações são invisíveis ao sinal de escolaridade. A
+#' distinção é semântica, e nenhuma métrica automática a alcança. São 44 casos:
+#' o `tipo` foi julgado um a um, e o julgamento é **auditável na própria
+#' tabela** — os dois rótulos viajam ao lado das duas evidências.
+#'
+#' @section O que fazer com cada tipo:
+#' \describe{
+#'   \item{reutilizado (7 códigos, 1.582 candidaturas)}{o código passou a
+#'     designar outra ocupação. Traduzir o período antigo pelo dicionário é
+#'     erro; exclua ou reclassifique.}
+#'   \item{renomeado (4)}{mesma ocupação, nome novo. Não é problema — está aqui
+#'     para que ninguém a confunda com reutilização ao comparar rótulos.}
+#'   \item{redefinido (15)}{o escopo mudou. Cautela.}
+#'   \item{refinado (18)}{mesmo posto, rótulo mais preciso.}
+#' }
+#' @source Rótulos e escolaridade das candidaturas de 1998 a 2024. Os valores de
+#'   `pct_superior_*` reproduzem exatamente os que a versão anterior desta
+#'   tabela trazia digitados à mão — que era a única tabela do pacote não
+#'   gerada por script, e deixou de ser.
+"tse_quebra_2002"
+
+#' Critério externo para aferir a medida: patrimônio e escolaridade por ocupação
+#'
+#' Agregado por ocupação de duas variáveis que o TSE coleta e que **não entram
+#' na construção da medida em momento nenhum**: o patrimônio declarado na
+#' candidatura e o grau de instrução. É contra ele que a vinheta
+#' `vignette("validacao")` afere o ISEI.
+#'
+#' @format `data.frame` com 221 linhas e as colunas:
+#' \describe{
+#'   \item{cod_tse}{código de ocupação.}
+#'   \item{n}{candidaturas com esse código, 1998--2024.}
+#'   \item{pct_superior}{% com ensino superior completo.}
+#'   \item{pct_mulher}{% de mulheres.}
+#'   \item{n_com_bens}{candidaturas com patrimônio declarado maior que zero.}
+#'   \item{mediana_patrimonio}{mediana do patrimônio declarado, em reais.
+#'     **`NA` onde `n_com_bens < 200`** — ver a seção sobre o piso.}
+#' }
+#' @section Por que agregado, e por que este piso:
+#' A unidade é a **ocupação**, não a candidatura, porque é nesse nível que uma
+#' medida de posição ocupacional é definida, e porque um agregado de 221 linhas
+#' não é microdado, não identifica ninguém e pode viajar com o pacote.
+#'
+#' Entram ocupações com pelo menos 200 candidaturas. A mediana de patrimônio
+#' exige um segundo piso, de 200 declarações de bens, porque mediana apoiada em
+#' poucas declarações é ruidosa: sem ele a correlação com o ISEI cai de 0,682
+#' para cerca de 0,63, não porque a medida piore, mas porque o critério externo
+#' fica instável.
+#'
+#' **O segundo piso zera a mediana; não descarta a linha**, e a diferença
+#' importa. Até 29/07/2026 ele descartava a linha inteira, o que amputava do
+#' conjunto 46 ocupações cuja escolaridade e cuja composição por gênero estão
+#' perfeitamente medidas e que apenas carecem de declarações de bens. A
+#' consequência era que a regressão de gênero documentada em [tse_para_isei()]
+#' não se reproduzia a partir do dado publicado. Hoje reproduz. Quem correlacionar
+#' com patrimônio deve filtrar `!is.na(mediana_patrimonio)`; quem usar
+#' escolaridade ou gênero tem as 221 linhas à disposição.
+#'
+#' @section As correlações que este conjunto sustenta:
+#' Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,764 (Spearman
+#' 0,811). Contra o logaritmo da mediana de patrimônio, sobre as 164 que também
+#' têm mediana: r = 0,682 (Spearman 0,695). No nível do **indivíduo** a
+#' correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,682
+#' é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
+#' quase nada dentro de cada uma.
+#' @source Declaração de bens e grau de instrução das candidaturas ao TSE,
+#'   1998--2024.
+"tse_validacao"
+
+#' Ponte da ISCO-08 de volta para a ISCO-88
+#'
+#' @format `data.frame` com 590 linhas:
+#' \describe{
+#'   \item{isco08}{código de origem.}
+#'   \item{isco88}{código de destino na revisão de 1988.}
+#' }
+#' @section A ida e a volta não se cancelam:
+#' Levar um código da ISCO-88 à ISCO-08 por [isco88_para_isco08()] e trazê-lo de
+#' volta por [isco08_para_isco88()] devolve o ponto de partida em **69% dos
+#' casos**. O terço restante não é defeito: a OIT reparte e funde categorias
+#' entre as revisões, e a composição das duas concordâncias não é a identidade.
+#'
+#' Esta tabela é o que destrava o EGP e o ISEI-88 para quem entra pela COD — a
+#' PNAD Contínua e o Censo aterrissam na ISCO-08, e todo o esquema de classes do
+#' pacote está ancorado na ISCO-88.
+#' @source Módulo `isco0888.sps` do International Stratification and Mobility
+#'   File. <http://www.harryganzeboom.nl/ismf/index.htm>
+"isco08_isco88"
+
+#' Correspondência da COD do IBGE com a ISCO-08
+#'
+#' A Classificação de Ocupações para Pesquisas Domiciliares é a da PNAD Contínua
+#' e do Censo Demográfico.
+#'
+#' @format `data.frame` com 434 linhas:
+#' \describe{
+#'   \item{cod}{grupo de base da COD, quatro dígitos.}
+#'   \item{titulo}{denominação oficial.}
+#'   \item{isco08}{código ISCO-08 correspondente.}
+#'   \item{correspondencia}{`identidade` (428 casos), `adaptacao` (5) ou
+#'     `agregacao` (1).}
+#' }
+#' @section Por que quase tudo é identidade:
+#' A COD é construída **sobre** a ISCO-08. Não há tábua de conversão a consultar:
+#' 428 dos 434 grupos de base são o próprio código internacional. O que resta são
+#' seis adaptações brasileiras, documentadas uma a uma em [cod_para_isco08()] —
+#' polícia e bombeiro militar, trabalhadores do sexo e pescadores.
+#'
+#' O contraste com a perna da CBO é de desenho, não de esforço: aquela depende de
+#' uma tábua do Ministério do Trabalho que cobre metade do seu universo; esta
+#' cobre 100% do seu.
+#' @source Estrutura da Ocupação (COD), IBGE, distribuída em
+#'   `inst/extdata/fontes/Estrutura_Ocupacao_COD.xls`.
+"cod_isco08"
+
+#' Posição na ocupação por código ISCO-88, medida na PNAD Contínua
+#'
+#' A distribuição brasileira de posição no emprego — conta própria, empregador,
+#' número de empregados — para cada código ISCO-88, apurada nos microdados da
+#' PNAD Contínua de 2025.
+#'
+#' @format `data.frame` com 319 linhas:
+#' \describe{
+#'   \item{isco88}{código ISCO-88 de quatro dígitos.}
+#'   \item{n_pessoas}{pessoas distintas observadas (a medida honesta de
+#'     precisão; veja a seção sobre o painel).}
+#'   \item{n_obs}{observações pessoa-trimestre.}
+#'   \item{pct_conta_propria}{% que trabalha por conta própria **ou** é
+#'     empregadora — o `SEMPL = 2` das sintaxes do ISMF.}
+#'   \item{pct_empregador}{% que é empregadora.}
+#'   \item{pct_emp_11mais}{entre os empregadores, % com 11 ou mais empregados —
+#'     o limiar que separa a ISCO 12 da 13. `NA` onde há menos de 25
+#'     empregadores na célula.}
+#'   \item{grupo}{o grande grupo de dois dígitos.}
+#'   \item{n_pessoas_grupo, pct_conta_propria_grupo, pct_empregador_grupo}{o
+#'     mesmo, apurado no grupo de dois dígitos. Cada linha carrega a sua própria
+#'     estimativa e a do grupo, para que quem cair numa célula fina possa recuar
+#'     um nível sem refazer a conta — e veja, lado a lado, com que `n` cada uma
+#'     foi apurada.}
+#' }
+#'
+#' @section Para que serve:
+#' O EGP não é função só da ocupação: as regras do ISMF pedem a posição no
+#' emprego e a supervisão. O formulário do TSE não pergunta nenhuma das duas, e
+#' por isso o esquema sai degradado (veja [isco88_para_egp()]). Esta tabela é o
+#' **prior empírico** dessa variável ausente: não imputa a posição de ninguém,
+#' e sim informa qual é a composição da ocupação no país.
+#'
+#' O uso legítimo é análise de sensibilidade — rodar o EGP com e sem a posição
+#' provável e ver se a conclusão se move. O uso ilegítimo é tratar a proporção
+#' como se fosse o caso individual.
+#'
+#' @section O painel rotativo:
+#' A PNAD reentrevista o mesmo domicílio por cinco trimestres. Os quatro
+#' trimestres de 2025 somam 864.870 observações de **437.880 pessoas
+#' distintas** (1,98x). Somá-los como amostras independentes inflaria o `n` sem
+#' acrescentar informação na mesma proporção. Por isso os pesos são divididos
+#' pelo número de trimestres — as estimativas são a média do ano civil, com os
+#' pesos somando a população e não quatro vezes ela — e a coluna de precisão é
+#' `n_pessoas`.
+#'
+#' @section O que ela mostra, e por que isso importa:
+#' A ISCO 61 é, na definição da OIT, quem **opera a própria terra**; a 92 é o
+#' assalariado rural. O dado brasileiro separa as duas com folga:
+#'
+#' | ISCO-88 | conta própria ou empregador |
+#' |---|---|
+#' | 61 (agrícolas qualificados) | 67,6% |
+#' | 6150 (pesca) | 83,8% |
+#' | 92 (rurais elementares) | 16,5% |
+#' | todas as ocupações | 29,4% |
+#'
+#' É a evidência externa que motivou separar `tse_isco$conta_propria` de
+#' `tse_isco$proprietario`: o agricultor familiar trabalha por conta própria
+#' sem pertencer à classe proprietária.
+#'
+#' Como candidatos são selecionados por patrimônio, tomar estas proporções
+#' como piso — e não como estimativa central — é a leitura conservadora.
+#'
+#' @source Microdados da PNAD Contínua trimestral, IBGE, quatro trimestres de
+#'   2025, acessados em 28/07/2026.
+#'   <https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/>
+#'   Gerada por `data-raw/07_gera_posicao.R`. Os microdados **não** viajam com o
+#'   pacote (212 MB por trimestre); o que entra é esta tabela agregada.
+"isco_posicao_br"

@@ -1,0 +1,36 @@
+Package: ocupacoesBR
+Title: Traduz a Ocupação Declarada ao TSE em Classificações Padronizadas
+Version: 0.1.0
+Authors@R:
+    person("Vitor", "Peixoto", , "vpeixoto@uenf.br", role = c("aut", "cre"))
+Description: Traduz a ocupação registrada em fontes brasileiras para a
+    Classificação Internacional Uniforme de Ocupações (ISCO-88 e ISCO-08) e, a
+    partir dela, para medidas padronizadas de posição social: o índice
+    socioeconômico ISEI, o prestígio SIOPS, o esquema de classes
+    Erikson-Goldthorpe-Portocarero (EGP) e um esquema de classes e estratos
+    desenhado para o dado eleitoral. Há duas portas de entrada: o código de
+    ocupação declarado nas candidaturas ao Tribunal Superior Eleitoral (TSE) e a
+    Classificação Brasileira de Ocupações (CBO-2002 e CBO-94), usada na RAIS, no
+    CAGED e no eSocial. As tabelas de conversão derivam das sintaxes publicadas
+    do International Stratification and Mobility File (Ganzeboom e Treiman) e da
+    tábua oficial de conversão do Ministério do Trabalho, e são geradas por
+    script a partir dos arquivos originais, nunca transcritas manualmente.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+Depends: R (>= 4.1)
+Imports:
+    stats,
+    utils
+Suggests:
+    testthat (>= 3.0.0),
+    knitr,
+    rmarkdown,
+    DIGCLASS,
+    readxl
+VignetteBuilder: knitr
+Config/testthat/edition: 3
+URL: https://github.com/moraespeixoto/ocupacoesBR
+BugReports: https://github.com/moraespeixoto/ocupacoesBR/issues
+LazyData: true
+Config/roxygen2/version: 8.0.0

@@ -1,0 +1,160 @@
+# Testes que amarram as tabelas do pacote às suas FONTES.
+# Se alguém editar um valor à mão, é aqui que quebra.
+#
+# As fontes ficam em inst/extdata/fontes/ e VIAJAM com o pacote instalado —
+# antes moravam em data-raw/, que o .Rbuildignore exclui do tarball, e por isso
+# estes testes eram pulados justamente no `R CMD check`, que é o único lugar
+# onde a garantia importa. Nada de `skip_if_not(file.exists(...))` aqui: um
+# teste de proveniência que sabe pular é um teste que não existe.
+
+fonte_sps <- function(nome) {
+  p <- system.file("extdata", "fontes", "ganzeboom", nome,
+                   package = "ocupacoesBR")
+  expect_true(nzchar(p) && file.exists(p),
+              info = paste("fonte ausente do pacote instalado:", nome))
+  p
+}
+
+test_that("a tabela ISEI-88 bate com a sintaxe original de Ganzeboom", {
+  l <- readLines(fonte_sps("iskoisei.sps"), warn = FALSE)
+  m <- regmatches(l, regexec(
+    "^\\s*recode\\s+@isko\\s*\\(\\s*([0-9]+)\\s*=\\s*([0-9.]+)\\s*\\)", l))
+  ok <- lengths(m) == 3
+  fonte <- data.frame(
+    isco88 = sprintf("%04d", as.integer(sapply(m[ok], `[`, 2))),
+    isei   = as.numeric(sapply(m[ok], `[`, 3)))
+  fonte <- fonte[!duplicated(fonte$isco88), ]
+  expect_gt(nrow(fonte), 500)
+  i <- match(fonte$isco88, isco88_medidas$isco88)
+  expect_false(any(is.na(i)))
+  expect_equal(isco88_medidas$isei88[i], fonte$isei)
+})
+
+test_that("a ponte 88->08 bate com a sintaxe original, e trunca o decimal", {
+  l <- readLines(fonte_sps("isco8808.sps"), warn = FALSE)
+  m <- regmatches(l, regexec(
+    "^\\s*recode\\s+@isko\\s*\\(\\s*([0-9]+)\\s*=\\s*([0-9]+)(?:\\.([0-9]+))?\\s*\\)", l))
+  ok <- lengths(m) >= 3
+  fonte <- data.frame(
+    isco88 = sprintf("%04d", as.integer(sapply(m[ok], `[`, 2))),
+    isco08 = sprintf("%04d", as.integer(sapply(m[ok], `[`, 3))),
+    stringsAsFactors = FALSE)
+  fonte <- fonte[!duplicated(fonte$isco88), ]
+  expect_gt(nrow(fonte), 400)
+  i <- match(fonte$isco88, isco88_isco08$isco88)
+  expect_false(any(is.na(i)))
+  expect_equal(isco88_isco08$isco08[i], fonte$isco08)
+})
+
+test_that("a ambiguidade da OIT foi preservada, nao descartada", {
+  expect_true(any(isco88_isco08$n_alternativas > 1))
+  expect_true(all(isco88_isco08$n_alternativas >= 1))
+})
+
+test_that("o EGP bate com o DIGCLASS nas OITO celulas de posicao e supervisao", {
+  # Validação cruzada contra uma implementação independente da mesma fonte.
+  # DIGCLASS é GPL e NÃO é dependência do pacote: entra só como conferência.
+  #
+  # Antes esta comparação usava só a coluna EGP(0,0) — empregado, sem
+  # subordinados —, que é justamente o ramo em que `iskopromo.sps` inteiro é
+  # inerte. Todas as regras de supervisão e de posição no emprego, que são o
+  # grosso de R/egp.R, ficavam sem validação nenhuma.
+  skip_if_not_installed("DIGCLASS")
+  tab   <- DIGCLASS::all_schemas$isco88_to_egp11
+  chave <- sprintf("%04d", as.integer(tab[[1]]))
+  # (coluna do DIGCLASS, conta_propria, n_supervisionados)
+  celulas <- list(
+    list("EGP(0,0)",   FALSE,  0), list("EGP(1,0)",   TRUE,  0),
+    list("EGB(0,1)",   FALSE,  1), list("EGB(1,1)",   TRUE,  1),
+    list("EGP(0,2-9)", FALSE,  5), list("EGP(1,2-9)", TRUE,  5),
+    list("EGP(0,10+)", FALSE, 11), list("EGP(1,10+)", TRUE, 11))
+  for (cel in celulas) {
+    esperado <- as.integer(tab[[cel[[1]]]])
+    obtido <- isco88_para_egp(chave, rotulo = FALSE, avisar = FALSE,
+                              conta_propria     = rep(cel[[2]], length(chave)),
+                              n_supervisionados = rep(cel[[3]], length(chave)))
+    comum <- !is.na(esperado) & !is.na(obtido)
+    expect_gt(sum(comum), 500)
+    expect_equal(obtido[comum], esperado[comum], info = paste("celula", cel[[1]]))
+  }
+})
+
+test_that("as fontes ainda sao as que geraram os dados (sha256)", {
+  # Um pacote que gera tudo por script depende de as fontes nao mudarem por
+  # baixo. Sem este teste, o MTE republicar a tabua ou alguem editar um .sps a
+  # mao muda resultado de artigo publicado sem sinal nenhum.
+  yml <- system.file("extdata", "PROVENIENCIA.yml", package = "ocupacoesBR")
+  expect_true(nzchar(yml) && file.exists(yml))
+  l <- readLines(yml, warn = FALSE, encoding = "UTF-8")
+  campo <- function(chave) {
+    pad <- sprintf("^\\s*(-\\s*)?%s:\\s*", chave)
+    trimws(sub(pad, "", grep(pad, l, value = TRUE)))
+  }
+  arq <- campo("arquivo"); sha <- campo("sha256")
+  expect_gt(length(arq), 15)
+  expect_equal(length(arq), length(sha))
+  base <- system.file("extdata", "fontes", package = "ocupacoesBR")
+  atual <- vapply(file.path(base, arq), function(p)
+    if (file.exists(p)) as.character(tools::sha256sum(p)) else NA_character_,
+    character(1), USE.NAMES = FALSE)
+  expect_false(any(is.na(atual)), info = "fonte declarada e ausente do pacote")
+  expect_equal(atual, sha)
+})
+
+test_that("a medida se sustenta contra um criterio EXTERNO a ela", {
+  # I9: o unico invariante que amarra o pacote a algo de fora dele mesmo.
+  # Patrimonio e escolaridade nao entram na construcao do ISEI em momento
+  # nenhum — se estas correlacoes desabarem, e a medida que quebrou, e nao o
+  # teste.
+  v <- tse_validacao
+  isei <- isco88_para_isei(tse_isco$isco88[match(v$cod_tse, tse_isco$cod_tse)])
+  # DOIS crivos: a escolaridade esta medida em toda linha do conjunto; a mediana
+  # de patrimonio, so onde houve declaracoes de bens bastantes (ver
+  # ?tse_validacao, secao sobre o piso). Um crivo so devolvia NA aqui.
+  ok_esc <- !is.na(isei)
+  ok_pat <- ok_esc & !is.na(v$mediana_patrimonio)
+  expect_gt(sum(ok_esc), 150L)
+  expect_gt(sum(ok_pat), 150L)
+  expect_gt(cor(isei[ok_esc], v$pct_superior[ok_esc]), 0.70)
+  expect_gt(cor(isei[ok_pat], log(v$mediana_patrimonio[ok_pat])), 0.60)
+  expect_gt(cor(isei[ok_esc], v$pct_superior[ok_esc], method = "spearman"), 0.75)
+  # a mediana e NA exatamente onde o piso de declaracoes nao foi atingido
+  expect_identical(is.na(v$mediana_patrimonio), v$n_com_bens < 200L)
+})
+
+test_that("a regressao de genero de ?tse_para_isei reproduz a partir do dado publicado", {
+  # Ate 29/07/2026 nao reproduzia: o piso de declaracoes de bens descartava a
+  # linha inteira e amputava 46 ocupacoes com escolaridade e genero medidos,
+  # deixando 157 codigos onde a ajuda afirma 170. Este teste trava a correcao.
+  v <- tse_validacao
+  v$isei <- tse_para_isei(v$cod_tse)
+  w <- v[!is.na(v$isei) & v$n > 500, ]
+  w$fem <- w$pct_mulher > 50
+  expect_equal(nrow(w), 170L)
+  expect_equal(sum(w$fem), 28L)
+  co <- summary(stats::lm(isei ~ pct_superior + fem, data = w, weights = w$n))$coefficients
+  expect_equal(unname(co["femTRUE", "Estimate"]), -6.14, tolerance = 0.01)
+  expect_lt(co["femTRUE", "Pr(>|t|)"], 0.05)
+  # o achado substantivo: mais credencial e menos status
+  expect_gt(mean(w$pct_superior[w$fem]), mean(w$pct_superior[!w$fem]))
+  expect_lt(mean(w$isei[w$fem]), mean(w$isei[!w$fem]))
+})
+
+test_that("o carregamento retrospectivo so olha para tras", {
+  d <- data.frame(p = c("A", "A", "A"), t = c(1, 2, 3), v = c(NA, 50, NA))
+  r <- isei_retrospectivo(d$v, d$p, d$t)
+  expect_true(is.na(r$escore[1]))     # nao herda do FUTURO
+  expect_equal(r$escore[3], 50)       # herda do passado
+  expect_equal(r$defasagem[3], 1)
+  expect_true(r$herdado[3] && !r$herdado[2])
+  # nao atravessa a fronteira da pessoa
+  d2 <- data.frame(p = c("A", "B"), t = c(1, 2), v = c(70, NA))
+  expect_true(is.na(isei_retrospectivo(d2$v, d2$p, d2$t)$escore[2]))
+  # `excluir` bloqueia o carregamento onde ele nao e defensavel
+  d3 <- data.frame(p = c("A", "A"), t = c(1, 2), v = c(70, NA), c = c("101", "931"))
+  expect_true(is.na(isei_retrospectivo(d3$v, d3$p, d3$t, d3$c, excluir = "931")$escore[2]))
+  expect_equal(isei_retrospectivo(d3$v, d3$p, d3$t, d3$c)$escore[2], 70)
+  # a ordem de entrada e preservada
+  d4 <- data.frame(p = c("B", "A", "B", "A"), t = c(2, 2, 1, 1), v = c(NA, NA, 30, 60))
+  expect_equal(isei_retrospectivo(d4$v, d4$p, d4$t)$escore, c(30, 60, 30, 60))
+})

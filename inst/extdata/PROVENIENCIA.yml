@@ -1,0 +1,138 @@
+# Proveniência das fontes de `ocupacoesBR`
+#
+# Toda tabela do pacote é GERADA por script a partir dos arquivos abaixo.
+# Este registro existe para que uma mudança silenciosa na fonte quebre a
+# geração em vez de mudar o dado sem ninguém notar — que é o modo como
+# resultados de artigos publicados mudam de baixo para cima.
+#
+# Confira com:  Rscript data-raw/00_confere_proveniencia.R
+
+captura:
+  data: 2026-07-26
+  por: raspa_tabua_mte.py (MTE) e download manual (IBGE, PDET)
+
+ancoras_de_versao:
+  mte_build: "20260707-1823"   # rodapé do site do MTE na data da captura
+  cbo2002_revisao: "2004-08-23" # "CBO 2002 atualizada em 23/08/2004", layout da RAIS
+
+fontes:
+  - arquivo: Estrutura_Ocupacao_COD.xls
+    titulo: Estrutura da Ocupação (COD) — 434 grupos de base
+    url: https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Documentacao_Geral/
+    autoridade: IBGE
+    sha256: 296cd9673baefb732e69f697f83dbfe7de34e6e68c0fd38700c9a14dea739c5a
+    nota: Classificação da PNAD Contínua e do Censo. Construída sobre a ISCO-08: 428 dos 434 grupos são o próprio código internacional.
+  - arquivo: cbo2002_dominio.txt
+    titulo: Domínio oficial da CBO-2002 (2.777 ocupações)
+    url: https://pdet.mte.gov.br/novo-caged  (aba cbo2002ocupação do layout)
+    autoridade: Novo CAGED / PDET
+    sha256: 0537f5dc2eeedd7a9b9dcbefcef2bf26f96ea47d593b733914c80c00d93a7556
+    nota: É o DENOMINADOR de toda afirmação de cobertura da perna CBO. O sentinela 999999 é excluído na geração.
+  - arquivo: familias.txt
+    titulo: Índice das famílias a consultar
+    url: —
+    autoridade: derivado
+    sha256: 7e13a4df89ba527b822c5bd5e693de1c7fe4d842fcb5d7c1acac02f5a0f46314
+    nota: Serve só para ENUMERAR o que perguntar ao MTE; os dados vêm sempre da tábua.
+  - arquivo: tabua_oficial.csv
+    titulo: Tábua de conversão CBO2002–CBO94–CIUO88
+    url: https://cbo.mte.gov.br/cbosite/pages/tabua/FiltroConversao_CBO2002_CBO94_CIUO88.jsf
+    autoridade: Ministério do Trabalho e Emprego
+    sha256: c5c7cb5167498b0e3546a64c8b9f70028c3f00c1c11223c72de6031b47cca985
+    nota: Raspada família a família por data-raw/raspa_tabua_mte.py. A varredura global do dataScroller repete páginas e perde famílias inteiras; só a consulta por família é verificável.
+  - arquivo: R/classe_ocupacao.R
+    titulo: Regras de classificação do autor
+    url: —
+    autoridade: Vitor Peixoto
+    sha256: 41f9eb8d8babf5ae7df3c344de8c85c5b765281a4b4860622ee927bfe38b041b
+    nota: Fonte primária das tabelas do TSE: nenhum valor é digitado no pacote.
+  - arquivo: R/isei_ocupacao.R
+    titulo: Regras de classificação do autor
+    url: —
+    autoridade: Vitor Peixoto
+    sha256: 9749bcb754583e1349a58e212789d95b106cc4e79a4dddcbdf6994356980d4bd
+    nota: Fonte primária das tabelas do TSE: nenhum valor é digitado no pacote.
+  - arquivo: ganzeboom/isco0888.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 382b8d3d434edc8f1affaf64d7ae021be80473502585f6b2647ba19a7e79371c
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/isco6808.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 77502bbf39838a56f94ce7b4e767819859cb8b7f68cb5d951f8eb47cf86c9075
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/isco6888.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: a6acaead419bb8450f4b49be2bc815f7ba6a62b6c197fe9a006cbe8b3ee8acaa
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/isco8808.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: b429cc7eac03b6db20ef1b4fc10d228a7ef88fdcde49c76493f7444b92c1f349
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/iskoegp.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: ddce8dd21c015aa02fecc5fa0bf24fda5a6cd844cf1c296e53d1dd8c9023bb89
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/iskoisei.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 66c7a6209f23b9d9616250f70275b0072c7b5187cf8ca6cefcf276cbaa8acaf4
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/iskolab.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: e70375e2e982c27d3938aeee5c9cddad8e2ea4ec5eedf25ad6866b7fd314c597
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/iskopromo.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 8079054d37a780e1cc43369bb6139a84748e59851da2f901651a55747a8c706d
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/iskoroot.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 12d66d24b581a83edeb006ba6d26398cd00be351f2f6f2a6e28f690a9aae5083
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/iskotrei.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 38376d3294d0e8b567fffff3ab3ed1c8cb39a5318283a18e703a8f28b0b93eb3
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/isqoisei08.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 51d0560ab0a0c978752664330bda3af48873f678741f5664eb4f352046cb97f1
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/isqoisei68.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 5100f4e783e87926f731f8e7bc0fd1ccd9d792f88b62e0775cfdc46db40375ec
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/isqolab.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 74445d206118253476cc727709cd13375addb8fba2607521ad515fa9f9b59ffd
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+  - arquivo: ganzeboom/isqotrei08.sps
+    titulo: Sintaxes do International Stratification and Mobility File
+    url: https://www.harryganzeboom.nl/isco08/
+    autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
+    sha256: 65f93cf9a082904deea85cd14245931ab2f402d42c7f4d1c093c2ac318ed683a
+    nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').

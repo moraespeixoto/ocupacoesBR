@@ -1,0 +1,218 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html lang="pt-br" xmlns="http://www.w3.org/1999/xhtml"><head>
+		  
+		  	<meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+		  			
+			<title>CBO - Erro 404 -  6.1.4</title>
+			
+			<link href="/cbosite/css/portal/geral.css" rel="stylesheet" type="text/css" />
+			<link href="/cbosite/css/portal/estilo.css" rel="stylesheet" type="text/css" />
+			<link href="/cbosite/css/portal/home.css" rel="stylesheet" type="text/css" />
+			<link href="/cbosite/css/portal/boxes.css" rel="stylesheet" type="text/css" />
+			<link href="/cbosite/css/portal/hacks.css" rel="stylesheet" type="text/css" />
+			<link href="/cbosite/css/portal/dataprev.css" rel="stylesheet" type="text/css" />
+			<link href="/cbosite/css/portal/doublesubmit.css" rel="stylesheet" type="text/css" />
+			<link type="text/css" rel="stylesheet" media="screen" title="fonte_menor" href="/cbosite/css/portal/fonte_menor.css" />
+			<link type="text/css" rel="alternate stylesheet" media="screen" title="fonte_maior" href="/cbosite/css/portal/fonte_maior.css" />
+			<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" />
+			<link href="/cbosite/css/portal/style.css" rel="stylesheet" type="text/css" />
+			<link href="/cbosite/public_html/libicons/libicons/style.css" rel="stylesheet" type="text/css" />
+
+			
+			<!--&lt;script src="/jquery/2.2.4/jquery.min.js"&gt;&lt;/script&gt;-->
+			<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+			<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>
+			<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"></script>
+			<!-- JavaScripts Antigos//-->
+			<script src="/cbosite/js/generico.js" language="javascript" type="text/javascript"></script>
+			<script src="/cbosite/js/troca_estilo.js" language="javascript" type="text/javascript"></script>
+			<script src="/cbosite/js/scripts_cbo.js" language="javascript" type="text/javascript"></script>
+			<script src="/cbosite/js/mascaras.js" language="javascript" type="text/javascript"></script>
+			<script src="/cbosite/js/menu.js" language="javascript" type="text/javascript"></script>
+					
+			<!-- JavaScripts //-->
+			<script type="text/javascript" src="/cbosite/js/com.jquery.js"></script>
+			<script type="text/javascript" src="/cbosite/js/com.jquery.maskedinput.js"></script>
+			<script type="text/javascript" src="/cbosite/js/com.jquery.maskMoney.js"></script>
+			<script type="text/javascript" src="/cbosite/js/com.jquery.validation.js"></script>
+			<script type="text/javascript" src="/cbosite/js/br.gov.dataprev.jquery.maskedinput.patterns.js"></script>
+			<script type="text/javascript" src="/cbosite/js/doublesubmit.js"></script>
+			
+			<!-- Oracle CX Tag - begin -->
+			<script type="text/javascript"></script>
+			<!-- Oracle CX Tag - end --></head><body>
+
+<div id="principal">
+<a name="topo"></a>
+	
+	<div id="topo">
+		<div id="barra-brasil"></div>
+	</div>
+	
+	<div id="cabecalho">
+		<div class="conteudo_central">
+ 			<ul id="portal-siteactions">
+ 				<li id="siteaction-accessibility">
+ 					<a href="https://www.gov.br/governodigital/pt-br/acessibilidade-digital" title="Acessibilidade" target="_blank" accesskey="5">
+ 						Acessibilidade
+ 					</a>
+ 				</li>
+ 			</ul>
+ 			<div id="logo">
+ 				<div id="portal-logo"> 
+ 					<span id="portal-title-1">
+ 						Classificação Brasileira de Ocupações
+ 					</span>
+ 					<h2 id="portal-title">
+ 						CBO
+ 					</h2>
+ 					<span id="portal-description">
+ 						MINISTÉRIO DO TRABALHO
+ 					</span>
+ 				</div>
+ 			</div>
+ 			<div id="social-icons">
+ 				<ul>
+ 					<li id="portalredes-facebook" class="portalredes-item">
+ 						<a href="https://www.facebook.com/ministeriodotrabalho/" target="_blank">Facebook</a>
+ 					</li>
+ 					<li id="portalredes-instagram" class="portalredes-item">
+ 						<a href="https://www.instagram.com/ministeriodotrabalho" target="_blank">Instagram</a>
+ 					</li>
+ 					<li id="portalredes-twitter" class="portalredes-item">
+ 						<a href="https://twitter.com/trabalho" target="_blank">Twitter</a>
+ 					</li>
+ 					<li id="portalredes-youtube" class="portalredes-item">
+ 						<a href="https://www.youtube.com/c/canaltrabalho" target="_blank">YouTube</a>
+ 					</li>
+ 					<li id="portalredes-flickr" class="portalredes-item">
+ 						<a href="https://www.flickr.com/photos/ministeriodotrabalho" target="_blank">Flickr</a>
+ 					</li>
+ 					<li id="portalredes-soundcloud" class="portalredes-item">
+ 						<a href="https://soundcloud.com/ministeriodotrabalho" target="_blank">Soundcloud</a>
+ 					</li>
+ 				</ul>
+ 			</div>
+ 		</div>
+ 		<div id="sobre">
+ 		</div>
+ 		
+	</div>
+			<div id="linha3">
+<form id="formSite002" name="formSite002" method="post" action="/cbosite/erro404.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo" enctype="application/x-www-form-urlencoded">
+<input type="hidden" name="formSite002" value="formSite002" />
+<input type="hidden" name="DTPINFRA_TOKEN" value="1784801299452" />
+	
+	<div id="col_menu">
+	<div id="top_col_menu" style="background:url(/cbosite/images/portal/top_col_menu_princ.gif) no-repeat;"></div>
+		<div id="top_menu"></div>
+		<ul id="menu_completo_dataprev">
+			<li class="cl_003"><a href="/cbosite/pages/informacoesGerais.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Informações Gerais</a>
+			</li>
+			<li class="cl_003"><a href="/cbosite/pages/regulamentacao.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Regulamentação</a>
+			</li>
+			<li class="cl_003"><a href="/cbosite/pages/legislacao.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Legislação</a>
+			</li>
+			<li class="cl_003"><a href="/cbosite/pages/tabua/ConsultasConversao.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Tábua de Conversão</a>
+			</li>
+			<li class="cl_003"><a href="/cbosite/pages/pesquisas/BuscaPorTitulo.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Buscas</a>
+			</li>
+			<li class="cl_003"><a href="/cbosite/pages/solicitantes/AtendimentoSolicitante.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Serviços</a>
+            </li>
+            <li class="cl_003">
+                <img src="/cbosite/images/portal/ico_setamenordireita.png" /><a href="/cbosite/pages/solicitantes/Solicitar.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo"><span class="cl_004i"> Solicitar Demandas </span></a>
+            </li>
+            <li class="cl_003">
+                <img src="/cbosite/images/portal/ico_setamenordireita.png" /><a href="/cbosite/pages/solicitantes/Consultar.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo"><span class="cl_004i"> Acompanhamento de Solicitações </span></a>
+            </li>
+            <li class="cl_003">
+                <img src="/cbosite/images/portal/ico_setamenordireita.png" /><a href="/cbosite/pages/downloads.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo"><span class="cl_004i"> Downloads </span></a>
+            </li>
+            
+            <li class="cl_003">
+                <img src="/cbosite/images/portal/ico_setamenordireita.png" /><a href="/cbosite/pages/DownloadHistorico.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo"><span class="cl_004i"> Histórico de Alterações </span></a>
+            </li>
+			<li class="cl_003"><a href="/cbosite/pages/faq.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Perguntas Frequentes</a>
+			</li>
+			<li class="cl_002"><img src="/cbosite/images/portal/ico_faleconosco.png" alt=" " class="cl_021" border="0" /> 
+				 
+				
+<script type="text/javascript" src="/cbosite/javax.faces.resource/jsf.js.jsf?ln=javax.faces"></script>
+<a href="#" onclick="mojarra.jsfcljs(document.getElementById('formSite002'),{'formSite002:j_idt46':'formSite002:j_idt46'},'');return false" class="menuLateralItem">Fale com a CBO</a>
+			</li>
+			<li class="cl_002"><img src="/cbosite/images/portal/ico_ouvidoria.png" alt=" " class="cl_021" border="0" /> 
+				 <a href="https://www.gov.br/trabalho/pt-br" target="_blank">Ouvidoria MTE</a>
+			</li>
+		</ul>
+		<div id="bottom_menu"></div>
+		
+		<br />
+		
+		<div id="endereco">
+		Esplanada dos Ministérios<br />
+		Bloco F - CEP: 70059-900<br />
+		
+		Brasília - DF<br />
+		<br />
+		Central de Atendimento CBO: 158
+		<br />
+		Telefone: (61) 2031-6000<br /> 
+		<br /><br />
+		</div>
+	</div><input type="hidden" name="javax.faces.ViewState" id="javax.faces.ViewState" value="-4592215282612081281:-4411954903971788778" autocomplete="off" />
+</form>
+				<div id="col_conteudo">
+		<div id="bloco_busca">
+				<div id="busca_links">
+					<p class="justificadoPortal">
+						<a href="/cbosite/pages/mapaPortal.jsf"> Mapa do Portal</a>  
+						 
+						<span style="color:white">|</span>
+						 
+						<a href="/cbosite/pages/referencias.jsf"> Links</a>  
+						 
+					</p>
+				</div>
+				
+				<div id="aumenta_texto">
+					<a href="#" onclick="setActiveStyleSheet('fonte_maior');return false;" onkeypress="setActiveStyleSheet('fonte_maior');return false;" title="Aumenta a fonte dos textos"> <span class="invisivel">Aumenta
+					a fonte dos textos</span> </a> <span class="invisivel">|</span>
+				</div>
+				
+				<div id="diminui_texto"><a href="#" onclick="setActiveStyleSheet('fonte_menor');return false;" onkeypress="setActiveStyleSheet('fonte_menor');return false;" title="Retorna ao padrao a fonte dos textos"> <span class="invisivel">Retorna ao padrao a fonte dos textos</span> </a> <span class="invisivel">|</span>
+				</div>
+		</div>
+					
+					<div id="interior_conteudo">
+						<h2 id="cont_titulo">Erro 404</h2>
+						<p class="pVoltar">
+							
+							<img src="/cbosite/images/ico_home.png" align="top" alt="Clique para retornar à página inicial." /><a href="/cbosite/pages/home.jsf;jsessionid=vR0VRYJ9VMs-MVl2cIODPWtiInUaqgDR-ziWj-id.CBO-SLV02:mte-cbo">Página inicial</a>
+		
+						</p>
+				<br clear="all" />
+				<br />
+			
+			<div class="margem">
+			<p>
+				Página não encontrada.
+			</p>
+			</div>
+					</div>
+				</div>
+				
+			</div>
+	<div id="linha5">
+		<div id="info_copy">
+			Todos os direitos reservados MTE © 2007-2017 - Política de Privacidade - Condições de Uso - Build 
+			 <span id="build">20260707-1823</span>
+			[<span id="maquina"></span>]
+		</div>
+		<div class="footer-logos">
+			<div id="footer-brasil">
+			</div>
+		</div>
+	</div>
+</div></body>
+</html>

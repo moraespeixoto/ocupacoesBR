@@ -1,0 +1,27 @@
+.Rproj.user
+.Rhistory
+.RData
+.Ruserdata
+*.Rcheck/
+*.tar.gz
+/doc/
+/Meta/
+doc/
+Meta/
+figure/
+
+# microdados da PNAD: ficam FORA do repositorio, em /home/nerd/dados_pnad.
+# Estas linhas sao um cinto de seguranca caso alguem mude o caminho.
+pnad*/
+*PNADC*
+*pnadc*
+
+# O repositorio e o pacote, e so o pacote. O artigo de metodo e os
+# documentos de trabalho vivem no disco, aqui, mas nao sao versionados
+# nem sobem para lugar nenhum.
+paper/
+AUDITORIA*.md
+PLANO*.md
+GRAPHIFY.md
+/auditoria.html
+/graphify.html
