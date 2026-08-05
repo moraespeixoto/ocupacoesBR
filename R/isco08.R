@@ -44,8 +44,8 @@ isco88_para_isco08 <- function(isco88, com_ambiguidade = FALSE) {
 #' @examples
 #' tse_para_isco08(c(111, 169))
 #' @export
-tse_para_isco08 <- function(cod, com_ambiguidade = FALSE) {
-  isco88_para_isco08(tse_para_isco(cod), com_ambiguidade)
+tse_para_isco08 <- function(cod, com_ambiguidade = FALSE, ano = NULL) {
+  isco88_para_isco08(tse_para_isco(cod, ano), com_ambiguidade)
 }
 
 #' ISEI-08 da ocupação declarada ao TSE
@@ -68,8 +68,8 @@ tse_para_isco08 <- function(cod, com_ambiguidade = FALSE) {
 #' data.frame(cod = c(111, 234), isei88 = tse_para_isei(c(111, 234)),
 #'            isei08 = tse_para_isei08(c(111, 234)))
 #' @export
-tse_para_isei08 <- function(cod) {
-  .busca(tse_para_isco08(cod), ocupacoesBR::isco08_medidas, "isco08", "isei08")
+tse_para_isei08 <- function(cod, ano = NULL) {
+  .busca(tse_para_isco08(cod, ano = ano), ocupacoesBR::isco08_medidas, "isco08", "isei08")
 }
 
 #' SIOPS-08 da ocupação declarada ao TSE
@@ -79,6 +79,6 @@ tse_para_isei08 <- function(cod) {
 #' @examples
 #' tse_para_siops08(c(111, 169))
 #' @export
-tse_para_siops08 <- function(cod) {
-  .busca(tse_para_isco08(cod), ocupacoesBR::isco08_medidas, "isco08", "siops08")
+tse_para_siops08 <- function(cod, ano = NULL) {
+  .busca(tse_para_isco08(cod, ano = ano), ocupacoesBR::isco08_medidas, "isco08", "siops08")
 }

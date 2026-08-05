@@ -1,4 +1,15 @@
-# ocupacoesBR (em desenvolvimento)
+# ocupacoesBR 0.2.0
+
+## `tse_para_isei08()` passa a aceitar `ano`
+
+As portas ancoradas na ISCO-08 — `tse_para_isco08()`, `tse_para_isei08()` e
+`tse_para_siops08()` — ganharam o argumento `ano`, com a mesma máscara de
+vigência que as portas da ISCO-88 já tinham. Passando o ano da eleição, as
+candidaturas cujo código o TSE **reutilizou** em 2002 voltam `NA` com aviso da
+classe `ocupacoesBR_quebra_2002`, em vez de traduzidas pelo cadastro errado.
+Antes, quem quisesse o ISEI-08 mascarado por vigência tinha de aplicar a máscara
+à mão; agora é `tse_para_isei08(cod, ano = ano)`, simétrico a
+`tse_para_isei(cod, ano = ano)`. Veja `?tse_vigencia` e `?checa_periodo`.
 
 ## Uma classe própria para o agricultor: criada e revertida (29/07/2026)
 

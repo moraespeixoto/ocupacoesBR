@@ -25,3 +25,5 @@ PLANO*.md
 GRAPHIFY.md
 /auditoria.html
 /graphify.html
+# Added by code-review-graph
+.code-review-graph/

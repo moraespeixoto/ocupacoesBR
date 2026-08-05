@@ -4,10 +4,16 @@
 \alias{tse_para_isei08}
 \title{ISEI-08 da ocupação declarada ao TSE}
 \usage{
-tse_para_isei08(cod)
+tse_para_isei08(cod, ano = NULL)
 }
 \arguments{
 \item{cod}{Vetor de códigos de ocupação do TSE (numérico ou texto).}
+
+\item{ano}{Vetor opcional de anos de eleição, do mesmo comprimento de \code{cod}.
+Com ele, as candidaturas cujo código o TSE \strong{reutilizou} depois voltam
+\code{NA} com aviso, em vez de traduzidas pelo dicionário errado: o código 215
+designava um cargo de direção até 2000 e passou a designar artista
+plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
 Vetor numérico com o escore ISEI-08.

@@ -68,6 +68,14 @@ test_that("`ano` anula o que estava sob outra ocupação, e só isso", {
   expect_warning(tse_para_isco("215", ano = 2000), "REUTILIZOU")
   expect_warning(tse_para_estrato("215", ano = 2000), "REUTILIZOU")
   expect_error(tse_para_isco(c("111", "215"), ano = 2000), "comprimento")
+  # e para a porta ancorada na ISCO-08, que agora tambem aceita `ano`
+  expect_warning(z <- tse_para_isei08(c("215", "215"), ano = c(2000, 2020)),
+                 "REUTILIZOU")
+  expect_true(is.na(z[1]))
+  expect_false(is.na(z[2]))
+  expect_silent(w <- tse_para_isei08(c("215", "215")))
+  expect_false(any(is.na(w)))
+  expect_warning(tse_para_isco08("215", ano = 2000), "REUTILIZOU")
 })
 
 test_that("tse_diff_cadastro descreve a troca de inventário de 2002", {
