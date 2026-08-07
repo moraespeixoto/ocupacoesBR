@@ -28,7 +28,11 @@ crosswalk_tse <- function(cod = NULL) {
   isco <- d$isco88[i]
   m    <- match(isco, ocupacoesBR::isco88_medidas$isco88)
   p    <- match(isco, ocupacoesBR::isco88_isco08$isco88)
-  isco08 <- ocupacoesBR::isco88_isco08$isco08[p]
+  # A tabela auditável tem de mostrar o que `tse_para_isco08()` devolve, e não
+  # a ponte crua: as duas correções do passo TSE -> ISCO-08 (promoção do
+  # proprietário por `iskopromo.sps` e refinamento por rótulo) vivem numa única
+  # função interna, chamada aqui e lá. Veja `.corrige_isco08_tse` em R/isco08.R.
+  isco08 <- .corrige_isco08_tse(k, ocupacoesBR::isco88_isco08$isco08[p])
   m08  <- match(isco08, ocupacoesBR::isco08_medidas$isco08)
   # --- réguas de qualidade da tradução --------------------------------------
   # Sem elas o quadro apresenta um ISEI de 2 dígitos e um de 4 com a mesma

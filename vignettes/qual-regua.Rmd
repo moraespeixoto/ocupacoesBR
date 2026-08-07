@@ -177,16 +177,18 @@ O caminho honesto é começar a série em 2004, ou declarar a descontinuidade.
 
 ```{r}
 data.frame(
-  cod    = c("111", "234"),
-  rotulo = tse_para_rotulo(c("111", "234")),
-  isei88 = tse_para_isei(c("111", "234")),
-  isei08 = round(tse_para_isei08(c("111", "234")), 1))
+  cod    = c("111", "113", "411"),
+  rotulo = tse_para_rotulo(c("111", "113", "411")),
+  isei88 = tse_para_isei(c("111", "113", "411")),
+  isei08 = round(tse_para_isei08(c("111", "113", "411")), 1))
 ```
 
-O produtor agropecuário perde cerca de 25 pontos ao trocar de âncora, porque
-`1311` (dirigente de empresa agropecuária) na ISCO-88 vira `6130` (produtor
-agropecuário misto) na ISCO-08. Não é erro de nenhuma das duas: são recortes
-diferentes.
+O médico fica onde estava; o enfermeiro sobe 26 pontos, porque a ISCO-08
+promoveu a enfermagem a profissão de nível superior (`2221`), separando-a dos
+técnicos (`3221`); o vendedor cai 13, porque a revisão reavaliou o grupo `52`
+inteiro. Não é erro de nenhuma das duas réguas: são recortes diferentes. Numa
+série que troque de âncora no meio, os dois deslocamentos aparecem como
+mobilidade que não houve.
 
 **Fique na ISCO-88** para comparar candidaturas entre si — é onde o pacote está
 ancorado. Use a ISCO-08 para juntar o dado eleitoral a fontes que já a usam, e

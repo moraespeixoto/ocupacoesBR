@@ -27,13 +27,17 @@ Para comparar candidaturas entre si, prefira \code{\link[=tse_para_isei]{tse_par
 o pacote é ancorado nela e a ponte introduz erro. O ISEI-08 serve para juntar
 o dado eleitoral a fontes que já classificam por ISCO-08 — a PNAD Contínua,
 via COD, é o caso típico. As duas réguas correlacionam-se fortemente no
-agregado, mas alguns deslocamentos individuais são grandes: o produtor
-agropecuário do TSE, por exemplo, cai cerca de 25 pontos ao mudar de âncora,
-porque 1311 (dirigente de empresa agropecuária) na ISCO-88 vira 6130
-(produtor agropecuário misto) na ISCO-08.
+agregado (\verb{isei08 = 1,212 x isei88 - 9,80}, r = 0,95), e a maior parte das
+diferenças de 5 a 15 pontos é o próprio reescalonamento, não erro. Mas alguns
+deslocamentos individuais são grandes \strong{e reais}: o enfermeiro (código 113)
+sobe 26 pontos, de 43 para 68,7, porque a ISCO-08 promoveu a enfermagem a
+profissão de nível superior (2221), separando-a dos técnicos (3221); o
+vendedor e o comerciário (411, 170) caem 13, de 43 para 29,7, porque a
+revisão reavaliou o grupo 52 inteiro. Uma série que troque de âncora no meio
+mede essas duas coisas como se fossem mobilidade.
 }
 
 \examples{
-data.frame(cod = c(111, 234), isei88 = tse_para_isei(c(111, 234)),
-           isei08 = tse_para_isei08(c(111, 234)))
+data.frame(cod = c(111, 113), isei88 = tse_para_isei(c(111, 113)),
+           isei08 = tse_para_isei08(c(111, 113)))
 }

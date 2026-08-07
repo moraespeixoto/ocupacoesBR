@@ -56,6 +56,15 @@ test_that("o deslocamento de classe segue a OIT, e a lista é exaustiva", {
   # e essa regra tem precedência sobre o dígito.
   expect_equal(tse_para_classe(c("234", "602", "901")),
                rep("Proprietários e empregadores", 3))
+  # E desde 0.2.1 eles nem chegam a ser movidos de grande grupo: o teste acima
+  # olha a PONTE crua (`isco88_para_isco08`), que é a da OIT e não muda; o passo
+  # TSE -> ISCO-08 aplica `iskopromo.sps` e os devolve ao grupo 1. Ver
+  # test-isco08-tse.R.
+  agrarios <- c("234", "602", "901")
+  expect_equal(tse_para_isco08(agrarios), rep("1311", 3))
+  d$final <- suppressWarnings(tse_para_isco08(d$cod_tse))
+  expect_setequal(d$cod_tse[substr(d$isco88, 1, 1) != substr(d$final, 1, 1)],
+                  c("114", "222", "164", "163", "165"))
 })
 
 test_that("as duas réguas se separam: nenhuma classe média acima da mediana da alta", {

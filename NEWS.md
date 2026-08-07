@@ -1,3 +1,247 @@
+# ocupacoesBR 0.2.1
+
+## Correção da régua ISCO-08: 21 códigos do TSE mudam de destino
+
+Esta versão corrige o passo **TSE → ISCO-08** em 21 dos 275 códigos do
+dicionário, o que equivale a **103.365 candidaturas — 3,10% do total e 4,84%
+das que têm escore**. A média ponderada do ISEI-08 passa de **49,88 para
+50,43** (+0,545). O efeito substantivo é distribucional, não médio: 1,29% das
+candidaturas saem do primeiro decil da distribuição para perto da mediana, de
+modo que cortes por quantil e dicotomias "classe alta / popular" construídas a
+partir do ISEI-08 precisam ser recalculados, não só as médias.
+
+Origem: auditoria da régua conduzida em 2026-08 contra a tabela oficial de
+correspondência da OIT (ISCO-88 → ISCO-08) e contra as sintaxes do ISMF
+distribuídas em `inst/extdata/fontes/ganzeboom/`.
+
+### O que **não** mudou, e por quê
+
+* **A ponte `isco88_isco08` está intacta.** `isco88_para_isco08("1311")`
+  continua devolvendo `6130`, `"7400"` continua devolvendo `7540`. A ponte
+  reproduz a correspondência oficial da OIT, que aboliu o grande grupo 13 da
+  ISCO-88 e devolveu o proprietário-dirigente à ocupação exercida; quem entra
+  pela ISCO-88 tem de receber isso. Nenhum valor de `data/isco88_isco08.rda`,
+  `data/isco08_medidas.rda` ou `data/isco88_medidas.rda` foi alterado.
+* **A régua TSE → ISCO-88 está intacta.** `tse_para_isco()`, `tse_para_isei()`,
+  `tse_para_siops()`, `tse_para_egp()`, `tse_para_classe()` e
+  `tse_para_estrato()` devolvem exatamente o que devolviam em 0.2.0. Nenhum
+  resultado publicado em ISEI-88 se desloca.
+* **Os 17 códigos sem escore continuam `NA`**, inclusive o 295 (membro das
+  forças armadas). Ganzeboom pontua ISCO-08 `0000` (ISEI-08 51,25) mas deixa o
+  ISCO-88 `0110` sem ISEI-88: preencher só a régua nova criaria uma linha que
+  existe numa régua e não existe na outra, quebrando a comparabilidade entre a
+  medida primária e a de robustez. Fica `NA` nas duas, por decisão.
+
+### Como a correção foi implementada
+
+`tse_para_isco08()` deixa de ser a mera composição
+`isco88_para_isco08(tse_para_isco(cod))`. O código do TSE carrega duas
+informações que a ponte genérica não pode ver, e as duas são usadas agora:
+
+1. **A marca de proprietário** (`tse_isco$proprietario`), que é o `SEMPL = 2`
+   do ISMF;
+2. **O rótulo em português**, mais fino do que o código ISCO-88 **agregado** a
+   que o dicionário associa aquele código.
+
+A regra mora numa única função interna, `.corrige_isco08_tse()` (em
+`R/isco08.R`), chamada tanto por `tse_para_isco08()` quanto por
+`crosswalk_tse()` — não há duas cópias que possam divergir, e
+`test-isco08-tse.R` trava a igualdade entre as duas saídas. Como
+`tse_para_siops08()` e `tse_para_prestigio08()` passam por
+`tse_para_isco08()`, o SIOPS-08 desses 21 códigos também se corrige.
+
+### 1. Promoção do proprietário rural (`iskopromo.sps`)
+
+Os três códigos abaixo recebiam, na mesma linha do `crosswalk_tse()`, EGP
+`IVc: proprietário rural`, estrato "Classe alta", componente "Alta
+proprietária" **e** o ISEI-08 de trabalhador agrícola. Eram as **únicas três
+linhas da tabela inteira** em que "Classe alta" convivia com ISEI-08 abaixo de
+40 — o teste de consistência interna que a auditoria propôs isola exatamente
+estas três, e agora ele está na suíte.
+
+| Cód. | Rótulo | ISCO-08 antes | ISEI-08 antes | ISCO-08 agora | ISEI-08 agora | % cand. |
+|---|---|---|---|---|---|---|
+| 234 | PRODUTOR AGROPECUÁRIO | 6130 | 17,79 | **1311** | **49,48** | 0,572 |
+| 602 | PECUARISTA | 6130 | 17,79 | **1311** | **49,48** | 0,509 |
+| 901 | PROPRIETÁRIO DE ESTABELECIMENTO AGRÍCOLA, DA PECUÁRIA E FLORESTAL | 6130 | 17,79 | **1311** | **49,48** | 0,212 |
+
+**Fonte.** `iskopromo.sps` (Ganzeboom, ISMF), primeira regra do módulo, cuja
+finalidade declarada é "*make sure that managers and owners with certain
+employment statuses go into the right place*":
+
+```
+do repeat iii=@isko / sss=@sempl.
+do if (sss eq 2).          /* proprietário / conta própria com empregados */
+. recode iii (6130=1311).
+end if.
+end repeat.
+```
+
+O pacote já aplicava esta linha desde 0.1.0, mas **só no caminho do EGP**
+(`R/egp.R`), o que é a razão de a contradição ser interna: o EGP sabia que
+aquela pessoa era proprietária e o ISEI-08 não. ISCO-08 `1311` é
+*Agricultural and forestry production managers*; ISEI-08 = 49,48, lido de
+`isqoisei08.sps` linha 28 (`recode @isqo (1311=49.48)`).
+
+A correção também remenda uma série que o TSE construiu homogênea e a tradução
+partia ao meio: os irmãos diretos de 901 — 902 (comercial), 903 (industrial),
+904 (serviços), 905 (microempresa) — recebem todos ISEI-08 51,01, com o mesmo
+estrato e o mesmo componente de classe. Só o agrícola desabava para 17,79.
+
+**Recomendação da auditoria que foi REJEITADA.** A auditoria propunha obter o
+mesmo resultado recodificando a origem, TSE → ISCO-88 de `1311` para `1221`
+(*department managers in agriculture*). Não foi feito: a codificação em `1311`
+é deliberada (o comentário do autor em
+`inst/extdata/fontes/R/classe_ocupacao.R` registra "PRODUTOR AGROPECUÁRIO:
+61=23 → 1311=43 (proprietário rural)"), e a rota `1221` mudaria **também a
+régua antiga**, levando o ISEI-88 de 43 para 67 e deslocando resultados já
+publicados em ISEI-88. A promoção via `iskopromo.sps` chega ao mesmo ISCO-08
+sem tocar em nada da ISCO-88 — e tem precedente dentro do próprio pacote.
+
+*Efeito colateral que convém declarar:* para estes três códigos a ida e a volta
+deixam de fechar. `isco08_para_isco88("1311")` devolve `1221`, porque a ponte
+de volta (`isco0888.sps`) também é a da OIT. A assimetria é inerente a
+`iskopromo.sps`, cuja recodificação depende do status de emprego, que a volta
+não conhece.
+
+### 2. Destinos ISCO-08 refinados pelo rótulo do TSE
+
+Onze códigos do TSE cujo ISCO-88 é o **agregado 7400** (*other craft and
+related trades workers*) caíam em ISCO-08 **7540**, que é o grupo-menor
+**residual** da submajor 75 ("*other craft*": mergulhadores, dinamitadores,
+classificadores de produtos). O ISEI-08 de 7540 (43,19) destoa em ~19 pontos de
+toda a sua própria família (7500 = 23,97; 7510 = 23,46; 7520 = 23,65;
+7530 = 22,03). A prova de que é transposição de dígito, e não escolha, está no
+próprio `isco8808.sps`: ele manda cada ramo filho ao lugar certo — `7410=7510`,
+`7420=7520`, `7430=7530`, `7440=7536`, `7441=7535`, `7442=7536` — e só o
+agregado ao residual.
+
+| Cód. | Rótulo | Antes | Agora | ISEI-08 | % cand. | Fonte |
+|---|---|---|---|---|---|---|
+| 713 | CARPINTEIRO, MARCENEIRO E ASSEMELHADOS | 7540 (43,19) | **7520** | **23,65** | 0,252 | `isco8808.sps`: 7422 (marceneiros) → 7520 |
+| 228 | PADEIRO, CONFEITEIRO E ASSEMELHADOS | 7540 (43,19) | **7510** | **23,46** | 0,154 | 7412 (padeiros, confeiteiros) → 7510 |
+| 710 | TRAB. DE FABRICAÇÃO E PREPARAÇÃO DE ALIMENTOS E BEBIDAS | 7540 (43,19) | **7510** | **23,46** | 0,051 | 7410 (*food processing trades*) → 7510 |
+| 591 | ALFAIATE E COSTUREIRO | 7540 (43,19) | **7530** | **22,03** | 0,069 | 7430 (*textile, garment trades*) → 7530 |
+| 705 | TRABALHADOR DE FABRICAÇÃO DE ROUPAS | 7540 (43,19) | **7530** | **22,03** | 0,063 | 7430 → 7530 |
+| 188 | FIANDEIRO, TECELÃO, TINGIDOR E ASSEMELHADOS | 7540 (43,19) | **7530** | **22,03** | 0,005 | 743 (*textile trades*) → 7530; ver ressalva |
+| 241 | TAPECEIRO | 7540 (43,19) | **7530** | **22,03** | 0,018 | 7437 (estofadores) → 7534, dentro de 753 |
+| 186 | ESTOFADOR | 7540 (43,19) | **7530** | **22,03** | 0,011 | 7437 → 7534, dentro de 753 |
+| 149 | CHAPELEIRO | 7540 (43,19) | **7530** | **22,03** | 0,001 | 7433 (*tailors, dressmakers and hatters*) → 7531, dentro de 753 |
+| 715 | TRAB. DE FABRICAÇÃO DE CALÇADOS E ARTEFATOS DE COURO | 7540 (43,19) | **7536** | **18,07** | 0,047 | 7442 (*shoemakers arw*) → 7536, destino único |
+| 250 | TRABALHADOR DE CURTIMENTO | 7540 (43,19) | **7535** | **28,08** | 0,003 | 7441 (*pelt dressers, tanners and fellmongers*) → 7535, destino único |
+
+**Ressalva sobre o cód. 188** (0,005% das candidaturas, n = 170). Este é o
+único dos onze em que a leitura fina não fecha: `isco8808.sps` manda `7431`
+(*fibre preparers*) para 7318 (artesanato, ISEI-08 28,97) e `7432` (*weavers,
+knitters*) para 8152 (operadores de máquina, ISEI-08 18,03) — a ISCO-08
+dispersou o grupo. Como o dicionário lê este código pelo ramo **artesanal**
+(ISCO-88 74, não 82), adotou-se o grupo-menor do agregado ISCO-88 743, que é
+7530. As quatro leituras possíveis ficam entre 18 e 29; nenhuma se aproxima dos
+43,19 anteriores, que é o que a correção precisa garantir.
+
+Três códigos cujo ISCO-88 é o **agregado 2220** (*health professionals except
+nursing*) caíam no agregado ISCO-08 2200, que é a média de **todos** os
+profissionais de saúde, inclusive a enfermagem. Os rótulos do TSE nomeiam a
+ocupação exata, e para cada uma a OIT dá destino **único**:
+
+| Cód. | Rótulo | Antes | Agora | ISEI-08 | % cand. | Fonte |
+|---|---|---|---|---|---|---|
+| 115 | ODONTÓLOGO | 2200 (76,98) | **2261** *(Dentists)* | **88,31** | 0,299 | `isco8808.sps`: 2222 → 2261, único |
+| 112 | VETERINÁRIO | 2200 (76,98) | **2250** *(Veterinarians)* | **84,14** | 0,131 | 2223 → 2250, único |
+| 117 | FARMACÊUTICO | 2200 (76,98) | **2262** *(Pharmacists)* | **81,13** | 0,155 | 2224 → 2262, único |
+
+Um código cujo ISCO-88 é **2320**, que tem exatamente dois destinos na OIT —
+2320 (*vocational education teachers*) e 2330 (*secondary education
+teachers*) —, e que a ponte trunca para 2330 nos dois casos:
+
+| Cód. | Rótulo | Antes | Agora | ISEI-08 | % cand. | Fonte |
+|---|---|---|---|---|---|---|
+| 235 | PROFESSOR E INSTRUTOR DE FORMAÇÃO PROFISSIONAL | 2330 (82,41) | **2320** | **72,30** | 0,211 | dos 2 destinos da OIT para 2320, o que o rótulo nomeia. O 2330 fica com o cód. 266, PROFESSOR DE ENSINO MÉDIO, que não muda |
+
+Três códigos cujo ISCO-88 é o **agregado 3470** (*artistic and cultural
+associate professionals*), traduzido por 3430, que pressupõe nível técnico —
+embora os rótulos do TSE reproduzam literalmente os títulos de ISCO-88 2453 e
+2454, de nível profissional:
+
+| Cód. | Rótulo | Antes | Agora | ISEI-08 | % cand. | Fonte |
+|---|---|---|---|---|---|---|
+| 164 | MÚSICO | 3430 (50,15) | **2652** *(Musicians, singers and composers)* | **64,44** | 0,220 | `isco8808.sps`: 2453 → 2652, único |
+| 163 | CANTOR E COMPOSITOR | 3430 (50,15) | **2652** | **64,44** | 0,113 | 2453 → 2652, único |
+| 165 | COREÓGRAFO E BAILARINO | 3430 (50,15) | **2653** *(Dancers and choreographers)* | **61,82** | 0,007 | 2454 → 2653, único |
+
+Todos os valores de ISEI-08 acima foram lidos de
+`inst/extdata/fontes/ganzeboom/isqoisei08.sps`; nenhum foi estimado.
+
+### Onde esta versão diverge da auditoria
+
+* **Cód. 250 (TRABALHADOR DE CURTIMENTO): 7535, e não 7536.** A auditoria
+  propunha 7536 (ISEI-08 18,07) "via 7440". Mas 7536 é *Shoemakers arw*, e
+  curtimento é curtume: `isco8808.sps` mapeia `7441` (*pelt dressers, tanners
+  and fellmongers*) para **7535** (ISEI-08 28,08), destino único. 7536 e 7535
+  são irmãos dentro do mesmo grupo-menor 753, e a auditoria pegou o irmão
+  errado. Aplicada a leitura exata do rótulo.
+* **Códigos 163, 164 e 165 foram aplicados junto com o Bloco A.** A auditoria
+  os classificou como "Bloco C — precisão menor", separado. A lógica e a
+  qualidade da evidência são idênticas às do Bloco A (destino único na OIT, sem
+  ambiguidade de rótulo), e tratá-los à parte só deixaria três linhas
+  conhecidamente erradas na tabela.
+* **A recodificação de origem 1311 → 1221 foi rejeitada** (ver acima).
+* **O agregado ISCO-88 2400** (26 códigos, 2,848% das candidaturas) **não foi
+  tocado**: exige julgamento substantivo caso a caso sobre 26 rótulos e mudaria
+  as duas réguas. Fica registrado como a maior pendência conhecida da régua.
+
+### Pendências conhecidas, herdadas da auditoria
+
+Nenhuma foi resolvida nesta versão; ficam anotadas para a nota de método de
+quem publicar a partir do pacote.
+
+* **Agregado ISCO-88 2400 → 2400** (2,848% das candidaturas). PSICÓLOGO,
+  SOCIÓLOGO, MEMBRO DO MINISTÉRIO PÚBLICO ficam subestimados; ASSISTENTE
+  SOCIAL, BIBLIOTECÁRIO, ATOR, superestimados.
+* **Restante do agregado 3470** (0,433%): 166 LOCUTOR/RADIALISTA, 105
+  DESENHISTA INDUSTRIAL, 193 DECORADOR, 130 ARTISTA DE CIRCO, 168 ATLETA — a
+  OIT dá destinos múltiplos e o rótulo do TSE não desempata.
+* **Agregado ISCO-88 9100 → 9620** (0,242%), destino no topo da faixa possível,
+  e as mesmas 10 linhas com EGP `IIIa` convivendo com ISCO-08 do grande grupo 9
+  — herança de `iskoroot.sps`, não decisão do pacote.
+* **Cód. 303 GERENTE** (0,402%): o rótulo não desempata entre gerente
+  assalariado (12xx) e proprietário-dirigente (13xx). Mantido como está.
+* **Cód. 903** PROPRIETÁRIO DE ESTABELECIMENTO **INDUSTRIAL** (0,042%) recebe
+  ISCO-08 1400 (*hospitality, retail and other services managers*) — setor
+  errado; seria 1321 (*manufacturing managers*).
+* **Códs. 906 e 907** (rentista de imóveis, capitalista de ativos financeiros)
+  estão corretamente sem ISEI, mas no estrato "Fora da PEA / não informado",
+  quando são por definição posições de classe proprietária. 131 candidaturas.
+* **Códs. 163, 164 e 165** passam agora, na ISCO-08, do grande grupo 3 para o
+  2, sem que o esquema de classes do pacote os acompanhe (seguem em
+  "Profissionais de nível médio"). A régua de classe não foi tocada nesta
+  versão; a decisão fica com o autor.
+
+### Documentação e testes
+
+* `?tse_para_isei08`, seção **"Quando *não* usar"**: o exemplo do produtor
+  agropecuário "que cai cerca de 25 pontos ao mudar de âncora" era justamente o
+  erro corrigido acima e foi substituído por dois deslocamentos verdadeiros —
+  o enfermeiro (cód. 113), que sobe 26 pontos porque a ISCO-08 promoveu a
+  enfermagem a profissão de nível superior, e o vendedor (cód. 411), que cai 13
+  porque a revisão reavaliou o grupo 52 inteiro. **A advertência geral da seção
+  continua valendo e foi reforçada:** para comparar candidaturas entre si,
+  fique na ISCO-88, que é onde o pacote está ancorado. O mesmo exemplo foi
+  trocado em `README.Rmd` e na seção 7 de `vignette("qual-regua")`.
+* `?tse_para_isco08` ganhou a seção **"Não é a mera composição das duas
+  etapas"**, que declara a diferença em relação a `isco88_para_isco08()`.
+* **`test-isco08-tse.R` (novo, 33 asserções)** trava, uma a uma: a ponte
+  ISCO-88 intacta; a régua TSE → ISCO-88 intacta; a promoção dos três agrários;
+  que a promoção é **regra** e não lista (um código novo marcado proprietário
+  com destino 6130 também será promovido, e nenhum não-proprietário pode ser);
+  os 18 refinamentos por rótulo, um a um; que nenhum código do TSE cai mais no
+  residual 7540; que `crosswalk_tse()` e as funções não podem divergir; e o
+  **teste de consistência interna** descoberto pela auditoria: nenhuma linha do
+  `crosswalk_tse()` pode ter estrato "Classe alta" com ISEI-08 abaixo de 40.
+* `test-armadilha.R` distingue agora o deslocamento de grande grupo na **ponte
+  crua** (que segue como estava: 114, 222, 234, 602, 901) do deslocamento no
+  passo **TSE → ISCO-08** (114, 222, 163, 164, 165).
+
 # ocupacoesBR 0.2.0
 
 ## `tse_para_isei08()` passa a aceitar `ano`

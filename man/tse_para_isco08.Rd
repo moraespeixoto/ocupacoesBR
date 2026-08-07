@@ -24,6 +24,21 @@ Vetor de texto, ou um \code{data.frame} se \code{com_ambiguidade = TRUE}.
 \description{
 ISCO-08 da ocupação declarada ao TSE
 }
+\section{Não é a mera composição das duas etapas}{
+
+Em 21 dos 275 códigos o resultado difere de
+\code{isco88_para_isco08(tse_para_isco(cod))}, porque o código do TSE carrega
+informação que a ponte genérica não vê: a marca de proprietário — o \code{SEMPL}
+do ISMF, que aciona a promoção de \code{iskopromo.sps} — e um rótulo mais fino do
+que o código ISCO-88 agregado a que o dicionário o associa. A ponte
+\code{\link[=isco88_para_isco08]{isco88_para_isco08()}} permanece intacta e continua devolvendo o destino
+oficial da OIT para quem entra pela ISCO-88. Veja \code{NEWS.md} da versão 0.2.1
+para a lista dos 21, com valor antigo, valor novo e fonte de cada um.
+}
+
 \examples{
 tse_para_isco08(c(111, 169))
+# o proprietário rural não é rebaixado a trabalhador agrícola:
+tse_para_isco08(234)
+isco88_para_isco08("1311")
 }

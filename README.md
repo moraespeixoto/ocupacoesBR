@@ -295,7 +295,7 @@ Contínua, via COD, é o caso típico:
 tse_para_isco08(c(111, 234), com_ambiguidade = TRUE)
 #>   isco88 isco08 n_alternativas
 #> 1   2221   2210              2
-#> 2   1311   6130              9
+#> 2   1311   1311              9
 ```
 
 `n_alternativas` é quantos destinos a OIT define para aquele código de
@@ -303,9 +303,21 @@ origem. Cerca de um terço dos pares tem mais de um: a conversão é uma
 escolha razoável, não um equivalente exato, e convém dizê-lo ao leitor.
 
 **Para comparar candidaturas entre si, fique na ISCO-88.** A ponte
-introduz erro, e ele não é uniforme: o produtor agropecuário perde cerca
-de 25 pontos de ISEI ao mudar de âncora, porque 1311 (dirigente de
-empresa agropecuária) vira 6130 (produtor agropecuário misto).
+introduz erro, e ele não é uniforme: o enfermeiro sobe 26 pontos de ISEI
+ao mudar de âncora (a ISCO-08 promoveu a enfermagem a profissão de nível
+superior) e o vendedor cai 13 (a revisão reavaliou o grupo 52 inteiro).
+Nenhum dos dois é mobilidade; os dois entram numa série que troque de
+âncora no meio como se fossem.
+
+`tse_para_isco08()` **não é** a mera composição de `tse_para_isco()` com
+`isco88_para_isco08()`. Em 21 dos 275 códigos o resultado difere, porque
+o código do TSE carrega o que a ponte genérica não vê: a marca de
+proprietário — o `SEMPL` do ISMF, que aciona a promoção de
+`iskopromo.sps` e impede que o proprietário rural seja lido como
+trabalhador agrícola — e um rótulo mais fino do que o código ISCO-88
+agregado a que o dicionário o associa. A ponte `isco88_para_isco08()`
+continua devolvendo o destino oficial da OIT para quem entra pela
+ISCO-88. A lista dos 21, com fonte de cada um, está em `NEWS.md`.
 
 ## Avisos com classe
 
