@@ -2,8 +2,13 @@
 
 ## Verificação
 
-`R CMD check --as-cran` em R 4.5.3, x86_64-pc-linux-gnu (Ubuntu 26.04):
-**0 ERROR, 0 WARNING, 1 NOTE.**
+`R CMD check --as-cran` na versão 0.3.0, x86_64-pc-linux-gnu (Ubuntu 26.04):
+**0 ERROR, 0 WARNING, 2 NOTEs.**
+
+A segunda NOTE é do ambiente de verificação, não do pacote: `checking HTML
+version of manual` avisa que o utilitário `tidy` não está instalado na
+máquina e pula a validação do HTML. Ela não aparece num ambiente com o
+`tidy` presente.
 
 ## Sobre a NOTE
 

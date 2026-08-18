@@ -39,14 +39,14 @@ assim. E o mesmo rótulo cobre posições materialmente incomparáveis — entre
 que declaram 257, o patrimônio mediano varia por um fator de \strong{25} conforme
 o cargo disputado:\tabular{ll}{
    cargo \tab patrimônio mediano de quem declara 257 \cr
-   Vereador \tab R$ 367.232 \cr
-   Prefeito \tab R$ 1.625.543 \cr
+   Vereador \tab R$ 370.000 \cr
+   Prefeito \tab R$ 1.628.485 \cr
    Senador \tab R$ 9.345.553 \cr
 }
 
 
 Tudo isso sob um \strong{único} ISEI (68) e uma única classe. Dentro do código, os
-extremos de patrimônio distam 81 vezes (p10 R$ 40 mil, p90 R$ 3,3 milhões).
+extremos de patrimônio distam 80 vezes (p10 R$ 41 mil, p90 R$ 3,3 milhões).
 O 257 não é uma ocupação medida com erro: é uma \strong{mistura} de duas
 populações — o microempreendedor e o capitalista — sob um rótulo só. Nenhum
 escore único está certo para as duas, razão pela qual mudá-lo de valor não

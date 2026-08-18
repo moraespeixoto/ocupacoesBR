@@ -8,7 +8,7 @@
 \code{data.frame} com 221 linhas e as colunas:
 \describe{
 \item{cod_tse}{código de ocupação.}
-\item{n}{candidaturas com esse código, 1998--2024.}
+\item{n}{candidaturas com esse código, 1998--2026.}
 \item{pct_superior}{\% com ensino superior completo.}
 \item{pct_mulher}{\% de mulheres.}
 \item{n_com_bens}{candidaturas com patrimônio declarado maior que zero.}
@@ -18,7 +18,7 @@
 }
 \source{
 Declaração de bens e grau de instrução das candidaturas ao TSE,
-1998--2024.
+1998--2026 (patrimônio: 2006--2024; ver a seção acima).
 }
 \usage{
 tse_validacao
@@ -53,12 +53,27 @@ escolaridade ou gênero tem as 221 linhas à disposição.
 
 \section{As correlações que este conjunto sustenta}{
 
-Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,764 (Spearman
-0,811). Contra o logaritmo da mediana de patrimônio, sobre as 164 que também
-têm mediana: r = 0,682 (Spearman 0,695). No nível do \strong{indivíduo} a
-correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,682
+Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,765 (Spearman
+0,812). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
+têm mediana: r = 0,681 (Spearman 0,695). No nível do \strong{indivíduo} a
+correlação com patrimônio é de apenas 0,208, e o contraste entre 0,208 e 0,681
 é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
 quase nada dentro de cada uma.
+}
+
+\section{O patrimônio de 2026 não entra, e por quê}{
+
+A safra de 2026 contribui para \code{n}, \code{pct_superior} e \code{pct_mulher}, e \strong{se
+abstém de \code{n_com_bens} e da mediana de patrimônio}. A razão é de unidade,
+não de qualidade do dado: o patrimônio está deflacionado a reais de outubro
+de 2024, pelo número-índice do IPCA do mês da eleição, e outubro de 2026
+ainda não aconteceu. Deflacionar por um mês que não é o da eleição poria na
+coluna um valor que a definição da coluna desmente.
+
+A assimetria não é nova: \code{n} sempre cobriu um período mais largo do que
+\code{n_com_bens}, porque o TSE só publica declaração de bens a partir de 2006 e
+as candidaturas de 1998 a 2004 já entravam nessa mesma condição. Quando o
+IPCA de outubro de 2026 existir, a coluna sai de graça.
 }
 
 \keyword{datasets}

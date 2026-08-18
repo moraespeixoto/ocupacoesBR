@@ -2,8 +2,8 @@
 # 04_gera_rotulos.R — a história do cadastro de ocupações do TSE
 # ----------------------------------------------------------------------------
 # O TSE publica, ao lado do CD_OCUPACAO, o DS_OCUPACAO: o rótulo da ocupação
-# tal como vigia NAQUELA eleição. Ele está 100% preenchido nas 14 eleições de
-# 1998 a 2024. Esta é a fonte que o `03_gera_quebra_2002.R` supunha não existir.
+# tal como vigia NAQUELA eleição. Ele está 100% preenchido nas 15 eleições de
+# 1998 a 2026. Esta é a fonte que o `03_gera_quebra_2002.R` supunha não existir.
 #
 # O que este script produz:
 #
@@ -21,24 +21,74 @@
 # ASSESSORAMENTO SUPERIOR" até 2000 e virou "ARTISTA PLÁSTICO" a partir de 2006,
 # com variação de escolaridade de UM ponto percentual. Invisível para ela.
 #
-# FONTE: microdados de candidaturas do TSE, 1998-2024 (consulta_cand).
-#   Não versionados: 397 MB. Ajuste TSE_RDA se estiverem noutro lugar.
+# FONTE: microdados de candidaturas do TSE (consulta_cand), uma safra por
+#   arquivo, em `bancos/candidaturas/candidaturas_AAAA.rds` do projeto
+#   `novissimos_dados_tse`. Não versionados. Ajuste OCUPACOESBR_TSE_DIR.
+#
+#   POR QUE UMA SAFRA POR ARQUIVO, e não o `.Rda` monolítico que este script
+#   lia até 0.2.1: o monolítico é um agregado que se reconstrói de tempos em
+#   tempos e pode estar defasado em relação às safras individuais sem que nada
+#   no arquivo o denuncie — em 17/08/2026 ele trazia 15.866 candidaturas de
+#   2026 contra as 20.506 do arquivo da safra. Ler as safras é ler a fonte.
+#   Custa quatro colunas de memória em vez de 108, e o ano fica explícito no
+#   nome do arquivo, de modo que acrescentar uma eleição é acrescentar um
+#   arquivo. OCUPACOESBR_TSE_RDA continua honrado, para quem tiver só o .Rda.
+#
+#   ENCODING: as safras vêm com as strings marcadas `latin1`. Os rótulos são
+#   convertidos a UTF-8 na leitura, porque é o que o pacote declara e o que a
+#   tabela publicada precisa carregar.
+#
+#   A SAFRA DE 2026 É ABERTA. O prazo de registro encerrou em 15/08/2026, mas o
+#   Tribunal ainda julga e publica candidaturas: DS_SITUACAO_CANDIDATURA é
+#   "#NE" em todas as linhas e o volume dos cargos proporcionais está em torno
+#   de dois terços do de 2022. Para o que este script faz — qual rótulo cada
+#   código levava em cada eleição — isso não atrapalha, porque o rótulo é
+#   propriedade do cadastro e não da candidatura. Mas o `n` da tabela é
+#   contagem de candidaturas, e o de 2026 há de crescer.
 #
 # Rodar: Rscript data-raw/04_gera_rotulos.R
 # ============================================================================
 
-TSE_RDA <- Sys.getenv("OCUPACOESBR_TSE_RDA",
-                      "~/novissimos_dados_tse/resultados_eleicoes_98_24.Rda")
-TSE_RDA <- path.expand(TSE_RDA)
+TSE_DIR <- path.expand(Sys.getenv("OCUPACOESBR_TSE_DIR",
+                                  "~/novissimos_dados_tse/bancos/candidaturas"))
+TSE_RDA <- Sys.getenv("OCUPACOESBR_TSE_RDA", "")
 
-if (!file.exists(TSE_RDA))
-  stop("microdados do TSE não encontrados em:\n  ", TSE_RDA,
-       "\nEste script depende deles e eles não estão no repositório (397 MB).",
-       "\nAponte OCUPACOESBR_TSE_RDA para o arquivo.", call. = FALSE)
+COLS <- c("ANO_ELEICAO", "CD_OCUPACAO", "DS_OCUPACAO", "DS_GRAU_INSTRUCAO")
 
-env <- new.env()
-load(TSE_RDA, envir = env)
-d <- get(ls(env)[1], envir = env)
+if (nzchar(TSE_RDA)) {
+  # caminho legado: um único .Rda com todas as safras
+  TSE_RDA <- path.expand(TSE_RDA)
+  if (!file.exists(TSE_RDA))
+    stop("microdados do TSE não encontrados em:\n  ", TSE_RDA, call. = FALSE)
+  env <- new.env()
+  load(TSE_RDA, envir = env)
+  d <- get(ls(env)[1], envir = env)
+  fonte <- TSE_RDA
+} else {
+  if (!dir.exists(TSE_DIR))
+    stop("safras do TSE não encontradas em:\n  ", TSE_DIR,
+         "\nEste script depende delas e elas não estão no repositório.",
+         "\nAponte OCUPACOESBR_TSE_DIR para o diretório das safras",
+         " (ou OCUPACOESBR_TSE_RDA para o .Rda agregado).", call. = FALSE)
+  arqs <- sort(list.files(TSE_DIR, pattern = "^candidaturas_[0-9]{4}\\.rds$",
+                          full.names = TRUE))
+  if (!length(arqs)) stop("nenhum candidaturas_AAAA.rds em ", TSE_DIR, call. = FALSE)
+  d <- do.call(rbind, lapply(arqs, function(a) {
+    x <- readRDS(a)
+    falta <- setdiff(COLS, names(x))
+    if (length(falta))
+      stop("faltam colunas em ", basename(a), ": ", paste(falta, collapse = ", "),
+           call. = FALSE)
+    x <- as.data.frame(x)[, COLS]
+    # latin1 -> UTF-8; ver ENCODING no cabeçalho
+    for (k in COLS) if (is.character(x[[k]])) x[[k]] <- enc2utf8(x[[k]])
+    x
+  }))
+  fonte <- TSE_DIR
+  message(sprintf("safras lidas: %d (%s)", length(arqs),
+                  paste(range(sub(".*_([0-9]{4})\\.rds$", "\\1", arqs)),
+                        collapse = "-")))
+}
 stopifnot(all(c("ANO_ELEICAO", "CD_OCUPACAO", "DS_OCUPACAO") %in% names(d)))
 
 ano <- as.integer(d$ANO_ELEICAO)
@@ -47,9 +97,12 @@ ds  <- trimws(as.character(d$DS_OCUPACAO))
 ok  <- !is.na(ano) & !is.na(cod) & nzchar(cod) & nzchar(ds) & ds != "#NULO#"
 ano <- ano[ok]; cod <- cod[ok]; ds <- ds[ok]
 
+message(sprintf("fonte: %s", fonte))
 message(sprintf("candidaturas com rótulo: %s de %s (%.1f%%)",
                 format(sum(ok), big.mark = "."), format(length(ok), big.mark = "."),
                 100 * mean(ok)))
+message(sprintf("eleições: %d (%s)", length(unique(ano)),
+                paste(range(ano), collapse = "-")))
 
 # ---- normalização, só para COMPARAR ----------------------------------------
 # O rótulo original é preservado; esta forma existe porque o TSE alterna
@@ -128,7 +181,7 @@ mudou$delta_pp <- round(mudou$pct_superior_apos_2002 -
                         mudou$pct_superior_ate_2000, 1)
 # o que importa não é o delta bruto, e sim o quanto ele se afasta da tendência
 mudou$delta_vs_tendencia <- round(mudou$delta_pp - tend, 1)
-message(sprintf("tendência geral de ensino superior, 1998-2000 -> 2002-2024: %+.1f pp",
+message(sprintf("tendência geral de ensino superior, 1998-2000 -> 2002-2026: %+.1f pp",
                 tend))
 
 # ---- `tipo`: JULGAMENTO CURADO, com as duas evidências ao lado --------------

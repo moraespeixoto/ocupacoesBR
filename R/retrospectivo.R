@@ -59,7 +59,11 @@
 #'
 #' @section O que ele resolve, medido:
 #' Nas candidaturas ao TSE de 1998 a 2024, a cobertura do ISEI sobe de 68,5%
-#' para 76,0% entre homens e de **52,9% para 58,7% entre mulheres**. O ganho é
+#' para 76,0% entre homens e de **52,9% para 58,7% entre mulheres**. A janela
+#' para aqui de propósito, e não por desatualização: a medição exige o painel
+#' por pessoa, que identifica a mesma candidatura em eleições diferentes, e a
+#' safra de 2026 ainda não tem esse painel montado. O restante do pacote vai a
+#' 2026; este número, não. O ganho é
 #' maior entre elas porque o padrão de ausência é fortemente generificado: 14,7%
 #' das candidatas declaram posição fora da PEA, contra 1,3% dos candidatos.
 #'

@@ -82,7 +82,7 @@ tse_para_isco <- function(cod, ano = NULL) {
 #' mesmo jeito venha de "advogado", que pressupõe inscrição na OAB, ou de
 #' "empresário", que não pressupõe registro nenhum e cobre desde o
 #' microempreendedor até o capitalista. Veja [tse_codigos_autorrotulo] para
-#' rodar a sua análise com e sem esses códigos — são 12,2% das candidaturas.
+#' rodar a sua análise com e sem esses códigos — são 13,3% das candidaturas.
 #'
 #' @seealso [tse_para_isei08()], para a âncora da ISCO-08; [isco_posicao_br],
 #'   para a posição na ocupação; [tse_codigos_autorrotulo], para a
@@ -269,12 +269,12 @@ tse_para_estrato <- function(cod, ano = NULL) {
 #'
 #' | cargo | patrimônio mediano de quem declara 257 |
 #' |---|---|
-#' | Vereador | R$ 367.232 |
-#' | Prefeito | R$ 1.625.543 |
+#' | Vereador | R$ 370.000 |
+#' | Prefeito | R$ 1.628.485 |
 #' | Senador | R$ 9.345.553 |
 #'
 #' Tudo isso sob um **único** ISEI (68) e uma única classe. Dentro do código, os
-#' extremos de patrimônio distam 81 vezes (p10 R$ 40 mil, p90 R$ 3,3 milhões).
+#' extremos de patrimônio distam 80 vezes (p10 R$ 41 mil, p90 R$ 3,3 milhões).
 #' O 257 não é uma ocupação medida com erro: é uma **mistura** de duas
 #' populações — o microempreendedor e o capitalista — sob um rótulo só. Nenhum
 #' escore único está certo para as duas, razão pela qual mudá-lo de valor não
@@ -346,8 +346,8 @@ tse_para_politico <- function(cod, ano = NULL) {
 #'
 #' Este critério é conceitual porque **o dado não o produz sozinho**. A
 #' dispersão de patrimônio dentro do código, por exemplo, não separa os dois
-#' grupos: é de 81 vezes (p90/p10) entre os que declaram empresário, mas de 48
-#' entre os advogados e 55 entre os comerciantes. Patrimônio é disperso em toda
+#' grupos: é de 80 vezes (p90/p10) entre os que declaram empresário, mas de 47
+#' entre os advogados e 54 entre os comerciantes. Patrimônio é disperso em toda
 #' parte. O que distingue não é a dispersão bruta, é a ausência da trava.
 #'
 #' @section Como usar:
@@ -362,7 +362,7 @@ tse_para_politico <- function(cod, ano = NULL) {
 #' # rode a sua análise com as duas colunas e relate as duas
 #' ```
 #'
-#' São **12,2%** das candidaturas de 1998 a 2024 — o bastante para mover um
+#' São **13,3%** das candidaturas de 1998 a 2026 — o bastante para mover um
 #' resultado, e por isso o bastante para valer o teste.
 #'
 #' @section Relação com `tse_isco$proprietario`:

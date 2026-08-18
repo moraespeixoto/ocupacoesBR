@@ -27,3 +27,20 @@ GRAPHIFY.md
 /graphify.html
 # Added by code-review-graph
 .code-review-graph/
+
+# Ferramental de assistentes de IA: fica na maquina, nao e do pacote.
+AGENTS.md
+CLAUDE.md
+GEMINI.md
+QODER.md
+CODEBUDDY.md
+.cursorrules
+.windsurfrules
+.mcp.json
+opencode.jsonc
+.gemini/
+.kiro/
+.qoder/
+.codebuddy/
+.github/
+.claude/

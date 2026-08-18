@@ -21,7 +21,7 @@ pouco para o sinal significar coisa alguma.}
 }
 }
 \source{
-Rótulos e escolaridade das candidaturas de 1998 a 2024. Os valores de
+Rótulos e escolaridade das candidaturas de 1998 a 2026. Os valores de
 \verb{pct_superior_*} reproduzem exatamente os que a versão anterior desta
 tabela trazia digitados à mão — que era a única tabela do pacote não
 gerada por script, e deixou de ser.
@@ -42,7 +42,7 @@ Há dois sinais disponíveis, e \strong{nenhum dos dois basta}:
 
 O rótulo \code{601} foi de "TRABALHADOR AGRÍCOLA" para "AGRICULTOR": muda todo o
 léxico e é o mesmo ofício — a população sob o código nem se move (+2,2 pp,
-abaixo da tendência). Tratá-lo como reutilização mandaria descartar 50.139
+abaixo da tendência). Tratá-lo como reutilização mandaria descartar 52.090
 candidaturas válidas.
 
 O \code{215} foi de "OCUPANTE DE CARGO DE DIREÇÃO E ASSESSORAMENTO SUPERIOR" para
@@ -60,7 +60,7 @@ tabela} — os dois rótulos viajam ao lado das duas evidências.
 \section{O que fazer com cada tipo}{
 
 \describe{
-\item{reutilizado (7 códigos, 1.582 candidaturas)}{o código passou a
+\item{reutilizado (7 códigos, 1.628 candidaturas)}{o código passou a
 designar outra ocupação. Traduzir o período antigo pelo dicionário é
 erro; exclua ou reclassifique.}
 \item{renomeado (4)}{mesma ocupação, nome novo. Não é problema — está aqui

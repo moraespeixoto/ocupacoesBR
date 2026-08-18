@@ -122,6 +122,27 @@ checa_cobertura(tse_isco$cod_tse)
 Ela **falha com erro**, em voz alta, em vez de devolver um resultado
 plausível e errado.
 
+### A safra de 2026 já está coberta
+
+O dicionário vai de 1998 a 2026. A eleição em curso não trouxe **nenhum
+código novo**: os 211 códigos que aparecem nas candidaturas de 2026 são
+subconjunto dos 275 que o pacote já cobria, com a mesma grafia que
+vigora desde 2018.
+
+``` r
+table(tse_diff_cadastro(2024, 2026)$mudanca)
+#> 
+#> extinto 
+#>      46
+```
+
+Nenhum criado. Os “extintos” são armadilha de leitura, e a documentação
+da função explica: a vigência se constrói do rótulo observado, e 2026 é
+uma safra geral — sem prefeito nem vereador — que ainda está **aberta**,
+com o Tribunal julgando registros. Código raro sem candidato registra
+ausência, não revogação. Traduzir 2026 com este pacote, porém, não é
+extrapolação.
+
 ## O EGP, e a posição no emprego que o dicionário conhece
 
 O EGP não é função só da ocupação: as suas regras exigem a posição na

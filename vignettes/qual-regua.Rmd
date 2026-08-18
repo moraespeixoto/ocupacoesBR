@@ -166,8 +166,8 @@ inventário — códigos que sumiram e códigos que nasceram:
 table(tse_diff_cadastro(2000, 2002)$mudanca)
 ```
 
-Comparando os períodos inteiros, são 13 códigos extintos (12,2% das candidaturas
-de 1998–2000) e 122 criados (33,1% das de 2002 em diante), entre eles
+Comparando os períodos inteiros, são 13 códigos extintos (12,4% das candidaturas
+de 1998–2000) e 122 criados (33,2% das de 2002 em diante), entre eles
 `COMERCIANTE` e `EMPRESÁRIO`. Uma série que atravesse 2002 mede "Proprietários e
 empregadores" com dois vocabulários incomensuráveis.
 
@@ -222,8 +222,8 @@ mas não com a mesma procedência. Para chegar a 85, é preciso estar inscrito n
 OAB; para chegar a 68, basta escrever "empresário" no formulário.
 
 E o que esse 68 cobre: entre os que se declaram empresário, o patrimônio mediano
-vai de R$ 367 mil (candidatos a vereador) a R$ 9,3 milhões (candidatos a
-senador), e dentro do código os extremos distam **81 vezes**. Não é erro de
+vai de R$ 370 mil (candidatos a vereador) a R$ 9,3 milhões (candidatos a
+senador), e dentro do código os extremos distam **80 vezes**. Não é erro de
 medida: é uma **mistura** de duas populações — o microempreendedor e o
 capitalista — sob um rótulo só. Nenhum escore único está certo para as duas, e
 por isso trocar o 68 por outro número não resolveria.
@@ -238,7 +238,7 @@ d$isei_ancorado <- ifelse(d$cod %in% tse_codigos_autorrotulo, NA, d$isei)
 d
 ```
 
-São 12,2% das candidaturas. Rode com as duas colunas e relate as duas: se a sua
+São 13,3% das candidaturas. Rode com as duas colunas e relate as duas: se a sua
 conclusão só aparece na primeira, ela depende de autodeclaração sem âncora.
 
 ## Resumo

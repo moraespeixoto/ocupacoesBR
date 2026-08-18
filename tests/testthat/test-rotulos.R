@@ -5,13 +5,35 @@ test_that("as vigências cobrem o dicionário inteiro e não se sobrepõem", {
   expect_equal(nrow(r), 334L)
   expect_setequal(unique(r$cod_tse), tse_isco$cod_tse)   # 275 códigos
   expect_true(all(r$de <= r$ate))
-  expect_true(all(r$de >= 1998 & r$ate <= 2024))
+  expect_true(all(r$de >= 1998 & r$ate <= 2026))
   # dentro de um código, as vigências são disjuntas e ordenadas
   for (g in split(r, r$cod_tse))
     if (nrow(g) > 1) {
       g <- g[order(g$de), ]
       expect_true(all(g$de[-1] > g$ate[-nrow(g)]), info = g$cod_tse[1])
     }
+})
+
+test_that("a safra de 2026 entrou, e não trouxe código novo", {
+  r <- tse_ocupacao_rotulos
+  # A tabela vai até 2026. Se alguém regerar os dados apontando para uma base
+  # que pare antes, este teste é quem avisa.
+  expect_equal(max(r$ate), 2026L)
+  expect_gt(sum(r$ate == 2026L), 200L)
+
+  # O ACHADO da safra: 2026 não criou nenhum código de ocupação. É a afirmação
+  # forte da versão 0.3.0, e ela vale exatamente enquanto este teste passar.
+  # `tse_diff_cadastro` compara os cadastros vigentes em dois anos; se o TSE
+  # tivesse inventado um código em 2026, ele apareceria como criado — e o
+  # dicionário precisaria de curadoria, que é o que `checa_cobertura()` cobra.
+  d <- tse_diff_cadastro(2024, 2026)
+  expect_equal(sum(d$mudanca == "criado"), 0L)
+
+  # Todo código observado em 2026 tem entrada no dicionário. Esta é a
+  # invariante que sustenta usar o pacote na eleição em curso.
+  cods_2026 <- unique(r$cod_tse[r$ate == 2026L])
+  expect_true(all(cods_2026 %in% tse_isco$cod_tse))
+  expect_true(suppressMessages(checa_cobertura(cods_2026)))
 })
 
 test_that("o código 215 é o caso que a heurística de escolaridade não vê", {

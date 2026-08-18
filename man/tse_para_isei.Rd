@@ -21,7 +21,7 @@ Vetor numérico com o escore ISEI-88, ou \code{NA}.
 mesmo jeito venha de "advogado", que pressupõe inscrição na OAB, ou de
 "empresário", que não pressupõe registro nenhum e cobre desde o
 microempreendedor até o capitalista. Veja \link{tse_codigos_autorrotulo} para
-rodar a sua análise com e sem esses códigos — são 12,2\% das candidaturas.
+rodar a sua análise com e sem esses códigos — são 13,3\% das candidaturas.
 }
 \description{
 Devolve o escore ISEI (International Socio-Economic Index of occupational

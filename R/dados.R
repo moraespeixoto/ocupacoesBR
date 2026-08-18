@@ -220,7 +220,7 @@
 #' @source Coluna CBO-94 da mesma tábua do Ministério do Trabalho.
 "cbo94_isco88"
 
-#' Vigências do cadastro de ocupações do TSE, 1998--2024
+#' Vigências do cadastro de ocupações do TSE, 1998--2026
 #'
 #' Uma linha por **vigência**: o período em que um código carregou um dado
 #' rótulo. Um código que nunca mudou de nome tem uma linha; um que mudou tem uma
@@ -237,8 +237,12 @@
 #' Um código sem candidato numa eleição continua na vigência: o contrário faria
 #' uma ocupação rara "sumir e voltar" a cada pleito. A vigência se interrompe
 #' quando o **rótulo** muda, não quando a frequência cai a zero.
-#' @source `DS_OCUPACAO` dos arquivos `consulta_cand` do TSE, 1998--2024
-#'   (3.334.269 candidaturas, campo 100% preenchido nas 14 eleições).
+#' @source `DS_OCUPACAO` dos arquivos `consulta_cand` do TSE, 1998--2026
+#'   (3.368.921 candidaturas, campo 100% preenchido nas 15 eleições). A safra
+#'   de 2026 é a geração de 17/08/2026, 08:30, e é **aberta**: o prazo de
+#'   registro encerrou em 15/08/2026, mas o Tribunal ainda julga e publica
+#'   candidaturas, de modo que o `n` de 2026 há de crescer. O rótulo, que é o
+#'   que esta tabela guarda, não depende disso.
 "tse_ocupacao_rotulos"
 
 #' Códigos de ocupação do TSE que mudaram de nome ou de sentido em 2002
@@ -268,7 +272,7 @@
 #'
 #' O rótulo `601` foi de "TRABALHADOR AGRÍCOLA" para "AGRICULTOR": muda todo o
 #' léxico e é o mesmo ofício — a população sob o código nem se move (+2,2 pp,
-#' abaixo da tendência). Tratá-lo como reutilização mandaria descartar 50.139
+#' abaixo da tendência). Tratá-lo como reutilização mandaria descartar 52.090
 #' candidaturas válidas.
 #'
 #' O `215` foi de "OCUPANTE DE CARGO DE DIREÇÃO E ASSESSORAMENTO SUPERIOR" para
@@ -284,7 +288,7 @@
 #'
 #' @section O que fazer com cada tipo:
 #' \describe{
-#'   \item{reutilizado (7 códigos, 1.582 candidaturas)}{o código passou a
+#'   \item{reutilizado (7 códigos, 1.628 candidaturas)}{o código passou a
 #'     designar outra ocupação. Traduzir o período antigo pelo dicionário é
 #'     erro; exclua ou reclassifique.}
 #'   \item{renomeado (4)}{mesma ocupação, nome novo. Não é problema — está aqui
@@ -292,7 +296,7 @@
 #'   \item{redefinido (15)}{o escopo mudou. Cautela.}
 #'   \item{refinado (18)}{mesmo posto, rótulo mais preciso.}
 #' }
-#' @source Rótulos e escolaridade das candidaturas de 1998 a 2024. Os valores de
+#' @source Rótulos e escolaridade das candidaturas de 1998 a 2026. Os valores de
 #'   `pct_superior_*` reproduzem exatamente os que a versão anterior desta
 #'   tabela trazia digitados à mão — que era a única tabela do pacote não
 #'   gerada por script, e deixou de ser.
@@ -308,7 +312,7 @@
 #' @format `data.frame` com 221 linhas e as colunas:
 #' \describe{
 #'   \item{cod_tse}{código de ocupação.}
-#'   \item{n}{candidaturas com esse código, 1998--2024.}
+#'   \item{n}{candidaturas com esse código, 1998--2026.}
 #'   \item{pct_superior}{% com ensino superior completo.}
 #'   \item{pct_mulher}{% de mulheres.}
 #'   \item{n_com_bens}{candidaturas com patrimônio declarado maior que zero.}
@@ -336,14 +340,27 @@
 #' escolaridade ou gênero tem as 221 linhas à disposição.
 #'
 #' @section As correlações que este conjunto sustenta:
-#' Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,764 (Spearman
-#' 0,811). Contra o logaritmo da mediana de patrimônio, sobre as 164 que também
-#' têm mediana: r = 0,682 (Spearman 0,695). No nível do **indivíduo** a
-#' correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,682
+#' Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,765 (Spearman
+#' 0,812). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
+#' têm mediana: r = 0,681 (Spearman 0,695). No nível do **indivíduo** a
+#' correlação com patrimônio é de apenas 0,208, e o contraste entre 0,208 e 0,681
 #' é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
 #' quase nada dentro de cada uma.
+#' @section O patrimônio de 2026 não entra, e por quê:
+#' A safra de 2026 contribui para `n`, `pct_superior` e `pct_mulher`, e **se
+#' abstém de `n_com_bens` e da mediana de patrimônio**. A razão é de unidade,
+#' não de qualidade do dado: o patrimônio está deflacionado a reais de outubro
+#' de 2024, pelo número-índice do IPCA do mês da eleição, e outubro de 2026
+#' ainda não aconteceu. Deflacionar por um mês que não é o da eleição poria na
+#' coluna um valor que a definição da coluna desmente.
+#'
+#' A assimetria não é nova: `n` sempre cobriu um período mais largo do que
+#' `n_com_bens`, porque o TSE só publica declaração de bens a partir de 2006 e
+#' as candidaturas de 1998 a 2004 já entravam nessa mesma condição. Quando o
+#' IPCA de outubro de 2026 existir, a coluna sai de graça.
+#'
 #' @source Declaração de bens e grau de instrução das candidaturas ao TSE,
-#'   1998--2024.
+#'   1998--2026 (patrimônio: 2006--2024; ver a seção acima).
 "tse_validacao"
 
 #' Ponte da ISCO-08 de volta para a ISCO-88

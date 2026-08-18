@@ -1,3 +1,164 @@
+# ocupacoesBR 0.3.0
+
+## A safra de 2026 entra, e o dicionário não precisou de uma linha
+
+Esta versão estende o pacote das 14 eleições de 1998 a 2024 para as **15 de
+1998 a 2026**. O resultado central é negativo, e é o mais informativo que
+poderia sair: **o cadastro de ocupações do TSE não criou nenhum código em
+2026**. Os 211 códigos observados na safra são subconjunto dos 275 que o
+dicionário já cobria, com a mesma grafia acentuada que vigora desde 2018.
+`tse_isco` não mudou; nenhuma ponte mudou; nenhum ISEI, prestígio, EGP,
+classe ou estrato se deslocou de nenhum código.
+
+Isso importa para quem usa o pacote **na eleição em curso**: a tradução de
+2026 não é extrapolação. `checa_cobertura()` sobre a safra inteira passa, e
+um teste novo (`test-rotulos.R`) trava a afirmação — se uma safra futura
+trouxer código inédito, a suíte quebra em vez de o pacote devolver `NA`
+silencioso.
+
+### A safra é aberta, e o pacote diz isso
+
+O prazo de registro encerrou em 15/08/2026, mas o Tribunal ainda julga e
+publica candidaturas. Os dados desta versão são a geração do TSE de
+**17/08/2026, 08:30** — 20.506 candidaturas, cerca de dois terços do volume
+de 2022 nos cargos proporcionais, com `DS_SITUACAO_CANDIDATURA` igual a
+`#NE` em toda linha e sem apuração. Nada do que o pacote extrai depende de
+apuração: o rótulo de um código é propriedade do cadastro, não da
+candidatura. Mas o `n` de 2026 há de crescer, e a documentação dos dados
+registra a geração exata para que ninguém confunda duas safras de 2026 — o
+TSE gera o arquivo duas vezes por dia.
+
+**Uma armadilha nova, documentada em `?tse_diff_cadastro`.**
+`tse_diff_cadastro(2024, 2026)` devolve 46 códigos como "extintos". Nenhum
+foi extinto. A vigência se constrói do rótulo observado, e um código raro sem
+candidato numa safra pequena registra ausência, não revogação — 2026 é
+pequena duas vezes, por ser geral e por estar aberta. Trocar o par não
+resolve: contra 2022, que também é geral, são 47. A metade que se sustenta é
+a outra, "nenhum código criado", porque um código novo apareceria ainda que
+uma vez só.
+
+## A fonte dos rótulos mudou de arquivo, e o N muda por duas razões
+
+`data-raw/04_gera_rotulos.R` lia um `.Rda` agregado de 397 MB e passa a ler
+as safras individuais (`bancos/candidaturas/candidaturas_AAAA.rds` do projeto
+`novissimos_dados_tse`), quatro colunas de cada. A troca não é de estilo. O
+agregado se reconstrói de tempos em tempos e pode estar defasado sem que nada
+no arquivo o denuncie: em 17/08/2026 ele trazia 15.866 candidaturas de 2026
+contra as 20.506 da safra. Ler as safras é ler a fonte, custa megabytes em vez
+de gigabytes, e acrescentar uma eleição passa a ser acrescentar um arquivo.
+`OCUPACOESBR_TSE_RDA` continua honrado, para quem só tenha o agregado.
+
+Por isso o total de candidaturas sai de **3.334.269 para 3.368.921**, e a
+diferença tem **duas** causas que não convém somar às cegas:
+
+* **+20.506** são a safra de 2026;
+* **+14.146** são a reconstrução da base 1998–2024 feita a montante, no
+  `novissimos_dados_tse`, que corrigiu a totalização e a deduplicação. Ela
+  não é uniforme: soma 15.679 em 2000 e subtrai 1.485 em 2006. O sentinela
+  `-4` ("NÃO DIVULGÁVEL", já mapeado para "Não informado") passa de 140 para
+  1.698 registros, concentrados em 2012.
+
+Números derivados que se moveram com a base nova, todos recomputados:
+
+| valor | 0.2.1 | 0.3.0 |
+|---|---|---|
+| candidaturas com rótulo | 3.334.269 | 3.368.921 |
+| eleições | 14 | 15 |
+| códigos extintos após 2000 | 13 (12,2%) | 13 (12,4%) |
+| códigos criados em 2002+ | 122 (33,1%) | 122 (33,2%) |
+| `tse_diff_cadastro(2000, 2002)`, criados | 67 | 69 |
+| candidaturas do 601 em 1998–2000 | 50.139 | 52.090 |
+| reutilizados, candidaturas em 2000 | 1.582 | 1.628 |
+
+Os 69 criados entre 2000 e 2002 substituem 67 porque a base recuperou uma
+candidatura de 2002 nos códigos 150 (CHAVEIRO) e 241 (TAPECEIRO), cuja
+vigência começava em 2004 e passa a começar em 2002.
+
+### O que ficou idêntico, e é o que mais importa
+
+`tse_ocupacao_rotulos` continua com **334 vigências para os mesmos 275
+códigos**, e `tse_quebra_2002` com **44 códigos na mesma partição — 15
+redefinidos, 18 refinados, 4 renomeados, 7 reutilizados**. A curadoria
+editorial do campo `tipo`, que é a única decisão de medida desta tabela, não
+se mexeu sob uma base maior e uma safra a mais. A suíte passa em 1310
+expectativas, sem nenhuma alteração de valor esperado além do teto de ano.
+
+## `tse_validacao` vai a 2026, sem o patrimônio de 2026
+
+A tabela do critério externo passa a somar **3.347.794 candidaturas** nas
+mesmas 221 ocupações. A safra entra em `n`, `pct_superior` e `pct_mulher`, e
+**se abstém de `n_com_bens` e de toda mediana de patrimônio**.
+
+A abstenção é de unidade, não de qualidade do dado. O patrimônio da tabela
+está deflacionado a reais de **outubro de 2024**, pelo número-índice do IPCA
+do mês da eleição, e outubro de 2026 não aconteceu. Deflacionar por outro mês
+poria na coluna um valor que a definição da coluna desmente. A assimetria não
+é nova: `n` sempre cobriu período mais largo do que `n_com_bens`, porque não
+há declaração de bens antes de 2006, e as candidaturas de 1998 a 2004 já
+entravam nessa condição. Quando o índice de outubro de 2026 existir, a coluna
+sai de graça.
+
+O desenho é **verificável, e foi verificado**. Rodando `05_gera_validacao.R`
+sobre as duas microbases, a safra de 2026 move exatamente o que devia mover e
+nada além:
+
+| efeito | `sum(n)` | `sum(n_com_bens)` | `pct_superior` | mediana |
+|---|---|---|---|---|
+| religação de bens (a montante) | +0 | +67.117 | 0 códigos | 137 códigos |
+| safra de 2026 | +20.447 | **+0** | 108 códigos (máx. 1,5 pp) | **0 códigos** |
+
+A religação de bens é a segunda correção vinda de fora: a chave de junção da
+declaração de bens passou a ser tripla (`ano`, `sg_ue`, `SQ_CANDIDATO`), o que
+recuperou 67.117 declarações que os zeros à esquerda da unidade eleitoral
+faziam perder. Ela desloca 137 medianas — entre elas a do código 257, de
+R$ 495.400 para R$ 497.797 — e a dispersão do 257 passa de 81 para 80 vezes
+(p90/p10). Nenhuma dessas mudanças altera a leitura substantiva registrada em
+`?tse_codigos_autorrotulo`: o 257 continua sendo a mistura de duas populações
+sob um rótulo só.
+
+As correlações que a vinheta `validacao` reporta:
+
+| | 0.2.1 | 0.3.0 |
+|---|---|---|
+| ISEI × % superior | r = 0,764 (rho 0,811), n = 208 | **r = 0,765 (rho 0,812), n = 208** |
+| ISEI × log mediana de patrimônio | r = 0,682 (rho 0,695), n = 164 | **r = 0,681 (rho 0,695), n = 165** |
+| nível do indivíduo | r = 0,207 | **r = 0,208** |
+
+A microbase que sustenta a tabela é produzida por um script novo,
+`data-raw/05a_microbase_2026.R`, que **anexa** 2026 às linhas de 1998 a 2024
+sem recalcular nenhuma delas. A escolha é o que torna a decomposição acima
+possível: se as linhas antigas fossem refeitas junto, toda diferença teria
+duas causas e nenhuma separável.
+
+## Correção de um número que estava errado desde antes desta versão
+
+`tse_codigos_autorrotulo` estava documentado como **12,2% das candidaturas**
+(em `?tse_para_isei`, `?tse_codigos_autorrotulo` e na vinheta `qual-regua`).
+O valor correto é **13,3%**, e o erro não vem da base nova: sobre a base
+antiga o valor já era 13,29%, e sobre a microbase do `vices_do_brasil`,
+13,30%. Nenhum denominador plausível produz 12,2% — entre as candidaturas com
+escore ISEI o percentual é 20,7%.
+
+A origem do engano é visível: 12,2% é o percentual dos **códigos extintos**
+sobre as candidaturas de 1998–2000, que aparece a duas seções de distância e
+foi copiado para a documentação do autorrótulo, que mede outra coisa. Os dois
+valores agora divergem também na aparência (13,3% e 12,4%), o que reduz a
+chance de a confusão se repetir.
+
+Nenhum resultado publicado muda por isso: o vetor
+`tse_codigos_autorrotulo` sempre teve os mesmos dez códigos, e a análise de
+sensibilidade que ele serve nunca dependeu do percentual. O que muda é a
+frase que o descreve.
+
+## Também nesta versão
+
+* `?isei_retrospectivo` explicita que a cobertura por gênero (68,5% → 76,0%
+  entre homens, 52,9% → 58,7% entre mulheres) segue medida sobre 1998–2024, e
+  por quê: ela exige o painel por pessoa, que 2026 ainda não tem montado. É
+  o único número do pacote que não acompanha a safra nova, e agora diz isso.
+* O ferramental de assistentes de IA (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`
+  e afins) sai do repositório e do tarball, via `.gitignore` e `.Rbuildignore`.
+
 # ocupacoesBR 0.2.1
 
 ## Correção da régua ISCO-08: 21 códigos do TSE mudam de destino

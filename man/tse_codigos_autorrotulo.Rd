@@ -25,8 +25,8 @@ existência de uma trava externa.
 
 Este critério é conceitual porque \strong{o dado não o produz sozinho}. A
 dispersão de patrimônio dentro do código, por exemplo, não separa os dois
-grupos: é de 81 vezes (p90/p10) entre os que declaram empresário, mas de 48
-entre os advogados e 55 entre os comerciantes. Patrimônio é disperso em toda
+grupos: é de 80 vezes (p90/p10) entre os que declaram empresário, mas de 47
+entre os advogados e 54 entre os comerciantes. Patrimônio é disperso em toda
 parte. O que distingue não é a dispersão bruta, é a ausência da trava.
 }
 
@@ -42,7 +42,7 @@ d$isei_ancorado <- ifelse(d$cod \%in\% tse_codigos_autorrotulo, NA, d$isei)
 # rode a sua análise com as duas colunas e relate as duas
 }\if{html}{\out{</div>}}
 
-São \strong{12,2\%} das candidaturas de 1998 a 2024 — o bastante para mover um
+São \strong{13,3\%} das candidaturas de 1998 a 2026 — o bastante para mover um
 resultado, e por isso o bastante para valer o teste.
 }
 

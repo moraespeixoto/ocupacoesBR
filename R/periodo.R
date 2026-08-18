@@ -39,7 +39,7 @@ checa_periodo <- function(cod, ano, avisar = TRUE) {
   ano <- suppressWarnings(as.integer(ano))
   # So `reutilizado` e erro. `renomeado` e a MESMA ocupacao com nome novo
   # (601 "TRABALHADOR AGRICOLA" -> "AGRICULTOR"), e marcá-lo aqui mandaria
-  # descartar 50.139 candidaturas validas. Ver ?tse_quebra_2002.
+  # descartar 52.090 candidaturas validas. Ver ?tse_quebra_2002.
   q <- ocupacoesBR::tse_quebra_2002
   q <- q[q$tipo == "reutilizado", ]
   i <- match(k, q$cod_tse)

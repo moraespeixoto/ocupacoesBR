@@ -3,7 +3,7 @@
 \docType{data}
 \name{tse_ocupacao_rotulos}
 \alias{tse_ocupacao_rotulos}
-\title{Vigências do cadastro de ocupações do TSE, 1998--2024}
+\title{Vigências do cadastro de ocupações do TSE, 1998--2026}
 \format{
 \code{data.frame} com 334 linhas e as colunas:
 \describe{
@@ -14,8 +14,12 @@
 }
 }
 \source{
-\code{DS_OCUPACAO} dos arquivos \code{consulta_cand} do TSE, 1998--2024
-(3.334.269 candidaturas, campo 100\% preenchido nas 14 eleições).
+\code{DS_OCUPACAO} dos arquivos \code{consulta_cand} do TSE, 1998--2026
+(3.368.921 candidaturas, campo 100\% preenchido nas 15 eleições). A safra
+de 2026 é a geração de 17/08/2026, 08:30, e é \strong{aberta}: o prazo de
+registro encerrou em 15/08/2026, mas o Tribunal ainda julga e publica
+candidaturas, de modo que o \code{n} de 2026 há de crescer. O rótulo, que é o
+que esta tabela guarda, não depende disso.
 }
 \usage{
 tse_ocupacao_rotulos

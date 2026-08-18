@@ -13,14 +13,22 @@
 # uma medida de posição ocupacional é definida. Não há microdado aqui: 164
 # linhas, nada identificável.
 #
-# FONTE: DADOS/raw/microdados_classe_v2.rds do projeto vices_do_brasil.
-#   Não versionado (51 MB). Ajuste OCUPACOESBR_MICROBASE se estiver noutro lugar.
+# FONTE: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds, produzida por
+#   `05a_microbase_2026.R`: as candidaturas de 1998 a 2024 do
+#   `microdados_classe_v2.rds` (vices_do_brasil), mais a safra de 2026 anexada.
+#   Não versionada. Ajuste OCUPACOESBR_MICROBASE se estiver noutro lugar.
 #
-# Rodar: Rscript data-raw/05_gera_validacao.R
+#   O PATRIMÔNIO DE 2026 É `NA`, e de propósito: a coluna está deflacionada a
+#   reais de outubro de 2024 e outubro de 2026 ainda não aconteceu. A safra
+#   entra em `n`, `pct_superior` e `pct_mulher`, e se abstém da mediana de
+#   bens — o mesmo que 1998-2004 já fazem, por não haver declaração de bens
+#   antes de 2006. O cabeçalho de `05a_microbase_2026.R` desenvolve o ponto.
+#
+# Rodar: Rscript data-raw/05a_microbase_2026.R && Rscript data-raw/05_gera_validacao.R
 # ============================================================================
 
 MICRO <- Sys.getenv("OCUPACOESBR_MICROBASE",
-                    "~/vices_do_brasil/DADOS/raw/microdados_classe_v2.rds")
+                    "~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds")
 MICRO <- path.expand(MICRO)
 # O piso vale para as DUAS contagens, e a segunda é a que importa: a mediana de
 # patrimônio precisa de observações COM patrimônio, não de candidaturas. Sem o
