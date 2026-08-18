@@ -10,11 +10,55 @@ knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
 library(ocupacoesBR)
 ```
 
+```{r moldura, include = FALSE}
+# um recorte com os nomes de coluna que o TSE usa
+dados <- data.frame(
+  ANO_ELEICAO = c(2026L, 2026L, 2026L, 2026L, 1998L),
+  CD_OCUPACAO = c("131", "601", "298", "999", "214"),
+  DS_CARGO    = c("DEPUTADO FEDERAL", "DEPUTADO ESTADUAL", "SENADOR",
+                  "DEPUTADO ESTADUAL", "DEPUTADO FEDERAL")
+)
+```
+
 Toda candidatura registrada no Tribunal Superior Eleitoral declara uma ocupação.
 Ela chega como um número entre 100 e 999, sem escala, sem ordem e sem sentido
 fora do próprio cadastro. Este pacote existe para transformar esse número em
 alguma coisa que se possa somar, comparar entre eleições e confrontar com a
 literatura internacional.
+
+## Uma linha, e o banco ganha uma coluna
+
+Na prática o pacote se usa assim: você passa a coluna inteira de códigos e
+recebe a coluna traduzida, alinhada linha a linha.
+
+```{r uso-normal, message = FALSE}
+library(dplyr)
+
+dados <- dados |> mutate(isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO))
+
+dados
+```
+
+Em R base, a mesma coisa:
+
+```r
+dados$isei <- tse_para_isei(dados$CD_OCUPACAO, ano = dados$ANO_ELEICAO)
+```
+
+Não há loop nem tradução código a código, e o banco não muda de tamanho: entram
+`n` códigos, saem `n` escores. Vale para qualquer uma das funções — troque
+`tse_para_isei` por `tse_para_prestigio`, `tse_para_egp`, `tse_para_classe` ou
+`tse_para_estrato` e o comportamento é o mesmo.
+
+O `ano` também é uma coluna, e é ele que resolve a quebra de cadastro de 2002.
+A última linha do exemplo mostra por quê: em 1998 o código 214 era delegado de
+polícia, e só a partir de 2002 passou a ser escultor e pintor. Com `ano`, o
+pacote devolve `NA` e avisa; sem ele, aquela linha receberia calada o escore de
+escultor.
+
+O resto deste artigo é sobre o que essa coluna nova significa.
+
+## O percurso
 
 O percurso tem sempre a mesma forma: o código do TSE vira um código da
 Classificação Internacional Uniforme de Ocupações, e é dela que saem as medidas.

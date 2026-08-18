@@ -13,6 +13,78 @@ estratos desenhado para o dado eleitoral brasileiro.
 remotes::install_github("moraespeixoto/ocupacoesBR")
 ```
 
+## O uso normal: uma coluna nova no seu banco
+
+Você passa a coluna inteira e recebe a coluna traduzida, alinhada linha
+a linha. Não há loop, não há tradução código a código, e o seu banco não
+muda de tamanho.
+
+``` r
+library(dplyr)
+
+dados <- dados |> mutate(isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO))
+#> Warning: There was 1 warning in `mutate()`.
+#> ℹ In argument: `isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO)`.
+#> Caused by warning:
+#> ! 1 candidatura(s) usam código(s) que o TSE REUTILIZOU depois (214): naquele ano designavam outra ocupação, e voltam NA.
+#> Veja ?tse_vigencia.
+
+dados
+#>   ANO_ELEICAO CD_OCUPACAO          DS_CARGO isei
+#> 1        2026         131  DEPUTADO FEDERAL   85
+#> 2        2026         601 DEPUTADO ESTADUAL   23
+#> 3        2026         298           SENADOR   NA
+#> 4        2026         999 DEPUTADO ESTADUAL   NA
+#> 5        1998         214  DEPUTADO FEDERAL   NA
+```
+
+Em R base, a mesma coisa:
+
+``` r
+dados$isei <- tse_para_isei(dados$CD_OCUPACAO, ano = dados$ANO_ELEICAO)
+```
+
+O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de
+2002: na linha de 1998, o código 214 era **delegado de polícia**, e só a
+partir de 2002 passou a ser **escultor e pintor**. Sem o `ano`, aquela
+linha receberia calada o escore de escultor. Com ele, o pacote devolve
+`NA` e avisa.
+
+Para trazer **todas** as medidas de uma vez, junte o dicionário inteiro
+em vez de chamar uma função por régua:
+
+``` r
+dados |>
+  left_join(crosswalk_tse(), by = c(CD_OCUPACAO = "cod_tse")) |>
+  select(CD_OCUPACAO, rotulo, isco88, isei88, siops88, egp, classe, qualidade)
+#>   CD_OCUPACAO                     rotulo isco88 isei88 siops88
+#> 1         131                   ADVOGADO   2421     85      73
+#> 2         601                 AGRICULTOR   6100     23      38
+#> 3         298 SERVIDOR PÚBLICO MUNICIPAL   <NA>     NA      NA
+#> 4         999                     OUTROS   <NA>     NA      NA
+#> 5         214          ESCULTOR E PINTOR   2452     54      57
+#>                                         egp                           classe
+#> 1  I: dirigentes e profissionais superiores  Profissionais de nível superior
+#> 2                VIIb: trabalhador agrícola             Trabalhadores rurais
+#> 3                                      <NA> Vínculo público não especificado
+#> 4                                      <NA>                    Não informado
+#> 5 II: dirigentes e profissionais inferiores  Profissionais de nível superior
+#>   qualidade
+#> 1     exata
+#> 2  agregada
+#> 3      <NA>
+#> 4      <NA>
+#> 5     exata
+```
+
+Uma ressalva, que a própria saída acima demonstra: a junção usa o
+cadastro corrente e **não** aplica o `ano`. Compare a última linha nas
+duas tabelas. É o mesmo código 214 declarado em 1998: com `ano`, o
+`mutate()` devolveu `NA` e avisou; na junção, ele virou escultor e
+pintor com ISEI 54, em silêncio. A junção serve para uma safra só, ou
+para um recorte que não atravesse 2002; numa série longa, use o
+`mutate()`.
+
 ## O mapa das traduções
 
 <figure>

@@ -88,18 +88,61 @@ uma ocupação. Ela chega como um número entre 100 e 999, sem escala, sem
 ordem e sem sentido fora do próprio cadastro. Este pacote existe para
 transformar esse número em alguma coisa que se possa somar, comparar
 entre eleições e confrontar com a literatura internacional.</p>
+<div class="section level2">
+<h2 id="uma-linha-e-o-banco-ganha-uma-coluna">Uma linha, e o banco ganha uma coluna<a class="anchor" aria-label="anchor" href="#uma-linha-e-o-banco-ganha-uma-coluna"></a>
+</h2>
+<p>Na prática o pacote se usa assim: você passa a coluna inteira de
+códigos e recebe a coluna traduzida, alinhada linha a linha.</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">dados</span> <span class="op">&lt;-</span> <span class="va">dados</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>isei <span class="op">=</span> <span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">CD_OCUPACAO</span>, ano <span class="op">=</span> <span class="va">ANO_ELEICAO</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Warning: There was 1 warning in `mutate()`.</span></span>
+<span><span class="co">#&gt; <span style="color: #00BBBB;">ℹ</span> In argument: `isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO)`.</span></span>
+<span><span class="co">#&gt; Caused by warning:</span></span>
+<span><span class="co">#&gt; <span style="color: #BBBB00;">!</span> 1 candidatura(s) usam código(s) que o TSE REUTILIZOU depois (214): naquele ano designavam outra ocupação, e voltam NA.</span></span>
+<span><span class="co">#&gt; Veja ?tse_vigencia.</span></span>
+<span></span>
+<span><span class="va">dados</span></span>
+<span><span class="co">#&gt;   ANO_ELEICAO CD_OCUPACAO          DS_CARGO isei</span></span>
+<span><span class="co">#&gt; 1        2026         131  DEPUTADO FEDERAL   85</span></span>
+<span><span class="co">#&gt; 2        2026         601 DEPUTADO ESTADUAL   23</span></span>
+<span><span class="co">#&gt; 3        2026         298           SENADOR   NA</span></span>
+<span><span class="co">#&gt; 4        2026         999 DEPUTADO ESTADUAL   NA</span></span>
+<span><span class="co">#&gt; 5        1998         214  DEPUTADO FEDERAL   NA</span></span></code></pre></div>
+<p>Em R base, a mesma coisa:</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">dados</span><span class="op">$</span><span class="va">isei</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">dados</span><span class="op">$</span><span class="va">CD_OCUPACAO</span>, ano <span class="op">=</span> <span class="va">dados</span><span class="op">$</span><span class="va">ANO_ELEICAO</span><span class="op">)</span></span></code></pre></div>
+<p>Não há loop nem tradução código a código, e o banco não muda de
+tamanho: entram <code>n</code> códigos, saem <code>n</code> escores.
+Vale para qualquer uma das funções — troque <code>tse_para_isei</code>
+por <code>tse_para_prestigio</code>, <code>tse_para_egp</code>,
+<code>tse_para_classe</code> ou <code>tse_para_estrato</code> e o
+comportamento é o mesmo.</p>
+<p>O <code>ano</code> também é uma coluna, e é ele que resolve a quebra
+de cadastro de 2002. A última linha do exemplo mostra por quê: em 1998 o
+código 214 era delegado de polícia, e só a partir de 2002 passou a ser
+escultor e pintor. Com <code>ano</code>, o pacote devolve
+<code>NA</code> e avisa; sem ele, aquela linha receberia calada o escore
+de escultor.</p>
+<p>O resto deste artigo é sobre o que essa coluna nova significa.</p>
+</div>
+<div class="section level2">
+<h2 id="o-percurso">O percurso<a class="anchor" aria-label="anchor" href="#o-percurso"></a>
+</h2>
 <p>O percurso tem sempre a mesma forma: o código do TSE vira um código
 da Classificação Internacional Uniforme de Ocupações, e é dela que saem
 as medidas.</p>
 <div class="float">
 <img src="figuras/percurso_tse.svg" alt="O percurso do código do TSE até as medidas"><div class="figcaption">O percurso do código do TSE até as medidas</div>
 </div>
+</div>
 <div class="section level2">
 <h2 id="a-tabela-que-resume-o-pacote">A tabela que resume o pacote<a class="anchor" aria-label="anchor" href="#a-tabela-que-resume-o-pacote"></a>
 </h2>
 <p>Oito das ocupações mais declaradas nas candidaturas brasileiras,
 passando por todas as portas de uma vez:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"601"</span>, <span class="st">"131"</span>, <span class="st">"257"</span>, <span class="st">"278"</span>, <span class="st">"298"</span>, <span class="st">"169"</span>, <span class="st">"581"</span>, <span class="st">"923"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -155,7 +198,7 @@ especificado, o que é uma informação verdadeira e útil.</p>
 informação, não buraco</strong>. Quem o substitui por zero, pela média,
 ou quem elimina essas linhas da análise, está descartando justamente as
 candidaturas mais numerosas.</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="va">tse_ocupacao_rotulos</span></span>
 <span><span class="va">sem_isei</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fl">100</span> <span class="op">*</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">n</span><span class="op">[</span><span class="va">sem_isei</span><span class="op">]</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">n</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
@@ -176,7 +219,7 @@ na PNAD Contínua e no Censo.</p>
 <div class="section level3">
 <h3 id="pelo-tse">Pelo TSE<a class="anchor" aria-label="anchor" href="#pelo-tse"></a>
 </h3>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"131"</span>, <span class="st">"601"</span>, <span class="st">"999"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 85 23 NA</span></span></code></pre></div>
 <p>O <code>999</code> é a categoria residual “OUTROS”, e é a mais
@@ -185,7 +228,7 @@ declarada de todas. Ela sai como <code>NA</code> por construção.</p>
 <div class="section level3">
 <h3 id="pela-cbo-2002">Pela CBO-2002<a class="anchor" aria-label="anchor" href="#pela-cbo-2002"></a>
 </h3>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cbo2002_para_isco.html">cbo2002_para_isco</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"252105"</span>, <span class="st">"782305"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2419" "8322"</span></span>
 <span><span class="fu"><a href="../reference/cbo2002_para_isei.html">cbo2002_para_isei</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"252105"</span>, <span class="st">"782305"</span><span class="op">)</span><span class="op">)</span></span>
@@ -194,7 +237,7 @@ declarada de todas. Ela sai como <code>NA</code> por construção.</p>
 <div class="section level3">
 <h3 id="pela-cbo-94">Pela CBO-94<a class="anchor" aria-label="anchor" href="#pela-cbo-94"></a>
 </h3>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cbo94_para_isei.html">cbo94_para_isei</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"09220"</span>, <span class="st">"98140"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 69 32</span></span></code></pre></div>
 <p>A CBO-94 chega à ISCO-88 e para aí: não existem
@@ -206,7 +249,7 @@ escondida.</p>
 <div class="section level3">
 <h3 id="pelo-ibge">Pelo IBGE<a class="anchor" aria-label="anchor" href="#pelo-ibge"></a>
 </h3>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cod_para_isco08.html">cod_para_isco08</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"6111"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2211" "6111"</span></span>
 <span><span class="fu"><a href="../reference/cod_para_isei08.html">cod_para_isei08</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"6111"</span><span class="op">)</span><span class="op">)</span></span>
@@ -218,7 +261,7 @@ escondida.</p>
 </h2>
 <p>Antes de qualquer análise, verifique quanto do seu vetor a régua
 alcança:</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cods_2026</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">tse_ocupacao_rotulos</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">[</span><span class="va">tse_ocupacao_rotulos</span><span class="op">$</span><span class="va">ate</span> <span class="op">==</span> <span class="fl">2026</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/checa_cobertura.html">checa_cobertura</a></span><span class="op">(</span><span class="va">cods_2026</span><span class="op">)</span></span>
 <span><span class="co">#&gt; cobertura ok: 211 códigos observados, todos no dicionário.</span></span></code></pre></div>

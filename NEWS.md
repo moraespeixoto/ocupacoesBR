@@ -297,6 +297,35 @@ futura trouxer código iniciado em zero na CBO-2002, a suíte quebra e a
 assimetria é reexaminada em vez de suposta.
 
 
+## O uso normal ficou explícito logo no começo
+
+A home do site e o artigo "Comece aqui" passam a abrir com a linha que responde
+à pergunta que todo mundo faz primeiro:
+
+```r
+dados <- dados |> mutate(isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO))
+```
+
+A coluna inteira entra, a coluna traduzida sai, alinhada linha a linha, e o
+banco não muda de tamanho. Estava implícito em toda a documentação e explícito
+em lugar nenhum: os exemplos anteriores usavam vetores curtos como
+`c("111", "169", "257")`, que cabem na tela mas sugerem tradução código a
+código. A versão em R base (`dados$isei <- ...`) vem logo abaixo, e a junção
+com `crosswalk_tse()` fica ao lado, para quem quer as dezesseis colunas de uma
+vez.
+
+O exemplo é executado, não digitado, e a moldura inclui de propósito uma linha
+de 1998 com o código 214. Com isso as duas formas aparecem lado a lado sobre a
+mesma linha: o `mutate()` com `ano` devolve `NA` e avisa, e a junção — que usa o
+cadastro corrente — devolve escultor e pintor com ISEI 54, em silêncio. A
+ressalva sobre `ano` deixa de ser uma advertência abstrata e passa a ser algo
+que o leitor vê acontecer.
+
+`DESCRIPTION` ganha `Config/Needs/website: dplyr`. O `dplyr` não entra em
+`Imports` nem em `Suggests`, e o pacote continua com `stats` e `utils` como
+únicas dependências: ele é preciso apenas para gerar o README e o site.
+
+
 ## Também nesta versão
 
 * **`DESCRIPTION` declara `Language: pt-BR`**, como a política do CRAN pede

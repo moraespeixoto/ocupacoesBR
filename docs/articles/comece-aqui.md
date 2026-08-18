@@ -6,6 +6,51 @@ ordem e sem sentido fora do próprio cadastro. Este pacote existe para
 transformar esse número em alguma coisa que se possa somar, comparar
 entre eleições e confrontar com a literatura internacional.
 
+## Uma linha, e o banco ganha uma coluna
+
+Na prática o pacote se usa assim: você passa a coluna inteira de códigos
+e recebe a coluna traduzida, alinhada linha a linha.
+
+``` r
+library(dplyr)
+
+dados <- dados |> mutate(isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO))
+#> Warning: There was 1 warning in `mutate()`.
+#> ℹ In argument: `isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO)`.
+#> Caused by warning:
+#> ! 1 candidatura(s) usam código(s) que o TSE REUTILIZOU depois (214): naquele ano designavam outra ocupação, e voltam NA.
+#> Veja ?tse_vigencia.
+
+dados
+#>   ANO_ELEICAO CD_OCUPACAO          DS_CARGO isei
+#> 1        2026         131  DEPUTADO FEDERAL   85
+#> 2        2026         601 DEPUTADO ESTADUAL   23
+#> 3        2026         298           SENADOR   NA
+#> 4        2026         999 DEPUTADO ESTADUAL   NA
+#> 5        1998         214  DEPUTADO FEDERAL   NA
+```
+
+Em R base, a mesma coisa:
+
+``` r
+dados$isei <- tse_para_isei(dados$CD_OCUPACAO, ano = dados$ANO_ELEICAO)
+```
+
+Não há loop nem tradução código a código, e o banco não muda de tamanho:
+entram `n` códigos, saem `n` escores. Vale para qualquer uma das funções
+— troque `tse_para_isei` por `tse_para_prestigio`, `tse_para_egp`,
+`tse_para_classe` ou `tse_para_estrato` e o comportamento é o mesmo.
+
+O `ano` também é uma coluna, e é ele que resolve a quebra de cadastro de
+2002. A última linha do exemplo mostra por quê: em 1998 o código 214 era
+delegado de polícia, e só a partir de 2002 passou a ser escultor e
+pintor. Com `ano`, o pacote devolve `NA` e avisa; sem ele, aquela linha
+receberia calada o escore de escultor.
+
+O resto deste artigo é sobre o que essa coluna nova significa.
+
+## O percurso
+
 O percurso tem sempre a mesma forma: o código do TSE vira um código da
 Classificação Internacional Uniforme de Ocupações, e é dela que saem as
 medidas.
