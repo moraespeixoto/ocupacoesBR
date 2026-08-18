@@ -12,27 +12,31 @@ máquina e pula a validação do HTML. Ela não aparece num ambiente com o
 
 ## Sobre a NOTE
 
-A NOTE vem de `checking CRAN incoming feasibility` e reúne dois pontos:
+A NOTE vem de `checking CRAN incoming feasibility` e reúne três pontos, todos
+esperados:
 
-**1. "The Title field should be in title case"** — falso positivo. O pacote é
-escrito em português, e o título é uma frase em português:
+**1. "New submission"** — é o primeiro envio do pacote.
 
-> Traduz a Ocupação Declarada ao TSE em Classificações Padronizadas
+**2. "Suggests or Enhances not in mainstream repositories: DIGCLASS"** — o
+`DIGCLASS` está em `Suggests` e entra apenas numa conferência cruzada da suíte
+(`test-fonte.R`), protegida por `skip_if_not_installed()`. Nunca é carregado em
+uso normal, e a sua ausência não afeta nenhum resultado do pacote.
 
-O verificador aplica a convenção de capitalização do inglês, em que
-preposições e artigos curtos ficam em minúscula e o resto em maiúscula. Em
-português, a norma é a inversa: capitaliza-se a primeira palavra e os nomes
-próprios, e o restante fica em minúscula. Capitalizar "Ao", "Em" e "Da" para
-satisfazer o verificador produziria um título agramatical na língua em que ele
-está escrito. O título segue a convenção correta do português.
-
-O mesmo vale para a `Description`, também em português.
-
-**2. "URL ... Status: 404"** — o repositório está privado enquanto o pacote
+**3. "URL ... Status: 404"** — o repositório está privado enquanto o pacote
 passa por revisão. O verificador do CRAN é anônimo e por isso recebe 404. O
 repositório será tornado público antes da submissão, e a NOTE desaparece; se
 esta submissão ocorrer antes disso, os campos `URL` e `BugReports` serão
 removidos do `DESCRIPTION`.
+
+### O que deixou de aparecer, e por quê
+
+Até a versão 0.2.1 a NOTE trazia também **"The Title field should be in title
+case"**. Não era defeito do título: o verificador aplicava a convenção de
+capitalização do inglês a uma frase em português, cuja norma é a inversa. A
+partir de 0.3.0 o `DESCRIPTION` declara `Language: pt-BR`, como a política do
+CRAN pede para pacote que não é em inglês, e o aviso deixou de ocorrer — tanto
+para o `Title` quanto para a `Description`. Declarar a língua era a correção
+certa; capitalizar "Ao", "Em" e "Da" teria produzido um título agramatical.
 
 ## Materiais de terceiros
 

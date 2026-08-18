@@ -150,14 +150,71 @@ Nenhum resultado publicado muda por isso: o vetor
 sensibilidade que ele serve nunca dependeu do percentual. O que muda é a
 frase que o descreve.
 
+## Auditoria de cobertura de testes, e os defeitos que ela encontrou
+
+A suíte cobria 85,2% das linhas de `R/`. A auditoria começou por uma pergunta
+simples — toda função exportada é chamada ao menos uma vez? — e a resposta era
+não: **doze das 57 não eram**, entre elas as oito de `R/prestigio.R`, arquivo
+que a suíte não executava em nenhuma linha. A cobertura agora é **97,5%**, com
+as 57 exportações exercitadas e a suíte em **1.447 expectativas** (eram 1.310).
+
+Escrever esses testes revelou três defeitos reais, e é por isso que eles valem
+mais do que o número de cobertura.
+
+### `tse_para_prestigio08()` não aceitava `ano`
+
+A versão 0.2.0 acrescentou o argumento `ano` às portas ancoradas na ISCO-08 e
+nomeou três: `tse_para_isco08()`, `tse_para_isei08()` e `tse_para_siops08()`.
+Esta ficou de fora. O efeito é perverso porque `*_prestigio()` é o nome
+**preferido** e `*_siops()` o alias depreciado: durante duas versões o nome que
+a documentação recomenda não mascarava vigência, enquanto o desaconselhado
+mascarava. Quem montasse série pela porta certa recebia, sem aviso, o escore do
+cadastro errado nos códigos reutilizados em 2002 — exatamente o erro que o
+argumento existe para impedir.
+
+Corrigido. Um teste novo compara as assinaturas dos seis pares
+`prestigio`/`siops` e falha se voltarem a divergir.
+
+### A família da CBO-2002 perdia `empate` e `escada` no meio do caminho
+
+`cbo2002_para_isco()`, `cbo2002_para_isei08()`, `cbo2002_para_prestigio()`,
+`cbo2002_para_prestigio08()` e `cbo2002_para_siops08()` aceitavam os dois
+argumentos; `cbo2002_para_isei()` e `cbo2002_para_siops()` não. Quem ligasse a
+escada para obter o código ISCO e a perdesse ao pedir o ISEI terminava com duas
+colunas calculadas sobre universos diferentes, sem sinal de erro. As duas
+funções agora têm a assinatura das demais, com os mesmos padrões.
+
+### `tse_rotulo_para_cod()` devolvia `NULL` em vez de tabela vazia
+
+Com `exato = FALSE` e nada a procurar — vetor vazio, ou todo `NA` —,
+`do.call(rbind, ...)` devolvia `NULL`, de modo que o tipo do retorno dependia do
+conteúdo do argumento: `data.frame` quase sempre, `NULL` nesses dois casos.
+`nrow()` respondia `NULL` em vez de `0` e o acesso a coluna errava. Agora sai
+sempre um `data.frame`, com zero linhas quando não há o que procurar. O ramo
+`exato = TRUE` nunca teve o problema.
+
 ## Também nesta versão
 
+* **`DESCRIPTION` declara `Language: pt-BR`**, como a política do CRAN pede
+  para pacote que não é em inglês. Além de correto, resolve de vez a NOTE
+  "The Title field should be in title case", que era o verificador aplicando a
+  convenção do inglês a uma frase portuguesa. `R CMD check --as-cran` agora
+  reporta apenas "New submission", o `Suggests` de `DIGCLASS` e as URLs 404 do
+  repositório privado.
+* **`citation("ocupacoesBR")` deixa de informar a versão errada.** O campo
+  `note` do `inst/CITATION` dizia `"R package version 0.1.0"` digitado à mão, e
+  continuou dizendo isso por três versões. Agora vem de `meta$Version`, e
+  acompanha o `DESCRIPTION` sozinho.
 * `?isei_retrospectivo` explicita que a cobertura por gênero (68,5% → 76,0%
   entre homens, 52,9% → 58,7% entre mulheres) segue medida sobre 1998–2024, e
   por quê: ela exige o painel por pessoa, que 2026 ainda não tem montado. É
   o único número do pacote que não acompanha a safra nova, e agora diz isso.
 * O ferramental de assistentes de IA (`AGENTS.md`, `CLAUDE.md`, `.cursorrules`
   e afins) sai do repositório e do tarball, via `.gitignore` e `.Rbuildignore`.
+* Removidos da árvore de trabalho os resíduos de build que não são fonte:
+  `..Rcheck/` (de um `R CMD check .` que falhou em 28/07/2026, porque
+  `Author`/`Maintainer` só existem no tarball), `ocupacoesBR.Rcheck/`, `doc/`,
+  `Meta/` e `figure/`. Todos regeneráveis, nenhum versionado.
 
 # ocupacoesBR 0.2.1
 

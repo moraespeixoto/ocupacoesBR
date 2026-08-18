@@ -236,8 +236,9 @@ cbo2002_concordancia <- function(cbo) {
 #' @examples
 #' cbo2002_para_isei(c("1111-05", "225120"))
 #' @export
-cbo2002_para_isei <- function(cbo) {
-  .busca(cbo2002_para_isco(cbo), ocupacoesBR::isco88_medidas, "isco88", "isei88")
+cbo2002_para_isei <- function(cbo, empate = c("na", "moda"), escada = FALSE) {
+  .busca(cbo2002_para_isco(cbo, empate, escada), ocupacoesBR::isco88_medidas,
+         "isco88", "isei88")
 }
 
 #' Prestigio ocupacional SIOPS a partir da CBO-2002
@@ -247,8 +248,9 @@ cbo2002_para_isei <- function(cbo) {
 #' @examples
 #' cbo2002_para_siops(c("1111-05", "225120"))
 #' @export
-cbo2002_para_siops <- function(cbo) {
-  .busca(cbo2002_para_isco(cbo), ocupacoesBR::isco88_medidas, "isco88", "siops88")
+cbo2002_para_siops <- function(cbo, empate = c("na", "moda"), escada = FALSE) {
+  .busca(cbo2002_para_isco(cbo, empate, escada), ocupacoesBR::isco88_medidas,
+         "isco88", "siops88")
 }
 
 #' Classe EGP a partir da CBO-2002

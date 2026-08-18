@@ -14,7 +14,8 @@ por conteúdo e pode devolver mais de um código por rótulo.}
 }
 \value{
 \code{data.frame} com \code{rotulo} (o que se procurou), \code{cod_tse} e o rótulo
-canônico encontrado.
+canônico encontrado. Sempre um \code{data.frame}, com zero linhas quando não há
+o que procurar — o tipo do retorno não depende do conteúdo do argumento.
 }
 \description{
 Serve a quem recebe a ocupação como texto e não como código — o caso de quem

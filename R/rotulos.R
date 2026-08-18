@@ -132,7 +132,8 @@ tse_diff_cadastro <- function(ano1, ano2) {
 #' @param exato Se `TRUE` (padrão), só casa o rótulo inteiro; se `FALSE`, casa
 #'   por conteúdo e pode devolver mais de um código por rótulo.
 #' @return `data.frame` com `rotulo` (o que se procurou), `cod_tse` e o rótulo
-#'   canônico encontrado.
+#'   canônico encontrado. Sempre um `data.frame`, com zero linhas quando não há
+#'   o que procurar — o tipo do retorno não depende do conteúdo do argumento.
 #' @examples
 #' tse_rotulo_para_cod("Agricultor")
 #' tse_rotulo_para_cod("advogado", exato = FALSE)
@@ -154,6 +155,15 @@ tse_rotulo_para_cod <- function(rotulo, exato = TRUE) {
       data.frame(rotulo = as.character(rotulo)[j], cod_tse = r$cod_tse[i],
                  rotulo_tse = r$rotulo[i], stringsAsFactors = FALSE)
     }))
+    # `do.call(rbind, ...)` devolve NULL quando nada entra na lista — vetor
+    # vazio, ou todo NA. Sem esta linha o tipo de retorno da funcao dependeria
+    # do conteudo do argumento: `data.frame` quase sempre, `NULL` nesses dois
+    # casos, de modo que `nrow()` devolveria NULL em vez de 0 e o acesso a
+    # coluna erraria. O ramo `exato = TRUE` nunca teve esse problema, porque
+    # `match()` preserva o comprimento.
+    if (is.null(out))
+      out <- data.frame(rotulo = character(0), cod_tse = character(0),
+                        rotulo_tse = character(0), stringsAsFactors = FALSE)
   }
   out <- out[!duplicated(out[, c("rotulo", "cod_tse")]), ]
   rownames(out) <- NULL

@@ -42,13 +42,25 @@ tse_para_prestigio <- function(cod, ano = NULL) {
 }
 
 #' Prestigio de Treiman ancorado na ISCO-08, a partir do TSE
+#'
+#' @section O argumento `ano`, e por que ele chegou tarde aqui:
+#' A versao 0.2.0 acrescentou `ano` as portas ancoradas na ISCO-08 e nomeou
+#' tres delas: `tse_para_isco08()`, `tse_para_isei08()` e `tse_para_siops08()`.
+#' Esta ficou de fora por descuido, de modo que o nome PREFERIDO da medida de
+#' prestigio nao mascarava vigencia enquanto o seu proprio alias depreciado
+#' mascarava. Quem montasse serie pela porta recomendada recebia, calado, o
+#' escore do cadastro errado nos codigos reutilizados em 2002. Corrigido em
+#' 0.3.0; a assinatura agora e a mesma de `tse_para_siops08()`.
+#'
 #' @inheritParams tse_para_isco
 #' @return Vetor numerico.
 #' @examples
 #' tse_para_prestigio08(c(111, 169))
+#' tse_para_prestigio08("215", ano = 2000)   # reutilizado: NA com aviso
 #' @export
-tse_para_prestigio08 <- function(cod) {
-  .busca(tse_para_isco08(cod), ocupacoesBR::isco08_medidas, "isco08", "siops08")
+tse_para_prestigio08 <- function(cod, ano = NULL) {
+  .busca(tse_para_isco08(cod, ano = ano), ocupacoesBR::isco08_medidas,
+         "isco08", "siops08")
 }
 
 #' Prestigio de Treiman a partir do ISCO-88

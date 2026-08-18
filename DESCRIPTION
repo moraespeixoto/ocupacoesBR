@@ -17,6 +17,7 @@ Description: Traduz a ocupação registrada em fontes brasileiras para a
     script a partir dos arquivos originais, nunca transcritas manualmente.
 License: MIT + file LICENSE
 Encoding: UTF-8
+Language: pt-BR
 Roxygen: list(markdown = TRUE)
 Depends: R (>= 4.1)
 Imports:

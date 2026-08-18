@@ -12,7 +12,13 @@ bibentry(
   title    = "ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em Classificacoes Padronizadas",
   author   = person("Vitor", "Peixoto"),
   year     = "2026",
-  note     = "R package version 0.1.0",
+  # A versao vem do DESCRIPTION via `meta`, e nao digitada: ate 0.3.0 este
+  # campo dizia "0.1.0" fixo, de modo que citation("ocupacoesBR") informava
+  # uma versao que ja nao existia -- numa referencia bibliografica, que e
+  # justamente onde a procedencia precisa estar certa.
+  # Este arquivo e ASCII puro de proposito: nao declara Encoding, e o R
+  # recusa CITATION nao-ASCII sem declaracao.
+  note     = paste("R package version", meta$Version),
   url      = "https://github.com/moraespeixoto/ocupacoesBR",
   header   = "O pacote:"
 )
