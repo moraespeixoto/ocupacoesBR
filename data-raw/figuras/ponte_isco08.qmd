@@ -1,0 +1,34 @@
+---
+title: "ponte_isco08"
+format: { html: { mermaid-format: svg } }
+---
+
+```{mermaid}
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Helvetica, Arial, sans-serif","fontSize":"15px","lineColor":"#34495E","textColor":"#212F3D","edgeLabelBackground":"#FFFFFF"},"flowchart":{"htmlLabels":false},"htmlLabels":false} }%%
+flowchart TB
+  A["ISCO-88 · 1229<br/>operations department managers nec"]
+  B{"a tábua do ISMF oferece<br/>9 destinos na ISCO-08"}
+  C["1300<br/>o destino escolhido"]
+  D["n_alternativas = 9"]
+  E["isco88_para_isco08(1229)<br/>devolve só 1300"]
+  F["isco88_para_isco08(1229, com_ambiguidade = TRUE)<br/>devolve 1300 e também o 9"]
+  G["186 dos 530 códigos da ponte<br/>têm mais de um destino — 35%"]
+
+  A --> B
+  B --> C
+  B --> D
+  C --> E
+  C --> F
+  D --> F
+  B -.-> G
+
+  classDef hub fill:#FCF3CF,stroke:#7D6608,stroke-width:2px,color:#212F3D
+  classDef decisao fill:#FADBD8,stroke:#B03A2E,stroke-width:2px,color:#212F3D
+  classDef saida fill:#D6EAF8,stroke:#1B4F72,stroke-width:2px,color:#212F3D
+  classDef nota fill:#E8DAEF,stroke:#4A235A,stroke-width:2px,color:#212F3D
+  class A,C hub
+  class B decisao
+  class D nota
+  class E,F saida
+  class G nota
+```

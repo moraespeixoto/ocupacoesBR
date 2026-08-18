@@ -36,4 +36,15 @@ uma ocupação rara "sumir e voltar" a cada pleito. A vigência se interrompe
 quando o \strong{rótulo} muda, não quando a frequência cai a zero.
 }
 
+\examples{
+# O que as candidaturas mais declaram, em 1998--2026 somados:
+r <- tse_ocupacao_rotulos
+head(r[order(-r$n), c("cod_tse", "rotulo", "n")], 5)
+
+# Os códigos vigentes na safra em curso:
+sum(r$ate == 2026)
+
+# Um código pode ter mais de uma vigência, com rótulos diferentes:
+r[r$cod_tse == "215", ]
+}
 \keyword{datasets}

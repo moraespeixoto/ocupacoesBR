@@ -1,0 +1,199 @@
+url: https://moraespeixoto.github.io/ocupacoesBR/
+
+lang: pt
+
+template:
+  bootstrap: 5
+  light-switch: true
+  bslib:
+    primary: "#1B4F72"
+    base_font: {google: "Source Sans 3"}
+    heading_font: {google: "Source Sans 3"}
+    code_font: {google: "JetBrains Mono"}
+
+home:
+  title: Traduz a ocupação declarada ao TSE em classificações padronizadas
+  description: >
+    Do código de ocupação das candidaturas brasileiras à ISCO-88 e à ISCO-08, e
+    daí ao ISEI, ao prestígio de Treiman, ao EGP e a um esquema de classes
+    desenhado para o dado eleitoral. Também entra pela CBO, da RAIS, e pela COD,
+    do IBGE.
+
+navbar:
+  structure:
+    left:  [comece, percursos, articles, reference, news]
+    right: [search, github, lightswitch]
+  components:
+    comece:
+      text: Comece aqui
+      href: articles/comece-aqui.html
+    percursos:
+      text: Percursos
+      href: articles/percursos.html
+    articles:
+      text: Artigos
+      menu:
+      - text: Qual régua responde à sua pergunta
+        href: articles/qual-regua.html
+      - text: A medida se sustenta? Validação contra um critério externo
+        href: articles/validacao.html
+      - text: A safra de 2026, na régua
+        href: articles/safra-2026.html
+      - text: -------
+      - text: Como citar
+        href: articles/publicacoes.html
+    reference:
+      text: Referência
+      href: reference/index.html
+
+articles:
+- title: Por onde começar
+  navbar: ~
+  contents:
+  - matches("^articles/comece-aqui$")
+  - matches("^articles/percursos$")
+- title: Escolher e validar a medida
+  contents:
+  - matches("^qual-regua$")
+  - matches("^validacao$")
+- title: A eleição em curso
+  contents:
+  - matches("^articles/safra-2026$")
+- title: Créditos
+  contents:
+  - matches("^articles/publicacoes$")
+
+reference:
+- title: A porta do TSE
+  desc: >
+    O código de ocupação declarado nas candidaturas é a porta principal. Cada
+    função traduz um vetor de códigos e devolve um vetor do mesmo comprimento.
+    Todas aceitam `ano`, que é o que resolve a quebra de cadastro de 2002.
+  contents:
+  - tse_para_isco
+  - tse_para_isco08
+  - tse_para_isei
+  - tse_para_isei08
+  - tse_para_prestigio
+  - tse_para_prestigio08
+  - tse_para_egp
+  - tse_para_classe
+  - tse_para_estrato
+  - tse_para_componente_alta
+  - tse_para_politico
+  - crosswalk_tse
+
+- title: O cadastro do TSE ao longo do tempo
+  desc: >
+    O cadastro não é estável: rótulos mudam, códigos são reaproveitados e
+    ocupações deixam de ser declaradas. Estas funções tornam a história do
+    cadastro consultável em vez de suposta.
+  contents:
+  - tse_para_rotulo
+  - tse_vigencia
+  - tse_diff_cadastro
+  - tse_rotulo_para_cod
+  - tse_codigos_autorrotulo
+  - checa_periodo
+
+- title: A porta da CBO
+  desc: >
+    A Classificação Brasileira de Ocupações, que é o que a RAIS, o CAGED e o
+    eSocial usam. A tradução vem da tábua oficial do Ministério do Trabalho.
+    `empate` decide o que fazer com famílias sem ISCO majoritário; `escada`
+    resgata códigos ausentes subindo a hierarquia.
+  contents:
+  - cbo2002_para_isco
+  - cbo2002_para_isco08
+  - cbo2002_para_isei
+  - cbo2002_para_isei08
+  - cbo2002_para_prestigio
+  - cbo2002_para_prestigio08
+  - cbo2002_para_egp
+  - cbo2002_concordancia
+  - crosswalk_cbo2002
+  - cbo94_para_isco
+  - cbo94_para_isco08
+  - cbo94_para_isei
+  - cbo94_para_prestigio
+  - cbo94_para_egp
+  - crosswalk_cbo94
+
+- title: A porta do IBGE
+  desc: >
+    A COD, usada na PNAD Contínua e no Censo, é quase a ISCO-08 com outro nome.
+    É por aqui que se compara candidatura com população.
+  contents:
+  - cod_para_isco
+  - cod_para_isco08
+  - cod_para_isei
+  - cod_para_isei08
+  - cod_para_prestigio
+  - cod_para_prestigio08
+  - cod_para_egp
+  - crosswalk_cod
+
+- title: A partir da ISCO
+  desc: >
+    Para quem já tem um código internacional e quer apenas a medida, ou quer
+    atravessar de uma revisão da ISCO para a outra.
+  contents:
+  - isco88_para_isei
+  - isco88_para_prestigio
+  - isco88_para_egp
+  - isco88_para_isco08
+  - isco08_para_isco88
+
+- title: Cobertura, antes de analisar
+  desc: >
+    Rodar uma destas antes de qualquer análise é a diferença entre uma medida e
+    um vetor de `NA` silencioso. Quase todo problema de cobertura é de formato
+    do código, não de dicionário.
+  contents:
+  - checa_cobertura
+  - checa_cobertura_cbo2002
+  - checa_cobertura_cbo94
+  - checa_cobertura_cod
+
+- title: Carregamento retrospectivo
+  desc: >
+    Quando a mesma pessoa aparece em eleições sucessivas, o escore de um
+    registro sem ocupação informada pode ser herdado do registro anterior dela
+    própria, com marca de herança e defasagem.
+  contents:
+  - isei_retrospectivo
+
+- title: As tabelas
+  desc: >
+    Todas as tábuas de conversão são dados do pacote, geradas por script a
+    partir dos arquivos originais e nunca transcritas à mão. Consultá-las
+    diretamente é legítimo e recomendado.
+  contents:
+  - tse_isco
+  - tse_ocupacao_rotulos
+  - tse_quebra_2002
+  - tse_validacao
+  - isco88_medidas
+  - isco08_medidas
+  - isco88_isco08
+  - isco08_isco88
+  - cbo2002_isco88
+  - cbo2002_familia_isco88
+  - cbo2002_escada
+  - cbo94_isco88
+  - cod_isco08
+  - isco_posicao_br
+
+- title: Alias depreciados
+  desc: >
+    Estas funções continuam existindo para não quebrar código antigo. O nome
+    "SIOPS" foi trocado por "prestígio" porque colide com o Sistema de
+    Informações sobre Orçamentos Públicos em Saúde, que é outra coisa
+    inteiramente. Prefira as funções `*_prestigio*`.
+  contents:
+  - tse_para_siops
+  - tse_para_siops08
+  - isco88_para_siops
+  - cbo2002_para_siops
+  - cbo2002_para_siops08
+  - cbo94_para_siops

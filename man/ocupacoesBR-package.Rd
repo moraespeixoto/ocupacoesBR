@@ -34,6 +34,7 @@ qualquer valor contra a sua fonte.
 Useful links:
 \itemize{
   \item \url{https://github.com/moraespeixoto/ocupacoesBR}
+  \item \url{https://moraespeixoto.github.io/ocupacoesBR/}
   \item Report bugs at \url{https://github.com/moraespeixoto/ocupacoesBR/issues}
 }
 

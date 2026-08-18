@@ -70,4 +70,14 @@ para que ninguém a confunda com reutilização ao comparar rótulos.}
 }
 }
 
+\examples{
+# Os códigos reutilizados: o mesmo número, outra ocupação. Ler qualquer um
+# deles como série contínua de 1998 a hoje produz uma trajetória que nunca
+# existiu.
+tse_quebra_2002[tse_quebra_2002$tipo == "reutilizado",
+                c("cod_tse", "rotulo_ate_2000", "rotulo_apos_2002")]
+
+# A que tipo pertence cada um dos 44:
+table(tse_quebra_2002$tipo)
+}
 \keyword{datasets}

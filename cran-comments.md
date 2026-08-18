@@ -22,11 +22,15 @@ esperados:
 (`test-fonte.R`), protegida por `skip_if_not_installed()`. Nunca é carregado em
 uso normal, e a sua ausência não afeta nenhum resultado do pacote.
 
-**3. "URL ... Status: 404"** — o repositório está privado enquanto o pacote
-passa por revisão. O verificador do CRAN é anônimo e por isso recebe 404. O
-repositório será tornado público antes da submissão, e a NOTE desaparece; se
-esta submissão ocorrer antes disso, os campos `URL` e `BugReports` serão
-removidos do `DESCRIPTION`.
+**3. "URL ... Status: 404"** — são três URLs, e todas pelo mesmo motivo: o
+repositório está privado enquanto o pacote passa por revisão, e o verificador
+do CRAN é anônimo. Duas apontam para o repositório e para o rastreador de
+problemas; a terceira,
+`https://moraespeixoto.github.io/ocupacoesBR/`, é o site de documentação
+construído com pkgdown, que o GitHub Pages só passa a servir depois que o
+repositório for aberto. As três resolvem no mesmo momento, e a NOTE
+desaparece; se esta submissão ocorrer antes disso, os campos `URL` e
+`BugReports` serão removidos do `DESCRIPTION`.
 
 ### O que deixou de aparecer, e por quê
 

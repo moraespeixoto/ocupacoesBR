@@ -76,4 +76,14 @@ as candidaturas de 1998 a 2004 já entravam nessa mesma condição. Quando o
 IPCA de outubro de 2026 existir, a coluna sai de graça.
 }
 
+\examples{
+# As ocupações com mais candidaturas no conjunto de validação:
+head(tse_validacao[order(-tse_validacao$n), ], 5)
+
+# A correlação que sustenta a medida: o ISEI atribuído por tradução contra
+# a escolaridade declarada, que o pacote nunca viu ao construir a régua.
+v <- tse_validacao
+v$isei <- suppressWarnings(tse_para_isei(v$cod_tse))
+round(stats::cor(v$isei, v$pct_superior, use = "complete.obs"), 3)
+}
 \keyword{datasets}

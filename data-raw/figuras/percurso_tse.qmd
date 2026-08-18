@@ -1,0 +1,42 @@
+---
+title: "percurso_tse"
+format: { html: { mermaid-format: svg } }
+---
+
+```{mermaid}
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Helvetica, Arial, sans-serif","fontSize":"15px","lineColor":"#34495E","textColor":"#212F3D","edgeLabelBackground":"#FFFFFF"},"flowchart":{"htmlLabels":false},"htmlLabels":false} }%%
+flowchart LR
+  TSE["CD_OCUPACAO<br/>o código declarado<br/>275 no dicionário"]
+
+  subgraph PONTE["tse_isco — a única ponte autoral"]
+    direction TB
+    I88["ISCO-88<br/>537 códigos"]
+    I08["ISCO-08<br/>590 códigos"]
+    AUT["colunas autorais<br/>classe · estrato<br/>componente_alta · politico"]
+  end
+
+  ISEI["ISEI<br/>status socioeconômico"]
+  PRE["Prestígio<br/>Treiman 1977"]
+  EGP["EGP<br/>11 classes"]
+  CLA["classe e estrato<br/>desenhados para o dado eleitoral"]
+
+  TSE -->|tse_para_isco| I88
+  TSE -->|tse_para_isco08| I08
+  TSE --> AUT
+
+  I88 -->|tse_para_isei| ISEI
+  I88 -->|tse_para_prestigio| PRE
+  I88 -->|tse_para_egp| EGP
+  I08 -->|tse_para_isei08| ISEI
+  I08 -->|tse_para_prestigio08| PRE
+  AUT -->|tse_para_classe<br/>tse_para_estrato| CLA
+
+  classDef origem fill:#D6EAF8,stroke:#1B4F72,stroke-width:2px,color:#212F3D
+  classDef hub fill:#FCF3CF,stroke:#7D6608,stroke-width:2px,color:#212F3D
+  classDef medida fill:#E8DAEF,stroke:#4A235A,stroke-width:2px,color:#212F3D
+  classDef autoral fill:#FADBD8,stroke:#B03A2E,stroke-width:2px,color:#212F3D
+  class TSE origem
+  class I88,I08 hub
+  class ISEI,PRE,EGP medida
+  class AUT,CLA autoral
+```

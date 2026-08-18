@@ -52,4 +52,11 @@ sobre família vista por inteiro; \code{concordancia_vista} guarda a proporção
 bruta para quem quiser inspecioná-la sabendo o que ela é.
 }
 
+\examples{
+# As famílias em que a tábua empata: nelas, o argumento `empate` de
+# cbo2002_para_isco() é quem decide entre NA e o ISCO majoritário.
+cbo2002_familia_isco88[cbo2002_familia_isco88$empate,
+                       c("familia", "isco88", "n_ocupacoes",
+                         "n_isco_distintos")]
+}
 \keyword{datasets}

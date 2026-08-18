@@ -29,4 +29,13 @@ isco88_medidas
 \description{
 Medidas ancoradas na ISCO-88
 }
+\examples{
+head(isco88_medidas)
+
+# O ISEI e o prestígio ordenam parecido, mas não igual — e é na diferença
+# que mora a escolha entre um e outro.
+m <- isco88_medidas[stats::complete.cases(isco88_medidas[, c("isei88",
+                                                             "siops88")]), ]
+round(stats::cor(m$isei88, m$siops88, method = "spearman"), 3)
+}
 \keyword{datasets}

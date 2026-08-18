@@ -25,4 +25,14 @@ isco88_isco08
 \description{
 Ponte da ISCO-88 para a ISCO-08
 }
+\examples{
+head(isco88_isco08)
+
+# A ponte não é uma bijeção: 186 dos 530 códigos têm mais de um destino
+# possível na ISCO-08, e a tábua escolhe um deles.
+table(isco88_isco08$n_alternativas > 1)
+
+# Peça a marca junto com a tradução quando a ambiguidade importar:
+isco88_para_isco08("1229", com_ambiguidade = TRUE)
+}
 \keyword{datasets}

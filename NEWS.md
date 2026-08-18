@@ -193,6 +193,77 @@ conteúdo do argumento: `data.frame` quase sempre, `NULL` nesses dois casos.
 sempre um `data.frame`, com zero linhas quando não há o que procurar. O ramo
 `exato = TRUE` nunca teve o problema.
 
+## O pacote ganha um site
+
+A documentação passa a ter uma porta de entrada fora do R. O site é construído
+com pkgdown a partir do próprio repositório e será servido pelo GitHub Pages em
+`https://moraespeixoto.github.io/ocupacoesBR/` assim que o repositório for
+aberto. Ele reúne o que já existia — o README, as duas vinhetas, o changelog, a
+citação — e acrescenta quatro coisas novas.
+
+**A referência deixou de ser alfabética.** As 57 funções estão agrupadas por
+porta de entrada e por finalidade: a porta do TSE, o cadastro do TSE ao longo do
+tempo, a porta da CBO, a porta do IBGE, as medidas a partir da ISCO, a
+verificação de cobertura, o carregamento retrospectivo, as tabelas, e por último
+os alias depreciados `*_siops*`, com a explicação de por que foram renomeados.
+Ordem alfabética é útil para quem já sabe o nome da função; para quem não sabe,
+esconde o pacote.
+
+**Quatro artigos novos, só do site.** "Comece aqui" percorre o caminho inteiro
+numa sessão e é construído em torno de uma tabela de oito ocupações reais e
+frequentes, que mostra onde o ISEI se abstém e o esquema de classes ainda
+responde. "Os percursos" mostra cada caminho de tradução e o ponto exato em que
+ele para: a ambiguidade da ponte ISCO-08, o `empate` e a `escada` da CBO, a
+quebra de 2002, a categoria residual. "A safra de 2026, na régua" reúne o que o
+pacote já sabe da eleição em curso e o que não pode saber ainda. "Como citar"
+explica por que são duas referências e não uma.
+
+Os artigos vivem em `vignettes/articles/`, que fica fora do tarball: o site
+cresce sem que o pacote engorde.
+
+**Quatro fluxogramas.** Escritos em mermaid e pré-renderizados para SVG por
+`data-raw/fig_diagramas.R`, de modo que funcionam offline e não dependem de
+script carregado de CDN. Reusam a paleta de `data-raw/fig_rede_crosswalks.R`,
+para o site não falar dois idiomas visuais. O diagrama da CBO foi redesenhado
+depois de conferido contra `cbo2002_para_isco()`: a primeira versão punha a
+`escada` antes do `empate`, e a ordem real é a inversa — o `empate` decide a
+entrada de quatro dígitos, e a `escada` só age depois, sobre o que sobrou `NA`.
+
+**Exemplos nas 14 tabelas de dados.** Era o único ponto em que a referência
+estava incompleta: as 57 funções já tinham exemplo, os dados não tinham nenhum.
+Cada tabela ganhou um `@examples` que a mostra e a põe em uso — em
+`tse_quebra_2002`, os códigos reutilizados, com o 214 que era delegado de
+polícia e passou a ser escultor e pintor.
+
+### Duas armadilhas encontradas no caminho
+
+O pkgdown transforma em página **todo** arquivo `.md` da raiz do repositório e
+de `.github/`, sem opção de exclusão. Aqui isso significava publicar o
+ferramental de assistentes de IA e os registros datados de auditoria, todos
+gitignorados. Apagar as páginas depois do build não resolve: o índice de busca e
+o sitemap guardam o *texto* desses arquivos. Por isso o build passa por
+`data-raw/constroi_site.R`, que os esconde antes e os devolve depois, com lista
+branca — arquivo de trabalho novo na raiz não vaza para o site por esquecimento.
+
+O SVG do mermaid sai de dentro de um HTML, e o parser de HTML rebaixa todo nome
+de atributo para minúsculas e não fecha o `<br>`. Num arquivo `.svg` servido
+como XML isso quebra o desenho: `viewbox` não é `viewBox`. O extrator restaura
+os nomes, fecha as tags e acrescenta `xml:space="preserve"`, sem o qual o SVG
+descarta o espaço inicial de cada `tspan` e "o código declarado" é desenhado
+como "ocodigodeclarado".
+
+### O que isso mexeu no resto
+
+- `DESCRIPTION` ganha a URL do site no campo `URL`. A NOTE de URL inválida do
+  `R CMD check` passa de duas para três entradas, todas pelo mesmo motivo — o
+  repositório fechado — e todas resolvem no mesmo momento.
+- Dois workflows do GitHub Actions, escritos à mão e ainda não ativados: um
+  reconstrói o site, outro roda `R CMD check` em três sistemas. O `.gitignore`
+  ganhou a exceção `!.github/workflows/`, mantendo ignorado o resto do
+  `.github/`.
+- `R CMD check --as-cran`: 0 ERROR, 0 WARNING, as mesmas 2 NOTEs. Suíte em 1447
+  testes, sem falha. O tarball continua com os mesmos seis arquivos de topo.
+
 ## Também nesta versão
 
 * **`DESCRIPTION` declara `Language: pt-BR`**, como a política do CRAN pede

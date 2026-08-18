@@ -1,0 +1,116 @@
+---
+title: "A safra de 2026, na régua"
+description: >
+  O que o pacote já sabe sobre a eleição em curso, o que ele não pode saber
+  ainda, e por que a safra aberta pede leitura diferente.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>",
+                      fig.width = 7, fig.height = 4, dpi = 120)
+library(ocupacoesBR)
+```
+
+A versão 0.3.0 incorporou o cadastro de ocupações da eleição de 2026. Nada nesta
+página lê microdado: tudo sai das tabelas que acompanham o pacote.
+
+```{r base}
+r <- tse_ocupacao_rotulos
+cods_2026 <- unique(r$cod_tse[r$ate == 2026])
+length(cods_2026)
+```
+
+São `r length(unique(tse_ocupacao_rotulos$cod_tse[tse_ocupacao_rotulos$ate == 2026]))` códigos vigentes.
+
+## O TSE não criou código nenhum
+
+O resultado que mais importa para quem já usava o pacote é negativo:
+
+```{r diff}
+d <- tse_diff_cadastro(2024, 2026)
+table(d$mudanca)
+```
+
+Nenhum código criado. O dicionário de tradução, que é a única ponte autoral do
+pacote, não precisou de uma linha nova para cobrir a eleição em curso, e a
+cobertura é total:
+
+```{r cobertura}
+checa_cobertura(cods_2026)
+```
+
+Os `r sum(tse_diff_cadastro(2024, 2026)$mudanca == "extinto")` códigos que aparecem como extintos merecem cuidado, porque o nome
+engana. Eles não foram revogados: 2024 foi uma eleição municipal e 2026 é geral,
+e há ocupações que simplesmente não foram declaradas por ninguém desta vez.
+Ausência de declaração não é revogação de código. Trocar de par de comparação
+não resolve — comparar duas eleições gerais devolve
+`r sum(tse_diff_cadastro(2022, 2026)$mudanca == "extinto")` extintos, e não menos.
+
+## O que a régua alcança
+
+```{r isei-2026}
+isei_2026 <- suppressWarnings(tse_para_isei(cods_2026))
+sum(!is.na(isei_2026))
+summary(isei_2026)
+```
+
+`r sum(!is.na(suppressWarnings(tse_para_isei(unique(tse_ocupacao_rotulos$cod_tse[tse_ocupacao_rotulos$ate == 2026])))))` dos `r length(unique(tse_ocupacao_rotulos$cod_tse[tse_ocupacao_rotulos$ate == 2026]))` códigos recebem um ISEI. Os doze restantes são os que não
+nomeiam ocupação: a categoria residual, os vínculos públicos sem função, quem
+está fora da população economicamente ativa.
+
+```{r hist, echo = FALSE}
+op <- par(mar = c(4.2, 4.2, 1, 1))
+hist(isei_2026, breaks = 16, col = "#D6EAF8", border = "#1B4F72",
+     main = "", xlab = "ISEI-88", ylab = "códigos do cadastro de 2026")
+par(op)
+```
+
+A distribuição é ampla e bimodal, e isso é uma propriedade do cadastro, não do
+eleitorado: cada código conta uma vez, independentemente de quantas pessoas o
+declararam. O cadastro do TSE detalha muito o topo, com dezenas de profissões de
+nível superior nomeadas uma a uma, e agrega grosseiramente a base.
+
+## Onde o esquema de classes responde e o ISEI não
+
+```{r classes}
+cl <- tse_para_classe(cods_2026, ano = rep(2026L, length(cods_2026)))
+sort(table(as.character(cl)), decreasing = TRUE)
+```
+
+As quatro categorias que o ISEI deixa em branco reaparecem aqui nomeadas: quem
+tem vínculo público não especificado, quem está fora da população economicamente
+ativa por posição, quem é inativo com trajetória, e o não informado. É a mesma
+lição da tabela em [Comece aqui](comece-aqui.html), agora sobre o cadastro
+inteiro.
+
+## O que não se pode medir ainda
+
+A safra de 2026 é aberta. O prazo de registro se encerrou, mas os pedidos ainda
+estão sendo julgados, e não há resultado. Três consequências práticas:
+
+O patrimônio declarado não entra. A coluna de patrimônio de `tse_validacao` está
+deflacionada a reais de outubro de 2024, e outubro de 2026 não aconteceu. Em vez
+de inventar um deflator, o pacote se abstém:
+
+```{r validacao}
+sum(tse_validacao$n)
+sum(tse_validacao$n_com_bens)
+```
+
+O acréscimo de 2026 aparece no `n` e não aparece no `n_com_bens`. Nenhuma mediana
+de patrimônio do conjunto de validação foi tocada pela safra nova.
+
+Não há eleitos. Toda análise de sucesso eleitoral por ocupação continua parando
+em 2024.
+
+E não há painel por pessoa. O carregamento retrospectivo de `isei_retrospectivo()`
+depende de reencontrar a mesma pessoa em registros anteriores, o que exige a
+apuração fechada. Os números de recuperação documentados na função seguem
+medidos sobre 1998–2024.
+
+## Como declarar o recorte
+
+Quem publicar análise da eleição em curso deve dizer a data de geração do
+cadastro usado, porque ele muda enquanto o registro é julgado. O que o pacote
+fixa é o dicionário de tradução, que não mudou; o que se move é o dado de
+candidaturas, que fica com quem o baixou.

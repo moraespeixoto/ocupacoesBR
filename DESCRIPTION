@@ -31,7 +31,8 @@ Suggests:
     readxl
 VignetteBuilder: knitr
 Config/testthat/edition: 3
-URL: https://github.com/moraespeixoto/ocupacoesBR
+URL: https://github.com/moraespeixoto/ocupacoesBR,
+    https://moraespeixoto.github.io/ocupacoesBR/
 BugReports: https://github.com/moraespeixoto/ocupacoesBR/issues
 LazyData: true
 Config/roxygen2/version: 8.1.0

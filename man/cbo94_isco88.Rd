@@ -28,4 +28,11 @@ coluna \code{concordancia} que era constante 1 por construção e sugeria um
 diagnóstico que não existia.
 }
 
+\examples{
+head(cbo94_isco88)
+
+# A CBO-94 chega à ISCO-88 e para aí: não há cbo94_para_isei08() nem
+# cbo94_para_prestigio08(). A assimetria é da tábua, não do pacote.
+nrow(cbo94_isco88)
+}
 \keyword{datasets}

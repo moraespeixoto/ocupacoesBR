@@ -1,0 +1,40 @@
+---
+title: "quatro_portas"
+format: { html: { mermaid-format: svg } }
+---
+
+```{mermaid}
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Helvetica, Arial, sans-serif","fontSize":"15px","lineColor":"#34495E","textColor":"#212F3D","edgeLabelBackground":"#FFFFFF"},"flowchart":{"htmlLabels":false},"htmlLabels":false} }%%
+flowchart LR
+  TSE["TSE<br/>CD_OCUPACAO"]
+  C02["CBO-2002<br/>RAIS · CAGED · eSocial"]
+  C94["CBO-94<br/>RAIS até 2002"]
+  COD["COD<br/>PNAD Contínua · Censo"]
+  FALTA["a CBO-94 para na ISCO-88:<br/>não há cbo94_para_isei08<br/>nem cbo94_para_prestigio08"]
+
+  I88["ISCO-88<br/>537 códigos"]
+  I08["ISCO-08<br/>590 códigos"]
+
+  M88["ISEI-88 · Prestígio · EGP"]
+  M08["ISEI-08 · Prestígio-08"]
+
+  TSE -->|ponte autoral<br/>tse_isco| I88
+  C02 -->|tábua oficial do MTE| I88
+  C94 -->|tábua CBO-94 → CBO-2002| I88
+  C94 -.- FALTA
+  COD -->|tábua do IBGE| I08
+
+  I88 <-->|isco88_para_isco08<br/>isco08_para_isco88| I08
+
+  I88 --> M88
+  I08 --> M08
+
+  classDef origem fill:#D6EAF8,stroke:#1B4F72,stroke-width:2px,color:#212F3D
+  classDef hub fill:#FCF3CF,stroke:#7D6608,stroke-width:2px,color:#212F3D
+  classDef medida fill:#E8DAEF,stroke:#4A235A,stroke-width:2px,color:#212F3D
+  classDef falta fill:#FADBD8,stroke:#C0392B,stroke-width:2px,stroke-dasharray:5 4,color:#943126
+  class TSE,C02,C94,COD origem
+  class I88,I08 hub
+  class M88,M08 medida
+  class FALTA falta
+```

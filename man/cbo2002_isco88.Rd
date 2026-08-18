@@ -34,4 +34,12 @@ classificações. As ocupações criadas na revisão de 2002 e o grande grupo 0
 aparecem aqui.
 }
 
+\examples{
+# A tradução ocupação a ocupação, o caminho mais curto e mais confiável:
+cbo2002_isco88[cbo2002_isco88$cbo2002 == "252105", ]
+
+# Quantas ocupações a tábua do MTE cobre, e quantos ISCO distintos alcança:
+nrow(cbo2002_isco88)
+length(unique(stats::na.omit(cbo2002_isco88$isco88)))
+}
 \keyword{datasets}

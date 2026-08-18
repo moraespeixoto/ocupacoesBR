@@ -33,4 +33,11 @@ PNAD Contínua e o Censo aterrissam na ISCO-08, e todo o esquema de classes do
 pacote está ancorado na ISCO-88.
 }
 
+\examples{
+head(isco08_isco88)
+
+# É esta tábua que permite entrar pela PNAD ou pelo Censo e chegar às
+# medidas ancoradas na ISCO-88.
+nrow(isco08_isco88)
+}
 \keyword{datasets}

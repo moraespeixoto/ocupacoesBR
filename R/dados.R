@@ -61,6 +61,14 @@
 #' }
 #' @source Construído a partir dos microdados de candidaturas do Tribunal
 #'   Superior Eleitoral e da correspondência com a ISCO-88.
+#' @examples
+#' # O agricultor trabalha por conta própria sem ser proprietário: as duas
+#' # marcas eram uma só até julho de 2026, e enquanto foram, o EGP o promovia
+#' # a IVc junto à classe alta.
+#' tse_isco[tse_isco$cod_tse == "601", ]
+#'
+#' # Quantos códigos o dicionário reconhece como o próprio mandato:
+#' tse_isco$cod_tse[tse_isco$politico]
 "tse_isco"
 
 #' Medidas ancoradas na ISCO-88
@@ -80,6 +88,14 @@
 #'   `iskolab.sps` do International Stratification and Mobility File,
 #'   de Harry B. G. Ganzeboom e Donald J. Treiman.
 #'   <http://www.harryganzeboom.nl/ismf/index.htm>
+#' @examples
+#' head(isco88_medidas)
+#'
+#' # O ISEI e o prestígio ordenam parecido, mas não igual — e é na diferença
+#' # que mora a escolha entre um e outro.
+#' m <- isco88_medidas[stats::complete.cases(isco88_medidas[, c("isei88",
+#'                                                              "siops88")]), ]
+#' round(stats::cor(m$isei88, m$siops88, method = "spearman"), 3)
 "isco88_medidas"
 
 #' Medidas ancoradas na ISCO-08
@@ -93,6 +109,13 @@
 #' @source Módulos `isqoisei08.sps` e `isqotrei08.sps` do International
 #'   Stratification and Mobility File.
 #'   <http://www.harryganzeboom.nl/ismf/index.htm>
+#' @examples
+#' head(isco08_medidas)
+#'
+#' # A âncora é outra: um escore da ISCO-08 não é comparável com um da
+#' # ISCO-88, e misturar as duas numa mesma série é o erro mais comum.
+#' nrow(isco08_medidas)
+#' summary(isco08_medidas$isei08)
 "isco08_medidas"
 
 #' Ponte da ISCO-88 para a ISCO-08
@@ -108,6 +131,15 @@
 #' }
 #' @source Módulo `isco8808.sps` do International Stratification and Mobility
 #'   File. <http://www.harryganzeboom.nl/ismf/index.htm>
+#' @examples
+#' head(isco88_isco08)
+#'
+#' # A ponte não é uma bijeção: 186 dos 530 códigos têm mais de um destino
+#' # possível na ISCO-08, e a tábua escolhe um deles.
+#' table(isco88_isco08$n_alternativas > 1)
+#'
+#' # Peça a marca junto com a tradução quando a ambiguidade importar:
+#' isco88_para_isco08("1229", com_ambiguidade = TRUE)
 "isco88_isco08"
 
 #' Correspondência da CBO-2002 com a ISCO-88, por ocupação
@@ -129,6 +161,13 @@
 #' @source Tábua de conversão CBO2002--CBO94--CIUO88 do Ministério do Trabalho,
 #'   consultada família a família em
 #'   <http://www.mtecbo.gov.br/cbosite/pages/tabua/FiltroConversao_CBO2002_CBO94_CIUO88.jsf>
+#' @examples
+#' # A tradução ocupação a ocupação, o caminho mais curto e mais confiável:
+#' cbo2002_isco88[cbo2002_isco88$cbo2002 == "252105", ]
+#'
+#' # Quantas ocupações a tábua do MTE cobre, e quantos ISCO distintos alcança:
+#' nrow(cbo2002_isco88)
+#' length(unique(stats::na.omit(cbo2002_isco88$isco88)))
 "cbo2002_isco88"
 
 #' Correspondência da CBO-2002 com a ISCO-88, por família
@@ -170,6 +209,12 @@
 #' @source Agregado de [cbo2002_isco88]; o denominador vem do domínio oficial da
 #'   CBO-2002 na aba `cbo2002ocupação` do layout do Novo CAGED (2.777 ocupações),
 #'   distribuído em `inst/extdata/fontes/cbo2002_dominio.txt`.
+#' @examples
+#' # As famílias em que a tábua empata: nelas, o argumento `empate` de
+#' # cbo2002_para_isco() é quem decide entre NA e o ISCO majoritário.
+#' cbo2002_familia_isco88[cbo2002_familia_isco88$empate,
+#'                        c("familia", "isco88", "n_ocupacoes",
+#'                          "n_isco_distintos")]
 "cbo2002_familia_isco88"
 
 #' Escada hierárquica da CBO-2002 para quando a ocupação não está na tábua
@@ -201,6 +246,12 @@
 #' ocupações elementares (ISEI 16 a 30). Uma cobertura maior comprada com
 #' inversão de classe não é cobertura.
 #' @source Agregado de [cbo2002_isco88] pela hierarquia da própria CBO.
+#' @examples
+#' head(cbo2002_escada)
+#'
+#' # A escada tem três degraus — prefixo de quatro, três e dois dígitos — e é
+#' # tentada, nessa ordem, só sobre o que sobrou NA com `escada = TRUE`.
+#' table(cbo2002_escada$nivel)
 "cbo2002_escada"
 
 #' Correspondência da CBO-94 com a ISCO-88
@@ -218,6 +269,12 @@
 #' coluna `concordancia` que era constante 1 por construção e sugeria um
 #' diagnóstico que não existia.
 #' @source Coluna CBO-94 da mesma tábua do Ministério do Trabalho.
+#' @examples
+#' head(cbo94_isco88)
+#'
+#' # A CBO-94 chega à ISCO-88 e para aí: não há cbo94_para_isei08() nem
+#' # cbo94_para_prestigio08(). A assimetria é da tábua, não do pacote.
+#' nrow(cbo94_isco88)
 "cbo94_isco88"
 
 #' Vigências do cadastro de ocupações do TSE, 1998--2026
@@ -243,6 +300,16 @@
 #'   registro encerrou em 15/08/2026, mas o Tribunal ainda julga e publica
 #'   candidaturas, de modo que o `n` de 2026 há de crescer. O rótulo, que é o
 #'   que esta tabela guarda, não depende disso.
+#' @examples
+#' # O que as candidaturas mais declaram, em 1998--2026 somados:
+#' r <- tse_ocupacao_rotulos
+#' head(r[order(-r$n), c("cod_tse", "rotulo", "n")], 5)
+#'
+#' # Os códigos vigentes na safra em curso:
+#' sum(r$ate == 2026)
+#'
+#' # Um código pode ter mais de uma vigência, com rótulos diferentes:
+#' r[r$cod_tse == "215", ]
 "tse_ocupacao_rotulos"
 
 #' Códigos de ocupação do TSE que mudaram de nome ou de sentido em 2002
@@ -300,6 +367,15 @@
 #'   `pct_superior_*` reproduzem exatamente os que a versão anterior desta
 #'   tabela trazia digitados à mão — que era a única tabela do pacote não
 #'   gerada por script, e deixou de ser.
+#' @examples
+#' # Os códigos reutilizados: o mesmo número, outra ocupação. Ler qualquer um
+#' # deles como série contínua de 1998 a hoje produz uma trajetória que nunca
+#' # existiu.
+#' tse_quebra_2002[tse_quebra_2002$tipo == "reutilizado",
+#'                 c("cod_tse", "rotulo_ate_2000", "rotulo_apos_2002")]
+#'
+#' # A que tipo pertence cada um dos 44:
+#' table(tse_quebra_2002$tipo)
 "tse_quebra_2002"
 
 #' Critério externo para aferir a medida: patrimônio e escolaridade por ocupação
@@ -361,6 +437,15 @@
 #'
 #' @source Declaração de bens e grau de instrução das candidaturas ao TSE,
 #'   1998--2026 (patrimônio: 2006--2024; ver a seção acima).
+#' @examples
+#' # As ocupações com mais candidaturas no conjunto de validação:
+#' head(tse_validacao[order(-tse_validacao$n), ], 5)
+#'
+#' # A correlação que sustenta a medida: o ISEI atribuído por tradução contra
+#' # a escolaridade declarada, que o pacote nunca viu ao construir a régua.
+#' v <- tse_validacao
+#' v$isei <- suppressWarnings(tse_para_isei(v$cod_tse))
+#' round(stats::cor(v$isei, v$pct_superior, use = "complete.obs"), 3)
 "tse_validacao"
 
 #' Ponte da ISCO-08 de volta para a ISCO-88
@@ -381,6 +466,12 @@
 #' pacote está ancorado na ISCO-88.
 #' @source Módulo `isco0888.sps` do International Stratification and Mobility
 #'   File. <http://www.harryganzeboom.nl/ismf/index.htm>
+#' @examples
+#' head(isco08_isco88)
+#'
+#' # É esta tábua que permite entrar pela PNAD ou pelo Censo e chegar às
+#' # medidas ancoradas na ISCO-88.
+#' nrow(isco08_isco88)
 "isco08_isco88"
 
 #' Correspondência da COD do IBGE com a ISCO-08
@@ -407,6 +498,13 @@
 #' cobre 100% do seu.
 #' @source Estrutura da Ocupação (COD), IBGE, distribuída em
 #'   `inst/extdata/fontes/Estrutura_Ocupacao_COD.xls`.
+#' @examples
+#' head(cod_isco08)
+#'
+#' # Quase tudo é identidade — a COD do IBGE é a ISCO-08 com outro nome. As
+#' # poucas exceções são onde vale olhar antes de confiar.
+#' table(cod_isco08$correspondencia)
+#' cod_isco08[cod_isco08$correspondencia != "identidade", ]
 "cod_isco08"
 
 #' Posição na ocupação por código ISCO-88, medida na PNAD Contínua
@@ -478,4 +576,11 @@
 #'   <https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/>
 #'   Gerada por `data-raw/07_gera_posicao.R`. Os microdados **não** viajam com o
 #'   pacote (212 MB por trimestre); o que entra é esta tabela agregada.
+#' @examples
+#' # Dentro do mesmo ISCO convivem quem trabalha por conta própria e quem
+#' # emprega. É esta tabela, medida na PNAD Contínua, que separa os dois — e
+#' # foi ela que tirou o agricultor da classe alta.
+#' p <- isco_posicao_br
+#' head(p[order(-p$pct_conta_propria),
+#'        c("isco88", "n_obs", "pct_conta_propria", "pct_empregador")], 5)
 "isco_posicao_br"

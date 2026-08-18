@@ -23,4 +23,12 @@ isco08_medidas
 \description{
 Medidas ancoradas na ISCO-08
 }
+\examples{
+head(isco08_medidas)
+
+# A âncora é outra: um escore da ISCO-08 não é comparável com um da
+# ISCO-88, e misturar as duas numa mesma série é o erro mais comum.
+nrow(isco08_medidas)
+summary(isco08_medidas$isei08)
+}
 \keyword{datasets}

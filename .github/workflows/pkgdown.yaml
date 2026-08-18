@@ -1,0 +1,44 @@
+# Reconstroi e publica o site do pacote a cada push em main.
+#
+# Ele so entra em acao depois que o repositorio for aberto e o GitHub Pages
+# apontar para o branch gh-pages. Enquanto o site for servido de main/docs, o
+# build local (Rscript data-raw/constroi_site.R) e quem publica, e este
+# workflow fica como rede de seguranca.
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+name: pkgdown
+
+permissions:
+  contents: write
+
+jobs:
+  pkgdown:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_PAT: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: r-lib/actions/setup-pandoc@v2
+
+      - uses: r-lib/actions/setup-r@v2
+        with:
+          use-public-rspm: true
+
+      - uses: r-lib/actions/setup-r-dependencies@v2
+        with:
+          extra-packages: any::pkgdown, local::.
+          needs: website
+
+      - name: Constroi o site
+        run: Rscript data-raw/constroi_site.R
+
+      - name: Publica em gh-pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          clean: false
+          branch: gh-pages
+          folder: docs

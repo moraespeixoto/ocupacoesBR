@@ -1,0 +1,58 @@
+---
+title: "cbo_empate_escada"
+format: { html: { mermaid-format: svg } }
+---
+
+```{mermaid}
+%%{init: {"theme":"base","themeVariables":{"fontFamily":"Helvetica, Arial, sans-serif","fontSize":"15px","lineColor":"#34495E","textColor":"#212F3D","edgeLabelBackground":"#FFFFFF"},"flowchart":{"htmlLabels":false},"htmlLabels":false} }%%
+flowchart TB
+  IN["código CBO-2002<br/>vindo da RAIS, do CAGED, do eSocial"]
+  Q1{"quantos dígitos?"}
+
+  SEIS["busca em cbo2002_isco88<br/>1387 ocupações"]
+  QUATRO["busca em cbo2002_familia_isco88<br/>436 famílias"]
+
+  QE{"a família tem<br/>ISCO majoritário?"}
+  NOTA["19 das 436 empatam"]
+  MOD{"empate ="}
+  NA1["NA<br/>empate = 'na', o padrão"]
+  RESTO["ainda NA"]
+  MO["o ISCO da família<br/>empate = 'moda'"]
+
+  OK["ISCO-88"]
+
+  Q2{"escada = TRUE?"}
+  ESC["escada: tenta o prefixo de<br/>4, depois 3, depois 2 dígitos<br/>em cbo2002_escada"]
+  FIM["NA<br/>o pacote se abstém"]
+
+  IN --> Q1
+  Q1 -->|seis| SEIS
+  Q1 -->|quatro| QUATRO
+  Q1 -->|outro| FIM
+  SEIS --> OK
+  QUATRO --> QE
+  QE -->|sim| OK
+  QE -->|não| MOD
+  QE -.- NOTA
+  MOD --> NA1
+  MOD --> MO
+  MO --> OK
+  NA1 --> RESTO
+  SEIS -.->|não achou| RESTO
+  RESTO --> Q2
+  Q2 -->|sim| ESC
+  Q2 -->|não| FIM
+  ESC --> OK
+  ESC -.->|nenhum prefixo serve| FIM
+
+  classDef origem fill:#D6EAF8,stroke:#1B4F72,stroke-width:2px,color:#212F3D
+  classDef decisao fill:#FADBD8,stroke:#B03A2E,stroke-width:2px,color:#212F3D
+  classDef hub fill:#FCF3CF,stroke:#7D6608,stroke-width:2px,color:#212F3D
+  classDef nada fill:#EAECEE,stroke:#7F8C8D,stroke-width:2px,color:#212F3D
+  classDef nota fill:#E8DAEF,stroke:#4A235A,stroke-width:2px,color:#212F3D
+  class IN origem
+  class Q1,QE,MOD,Q2 decisao
+  class SEIS,QUATRO,MO,ESC,OK hub
+  class NA1,RESTO,FIM nada
+  class NOTA nota
+```

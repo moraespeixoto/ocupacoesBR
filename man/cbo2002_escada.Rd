@@ -44,4 +44,11 @@ ocupações elementares (ISEI 16 a 30). Uma cobertura maior comprada com
 inversão de classe não é cobertura.
 }
 
+\examples{
+head(cbo2002_escada)
+
+# A escada tem três degraus — prefixo de quatro, três e dois dígitos — e é
+# tentada, nessa ordem, só sobre o que sobrou NA com `escada = TRUE`.
+table(cbo2002_escada$nivel)
+}
 \keyword{datasets}

@@ -84,4 +84,12 @@ Como candidatos são selecionados por patrimônio, tomar estas proporções
 como piso — e não como estimativa central — é a leitura conservadora.
 }
 
+\examples{
+# Dentro do mesmo ISCO convivem quem trabalha por conta própria e quem
+# emprega. É esta tabela, medida na PNAD Contínua, que separa os dois — e
+# foi ela que tirou o agricultor da classe alta.
+p <- isco_posicao_br
+head(p[order(-p$pct_conta_propria),
+       c("isco88", "n_obs", "pct_conta_propria", "pct_empregador")], 5)
+}
 \keyword{datasets}

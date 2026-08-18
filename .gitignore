@@ -42,5 +42,8 @@ opencode.jsonc
 .kiro/
 .qoder/
 .codebuddy/
-.github/
+# O .github/ guarda instrucao de ferramenta de IA, que nao sobe; os workflows
+# do Actions, que sao do pacote, sobem. Dai a excecao.
+.github/*
+!.github/workflows/
 .claude/

@@ -1,0 +1,18 @@
+/* Os fluxogramas sao SVG de fundo claro, gerados pelo mermaid. No tema escuro
+   eles ficariam como ilhas de luz com contorno duro; a moldura branca com canto
+   arredondado os apresenta como figura, e nao como falha de tema. */
+.contents img[src*="figuras/"],
+.contents img[src$=".svg"] {
+  background: #ffffff;
+  border-radius: 8px;
+  padding: 0.75rem;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Tabelas largas de referencia rolam dentro de si, em vez de esticar a pagina. */
+.contents table {
+  display: block;
+  overflow-x: auto;
+  max-width: 100%;
+}

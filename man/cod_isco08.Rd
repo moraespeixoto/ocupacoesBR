@@ -37,4 +37,12 @@ uma tábua do Ministério do Trabalho que cobre metade do seu universo; esta
 cobre 100\% do seu.
 }
 
+\examples{
+head(cod_isco08)
+
+# Quase tudo é identidade — a COD do IBGE é a ISCO-08 com outro nome. As
+# poucas exceções são onde vale olhar antes de confiar.
+table(cod_isco08$correspondencia)
+cod_isco08[cod_isco08$correspondencia != "identidade", ]
+}
 \keyword{datasets}

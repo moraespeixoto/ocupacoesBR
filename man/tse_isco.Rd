@@ -41,4 +41,13 @@ tse_isco
 \description{
 Uma linha por código de ocupação (\code{CD_OCUPACAO}) das candidaturas.
 }
+\examples{
+# O agricultor trabalha por conta própria sem ser proprietário: as duas
+# marcas eram uma só até julho de 2026, e enquanto foram, o EGP o promovia
+# a IVc junto à classe alta.
+tse_isco[tse_isco$cod_tse == "601", ]
+
+# Quantos códigos o dicionário reconhece como o próprio mandato:
+tse_isco$cod_tse[tse_isco$politico]
+}
 \keyword{datasets}
