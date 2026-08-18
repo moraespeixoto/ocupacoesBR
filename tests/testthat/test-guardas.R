@@ -205,3 +205,45 @@ test_that("a busca de rotulo por texto devolve uma linha por termo procurado", {
                  c("rotulo", "cod_tse", "rotulo_tse"))
   }
 })
+
+test_that("CBO-2002 numerica nao derruba a chamada quando dois codigos sao curtos", {
+  # `formatC` nao vetoriza `width`. Enquanto `.norm_cbo2002` derivava o width
+  # por `ifelse`, qualquer vetor NUMERICO com dois ou mais codigos distintos de
+  # 3 ou 5 digitos morria em "the condition has length > 1" — e ler a RAIS com
+  # read.csv produz exatamente uma coluna numerica. O caso de UM codigo curto
+  # passava, o que escondia o defeito.
+  curtos <- list(c(10105L, 52305L),   # 5 e 5
+                 c(10105L, 111L),     # 5 e 3
+                 c(111L, 222L),       # 3 e 3
+                 c(252105L, 10105L),  # 6 e 5
+                 c(NA_integer_, 111L, 222L))
+  for (x in curtos) {
+    r <- suppressWarnings(cbo2002_para_isco(x))
+    expect_length(r, length(x))
+    expect_type(r, "character")
+  }
+
+  # o codigo bom no meio dos curtos continua traduzido: o vetor inteiro nao
+  # pode cair por causa dos vizinhos
+  expect_equal(suppressWarnings(cbo2002_para_isco(c(10105L, 52305L, 252105L))),
+               c(NA, NA, "2419"))
+
+  # e todas as portas da CBO-2002 passam pelo mesmo normalizador
+  for (f in c(cbo2002_para_isei, cbo2002_para_prestigio, cbo2002_para_egp,
+              cbo2002_para_isco08, cbo2002_para_isei08, cbo2002_concordancia,
+              crosswalk_cbo2002, checa_cobertura_cbo2002))
+    expect_no_error(suppressWarnings(suppressMessages(f(c(111L, 222L)))))
+})
+
+test_that("a CBO-2002 nao tem codigo com zero a esquerda, e a CBO-94 tem", {
+  # e por isso que a padronizacao numerica so recupera codigo de fato na
+  # CBO-94. Se uma tabua futura trouxer codigo iniciado em zero na CBO-2002,
+  # este teste quebra e a assimetria precisa ser reexaminada.
+  expect_equal(sum(substr(cbo2002_isco88$cbo2002, 1, 1) == "0"), 0L)
+  expect_equal(sum(substr(cbo2002_familia_isco88$familia, 1, 1) == "0"), 0L)
+  expect_gt(sum(substr(cbo94_isco88$cbo94, 1, 1) == "0"), 0L)
+
+  # na CBO-94 a leitura numerica e recuperavel, e precisa continuar sendo
+  z <- cbo94_isco88$cbo94[substr(cbo94_isco88$cbo94, 1, 1) == "0"][1:3]
+  expect_equal(cbo94_para_isco(as.integer(z)), cbo94_para_isco(z))
+})

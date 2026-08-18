@@ -183,8 +183,19 @@
 <code>DESCRIPTION</code> ganha a URL do site no campo <code>URL</code>. A NOTE de URL inválida do <code>R CMD check</code> passa de duas para três entradas, todas pelo mesmo motivo — o repositório fechado — e todas resolvem no mesmo momento.</li>
 <li>Dois workflows do GitHub Actions, escritos à mão e ainda não ativados: um reconstrói o site, outro roda <code>R CMD check</code> em três sistemas. O <code>.gitignore</code> ganhou a exceção <code>!.github/workflows/</code>, mantendo ignorado o resto do <code>.github/</code>.</li>
 <li>
-<code>R CMD check --as-cran</code>: 0 ERROR, 0 WARNING, as mesmas 2 NOTEs. Suíte em 1447 testes, sem falha. O tarball continua com os mesmos seis arquivos de topo.</li>
+<code>R CMD check --as-cran</code>: 0 ERROR, 0 WARNING, as mesmas 2 NOTEs. Suíte em 1470 testes, sem falha. O tarball continua com os mesmos seis arquivos de topo.</li>
 </ul></div>
+</div>
+<div class="section level3">
+<h3 id="a-porta-da-cbo-derrubava-a-chamada-quando-o-código-vinha-como-número-0-3-0">A porta da CBO-2002 derrubava a chamada quando o código vinha como número<a class="anchor" aria-label="anchor" href="#a-porta-da-cbo-derrubava-a-chamada-quando-o-c%C3%B3digo-vinha-como-n%C3%BAmero-0-3-0"></a></h3>
+<p>Passar à CBO-2002 um vetor <strong>numérico</strong> com dois ou mais códigos distintos de 3 ou 5 dígitos matava a chamada com <code>the condition has length &gt; 1</code>. Não é caso de laboratório: é o que sai de <code><a href="https://rdrr.io/r/utils/read.table.html" class="external-link">read.csv()</a></code> sobre a RAIS, onde a coluna de CBO vira <code>integer</code> e qualquer código malformado fica curto.</p>
+<p>A causa está numa linha de <code>.norm_cbo2002()</code>: o <code>width</code> do <code><a href="https://rdrr.io/r/base/formatc.html" class="external-link">formatC()</a></code> vinha de um <code><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse()</a></code>, e <code><a href="https://rdrr.io/r/base/formatc.html" class="external-link">formatC()</a></code> não vetoriza <code>width</code>. Com <strong>um</strong> código curto o vetor tinha comprimento 1 e a chamada passava — o que escondeu o defeito desde que a perna CBO existe. Os dois comprimentos agora vão em chamadas separadas, cada uma com o seu <code>width</code> escalar.</p>
+<p>As dez portas da CBO-2002 caíam juntas, porque todas passam pelo mesmo normalizador: as sete <code>cbo2002_para_*</code>, <code><a href="../reference/cbo2002_concordancia.html">cbo2002_concordancia()</a></code>, <code><a href="../reference/crosswalk_cbo2002.html">crosswalk_cbo2002()</a></code> e <code><a href="../reference/checa_cobertura_cbo2002.html">checa_cobertura_cbo2002()</a></code>. Um código malformado no meio do vetor derrubava também a tradução dos vizinhos, que estavam corretos. Agora ele volta <code>NA</code> com aviso, e o resto do vetor é traduzido.</p>
+<p>A CBO-94 e a COD nunca tiveram o problema: usam <code>width</code> escalar.</p>
+<div class="section level4">
+<h4 id="e-uma-assimetria-que-a-correção-revelou-0-3-0">E uma assimetria que a correção revelou<a class="anchor" aria-label="anchor" href="#e-uma-assimetria-que-a-corre%C3%A7%C3%A3o-revelou-0-3-0"></a></h4>
+<p><strong>Nenhum código da CBO-2002 começa com zero</strong> — 0 de 1.387 ocupações, 0 de 436 famílias, 0 de 558 prefixos da escada. Na CBO-94 são 231 de 1.387. Ou seja: a recuperação de zero à esquerda só faz trabalho de verdade na CBO-94; na CBO-2002 ela transformava um código curto num código igualmente inexistente, com a diferença de que o aviso passava a ser “sem correspondência” em vez de “deve ter 4 ou 6 dígitos”. Um teste novo trava as três contagens: se uma tábua futura trouxer código iniciado em zero na CBO-2002, a suíte quebra e a assimetria é reexaminada em vez de suposta.</p>
+</div>
 </div>
 <div class="section level3">
 <h3 id="também-nesta-versão-0-3-0">Também nesta versão<a class="anchor" aria-label="anchor" href="#tamb%C3%A9m-nesta-vers%C3%A3o-0-3-0"></a></h3>

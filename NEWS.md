@@ -261,8 +261,41 @@ como "ocodigodeclarado".
   reconstrói o site, outro roda `R CMD check` em três sistemas. O `.gitignore`
   ganhou a exceção `!.github/workflows/`, mantendo ignorado o resto do
   `.github/`.
-- `R CMD check --as-cran`: 0 ERROR, 0 WARNING, as mesmas 2 NOTEs. Suíte em 1447
+- `R CMD check --as-cran`: 0 ERROR, 0 WARNING, as mesmas 2 NOTEs. Suíte em 1470
   testes, sem falha. O tarball continua com os mesmos seis arquivos de topo.
+
+## A porta da CBO-2002 derrubava a chamada quando o código vinha como número
+
+Passar à CBO-2002 um vetor **numérico** com dois ou mais códigos distintos de 3
+ou 5 dígitos matava a chamada com `the condition has length > 1`. Não é caso de
+laboratório: é o que sai de `read.csv()` sobre a RAIS, onde a coluna de CBO vira
+`integer` e qualquer código malformado fica curto.
+
+A causa está numa linha de `.norm_cbo2002()`: o `width` do `formatC()` vinha de
+um `ifelse()`, e `formatC()` não vetoriza `width`. Com **um** código curto o
+vetor tinha comprimento 1 e a chamada passava — o que escondeu o defeito desde
+que a perna CBO existe. Os dois comprimentos agora vão em chamadas separadas,
+cada uma com o seu `width` escalar.
+
+As dez portas da CBO-2002 caíam juntas, porque todas passam pelo mesmo
+normalizador: as sete `cbo2002_para_*`, `cbo2002_concordancia()`,
+`crosswalk_cbo2002()` e `checa_cobertura_cbo2002()`. Um código malformado no
+meio do vetor derrubava também a tradução dos vizinhos, que estavam corretos.
+Agora ele volta `NA` com aviso, e o resto do vetor é traduzido.
+
+A CBO-94 e a COD nunca tiveram o problema: usam `width` escalar.
+
+### E uma assimetria que a correção revelou
+
+**Nenhum código da CBO-2002 começa com zero** — 0 de 1.387 ocupações, 0 de 436
+famílias, 0 de 558 prefixos da escada. Na CBO-94 são 231 de 1.387. Ou seja: a
+recuperação de zero à esquerda só faz trabalho de verdade na CBO-94; na
+CBO-2002 ela transformava um código curto num código igualmente inexistente,
+com a diferença de que o aviso passava a ser "sem correspondência" em vez de
+"deve ter 4 ou 6 dígitos". Um teste novo trava as três contagens: se uma tábua
+futura trouxer código iniciado em zero na CBO-2002, a suíte quebra e a
+assimetria é reexaminada em vez de suposta.
+
 
 ## Também nesta versão
 

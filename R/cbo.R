@@ -36,9 +36,16 @@
     lim[sujo] <- NA_character_
     n <- nchar(lim)
     if (num) {
-      curto <- !is.na(lim) & n %in% c(3L, 5L)
-      lim[curto] <- formatC(as.integer(lim[curto]),
-                            width = ifelse(n[curto] == 3L, 4L, 6L),
+      # `formatC` NAO vetoriza `width`: com um vetor ali, a chamada morre em
+      # "the condition has length > 1" — o que acontecia sempre que dois ou
+      # mais codigos distintos precisavam de zero, isto e, no caso normal de
+      # ler a RAIS com read.csv. Os dois comprimentos vao em chamadas
+      # separadas, cada uma com o seu `width` escalar.
+      tres  <- !is.na(lim) & n == 3L
+      cinco <- !is.na(lim) & n == 5L
+      lim[tres]  <- formatC(as.integer(lim[tres]),  width = 4L,
+                            flag = "0", format = "d")
+      lim[cinco] <- formatC(as.integer(lim[cinco]), width = 6L,
                             flag = "0", format = "d")
       n <- nchar(lim)
     }
