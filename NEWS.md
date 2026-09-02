@@ -1,3 +1,43 @@
+# ocupacoesBR 0.4.0
+
+## O número que faltava reproduzir agora reproduz: `tse_dispersao_patrimonio`
+
+O artigo de método afirma que a correlação entre status e patrimônio cai de
+**0,681** no nível da ocupação para **0,208** no nível do indivíduo, e que essa
+queda é o resultado, não um defeito: uma escala de posição ocupacional explica
+a variação *entre* ocupações e quase nada *dentro* de cada uma. O segundo
+número era o único do texto que o leitor não podia recalcular — dependia da
+microbase de patrimônio, que não acompanha o pacote e não vai acompanhar.
+
+A saída não foi publicar microdado. A correlação de Pearson é função apenas de
+somatórios, e o ISEI é constante dentro de cada nível: basta publicar, por
+nível de status, o `n` e as somas dos logaritmos do patrimônio e dos seus
+quadrados. É o que a nova tabela traz — 29 linhas, 1,5 KB, nada identificável —
+e dela o coeficiente sai **exato**, não aproximado. `data-raw/08_gera_dispersao.R`
+trava essa identidade contra o microdado (`abs(r_micro - r_agreg) < 1e-12`), e
+`test-fonte.R` a trava contra o dado publicado.
+
+A coluna `sd_log` mostra o mesmo fato de perto, e é a razão para a tabela ir
+além dos somatórios: dentro de um mesmo nível de status, o desvio padrão do log
+do patrimônio é da ordem de 1,7 — uma potência de dez. Daí a advertência de
+`?tse_para_isei`, que agora aponta para cá: não use o ISEI como proxy de renda
+ou patrimônio individual.
+
+A vinheta `validacao` e `?tse_para_isei` passam a extrair o valor da tabela em
+vez de citá-lo (a ajuda dizia 0,207; o valor é 0,208).
+
+## No artigo, fora do repositório
+
+A validação convergente ganha a análise de sensibilidade que faltava: o
+coeficiente com cada critério externo sob quatro especificações — todas as
+ocupações, sem os códigos de autorrótulo, ponderada por candidaturas e na
+âncora ISCO-08 — com intervalo de 95% por bootstrap. Retirar os códigos de
+autorrótulo **eleva** a correlação com o patrimônio (0,681 para 0,703), que é o
+sinal esperado. O artigo passa a declarar também o que o piso de duzentas
+candidaturas deixa de fora (50 ocupações, de ISEI médio 53,8 contra 47,4 das
+incluídas) e o viés de subdeclaração do patrimônio, que é correlacionado com o
+componente proprietário da classe alta. E ganha a primeira figura.
+
 # ocupacoesBR 0.3.1
 
 ## A safra de 2026 é atualizada para a geração de 01/09/2026

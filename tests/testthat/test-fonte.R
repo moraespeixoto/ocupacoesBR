@@ -122,6 +122,31 @@ test_that("a medida se sustenta contra um criterio EXTERNO a ela", {
   expect_identical(is.na(v$mediana_patrimonio), v$n_com_bens < 200L)
 })
 
+test_that("a dispersao individual reproduz o 0,208 sem microdado", {
+  # A tabela publica somatorios justamente para que este numero — o unico do
+  # artigo que dependia da microbase — seja recalculavel por quem so instalou
+  # o pacote. Se a identidade abaixo falhar, a tabela deixou de servir ao que
+  # existe para servir.
+  d <- tse_dispersao_patrimonio
+  expect_true(all(d$n > 0))
+  expect_gt(sum(d$n), 1e6)
+  expect_false(is.unsorted(d$isei88))
+  N <- sum(d$n); sx <- sum(d$isei88 * d$n); sy <- sum(d$soma_log)
+  sxx <- sum(d$isei88^2 * d$n); syy <- sum(d$soma_log2)
+  sxy <- sum(d$isei88 * d$soma_log)
+  r <- (N * sxy - sx * sy) / sqrt((N * sxx - sx^2) * (N * syy - sy^2))
+  expect_equal(round(r, 3), 0.208)
+  # os somatorios tem de ser consistentes com as colunas de conveniencia
+  expect_equal(d$media_log, round(d$soma_log / d$n, 4))
+  # o contraste com o nivel da ocupacao e o resultado, e e grande
+  v <- tse_validacao
+  v$isei <- tse_para_isei(v$cod_tse)
+  b <- v[!is.na(v$isei) & !is.na(v$mediana_patrimonio), ]
+  expect_gt(cor(b$isei, log(b$mediana_patrimonio)) - r, 0.4)
+  # dispersao DENTRO do nivel de status: uma ordem de grandeza, nao ruido
+  expect_gt(stats::median(d$sd_log), 1)
+})
+
 test_that("a regressao de genero de ?tse_para_isei reproduz a partir do dado publicado", {
   # Ate 29/07/2026 nao reproduzia: o piso de declaracoes de bens descartava a
   # linha inteira e amputava 46 ocupacoes com escolaridade e genero medidos,

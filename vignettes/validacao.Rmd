@@ -43,6 +43,14 @@ c(com_escolaridade = nrow(v), com_patrimonio = nrow(vb))
 ```{r}
 r <- function(x, y, m = "pearson") round(cor(x, y, method = m), 3)
 
+# A correlação no nível do INDIVÍDUO sai dos somatórios publicados em
+# `tse_dispersao_patrimonio`, sem microdado: veja `?tse_dispersao_patrimonio`.
+d <- tse_dispersao_patrimonio
+N <- sum(d$n); sx <- sum(d$isei88 * d$n); sy <- sum(d$soma_log)
+sxx <- sum(d$isei88^2 * d$n); syy <- sum(d$soma_log2)
+sxy <- sum(d$isei88 * d$soma_log)
+r_individual <- (N * sxy - sx * sy) / sqrt((N * sxx - sx^2) * (N * syy - sy^2))
+
 data.frame(
   criterio = c("% com ensino superior", "log da mediana de patrimonio"),
   n        = c(nrow(v), nrow(vb)),
@@ -71,7 +79,7 @@ par(op)
 ## O contraste que é o verdadeiro resultado
 
 No nível do **indivíduo**, a correlação entre ISEI e patrimônio é de apenas
-**0,207**. No nível da **ocupação**, é `r format(r(vb$isei, log(vb$mediana_patrimonio)), decimal.mark = ",")`. Essa diferença não é defeito: é a
+`r format(round(r_individual, 3), decimal.mark = ",")`. No nível da **ocupação**, é `r format(r(vb$isei, log(vb$mediana_patrimonio)), decimal.mark = ",")`. Essa diferença não é defeito: é a
 definição do que o ISEI é.
 
 Uma medida de posição ocupacional explica a variância **entre** ocupações e quase

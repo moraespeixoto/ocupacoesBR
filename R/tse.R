@@ -72,7 +72,8 @@ tse_para_isco <- function(cod, ano = NULL) {
 #'
 #' **A relação com o critério externo não é linear nem monótona.** Veja
 #' `vignette("validacao")`: a correlação entre ISEI e patrimônio é de 0,681 no
-#' nível da ocupação e de apenas 0,207 no do indivíduo. Uma medida de posição
+#' nível da ocupação e de apenas 0,208 no do indivíduo, valor que
+#' [tse_dispersao_patrimonio] permite recalcular. Uma medida de posição
 #' ocupacional explica a variância *entre* ocupações e quase nada *dentro* de
 #' cada uma — por isso **não use o ISEI como proxy de renda individual**.
 #'
