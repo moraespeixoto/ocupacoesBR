@@ -112,6 +112,17 @@ test_that("tse_diff_cadastro descreve a troca de inventário de 2002", {
   expect_error(tse_diff_cadastro(1990, 2002), "sem cadastro")
 })
 
+test_that("nenhum rótulo normalizado aponta para dois códigos", {
+  # `tse_rotulo_para_cod(exato = TRUE)` usa `match()`, que devolve o PRIMEIRO
+  # código com aquele rótulo. Isso só é correto enquanto rótulo normalizado e
+  # código forem um-para-um; uma safra futura pode quebrar isso em silêncio.
+  r <- tse_ocupacao_rotulos
+  chave <- .norm_rotulo(r$rotulo)
+  por_rotulo <- tapply(r$cod_tse, chave, function(x) length(unique(x)))
+  colide <- names(por_rotulo)[por_rotulo > 1]
+  expect_length(colide, 0)
+})
+
 test_that("o rótulo entra no crosswalk e volta ao código", {
   cw <- crosswalk_tse()
   expect_true("rotulo" %in% names(cw))

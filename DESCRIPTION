@@ -1,6 +1,6 @@
 Package: ocupacoesBR
 Title: Traduz a Ocupação Declarada ao TSE em Classificações Padronizadas
-Version: 0.3.0
+Version: 0.3.1
 Authors@R:
     person("Vitor", "Peixoto", , "vpeixoto@uenf.br", role = c("aut", "cre"))
 Description: Traduz a ocupação registrada em fontes brasileiras para a
@@ -14,7 +14,10 @@ Description: Traduz a ocupação registrada em fontes brasileiras para a
     CAGED e no eSocial. As tabelas de conversão derivam das sintaxes publicadas
     do International Stratification and Mobility File (Ganzeboom e Treiman) e da
     tábua oficial de conversão do Ministério do Trabalho, e são geradas por
-    script a partir dos arquivos originais, nunca transcritas manualmente.
+    script a partir dos arquivos originais, nunca transcritas manualmente. O
+    dicionário que leva o código do TSE à ISCO-88 é a única peça autoral: foi
+    construído pelo autor, código a código, e é validado contra patrimônio e
+    escolaridade das próprias candidaturas.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Language: pt-BR

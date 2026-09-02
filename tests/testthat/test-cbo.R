@@ -103,6 +103,25 @@ test_that("crosswalk_cbo2002 aceita familia, como cbo2002_para_isco", {
   expect_false(is.na(cw$isei88))
 })
 
+test_that("crosswalk_cbo2002 nao devolve o que cbo2002_para_isco recusa", {
+  # familia empatada: a porta devolve NA por padrao, e a tabela auditavel
+  # devolvia o vencedor do desempate lexicografico sem dizer nada
+  emp <- cbo2002_familia_isco88$familia[cbo2002_familia_isco88$empate %in% TRUE]
+  expect_gt(length(emp), 0)
+  f <- emp[1]
+  cw <- crosswalk_cbo2002(f)
+  expect_true(cw$empate)
+  expect_true(is.na(cw$isco88))
+  expect_true(is.na(cw$isei88))
+  expect_equal(cw$isco88, suppressWarnings(cbo2002_para_isco(f)))
+  cm <- crosswalk_cbo2002(f, empate = "moda")
+  expect_true(cm$empate)
+  expect_equal(cm$isco88, cbo2002_para_isco(f, empate = "moda"))
+  # ocupacao de seis digitos e familia nao empatada nunca sao marcadas
+  expect_false(crosswalk_cbo2002("1111-05")$empate)
+  expect_false(any(crosswalk_cbo2002()$empate))
+})
+
 test_that("checa_cobertura_cbo2002 recusa vazio e avisa sobre sem-correspondencia", {
   expect_error(checa_cobertura_cbo2002(NULL), "NULL")
   expect_warning(checa_cobertura_cbo2002(c("010105", "111105"), silencioso = TRUE),

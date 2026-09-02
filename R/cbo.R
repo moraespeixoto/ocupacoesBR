@@ -350,25 +350,33 @@ cbo94_para_isei <- function(cbo94) {
 #' Tabela completa de traducao a partir da CBO-2002
 #'
 #' @param cbo Vetor opcional de codigos. Se omitido, devolve a tabua inteira.
+#' @inheritParams cbo2002_para_isco
 #' @param escada Se `TRUE`, sobe a hierarquia da CBO para preencher as ocupacoes
 #'   ausentes da tabua; veja [cbo2002_para_isco()]. A coluna `nivel_usado` sai
 #'   de qualquer modo, e diz de que degrau veio o ISCO de cada linha: 6 e a
 #'   propria ocupacao, 4 a familia, 3 o subgrupo, 2 o subgrupo principal.
 #' @return `data.frame` com CBO-2002, titulo, familia, CBO-94, ISCO-88, ISCO-08,
-#'   ISEI, SIOPS e EGP.
+#'   ISEI, SIOPS, EGP, `agregado`, `empate` e `nivel_usado`. `empate` e `TRUE`
+#'   quando a linha e uma familia de quatro digitos sem ISCO majoritario; com
+#'   `empate = "na"` (padrao) o ISCO dessa linha sai `NA`, exatamente como em
+#'   [cbo2002_para_isco()] — a tabela nao pode devolver o que a porta recusa.
 #' @examples
 #' head(crosswalk_cbo2002())
 #' crosswalk_cbo2002(c("1111-05", "225120"))
 #' @export
-crosswalk_cbo2002 <- function(cbo = NULL, escada = FALSE) {
+crosswalk_cbo2002 <- function(cbo = NULL, empate = c("na", "moda"),
+                              escada = FALSE) {
+  empate <- match.arg(empate)
   tab <- ocupacoesBR::cbo2002_isco88
   if (is.null(cbo)) {
     d <- tab
     d$agregado <- FALSE
+    d$empate   <- FALSE
   } else {
     x <- .norm_cbo2002(cbo)
     d <- tab[match(x, tab$cbo2002), ]
     d$cbo2002 <- x
+    d$empate  <- FALSE
     # família de 4 dígitos: `cbo2002_para_isco()` a aceita, então a tabela
     # completa também precisa aceitar — antes devolvia uma linha toda NA.
     fam <- !is.na(x) & nchar(x) == 4L
@@ -378,6 +386,11 @@ crosswalk_cbo2002 <- function(cbo = NULL, escada = FALSE) {
       d$titulo[fam]  <- NA_character_
       d$cbo94[fam]   <- NA_character_
       d$isco88[fam]  <- ocupacoesBR::cbo2002_familia_isco88$isco88[j]
+      # a familia empatada e marcada sempre; com empate = "na" o ISCO tambem
+      # cai, senao a tabela "auditavel" devolveria em silencio o vencedor do
+      # desempate lexicografico que `cbo2002_para_isco()` recusa por padrao
+      d$empate[fam]  <- ocupacoesBR::cbo2002_familia_isco88$empate[j] %in% TRUE
+      if (empate == "na") d$isco88[fam & d$empate] <- NA_character_
     }
     d$agregado <- fam
   }
@@ -399,6 +412,7 @@ crosswalk_cbo2002 <- function(cbo = NULL, escada = FALSE) {
     siops88 = ocupacoesBR::isco88_medidas$siops88[m],
     egp     = isco88_para_egp(d$isco88, avisar = FALSE),
     agregado = d$agregado,
+    empate   = d$empate,
     nivel_usado = nivel,
     stringsAsFactors = FALSE, row.names = NULL)
 }

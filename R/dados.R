@@ -295,8 +295,8 @@
 #' uma ocupação rara "sumir e voltar" a cada pleito. A vigência se interrompe
 #' quando o **rótulo** muda, não quando a frequência cai a zero.
 #' @source `DS_OCUPACAO` dos arquivos `consulta_cand` do TSE, 1998--2026
-#'   (3.368.921 candidaturas, campo 100% preenchido nas 15 eleições). A safra
-#'   de 2026 é a geração de 17/08/2026, 08:30, e é **aberta**: o prazo de
+#'   (3.369.244 candidaturas, campo 100% preenchido nas 15 eleições). A safra
+#'   de 2026 é a geração de 01/09/2026, 12:31, e é **aberta**: o prazo de
 #'   registro encerrou em 15/08/2026, mas o Tribunal ainda julga e publica
 #'   candidaturas, de modo que o `n` de 2026 há de crescer. O rótulo, que é o
 #'   que esta tabela guarda, não depende disso.
@@ -402,7 +402,7 @@
 #'
 #' Entram ocupações com pelo menos 200 candidaturas. A mediana de patrimônio
 #' exige um segundo piso, de 200 declarações de bens, porque mediana apoiada em
-#' poucas declarações é ruidosa: sem ele a correlação com o ISEI cai de 0,682
+#' poucas declarações é ruidosa: sem ele a correlação com o ISEI cai de 0,681
 #' para cerca de 0,63, não porque a medida piore, mas porque o critério externo
 #' fica instável.
 #'

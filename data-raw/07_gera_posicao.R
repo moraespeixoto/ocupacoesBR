@@ -20,7 +20,7 @@
 #   de painel UPA/V1008/V1014/V2003/V20082.
 #
 # OS MICRODADOS NAO ESTAO NESTE REPOSITORIO e nao devem estar: sao 212 MB
-# comprimidos por trimestre. Ficam em /home/nerd/dados_pnad, extraidos em
+# comprimidos por trimestre. Ficam em ~/dados_pnad (ou OCUPACOESBR_PNAD), extraidos em
 # colunas por data-raw/extrai_tri.py. O que entra no pacote e a tabela
 # AGREGADA — sem individuo, sem identificador, ~15 KB.
 #
@@ -45,7 +45,8 @@
 # Rodar: Rscript data-raw/07_gera_posicao.R
 # ============================================================================
 
-PNAD <- "/home/nerd/dados_pnad"
+# Mesmo padrao dos scripts 05/05a: variavel de ambiente com fallback local
+PNAD <- path.expand(Sys.getenv("OCUPACOESBR_PNAD", "~/dados_pnad"))
 arq  <- list.files(PNAD, "^cols_.*csv$", full.names = TRUE)
 if (!length(arq))
   stop("microdados da PNAD ausentes em ", PNAD,

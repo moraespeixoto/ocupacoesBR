@@ -4,10 +4,14 @@
 \alias{crosswalk_cbo2002}
 \title{Tabela completa de traducao a partir da CBO-2002}
 \usage{
-crosswalk_cbo2002(cbo = NULL, escada = FALSE)
+crosswalk_cbo2002(cbo = NULL, empate = c("na", "moda"), escada = FALSE)
 }
 \arguments{
 \item{cbo}{Vetor opcional de codigos. Se omitido, devolve a tabua inteira.}
+
+\item{empate}{O que fazer quando a familia nao tem ISCO majoritario:
+\code{"na"} (padrao) devolve \code{NA}; \code{"moda"} devolve o vencedor do desempate
+por menor codigo, como nas versoes anteriores.}
 
 \item{escada}{Se \code{TRUE}, sobe a hierarquia da CBO para preencher as ocupacoes
 ausentes da tabua; veja \code{\link[=cbo2002_para_isco]{cbo2002_para_isco()}}. A coluna \code{nivel_usado} sai
@@ -16,7 +20,10 @@ propria ocupacao, 4 a familia, 3 o subgrupo, 2 o subgrupo principal.}
 }
 \value{
 \code{data.frame} com CBO-2002, titulo, familia, CBO-94, ISCO-88, ISCO-08,
-ISEI, SIOPS e EGP.
+ISEI, SIOPS, EGP, \code{agregado}, \code{empate} e \code{nivel_usado}. \code{empate} e \code{TRUE}
+quando a linha e uma familia de quatro digitos sem ISCO majoritario; com
+\code{empate = "na"} (padrao) o ISCO dessa linha sai \code{NA}, exatamente como em
+\code{\link[=cbo2002_para_isco]{cbo2002_para_isco()}} — a tabela nao pode devolver o que a porta recusa.
 }
 \description{
 Tabela completa de traducao a partir da CBO-2002

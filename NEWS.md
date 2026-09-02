@@ -1,3 +1,61 @@
+# ocupacoesBR 0.3.1
+
+## A safra de 2026 é atualizada para a geração de 01/09/2026
+
+A eleição de 2026 continua aberta e o TSE republica o arquivo de candidaturas
+duas vezes ao dia. Esta versão troca a geração fixada de **17/08/2026, 08:30**
+(20.506 candidaturas) pela de **01/09/2026, 12:31** (20.829 candidaturas) —
+323 candidaturas a mais, todas com o mesmo tratamento de safra aberta:
+`eleito` e votos seguem `NA`, e o patrimônio segue fora da validação por falta
+do IPCA de outubro de 2026.
+
+**O achado central não muda.** Dos 210 códigos observados na nova geração (211
+na anterior), nenhum é inédito: seguem todos dentro dos 275 que o dicionário já
+cobria. `tse_isco` não mudou; nenhuma ponte mudou; nenhum ISEI, prestígio, EGP,
+classe ou estrato se deslocou de nenhum código. `tse_diff_cadastro(2024, 2026)`
+segue sem código criado (0), e os "extintos" seguem sendo artefato de safra
+pequena — 46 contra 2024, 48 contra 2022 (era 47).
+
+O total de candidaturas do pacote sobe de 3.368.921 para **3.369.244**. O
+artigo de método (`paper/artigo.qmd`, fora do repositório) foi atualizado para
+a nova geração e para as novas contagens.
+
+## Três correções apontadas por revisão externa
+
+* **O patrimônio do agricultor estava descrito com o verbo errado.**
+  `?tse_para_classe` (e o artigo) diziam que a mediana do código 601 "fica
+  acima do máximo das classes populares por menos de três mil reais". O número
+  era de uma safra anterior; recomputado sobre `tse_validacao`, a mediana do
+  601 é R$ 244.790 e o máximo das populares (excluído o próprio 601) é
+  R$ 253.602 — o agricultor está **dentro** da faixa, com só um código do
+  estrato acima dele. A conclusão (topo da classe popular, não fora dela) não
+  muda; a frase, sim. É exatamente o modo de erro que a regra "número por
+  execução" existe para impedir: o número era extraído, o verbo era digitado.
+  O mesmo vale para a correlação ISEI--patrimônio, que os `.Rd` citavam como
+  0,682 e é 0,681 na safra atual; a vinheta `validacao` passa a extraí-la.
+
+* **`crosswalk_cbo2002()` devolvia o que `cbo2002_para_isco()` recusa.** Para
+  família de quatro dígitos sem ISCO majoritário, a porta devolve `NA` por
+  padrão (`empate = "na"`), mas a tabela auditável entregava em silêncio o
+  vencedor do desempate lexicográfico — o viés que o próprio pacote documenta
+  em `?cbo2002_para_isco`. A função ganha o argumento `empate` (mesmo padrão da
+  porta) e a coluna `empate`, que marca a família empatada em qualquer modo.
+  Teste novo em `test-cbo.R`.
+
+* **O artigo carimbava a versão errada do pacote.** O Apêndice A imprimia
+  `0.3.0` num texto que descrevia a geração da 0.3.1, porque o `.qmd` lê o
+  pacote instalado e o cache do Quarto reaproveitava a render antiga. O chunk
+  `setup` do artigo passa a exigir `packageVersion("ocupacoesBR") >= "0.3.1"`,
+  e ganha travas para os números que a prosa escreve por extenso (os "dezesseis
+  mais um" códigos sem ISCO e os 0,68/0,76 do resumo, que o YAML não executa).
+
+Duas frágeis a menos: `data-raw/07_gera_posicao.R` lia a PNAD de um caminho
+fixo de outra máquina, e passa a usar `OCUPACOESBR_PNAD` com fallback em
+`~/dados_pnad`, como os scripts 05/05a; e `test-rotulos.R` trava que nenhum
+rótulo normalizado aponte para dois códigos, condição de que
+`tse_rotulo_para_cod(exato = TRUE)` depende sem dizer. O DESCRIPTION distingue
+agora as pontes geradas por script do dicionário TSE→ISCO-88, que é autoral.
+
 # ocupacoesBR 0.3.0
 
 ## A safra de 2026 entra, e o dicionário não precisou de uma linha

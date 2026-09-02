@@ -71,7 +71,7 @@ par(op)
 ## O contraste que é o verdadeiro resultado
 
 No nível do **indivíduo**, a correlação entre ISEI e patrimônio é de apenas
-**0,207**. No nível da **ocupação**, é 0,682. Essa diferença não é defeito: é a
+**0,207**. No nível da **ocupação**, é `r format(r(vb$isei, log(vb$mediana_patrimonio)), decimal.mark = ",")`. Essa diferença não é defeito: é a
 definição do que o ISEI é.
 
 Uma medida de posição ocupacional explica a variância **entre** ocupações e quase

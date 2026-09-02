@@ -37,7 +37,7 @@ não é microdado, não identifica ninguém e pode viajar com o pacote.
 
 Entram ocupações com pelo menos 200 candidaturas. A mediana de patrimônio
 exige um segundo piso, de 200 declarações de bens, porque mediana apoiada em
-poucas declarações é ruidosa: sem ele a correlação com o ISEI cai de 0,682
+poucas declarações é ruidosa: sem ele a correlação com o ISEI cai de 0,681
 para cerca de 0,63, não porque a medida piore, mas porque o critério externo
 fica instável.
 
