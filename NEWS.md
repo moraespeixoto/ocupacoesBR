@@ -1,3 +1,50 @@
+# ocupacoesBR 0.4.1
+
+## O patrimônio estava dobrado, e agora não está
+
+Todo valor de patrimônio que este pacote publicou até a 0.4.0 estava **duas
+vezes maior que o declarado**. A causa não é do pacote: a microbase de
+validação vinha de uma agregação de bens que somava cada bem duas vezes.
+
+**A prova.** Extraído o CSV bruto do TSE de 2024 (`bem_candidato_2024_AC.csv`)
+e somados os bens candidato a candidato, das 1.206 candidaturas com bens a
+fonte antiga bate em **2** e a fonte nova bate em **1.206**. Sobre o conjunto
+das 296.096 candidaturas de 2024, a razão entre as duas é **exatamente 2,0 em
+100% dos casos**. A fonte passa a ser a microbase construída a partir de
+`novissimos_dados_tse`, cuja chave tripla de bens já está corrigida.
+
+**O que muda:** todo valor absoluto em reais. A mediana do agricultor (601) vai
+de R$ 244.790 para **R$ 122.395**; o máximo das classes populares, de
+R$ 253.602 para **R$ 126.801**. Os `.Rd` afetados foram corrigidos.
+
+**O que NÃO muda, e é a maior parte do que o pacote afirma.** Dobrar tudo é
+mudança de escala, e `log(2x)` difere de `log(x)` por uma constante. Logo:
+
+* a correlação entre ISEI e log do patrimônio no nível da ocupação segue
+  **0,681**, e o Spearman segue 0,695;
+* a correlação no nível do indivíduo segue **0,207** (era 0,208 antes de a
+  base ganhar 12.798 candidaturas nas safras fechadas, não por causa da
+  correção de escala);
+* `sd_log` em `tse_dispersao_patrimonio` segue **1,70** — desvio padrão é
+  invariante a deslocamento;
+* a conclusão sobre o agricultor sobrevive inteira: as duas medianas dobravam
+  juntas, de modo que ele continua **dentro** da faixa das classes populares,
+  com um só código do estrato acima dele.
+
+Muda também `media_log` em `tse_dispersao_patrimonio`, deslocada por
+`log(2) = 0,693` em cada nível — o que não afeta o coeficiente que a tabela
+existe para reproduzir, porque um deslocamento constante não move a
+correlação.
+
+## A microbase mudou de fonte, e ganhou linhas
+
+`data-raw/05a_microbase_2026.R` passa a ler a microbase de
+`classe_recrutamento_politico` em vez da antiga de `vices_do_brasil`. Além da
+correção dos bens, a base nova vem do repositório canônico de dados do TSE e
+traz **12.798 candidaturas a mais** nas safras de 1998 a 2024. Três colunas
+saíram do contrato (`eleito_v1`, `eleito_1t`, `prest_contas`), nenhuma
+consumida pela validação.
+
 # ocupacoesBR 0.4.0
 
 ## O número que faltava reproduzir agora reproduz: `tse_dispersao_patrimonio`

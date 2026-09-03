@@ -44,7 +44,7 @@ distribuir microdado de patrimônio.
 
 No nível da \strong{ocupação}, o ISEI correlaciona-se a 0,681 com o log da
 mediana de patrimônio (veja \link{tse_validacao}). No nível do \strong{indivíduo},
-a 0,208. A queda não é defeito de medida: é a definição operacional do que
+a 0,207. A queda não é defeito de medida: é a definição operacional do que
 uma escala de posição ocupacional faz, que é explicar a variação \emph{entre}
 ocupações e quase nada \emph{dentro} de cada uma. A coluna \code{sd_log} mostra o
 fenômeno diretamente — o desvio padrão do log do patrimônio dentro de um

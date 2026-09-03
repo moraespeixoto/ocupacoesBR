@@ -419,7 +419,7 @@
 #' Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,765 (Spearman
 #' 0,812). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
 #' têm mediana: r = 0,681 (Spearman 0,695). No nível do **indivíduo** a
-#' correlação com patrimônio é de apenas 0,208, e o contraste entre 0,208 e 0,681
+#' correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,681
 #' é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
 #' quase nada dentro de cada uma.
 #' @section O patrimônio de 2026 não entra, e por quê:
@@ -477,7 +477,7 @@
 #' @section O contraste que a tabela existe para sustentar:
 #' No nível da **ocupação**, o ISEI correlaciona-se a 0,681 com o log da
 #' mediana de patrimônio (veja [tse_validacao]). No nível do **indivíduo**,
-#' a 0,208. A queda não é defeito de medida: é a definição operacional do que
+#' a 0,207. A queda não é defeito de medida: é a definição operacional do que
 #' uma escala de posição ocupacional faz, que é explicar a variação *entre*
 #' ocupações e quase nada *dentro* de cada uma. A coluna `sd_log` mostra o
 #' fenômeno diretamente — o desvio padrão do log do patrimônio dentro de um

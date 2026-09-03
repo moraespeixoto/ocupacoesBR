@@ -46,19 +46,35 @@
 # ficam NA, não FALSE. Nenhuma coluna que `05_gera_validacao.R` consome
 # depende de apuração, que é o que torna a safra utilizável aqui.
 #
+# CORREÇÃO DE 03/09/2026 — A FONTE DE 1998-2024 MUDOU, E O MOTIVO IMPORTA.
+# Até aqui este script lia `microdados_classe_v2.rds`, cuja agregação de bens
+# (`bens_por_cand_2006_2024.rds`) SOMAVA CADA BEM DUAS VEZES. Medido contra o
+# CSV bruto do TSE (`bem_candidato_2024_AC.csv`, 1.206 candidaturas): a v2 bate
+# em 2 delas, a fonte nova bate em 1.206, e a razão v2/nova é exatamente 2,0 em
+# 100% das 296.096 candidaturas de 2024. Todo valor de patrimônio que saiu
+# daqui até a versão 0.4.0 do pacote estava, portanto, dobrado.
+#
+# A fonte passa a ser `microdados_classe_v3.rds`, construída pelo projeto
+# `classe_recrutamento_politico` a partir de `~/novissimos_dados_tse/bancos/`,
+# cuja chave tripla de bens já está corrigida. O que NÃO muda com isso: toda
+# quantidade invariante a escala — a correlação de Pearson com o LOG do
+# patrimônio (log(2x) difere de log(x) por uma constante), o Spearman, o desvio
+# padrão do log, o Gini e qualquer razão entre grupos. O que muda: todo valor
+# absoluto em reais.
+#
 # FONTES (nenhuma versionada):
-#   ~/vices_do_brasil/DADOS/raw/microdados_classe_v2.rds   (1998-2024)
+#   ~/classe_recrutamento_politico/DADOS/raw/microdados_classe_v3.rds (1998-2024)
 #   ~/novissimos_dados_tse/bancos/candidaturas/candidaturas_2026.rds
 #
 # SAÍDA: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds
 #   Nome próprio, e fora da árvore do `vices_do_brasil`, para não colidir com
-#   o `microdados_classe_v3.rds` que aquele projeto gera para o artigo dele.
+#   a microbase que aquele projeto gera para o artigo dele.
 #
 # Rodar: Rscript data-raw/05a_microbase_2026.R
 # ============================================================================
 
 MICRO_V2 <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE_V2",
-                        "~/vices_do_brasil/DADOS/raw/microdados_classe_v2.rds"))
+                        "/dados/classe_recrutamento_politico/DADOS/raw/microdados_classe_v3.rds"))
 SAFRA    <- path.expand(Sys.getenv("OCUPACOESBR_SAFRA_2026",
                         "~/novissimos_dados_tse/bancos/candidaturas/candidaturas_2026.rds"))
 SAIDA    <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE",
@@ -135,15 +151,16 @@ novo$estrato[is.na(novo$estrato)] <- "Fora da PEA / não informado"
 
 # ---- o que a safra aberta não tem, e o patrimônio (ver cabeçalho) ----------
 novo$eleito          <- NA
-novo$eleito_v1       <- NA
-novo$eleito_1t       <- NA
+# `eleito_v1`, `eleito_1t` e `prest_contas` saíram do contrato de colunas na
+# migração para a v3: os dois primeiros eram artefato do reparo manual de
+# segundo turno, que a base nova resolve por linha, e o terceiro não tem fonte
+# na base nova. Nenhum era consumido por `05_gera_validacao.R`.
 novo$ja_eleito_antes <- NA
 novo$estreante       <- NA
 novo$reeleicao_tse   <- utf(z$cc_st_reeleicao)
 novo$votos           <- NA_real_
 novo$zero_votos      <- NA
 novo$laranja_flag    <- NA
-novo$prest_contas    <- NA_character_
 novo$patrim          <- NA_real_
 novo$patrim_w        <- NA_real_
 novo$tem_bens        <- FALSE

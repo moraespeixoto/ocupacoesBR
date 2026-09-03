@@ -72,7 +72,7 @@ tse_para_isco <- function(cod, ano = NULL) {
 #'
 #' **A relação com o critério externo não é linear nem monótona.** Veja
 #' `vignette("validacao")`: a correlação entre ISEI e patrimônio é de 0,681 no
-#' nível da ocupação e de apenas 0,208 no do indivíduo, valor que
+#' nível da ocupação e de apenas 0,207 no do indivíduo, valor que
 #' [tse_dispersao_patrimonio] permite recalcular. Uma medida de posição
 #' ocupacional explica a variância *entre* ocupações e quase nada *dentro* de
 #' cada uma — por isso **não use o ISEI como proxy de renda individual**.
@@ -146,8 +146,8 @@ tse_para_siops <- function(cod, ano = NULL) {
 #'
 #' O dado externo concorda. O ISEI do agricultor, 23, está **dentro** da faixa
 #' das classes populares, que vai de 16 a 43, e corresponde ao percentil 5 do
-#' dicionário. O patrimônio mediano declarado, de R$ 244.790, fica dentro da
-#' faixa das classes populares, cujo máximo é R$ 253.602 -- só um dos sessenta
+#' dicionário. O patrimônio mediano declarado, de R$ 122.395, fica dentro da
+#' faixa das classes populares, cujo máximo é R$ 126.801 -- só um dos sessenta
 #' demais códigos do estrato declara mais: põe o agricultor no topo da classe
 #' popular, não fora dela.
 #'

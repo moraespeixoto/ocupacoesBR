@@ -56,7 +56,7 @@ escolaridade ou gênero tem as 221 linhas à disposição.
 Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,765 (Spearman
 0,812). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
 têm mediana: r = 0,681 (Spearman 0,695). No nível do \strong{indivíduo} a
-correlação com patrimônio é de apenas 0,208, e o contraste entre 0,208 e 0,681
+correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,681
 é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
 quase nada dentro de cada uma.
 }

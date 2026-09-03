@@ -122,7 +122,7 @@ test_that("a medida se sustenta contra um criterio EXTERNO a ela", {
   expect_identical(is.na(v$mediana_patrimonio), v$n_com_bens < 200L)
 })
 
-test_that("a dispersao individual reproduz o 0,208 sem microdado", {
+test_that("a dispersao individual reproduz o 0,207 sem microdado", {
   # A tabela publica somatorios justamente para que este numero — o unico do
   # artigo que dependia da microbase — seja recalculavel por quem so instalou
   # o pacote. Se a identidade abaixo falhar, a tabela deixou de servir ao que
@@ -135,7 +135,7 @@ test_that("a dispersao individual reproduz o 0,208 sem microdado", {
   sxx <- sum(d$isei88^2 * d$n); syy <- sum(d$soma_log2)
   sxy <- sum(d$isei88 * d$soma_log)
   r <- (N * sxy - sx * sy) / sqrt((N * sxx - sx^2) * (N * syy - sy^2))
-  expect_equal(round(r, 3), 0.208)
+  expect_equal(round(r, 3), 0.207)
   # os somatorios tem de ser consistentes com as colunas de conveniencia
   expect_equal(d$media_log, round(d$soma_log / d$n, 4))
   # o contraste com o nivel da ocupacao e o resultado, e e grande

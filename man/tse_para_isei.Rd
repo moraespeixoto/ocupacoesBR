@@ -59,7 +59,7 @@ contra ocupações femininas, o que não é a mesma coisa que ser robusta.
 
 \strong{A relação com o critério externo não é linear nem monótona.} Veja
 \code{vignette("validacao")}: a correlação entre ISEI e patrimônio é de 0,681 no
-nível da ocupação e de apenas 0,208 no do indivíduo, valor que
+nível da ocupação e de apenas 0,207 no do indivíduo, valor que
 \link{tse_dispersao_patrimonio} permite recalcular. Uma medida de posição
 ocupacional explica a variância \emph{entre} ocupações e quase nada \emph{dentro} de
 cada uma — por isso \strong{não use o ISEI como proxy de renda individual}.
