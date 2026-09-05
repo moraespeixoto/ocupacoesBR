@@ -63,4 +63,11 @@ para cá — as tabelas deste pacote são geradas das sintaxes originais do ISMF
 Ele não é dependência e não consta de `Imports` nem de `Suggests`.
 
 Essa separação é deliberada: embarcar material GPL-3 tornaria o pacote inteiro
-copyleft.
+copyleft — inclusive congelar a tabela dele como *fixture* de teste, que seria
+o modo óbvio de fixar a referência.
+
+A conferência registrada é contra a versão **0.0.3**, commit
+`abcaafdf8772b77de8d0f142f730788008e84f06`, de 14/08/2026. Ela está anotada em
+`inst/extdata/PROVENIENCIA.yml`, seção `conferencia_cruzada`, porque o
+`DIGCLASS` se instala do HEAD do GitHub e não de um repositório versionado: sem
+o registro, a única validação externa do pacote apontaria para um alvo móvel.

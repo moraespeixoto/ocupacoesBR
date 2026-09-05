@@ -147,6 +147,30 @@ quatro `.Rd` dizia isso. Os quatro passam a dizer, e
 [`?crosswalk_cod`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cod.md)
 aponta `isco_posicao_br` como prior empírico disponível.
 
+### A única validação externa apontava para um alvo móvel
+
+O `DIGCLASS` (Cimentada) é a única implementação independente contra a
+qual `R/egp.R` é conferido: os dois são portes das mesmas sintaxes do
+ISMF, feitos separadamente, e o teste compara as oito células da grade
+posição no emprego x supervisão. Todos os outros testes conferem o
+pacote contra si mesmo ou contra a fonte que ele próprio leu.
+
+Só que o `DIGCLASS` não vem de repositório versionado — instala-se do
+HEAD do GitHub. A referência da conferência era, portanto, um ponteiro
+móvel: se o autor corrigisse uma célula, o teste passaria a falhar sem
+que se soubesse o que ele afirmava quando a validação foi feita. É
+exatamente o defeito que as chaves `sha256` do registro de proveniência
+existem para impedir nas fontes, e que a auditoria acabara de fechar nos
+números digitados.
+
+`inst/extdata/PROVENIENCIA.yml` ganhou a seção `conferencia_cruzada`,
+com a versão (0.0.3), o commit e a data. `00_confere_proveniencia.R`
+avisa quando o instalado diverge do registrado, e um teste novo falha se
+a seção sumir ou se a versão mudar sem que o registro acompanhe.
+Congelar a tabela do `DIGCLASS` como *fixture*, que seria o modo óbvio
+de fixar a referência, está fechado por licença: ele é GPL-3, e
+embarcá-lo tornaria este pacote copyleft.
+
 ### Correções menores
 
 - [`cbo2002_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_egp.md)

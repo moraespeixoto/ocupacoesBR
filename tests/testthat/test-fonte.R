@@ -51,6 +51,19 @@ test_that("a ambiguidade da OIT foi preservada, nao descartada", {
   expect_true(all(isco88_isco08$n_alternativas >= 1))
 })
 
+# Versao do DIGCLASS contra a qual a conferencia cruzada foi feita, lida do
+# registro de proveniencia — nao digitada aqui, para nao haver duas verdades.
+.digclass_registrado <- function() {
+  yml <- system.file("extdata", "PROVENIENCIA.yml", package = "ocupacoesBR")
+  if (!nzchar(yml)) return(NA_character_)
+  l <- readLines(yml, warn = FALSE, encoding = "UTF-8")
+  i <- grep("^conferencia_cruzada:", l)
+  if (!length(i)) return(NA_character_)
+  v <- grep("^\\s*versao:\\s*", l[seq(i, length(l))], value = TRUE)
+  if (!length(v)) return(NA_character_)
+  trimws(sub("^\\s*versao:\\s*", "", v[1]))
+}
+
 test_that("o EGP bate com o DIGCLASS nas OITO celulas de posicao e supervisao", {
   # Validação cruzada contra uma implementação independente da mesma fonte.
   # DIGCLASS é GPL e NÃO é dependência do pacote: entra só como conferência.
@@ -60,6 +73,15 @@ test_that("o EGP bate com o DIGCLASS nas OITO celulas de posicao e supervisao", 
   # inerte. Todas as regras de supervisão e de posição no emprego, que são o
   # grosso de R/egp.R, ficavam sem validação nenhuma.
   skip_if_not_installed("DIGCLASS")
+  # A referencia desta conferencia esta FIXADA em inst/extdata/PROVENIENCIA.yml,
+  # secao `conferencia_cruzada`. O DIGCLASS nao vem de repositorio: instala-se
+  # do HEAD do GitHub, e portanto pode mudar sob o teste. Se a versao instalada
+  # nao for a registrada, a mensagem de falha diz isso — em vez de deixar
+  # parecer que foi o ocupacoesBR que mudou.
+  ref  <- .digclass_registrado()
+  inst <- as.character(utils::packageVersion("DIGCLASS"))
+  ctx  <- if (identical(ref, inst)) "" else sprintf(
+    " [DIGCLASS instalado %s; a conferencia registrada e contra %s]", inst, ref)
   tab   <- DIGCLASS::all_schemas$isco88_to_egp11
   chave <- sprintf("%04d", as.integer(tab[[1]]))
   # (coluna do DIGCLASS, conta_propria, n_supervisionados)
@@ -75,7 +97,8 @@ test_that("o EGP bate com o DIGCLASS nas OITO celulas de posicao e supervisao", 
                               n_supervisionados = rep(cel[[3]], length(chave)))
     comum <- !is.na(esperado) & !is.na(obtido)
     expect_gt(sum(comum), 500)
-    expect_equal(obtido[comum], esperado[comum], info = paste("celula", cel[[1]]))
+    expect_equal(obtido[comum], esperado[comum],
+                 info = paste0("celula ", cel[[1]], ctx))
   }
 })
 
@@ -99,6 +122,20 @@ test_that("as fontes ainda sao as que geraram os dados (sha256)", {
     character(1), USE.NAMES = FALSE)
   expect_false(any(is.na(atual)), info = "fonte declarada e ausente do pacote")
   expect_equal(atual, sha)
+})
+
+test_that("a referencia da conferencia cruzada esta registrada", {
+  # Sem este teste, apagar a secao `conferencia_cruzada` do registro nao
+  # quebraria nada, e a unica validacao contra implementacao independente
+  # voltaria a apontar para um HEAD movel.
+  ref <- .digclass_registrado()
+  expect_false(is.na(ref))
+  expect_match(ref, "^[0-9]+\\.[0-9]+")
+  if (requireNamespace("DIGCLASS", quietly = TRUE))
+    expect_equal(as.character(utils::packageVersion("DIGCLASS")), ref,
+                 info = paste("o DIGCLASS instalado mudou desde a conferencia;",
+                              "reveja o teste do EGP e atualize",
+                              "inst/extdata/PROVENIENCIA.yml"))
 })
 
 test_that("a medida se sustenta contra um criterio EXTERNO a ela", {

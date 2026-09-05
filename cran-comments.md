@@ -22,6 +22,13 @@ esperados:
 (`test-fonte.R`), protegida por `skip_if_not_installed()`. Nunca é carregado em
 uso normal, e a sua ausência não afeta nenhum resultado do pacote.
 
+Ele não é distribuído por repositório algum — instala-se do HEAD do GitHub —,
+e por isso `Additional_repositories:` não se aplica: o campo exige um
+repositório no formato do CRAN, com índice `PACKAGES`. A versão e o commit
+contra os quais a conferência foi feita estão registrados em
+`inst/extdata/PROVENIENCIA.yml`, seção `conferencia_cruzada`. No ambiente do
+CRAN o teste simplesmente pula.
+
 **3. "URL ... Status: 404"** — não apareceu na verificação de 05/09/2026,
 porque a máquina estava sem rede e o verificador pulou a checagem de URLs. Ela
 volta a aparecer num ambiente conectado, e são três URLs, todas pelo mesmo motivo: o

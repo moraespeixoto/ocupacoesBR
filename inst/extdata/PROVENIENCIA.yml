@@ -170,3 +170,35 @@ microdados_externos:
     O dicionário de largura fixa (input_PNADC_trimestral.txt) vem de
     Dicionario_e_input.zip e está em latin1 com quebras CRLF. As posições das
     variáveis mudam entre versões; é por isso que o hash dele também entra.
+
+# A ÚNICA validação do pacote contra uma implementação independente. O teste
+# "o EGP bate com o DIGCLASS nas OITO celulas" (tests/testthat/test-fonte.R)
+# compara R/egp.R — que é um porte para R de iskopromo.sps e iskoegp.sps —
+# com o porte que Cimentada fez das MESMAS sintaxes. Todos os outros testes
+# conferem o pacote contra si mesmo ou contra a fonte que ele próprio leu.
+#
+# O DIGCLASS não vem de repositório: instala-se do HEAD do GitHub. Sem o
+# registro abaixo, a referência da conferência é um ponteiro móvel — se o
+# autor corrigir uma célula, o teste passa a falhar sem que se saiba o que
+# ele afirmava quando a validação foi feita. É o mesmo defeito que as chaves
+# `sha256` acima existem para impedir nas fontes.
+#
+# Não é dependência e não pode ser: é GPL-3, e embarcar tabela dele tornaria
+# este pacote copyleft (ver LICENSE.note §3). Entra por `Suggests`, protegido
+# por skip_if_not_installed().
+#
+# As chaves não são `arquivo`/`sha256` pelo mesmo motivo da seção acima.
+conferencia_cruzada:
+  - pacote: DIGCLASS
+    versao: 0.0.3
+    commit: abcaafdf8772b77de8d0f142f730788008e84f06
+    origem: https://github.com/cimentadaj/DIGCLASS
+    licenca: GPL (>= 3)
+    instalado_em: 2026-08-14
+    conferido_em: 2026-09-05
+    objeto: all_schemas$isco88_to_egp11
+    nota: >
+      Oito células da grade posição no emprego x supervisão (conta própria
+      sim/não cruzado com 0, 1, 2-9 e 10+ subordinados), mais de 500 códigos
+      coincidentes em cada uma. A comparação anterior usava só EGP(0,0), o
+      ramo em que iskopromo.sps inteiro é inerte.
