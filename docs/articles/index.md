@@ -26,8 +26,16 @@
 
 - [Qual régua responde à sua
   pergunta](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md):
+
 - [A medida se sustenta? Validação contra um critério
   externo](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md):
+
+- [Provas de robustez: como o pacote se põe à
+  prova](https://moraespeixoto.github.io/ocupacoesBR/articles/robustez.md):
+
+  Nove provas que a suíte de testes executa a cada mudança, explicadas
+  uma a uma — o que poderia dar errado, como se testa, o que o gráfico
+  mostra e o que significaria se a prova falhasse.
 
 ### A eleição em curso
 

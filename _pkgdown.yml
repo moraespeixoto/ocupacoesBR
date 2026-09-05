@@ -25,7 +25,7 @@ home:
 
 navbar:
   structure:
-    left:  [comece, percursos, articles, reference, publicacoes, news]
+    left:  [comece, percursos, robustez, articles, reference, publicacoes, news]
     right: [search, github, lightswitch]
   components:
     comece:
@@ -34,6 +34,9 @@ navbar:
     percursos:
       text: Percursos
       href: articles/percursos.html
+    robustez:
+      text: Robustez
+      href: articles/robustez.html
     articles:
       text: Artigos
       menu:
@@ -66,6 +69,7 @@ articles:
   contents:
   - matches("^qual-regua$")
   - matches("^validacao$")
+  - matches("^articles/robustez$")
 - title: A eleição em curso
   contents:
   - matches("^articles/safra-2026$")
