@@ -231,6 +231,8 @@ crosswalk_cod <- function(cod = NULL) {
     isco08          = i08,
     isco88          = i88,
     isei08          = ocupacoesBR::isco08_medidas$isei08[m08],
+    isei_br         = ocupacoesBR::isco08_isei_br$isei_br[
+                        match(i08, ocupacoesBR::isco08_isei_br$isco08)],
     isei88          = ocupacoesBR::isco88_medidas$isei88[m88],
     prestigio88     = ocupacoesBR::isco88_medidas$siops88[m88],
     egp             = isco88_para_egp(i88, avisar = FALSE),

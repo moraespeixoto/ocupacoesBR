@@ -5,7 +5,7 @@ Tabela completa de traducao a partir da CBO-2002
 ## Uso
 
 ``` r
-crosswalk_cbo2002(cbo = NULL, escada = FALSE)
+crosswalk_cbo2002(cbo = NULL, empate = c("na", "moda"), escada = FALSE)
 ```
 
 ## Argumentos
@@ -13,6 +13,12 @@ crosswalk_cbo2002(cbo = NULL, escada = FALSE)
 - cbo:
 
   Vetor opcional de codigos. Se omitido, devolve a tabua inteira.
+
+- empate:
+
+  O que fazer quando a familia nao tem ISCO majoritario: `"na"` (padrao)
+  devolve `NA`; `"moda"` devolve o vencedor do desempate por menor
+  codigo, como nas versoes anteriores.
 
 - escada:
 
@@ -26,7 +32,12 @@ crosswalk_cbo2002(cbo = NULL, escada = FALSE)
 ## Valor
 
 `data.frame` com CBO-2002, titulo, familia, CBO-94, ISCO-88, ISCO-08,
-ISEI, SIOPS e EGP.
+ISEI, SIOPS, EGP, `agregado`, `empate` e `nivel_usado`. `empate` e
+`TRUE` quando a linha e uma familia de quatro digitos sem ISCO
+majoritario; com `empate = "na"` (padrao) o ISCO dessa linha sai `NA`,
+exatamente como em
+[`cbo2002_para_isco()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isco.md)
+— a tabela nao pode devolver o que a porta recusa.
 
 ## Exemplos
 
@@ -39,18 +50,18 @@ head(crosswalk_cbo2002())
 #> 4  111120                      Vereador    1111 21140   1110   1111     77
 #> 5  111330                  Juiz federal    1113 21320   1110   1111     77
 #> 6  111345              Juiz do trabalho    1113 21350   1110   1111     77
-#>   siops88                                      egp agregado nivel_usado
-#> 1      64 I: dirigentes e profissionais superiores    FALSE           6
-#> 2      64 I: dirigentes e profissionais superiores    FALSE           6
-#> 3      64 I: dirigentes e profissionais superiores    FALSE           6
-#> 4      64 I: dirigentes e profissionais superiores    FALSE           6
-#> 5      64 I: dirigentes e profissionais superiores    FALSE           6
-#> 6      64 I: dirigentes e profissionais superiores    FALSE           6
+#>   siops88                                      egp agregado empate nivel_usado
+#> 1      64 I: dirigentes e profissionais superiores    FALSE  FALSE           6
+#> 2      64 I: dirigentes e profissionais superiores    FALSE  FALSE           6
+#> 3      64 I: dirigentes e profissionais superiores    FALSE  FALSE           6
+#> 4      64 I: dirigentes e profissionais superiores    FALSE  FALSE           6
+#> 5      64 I: dirigentes e profissionais superiores    FALSE  FALSE           6
+#> 6      64 I: dirigentes e profissionais superiores    FALSE  FALSE           6
 crosswalk_cbo2002(c("1111-05", "225120"))
 #>   cbo2002               titulo familia cbo94 isco88 isco08 isei88 siops88
 #> 1  111105              Senador    1111 21120   1110   1111     77      64
 #> 2  225120 Médico cardiologista    2251 06117   2221   2210     88      78
-#>                                        egp agregado nivel_usado
-#> 1 I: dirigentes e profissionais superiores    FALSE           6
-#> 2 I: dirigentes e profissionais superiores    FALSE           6
+#>                                        egp agregado empate nivel_usado
+#> 1 I: dirigentes e profissionais superiores    FALSE  FALSE           6
+#> 2 I: dirigentes e profissionais superiores    FALSE  FALSE           6
 ```

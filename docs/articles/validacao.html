@@ -5,6 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A medida se sustenta? Validação contra um critério externo • ocupacoesBR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_3-0.4.10/font.css" rel="stylesheet">
@@ -22,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -36,15 +41,15 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-artigos" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Artigos</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos">
-<li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
+<li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
+    <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/publicacoes.html">Como citar</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/publicacoes.html">Publicações</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Novidades</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -71,8 +76,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>A medida se sustenta? Validação contra um critério externo</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>A medida se sustenta? Validação contra um critério externo</h1>
             
       
       <small class="dont-index">Fonte: <a href="https://github.com/moraespeixoto/ocupacoesBR/blob/HEAD/vignettes/validacao.Rmd" class="external-link"><code>vignettes/validacao.Rmd</code></a></small>
@@ -112,6 +116,14 @@ agregadas por ocupação em <code>tse_validacao</code>.</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">m</span> <span class="op">=</span> <span class="st">"pearson"</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, method <span class="op">=</span> <span class="va">m</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
 <span></span>
+<span><span class="co"># A correlação no nível do INDIVÍDUO sai dos somatórios publicados em</span></span>
+<span><span class="co"># `tse_dispersao_patrimonio`, sem microdado: veja `?tse_dispersao_patrimonio`.</span></span>
+<span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">tse_dispersao_patrimonio</span></span>
+<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">n</span><span class="op">)</span>; <span class="va">sx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">isei88</span> <span class="op">*</span> <span class="va">d</span><span class="op">$</span><span class="va">n</span><span class="op">)</span>; <span class="va">sy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">soma_log</span><span class="op">)</span></span>
+<span><span class="va">sxx</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">isei88</span><span class="op">^</span><span class="fl">2</span> <span class="op">*</span> <span class="va">d</span><span class="op">$</span><span class="va">n</span><span class="op">)</span>; <span class="va">syy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">soma_log2</span><span class="op">)</span></span>
+<span><span class="va">sxy</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">isei88</span> <span class="op">*</span> <span class="va">d</span><span class="op">$</span><span class="va">soma_log</span><span class="op">)</span></span>
+<span><span class="va">r_individual</span> <span class="op">&lt;-</span> <span class="op">(</span><span class="va">N</span> <span class="op">*</span> <span class="va">sxy</span> <span class="op">-</span> <span class="va">sx</span> <span class="op">*</span> <span class="va">sy</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="va">N</span> <span class="op">*</span> <span class="va">sxx</span> <span class="op">-</span> <span class="va">sx</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">*</span> <span class="op">(</span><span class="va">N</span> <span class="op">*</span> <span class="va">syy</span> <span class="op">-</span> <span class="va">sy</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  criterio <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"% com ensino superior"</span>, <span class="st">"log da mediana de patrimonio"</span><span class="op">)</span>,</span>
 <span>  n        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">v</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">vb</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -120,7 +132,7 @@ agregadas por ocupação em <code>tse_validacao</code>.</p>
 <span>  spearman <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu">r</span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">isei</span>, <span class="va">v</span><span class="op">$</span><span class="va">pct_superior</span>, <span class="st">"spearman"</span><span class="op">)</span>,</span>
 <span>               <span class="fu">r</span><span class="op">(</span><span class="va">vb</span><span class="op">$</span><span class="va">isei</span>, <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">vb</span><span class="op">$</span><span class="va">mediana_patrimonio</span><span class="op">)</span>, <span class="st">"spearman"</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;                       criterio   n pearson spearman</span></span>
-<span><span class="co">#&gt; 1        % com ensino superior 208   0.765    0.812</span></span>
+<span><span class="co">#&gt; 1        % com ensino superior 208   0.765    0.811</span></span>
 <span><span class="co">#&gt; 2 log da mediana de patrimonio 165   0.681    0.695</span></span></code></pre></div>
 <p>Correlações dessa ordem, contra critérios que não participaram da
 construção da medida, são evidência forte de que o ISEI atribuído às
@@ -131,9 +143,8 @@ ocupações brasileiras mede o que promete medir.</p>
 <h2 id="o-contraste-que-é-o-verdadeiro-resultado">O contraste que é o verdadeiro resultado<a class="anchor" aria-label="anchor" href="#o-contraste-que-%C3%A9-o-verdadeiro-resultado"></a>
 </h2>
 <p>No nível do <strong>indivíduo</strong>, a correlação entre ISEI e
-patrimônio é de apenas <strong>0,207</strong>. No nível da
-<strong>ocupação</strong>, é 0,682. Essa diferença não é defeito: é a
-definição do que o ISEI é.</p>
+patrimônio é de apenas 0,207. No nível da <strong>ocupação</strong>, é
+0,681. Essa diferença não é defeito: é a definição do que o ISEI é.</p>
 <p>Uma medida de posição ocupacional explica a variância
 <strong>entre</strong> ocupações e quase nada da variância
 <strong>dentro</strong> de cada uma. Advogados variam enormemente em
@@ -153,12 +164,12 @@ estrutura”, não “quanto esta pessoa tem”.</p>
 <span>                                <span class="st">"mediana_patrimonio"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="va">d</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">d</span><span class="op">$</span><span class="va">isei</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="co">#&gt;                              rotulo isei pct_superior mediana_patrimonio</span></span>
-<span><span class="co">#&gt; 9                            MÉDICO   88         99.0            1650752</span></span>
-<span><span class="co">#&gt; 121                      EMPRESARIO   68         22.9             497797</span></span>
-<span><span class="co">#&gt; 126 PROFESSOR DE ENSINO FUNDAMENTAL   66         74.7             193688</span></span>
-<span><span class="co">#&gt; 57                      COMERCIANTE   51          7.1             296088</span></span>
-<span><span class="co">#&gt; 11                       ENFERMEIRO   43         59.6             222662</span></span>
-<span><span class="co">#&gt; 189                      AGRICULTOR   23          2.5             244790</span></span></code></pre></div>
+<span><span class="co">#&gt; 9                            MÉDICO   88         99.0             825376</span></span>
+<span><span class="co">#&gt; 121                      EMPRESARIO   68         22.9             249001</span></span>
+<span><span class="co">#&gt; 126 PROFESSOR DE ENSINO FUNDAMENTAL   66         74.8              96893</span></span>
+<span><span class="co">#&gt; 57                      COMERCIANTE   51          7.1             148044</span></span>
+<span><span class="co">#&gt; 11                       ENFERMEIRO   43         59.6             111353</span></span>
+<span><span class="co">#&gt; 189                      AGRICULTOR   23          2.5             122395</span></span></code></pre></div>
 <p>O comerciante e o empresário têm ISEI de classe média e patrimônio de
 classe alta; a professora tem ISEI alto e patrimônio modesto.
 <strong>São duas réguas diferentes</strong> — status ocupacional e
@@ -195,22 +206,98 @@ gênero, prefira a ISCO-08.</strong></p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>feminina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">[</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span>,</span>
 <span>        masculina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">[</span><span class="op">!</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  feminina masculina </span></span>
-<span><span class="co">#&gt;      32.1      23.9</span></span></code></pre></div>
+<span><span class="co">#&gt;      32.1      24.0</span></span></code></pre></div>
 <p>Ocupações majoritariamente femininas têm <strong>mais</strong>
 escolaridade e <strong>menos</strong> ISEI. A régua importada carrega
 esse viés, e declará-lo é parte de usá-la bem.</p>
 </div>
 <div class="section level2">
+<h2 id="a-régua-estimada-no-brasil-contra-o-mesmo-critério">A régua estimada no Brasil, contra o mesmo critério<a class="anchor" aria-label="anchor" href="#a-r%C3%A9gua-estimada-no-brasil-contra-o-mesmo-crit%C3%A9rio"></a>
+</h2>
+<p>Até aqui a medida testada foi importada.
+<code><a href="../reference/tse_para_isei_br.html">tse_para_isei_br()</a></code> traz a régua estimada na PNAD Contínua,
+pelo mesmo procedimento de 1992, e ela pode ser submetida ao mesmo
+critério.</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">v</span><span class="op">$</span><span class="va">isei08</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tse_para_isei08.html">tse_para_isei08</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">)</span></span>
+<span><span class="va">v</span><span class="op">$</span><span class="va">isei_br</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tse_para_isei_br.html">tse_para_isei_br</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">ok</span> <span class="op">&lt;-</span> <span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/complete.cases.html" class="external-link">complete.cases</a></span><span class="op">(</span></span>
+<span>  <span class="va">v</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"isei"</span>, <span class="st">"isei08"</span>, <span class="st">"isei_br"</span>, <span class="st">"pct_superior"</span>, <span class="st">"mediana_patrimonio"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">w</span>  <span class="op">&lt;-</span> <span class="va">v</span><span class="op">[</span><span class="va">ok</span>, <span class="op">]</span></span>
+<span></span>
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, <span class="va">m</span> <span class="op">=</span> <span class="st">"pearson"</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">x</span>, <span class="va">y</span>, method <span class="op">=</span> <span class="va">m</span><span class="op">)</span>, <span class="fl">3</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  regua        <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ISEI-88"</span>, <span class="st">"ISEI-08"</span>, <span class="st">"ISEI-BR"</span><span class="op">)</span>,</span>
+<span>  escolaridade <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"isei"</span>, <span class="st">"isei08"</span>, <span class="st">"isei_br"</span><span class="op">)</span><span class="op">]</span>, <span class="va">r</span>, <span class="va">w</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">)</span>,</span>
+<span>  patrimonio   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"isei"</span>, <span class="st">"isei08"</span>, <span class="st">"isei_br"</span><span class="op">)</span><span class="op">]</span>, <span class="va">r</span>,</span>
+<span>                        <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">mediana_patrimonio</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  patrimonio_rho <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">sapply</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"isei"</span>, <span class="st">"isei08"</span>, <span class="st">"isei_br"</span><span class="op">)</span><span class="op">]</span>, <span class="va">r</span>,</span>
+<span>                          <span class="fu"><a href="https://rdrr.io/r/base/Log.html" class="external-link">log</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">mediana_patrimonio</span><span class="op">)</span>, m <span class="op">=</span> <span class="st">"spearman"</span><span class="op">)</span>,</span>
+<span>  row.names <span class="op">=</span> <span class="cn">NULL</span><span class="op">)</span></span>
+<span><span class="co">#&gt;     regua escolaridade patrimonio patrimonio_rho</span></span>
+<span><span class="co">#&gt; 1 ISEI-88        0.774      0.681          0.695</span></span>
+<span><span class="co">#&gt; 2 ISEI-08        0.783      0.676          0.708</span></span>
+<span><span class="co">#&gt; 3 ISEI-BR        0.736      0.716          0.768</span></span></code></pre></div>
+<p>São 165 ocupações, as mesmas nas três linhas.</p>
+<p>O resultado precisa ser lido com cuidado, porque as duas colunas não
+têm o mesmo estatuto. A escolaridade <strong>entra</strong> na
+construção do ISEI-BR, então correlação alta ali não provaria nada. O
+patrimônio não entra em régua nenhuma, e é o único critério genuinamente
+externo desta tabela.</p>
+<p>É justamente no patrimônio que a régua brasileira vai melhor, e na
+escolaridade que ela vai um pouco pior. Isso não é acidente. O ângulo
+estimado dá mais peso à renda do que à escolaridade, e no Brasil renda
+ocupacional e escolaridade ocupacional descolam mais do que descolam nos
+países onde a régua importada foi calibrada. A régua importada ordena os
+candidatos pela escolaridade das suas ocupações; a brasileira os ordena
+pelo que essas ocupações pagam aqui.</p>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">w</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span> <span class="op">-</span> <span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei08</span>, <span class="va">w</span><span class="op">$</span><span class="va">isei_br</span>, pch <span class="op">=</span> <span class="fl">19</span>, col <span class="op">=</span> <span class="st">"#00000055"</span>,</span>
+<span>     xlab <span class="op">=</span> <span class="st">"ISEI-08 (importado)"</span>, ylab <span class="op">=</span> <span class="st">"ISEI-BR (PNAD Contínua)"</span>,</span>
+<span>     xlim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">90</span><span class="op">)</span>, ylim <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">10</span>, <span class="fl">90</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/abline.html" class="external-link">abline</a></span><span class="op">(</span><span class="fl">0</span>, <span class="fl">1</span>, col <span class="op">=</span> <span class="st">"#C0392B"</span>, lty <span class="op">=</span> <span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/graphics/text.html" class="external-link">text</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">isei08</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, <span class="va">d</span><span class="op">$</span><span class="va">isei_br</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, <span class="fu"><a href="https://rdrr.io/r/base/substr.html" class="external-link">substr</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">rotulo</span><span class="op">[</span><span class="fl">1</span><span class="op">:</span><span class="fl">6</span><span class="op">]</span>, <span class="fl">1</span>, <span class="fl">22</span><span class="op">)</span>,</span>
+<span>     pos <span class="op">=</span> <span class="fl">4</span>, cex <span class="op">=</span> <span class="fl">0.65</span>, col <span class="op">=</span> <span class="st">"#1B4F72"</span>, xpd <span class="op">=</span> <span class="cn">NA</span><span class="op">)</span></span></code></pre></div>
+<p><img src="validacao_files/figure-html/isei-br-1.png" class="r-plt" alt="" width="660"></p>
+<p>As que mais sobem são ocupações manuais e de segurança pública:
+operador de implemento agrícola, policial militar e civil, bombeiro,
+motoboy. São trabalhos que a régua importada põe na base e que no Brasil
+pagam acima do que o escore internacional sugere.</p>
+<p>As que mais descem são as profissões artísticas, o clero e as
+liberais da saúde: escultor, artista plástico, sacerdote, veterinário,
+odontólogo, farmacêutico. Credencial alta, remuneração modesta. É a
+mesma anomalia do cuidado vista pelo outro lado: a régua importada mede
+sobretudo credencial, e no Brasil credencial e remuneração andam mais
+separadas do que ela supõe.</p>
+</div>
+<div class="section level2">
 <h2 id="o-que-esta-vinheta-não-prova">O que esta vinheta não prova<a class="anchor" aria-label="anchor" href="#o-que-esta-vinheta-n%C3%A3o-prova"></a>
 </h2>
-<p>O critério é o patrimônio de <strong>candidatos</strong>, que não são
-a população. A validação mostra que a medida ordena bem as ocupações
-dentro do universo eleitoral; não mostra que os escores estão calibrados
-para o Brasil.</p>
-<p>Calibrá-los exigiria refazer o escalonamento do ISEI sobre a PNAD
-Contínua — o procedimento de Ganzeboom, De Graaf e Treiman (1992)
-aplicado ao dado brasileiro. Isso está em aberto, e é a melhoria de
-maior valor que o pacote ainda não tem.</p>
+<p>O critério continua sendo o patrimônio de
+<strong>candidatos</strong>, que não são a população. Isso não mudou. A
+régua brasileira foi estimada na população e validada em candidatos, o
+que é melhor do que estimar e validar nos mesmos candidatos, mas não é o
+mesmo que validá-la na população.</p>
+<p>Quatro coisas seguem em aberto, e convém dizê-las com a mesma clareza
+com que esta vinheta dizia, antes, que a régua não era brasileira.</p>
+<p>A primeira é que a mediação não é completa. O procedimento de 1992
+supõe que a ocupação carrega todo o efeito da escolaridade sobre a
+renda, e no Brasil ela carrega 58.4%. O resto é escolaridade que paga
+dentro da mesma ocupação. A régua registra esse número em vez de
+escondê-lo, mas registrá-lo não o resolve.</p>
+<p>A segunda é que a régua é de um ano só, 2025, em valores nominais.
+Ela não forma série, e uma análise que atravesse décadas não pode usá-la
+como se formasse.</p>
+<p>A terceira é que 242 das 590 linhas foram apuradas num grupo mais
+grosso que a própria ocupação, por falta de amostra. A coluna
+<code>nivel</code> diz quais, e quem depende de uma ocupação específica
+deve conferi-la antes.</p>
+<p>A quarta é que a correlação no nível do indivíduo, em
+<code>tse_dispersao_patrimonio</code>, existe só para o ISEI-88, porque
+a tabela de somatórios é indexada por faixas daquela régua. Refazê-la
+para a brasileira é trabalho de outra rodada.</p>
 </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Índice"><h2>Nesta página</h2>
     </nav></aside>

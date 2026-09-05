@@ -1,3 +1,83 @@
+# ocupacoesBR 0.5.0
+
+## A régua deixa de ser importada
+
+A vinheta de validação terminava dizendo que o pacote mostrava que a medida
+**ordena** bem as ocupações, mas não que os escores estão **calibrados** para o
+Brasil, e que calibrá-los seria a melhoria de maior valor que ainda faltava.
+Esta versão a faz.
+
+`isco08_isei_br` traz o procedimento de Ganzeboom, De Graaf e Treiman (1992)
+refeito do zero sobre a PNAD Contínua de 2025: 655.787 observações de 339.181
+pessoas, dos quatro trimestres. Não é tradução de escala nem recalibragem do
+ISEI-08. É o mesmo método, estimado aqui.
+
+**O que a régua brasileira diz de diferente.** Contra o ISEI-08 importado, nas
+348 células apuradas em quatro dígitos, o Spearman é 0,894 e o desvio absoluto
+médio é 9,7 pontos numa escala de 10 a 90. Concorda o bastante para ser
+reconhecível e discorda o bastante para valer a pena. Sobem as ocupações
+manuais e de segurança pública: operador de implemento agrícola, policial civil
+e militar, bombeiro, motoboy. Descem as artísticas, o clero e as liberais da
+saúde: escultor, sacerdote, veterinário, odontólogo, farmacêutico. Credencial
+alta e remuneração modesta de um lado, o inverso do outro.
+
+**A mediação não é completa, e isso é achado.** O procedimento de 1992 supõe
+que a ocupação carrega todo o efeito da escolaridade sobre a renda e escolhe o
+ângulo onde o efeito direto zera. No Brasil ele não zera: para em 0,206 contra
+um efeito total de 0,494, de modo que a ocupação medeia **58,4%**. Os outros
+41,6% são escolaridade que paga dentro da mesma ocupação. Adotou-se o ângulo de
+mínimo e publicou-se o resíduo, nos atributos da tabela.
+
+A decisão é segura porque o ordenamento não depende do ângulo. O Spearman entre
+a escala no ângulo adotado e em mais ou menos 0,15 radianos é 0,999. Sete
+especificações alternativas foram testadas — 40 horas, sem restrição de horas,
+renda-hora, rendimento efetivo, só homens como em 1992, escolaridade em
+categorias, idade a partir de 25 — e nenhuma move o ordenamento abaixo de 0,99
+nem a parcela mediada para fora do intervalo de 57,9% a 60,1%.
+
+**Contra o critério externo, ela vai melhor.** Nas 165 ocupações do TSE com as
+três réguas e os dois critérios, a correlação com o log do patrimônio declarado
+sobe de 0,676 (ISEI-08) para 0,716, e o Spearman de 0,708 para 0,768. Com a
+escolaridade dos candidatos ela vai um pouco pior, 0,736 contra 0,783, o que é
+esperado: o ângulo dá mais peso à renda. O patrimônio é o único dos dois que não
+entra na construção de régua nenhuma.
+
+## Nomes novos
+
+* `isco08_isei_br`, a tabela, com 590 linhas e os atributos `theta`,
+  `beta_direto`, `beta_total` e `parcela_mediada`.
+* `tse_para_isei_br()`, `cod_para_isei_br()`, `cbo2002_para_isei_br()`,
+  `cbo94_para_isei_br()` e `isco08_para_isei_br()`. São funções irmãs, e não um
+  argumento nas existentes, porque é a convenção do pacote e porque uma escala
+  estimada no Brasil não deve viajar debaixo do nome "08".
+* `crosswalk_tse()` e `crosswalk_cod()` ganharam a coluna `isei_br`.
+
+## Por que 590 linhas, e não 434
+
+A ocupação declarada ao TSE é grossa, e a porta do TSE aterrissa em códigos
+ISCO-08 agregados de dois e três dígitos. Uma tabela só com células de quatro
+dígitos devolveria `NA` para a maioria dos candidatos. A tabela cobre então as
+mesmas 590 chaves de `isco08_medidas`, e cada agregado é apurado juntando os
+**indivíduos** da sua subárvore, não a média das médias. Dos 407 códigos de
+quatro dígitos, 348 têm escore próprio e 59 herdam do grupo acima por terem
+menos de 30 pessoas na amostra. A coluna `nivel` diz quais.
+
+## O que não mudou
+
+`isco08_medidas` está intacta, e continua sendo a âncora internacional. Nenhuma
+assinatura existente mudou. Os 1.524 testes anteriores seguem passando sem
+alteração.
+
+## Infraestrutura
+
+* `data-raw/extrai_tri.py` passa a extrair também `VD3005` (anos de estudo),
+  `V4039` e `VD4031` (horas) e `VD4017` (rendimento efetivo). As 24 colunas
+  antigas saem byte a byte idênticas, e `isco_posicao_br` regenera igual.
+* `inst/extdata/PROVENIENCIA.yml` ganha a seção `microdados_externos`, com os
+  sha256 dos quatro zips da PNAD e do dicionário de largura fixa. Ela usa
+  chaves próprias para não colidir com `00_confere_proveniencia.R`, que
+  continua conferindo as mesmas 20 fontes de sempre.
+
 # ocupacoesBR 0.4.1
 
 ## O patrimônio estava dobrado, e agora não está

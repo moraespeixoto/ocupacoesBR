@@ -254,6 +254,14 @@ fontes que já a usam, e para análise de gênero, onde a revisão de 2008
 corrigiu a subvalorização das ocupações de cuidado (veja
 [`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)).
 
+Desde a versão 0.5.0 há uma terceira régua,
+[`tse_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md),
+estimada na PNAD Contínua em vez de importada. O aviso vale para ela
+igualmente, e com uma razão a mais: as três não têm sequer o mesmo
+denominador. A brasileira é de um ano só, 2025, e serve para perguntar
+como o mercado de trabalho **brasileiro** ordena as ocupações. Para
+comparação internacional, ou para qualquer série longa, ela não serve.
+
 ## 8. Verifique antes, não depois
 
 As duas travas são **opt-in** e ficam fora do caminho feliz. Chame-as:

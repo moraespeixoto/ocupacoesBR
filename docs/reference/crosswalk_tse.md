@@ -27,13 +27,13 @@ ocupação política e de proprietário.
 
 ``` r
 head(crosswalk_tse())
-#>   cod_tse         rotulo isco88 isco08 isei88 isei08 siops88
-#> 1      -4 NÃO DIVULGÁVEL   <NA>   <NA>     NA     NA      NA
-#> 2       0  NÃO INFORMADA   <NA>   <NA>     NA     NA      NA
-#> 3     101     ENGENHEIRO   2100   2100     69  79.49      63
-#> 4     102      ARQUITETO   2100   2100     69  79.49      63
-#> 5     103       AGRÔNOMO   2100   2100     69  79.49      63
-#> 6     104        QUÍMICO   2100   2100     69  79.49      63
+#>   cod_tse         rotulo isco88 isco08 isei88 isei08 isei_br siops88
+#> 1      -4 NÃO DIVULGÁVEL   <NA>   <NA>     NA     NA      NA      NA
+#> 2       0  NÃO INFORMADA   <NA>   <NA>     NA     NA      NA      NA
+#> 3     101     ENGENHEIRO   2100   2100     69  79.49    71.8      63
+#> 4     102      ARQUITETO   2100   2100     69  79.49    71.8      63
+#> 5     103       AGRÔNOMO   2100   2100     69  79.49    71.8      63
+#> 6     104        QUÍMICO   2100   2100     69  79.49    71.8      63
 #>                                        egp                          classe
 #> 1                                     <NA>                   Não informado
 #> 2                                     <NA>                   Não informado
@@ -56,10 +56,10 @@ head(crosswalk_tse())
 #> 5             20        1  agregada
 #> 6             20        1  agregada
 crosswalk_tse(c(111, 169, 257))
-#>   cod_tse      rotulo isco88 isco08 isei88 isei08 siops88
-#> 1     111      MÉDICO   2221   2210     88  88.70      78
-#> 2     169 COMERCIANTE   1300   1400     51  51.01      50
-#> 3     257  EMPRESARIO   1200   1200     68  72.94      60
+#>   cod_tse      rotulo isco88 isco08 isei88 isei08 isei_br siops88
+#> 1     111      MÉDICO   2221   2210     88  88.70    87.7      78
+#> 2     169 COMERCIANTE   1300   1400     51  51.01    58.0      50
+#> 3     257  EMPRESARIO   1200   1200     68  72.94    72.0      60
 #>                                        egp                          classe
 #> 1 I: dirigentes e profissionais superiores Profissionais de nível superior
 #> 2        IVb: conta própria sem empregados    Proprietários e empregadores

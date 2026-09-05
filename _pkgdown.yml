@@ -6,12 +6,16 @@ template:
   bootstrap: 5
   light-switch: true
   bslib:
-    primary: "#1B4F72"
+    primary: "#1E8A99"
+    secondary: "#F26522"
+    link-color: "#156B78"
+    link-hover-color: "#F26522"
     base_font: {google: "Source Sans 3"}
     heading_font: {google: "Source Sans 3"}
     code_font: {google: "JetBrains Mono"}
 
 home:
+  sidebar: false
   title: Traduz a ocupação declarada ao TSE em classificações padronizadas
   description: >
     Do código de ocupação das candidaturas brasileiras à ISCO-88 e à ISCO-08, e
@@ -21,7 +25,7 @@ home:
 
 navbar:
   structure:
-    left:  [comece, percursos, articles, reference, news]
+    left:  [comece, percursos, articles, reference, publicacoes, news]
     right: [search, github, lightswitch]
   components:
     comece:
@@ -33,24 +37,30 @@ navbar:
     articles:
       text: Artigos
       menu:
+      - text: Com o tidyverse
+        href: articles/tidyverse.html
       - text: Qual régua responde à sua pergunta
         href: articles/qual-regua.html
       - text: A medida se sustenta? Validação contra um critério externo
         href: articles/validacao.html
       - text: A safra de 2026, na régua
         href: articles/safra-2026.html
-      - text: -------
-      - text: Como citar
-        href: articles/publicacoes.html
     reference:
       text: Referência
       href: reference/index.html
+    publicacoes:
+      text: Publicações
+      href: articles/publicacoes.html
+    news:
+      text: Novidades
+      href: news/index.html
 
 articles:
 - title: Por onde começar
   navbar: ~
   contents:
   - matches("^articles/comece-aqui$")
+  - matches("^articles/tidyverse$")
   - matches("^articles/percursos$")
 - title: Escolher e validar a medida
   contents:
@@ -59,7 +69,7 @@ articles:
 - title: A eleição em curso
   contents:
   - matches("^articles/safra-2026$")
-- title: Créditos
+- title: Publicações e créditos
   contents:
   - matches("^articles/publicacoes$")
 
@@ -74,6 +84,7 @@ reference:
   - tse_para_isco08
   - tse_para_isei
   - tse_para_isei08
+  - tse_para_isei_br
   - tse_para_prestigio
   - tse_para_prestigio08
   - tse_para_egp
@@ -107,6 +118,7 @@ reference:
   - cbo2002_para_isco08
   - cbo2002_para_isei
   - cbo2002_para_isei08
+  - cbo2002_para_isei_br
   - cbo2002_para_prestigio
   - cbo2002_para_prestigio08
   - cbo2002_para_egp
@@ -115,6 +127,7 @@ reference:
   - cbo94_para_isco
   - cbo94_para_isco08
   - cbo94_para_isei
+  - cbo94_para_isei_br
   - cbo94_para_prestigio
   - cbo94_para_egp
   - crosswalk_cbo94
@@ -128,6 +141,7 @@ reference:
   - cod_para_isco08
   - cod_para_isei
   - cod_para_isei08
+  - cod_para_isei_br
   - cod_para_prestigio
   - cod_para_prestigio08
   - cod_para_egp
@@ -143,6 +157,7 @@ reference:
   - isco88_para_egp
   - isco88_para_isco08
   - isco08_para_isco88
+  - isco08_para_isei_br
 
 - title: Cobertura, antes de analisar
   desc: >
@@ -173,6 +188,7 @@ reference:
   - tse_ocupacao_rotulos
   - tse_quebra_2002
   - tse_validacao
+  - tse_dispersao_patrimonio
   - isco88_medidas
   - isco08_medidas
   - isco88_isco08
@@ -183,6 +199,7 @@ reference:
   - cbo94_isco88
   - cod_isco08
   - isco_posicao_br
+  - isco08_isei_br
 
 - title: Alias depreciados
   desc: >

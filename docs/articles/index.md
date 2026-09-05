@@ -8,6 +8,14 @@
   O percurso inteiro em uma sessão, com códigos reais do TSE, e a tabela
   que mostra onde cada medida responde e onde ela se abstém.
 
+- [Com o tidyverse: o percurso inteiro dentro do
+  mutate()](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md):
+
+  As funções do pacote são vetorizadas puras, então cada tradução é uma
+  coluna nova, e todas cabem no mesmo
+  [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) de um
+  pipeline em dplyr.
+
 - [Os percursos, e onde cada um se
   interrompe](https://moraespeixoto.github.io/ocupacoesBR/articles/percursos.md):
 
@@ -29,9 +37,10 @@
   O que o pacote já sabe sobre a eleição em curso, o que ele não pode
   saber ainda, e por que a safra aberta pede leitura diferente.
 
-### Créditos
+### Publicações e créditos
 
-- [Como
+- [Publicações e como
   citar](https://moraespeixoto.github.io/ocupacoesBR/articles/publicacoes.md):
 
-  As referências que acompanham o pacote, e por que são duas e não uma.
+  O artigo de método, os trabalhos que usam o pacote como instrumento de
+  medida, e as fontes das réguas — que pedem citação própria.

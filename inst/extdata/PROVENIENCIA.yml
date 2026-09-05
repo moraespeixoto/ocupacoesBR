@@ -136,3 +136,37 @@ fontes:
     autoridade: Harry B. G. Ganzeboom e Donald J. Treiman
     sha256: 65f93cf9a082904deea85cd14245931ab2f402d42c7f4d1c093c2ac318ed683a
     nota: Os autores pedem citação; veja LICENSE.note e citation('ocupacoesBR').
+
+# Microdados que NÃO estão no repositório e não devem estar. São grandes
+# demais e são de pessoas. Ficam na máquina, em OCUPACOESBR_PNAD (com fallback
+# em ~/dados_pnad), extraídos em colunas por data-raw/extrai_tri.py. Ao pacote
+# sobe só a tabela agregada. As chaves aqui são `zip` e `sha256_zip`, e não
+# `arquivo` e `sha256`, de propósito: 00_confere_proveniencia.R procura os
+# arquivos das chaves `arquivo` dentro de inst/extdata/fontes/ e falharia ao
+# não achar um microdado que nunca esteve lá.
+microdados_externos:
+  - zip: PNADC_012025.zip
+    sha256_zip: 32ffb36348fcd086c24e12cdede20ed7621850009f282dd4c1c4c7326d96f6a4
+    bytes: 212018727
+  - zip: PNADC_022025.zip
+    sha256_zip: f6edbe24a17ad7b126a5dbb4377b673b016ab8dfbd7f40135ec0f962daaa0fba
+    bytes: 214254416
+  - zip: PNADC_032025.zip
+    sha256_zip: 143f2789d2648668817497d560e23cfabeee13e3357e1f6811227df3bee1bbda
+    bytes: 218675000
+  - zip: PNADC_042025.zip
+    sha256_zip: bc1fa6d44948b0601b6b8f3cf6692e79d743d2b01e1e8b600b34030976b361d9
+    bytes: 222550359
+  - zip: input_PNADC_trimestral.txt
+    sha256_zip: 6d89c404138d2467ce08db087d433ab0b165d138edc85e2f16e8204a807b51ad
+    bytes: 23028
+  url: https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/2025/
+  autoridade: IBGE
+  acesso: 2026-09-05
+  gera:
+    - data-raw/07_gera_posicao.R   # isco_posicao_br
+    - data-raw/09_gera_isei_br.R   # isco08_isei_br
+  nota: >
+    O dicionário de largura fixa (input_PNADC_trimestral.txt) vem de
+    Dicionario_e_input.zip e está em latin1 com quebras CRLF. As posições das
+    variáveis mudam entre versões; é por isso que o hash dele também entra.

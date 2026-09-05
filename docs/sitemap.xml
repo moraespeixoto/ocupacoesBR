@@ -8,6 +8,7 @@
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/articles/publicacoes.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/articles/safra-2026.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/authors.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/index.html</loc></url>
@@ -21,6 +22,7 @@
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isco08.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei08.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei_br.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_prestigio.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_prestigio08.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_siops.html</loc></url>
@@ -30,6 +32,7 @@
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isco.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isco08.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei_br.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_prestigio.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_siops.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura.html</loc></url>
@@ -43,6 +46,7 @@
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isco08.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei08.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei_br.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_prestigio.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_prestigio08.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cbo2002.html</loc></url>
@@ -51,8 +55,10 @@
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_tse.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/index.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isco88.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_medidas.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isco88.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isei_br.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_isco08.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_medidas.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_egp.html</loc></url>
@@ -65,6 +71,7 @@
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/ocupacoesBR-package.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_codigos_autorrotulo.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_diff_cadastro.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_isco.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_ocupacao_rotulos.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.html</loc></url>
@@ -75,6 +82,7 @@
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isco08.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei08.html</loc></url>
+<url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_politico.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio.html</loc></url>
 <url><loc>https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio08.html</loc></url>

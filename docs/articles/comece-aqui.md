@@ -193,7 +193,7 @@ alcança:
 ``` r
 cods_2026 <- unique(tse_ocupacao_rotulos$cod_tse[tse_ocupacao_rotulos$ate == 2026])
 checa_cobertura(cods_2026)
-#> cobertura ok: 211 códigos observados, todos no dicionário.
+#> cobertura ok: 210 códigos observados, todos no dicionário.
 ```
 
 A função devolve `TRUE` ou `FALSE` e imprime o diagnóstico. Se a

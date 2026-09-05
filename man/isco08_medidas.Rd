@@ -30,5 +30,8 @@ head(isco08_medidas)
 # ISCO-88, e misturar as duas numa mesma série é o erro mais comum.
 nrow(isco08_medidas)
 summary(isco08_medidas$isei08)
+
+# Estes escores foram estimados fora do Brasil. Para a régua estimada em
+# dado brasileiro, com o mesmo método, veja [isco08_isei_br].
 }
 \keyword{datasets}

@@ -57,7 +57,7 @@ pacote.
 Entram ocupações com pelo menos 200 candidaturas. A mediana de
 patrimônio exige um segundo piso, de 200 declarações de bens, porque
 mediana apoiada em poucas declarações é ruidosa: sem ele a correlação
-com o ISEI cai de 0,682 para cerca de 0,63, não porque a medida piore,
+com o ISEI cai de 0,681 para cerca de 0,63, não porque a medida piore,
 mas porque o critério externo fica instável.
 
 **O segundo piso zera a mediana; não descarta a linha**, e a diferença
@@ -75,8 +75,8 @@ quem usar escolaridade ou gênero tem as 221 linhas à disposição.
 Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,765
 (Spearman 0,812). Contra o logaritmo da mediana de patrimônio, sobre as
 165 que também têm mediana: r = 0,681 (Spearman 0,695). No nível do
-**indivíduo** a correlação com patrimônio é de apenas 0,208, e o
-contraste entre 0,208 e 0,681 é o resultado, não um defeito: o ISEI
+**indivíduo** a correlação com patrimônio é de apenas 0,207, e o
+contraste entre 0,207 e 0,681 é o resultado, não um defeito: o ISEI
 explica a variação entre ocupações e quase nada dentro de cada uma.
 
 ## O patrimônio de 2026 não entra, e por quê
@@ -100,11 +100,11 @@ Quando o IPCA de outubro de 2026 existir, a coluna sai de graça.
 # As ocupações com mais candidaturas no conjunto de validação:
 head(tse_validacao[order(-tse_validacao$n), ], 5)
 #>     cod_tse      n pct_superior pct_mulher n_com_bens mediana_patrimonio
-#> 221     999 565549         11.2       30.6     219876             155267
-#> 189     601 290797          2.5       15.4     132134             244790
-#> 139     298 212328         22.8       33.3     113152             183732
-#> 57      169 204892          7.1       19.6     105795             296088
-#> 121     257 152505         22.9       19.0     109346             497797
+#> 221     999 567077         11.2       30.5     219874              77633
+#> 189     601 292752          2.5       15.3     132163             122395
+#> 139     298 212709         22.8       33.2     113178              91866
+#> 57      169 204675          7.1       19.6     105777             148044
+#> 121     257 152409         22.9       19.0     109395             249001
 
 # A correlação que sustenta a medida: o ISEI atribuído por tradução contra
 # a escolaridade declarada, que o pacote nunca viu ao construir a régua.

@@ -5,6 +5,11 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>A safra de 2026, na régua • ocupacoesBR</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="96x96" href="../favicon-96x96.png">
+<link rel="icon" type="”image/svg+xml”" href="../favicon.svg">
+<link rel="apple-touch-icon" sizes="180x180" href="../apple-touch-icon.png">
+<link rel="icon" sizes="any" href="../favicon.ico">
+<link rel="manifest" href="../site.webmanifest">
 <script src="../lightswitch.js"></script><script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <link href="../deps/bootstrap-5.3.8/bootstrap.min.css" rel="stylesheet">
 <script src="../deps/bootstrap-5.3.8/bootstrap.bundle.min.js"></script><link href="../deps/Source_Sans_3-0.4.10/font.css" rel="stylesheet">
@@ -15,6 +20,7 @@
 <meta property="og:title" content="A safra de 2026, na régua">
 <meta name="description" content="O que o pacote já sabe sobre a eleição em curso, o que ele não pode saber ainda, e por que a safra aberta pede leitura diferente.">
 <meta property="og:description" content="O que o pacote já sabe sobre a eleição em curso, o que ele não pode saber ainda, e por que a safra aberta pede leitura diferente.">
+<meta property="og:image" content="https://moraespeixoto.github.io/ocupacoesBR/logo.png">
 </head>
 <body>
     <a href="#main" class="visually-hidden-focusable">Avance para o conteúdo</a>
@@ -24,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.3.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -38,15 +44,15 @@
 <li class="active nav-item dropdown">
   <button class="nav-link dropdown-toggle" type="button" id="dropdown-artigos" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Artigos</button>
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos">
-<li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
+<li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
+    <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a class="dropdown-item" href="../articles/publicacoes.html">Como citar</a></li>
   </ul>
 </li>
 <li class="nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
-<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
+<li class="nav-item"><a class="nav-link" href="../articles/publicacoes.html">Publicações</a></li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Novidades</a></li>
       </ul>
 <ul class="navbar-nav">
 <li class="nav-item"><form class="form-inline" role="search">
@@ -73,8 +79,7 @@
 
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
-
-      <h1>A safra de 2026, na régua</h1>
+      <img src="../logo.png" class="logo" alt=""><h1>A safra de 2026, na régua</h1>
             
       
       <small class="dont-index">Fonte: <a href="https://github.com/moraespeixoto/ocupacoesBR/blob/HEAD/vignettes/articles/safra-2026.Rmd" class="external-link"><code>vignettes/articles/safra-2026.Rmd</code></a></small>
@@ -90,8 +95,8 @@ pacote.</p>
 <code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="va">tse_ocupacao_rotulos</span></span>
 <span><span class="va">cods_2026</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">[</span><span class="va">r</span><span class="op">$</span><span class="va">ate</span> <span class="op">==</span> <span class="fl">2026</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">cods_2026</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 211</span></span></code></pre></div>
-<p>São 211 códigos vigentes.</p>
+<span><span class="co">#&gt; [1] 210</span></span></code></pre></div>
+<p>São 210 códigos vigentes.</p>
 <div class="section level2">
 <h2 id="o-tse-não-criou-código-nenhum">O TSE não criou código nenhum<a class="anchor" aria-label="anchor" href="#o-tse-n%C3%A3o-criou-c%C3%B3digo-nenhum"></a>
 </h2>
@@ -108,13 +113,13 @@ autoral do pacote, não precisou de uma linha nova para cobrir a eleição
 em curso, e a cobertura é total:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/checa_cobertura.html">checa_cobertura</a></span><span class="op">(</span><span class="va">cods_2026</span><span class="op">)</span></span>
-<span><span class="co">#&gt; cobertura ok: 211 códigos observados, todos no dicionário.</span></span></code></pre></div>
+<span><span class="co">#&gt; cobertura ok: 210 códigos observados, todos no dicionário.</span></span></code></pre></div>
 <p>Os 46 códigos que aparecem como extintos merecem cuidado, porque o
 nome engana. Eles não foram revogados: 2024 foi uma eleição municipal e
 2026 é geral, e há ocupações que simplesmente não foram declaradas por
 ninguém desta vez. Ausência de declaração não é revogação de código.
 Trocar de par de comparação não resolve — comparar duas eleições gerais
-devolve 47 extintos, e não menos.</p>
+devolve 48 extintos, e não menos.</p>
 </div>
 <div class="section level2">
 <h2 id="o-que-a-régua-alcança">O que a régua alcança<a class="anchor" aria-label="anchor" href="#o-que-a-r%C3%A9gua-alcan%C3%A7a"></a>
@@ -122,11 +127,11 @@ devolve 47 extintos, e não menos.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">isei_2026</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/warning.html" class="external-link">suppressWarnings</a></span><span class="op">(</span><span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">cods_2026</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">isei_2026</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 199</span></span>
+<span><span class="co">#&gt; [1] 198</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/summary.html" class="external-link">summary</a></span><span class="op">(</span><span class="va">isei_2026</span><span class="op">)</span></span>
 <span><span class="co">#&gt;    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs </span></span>
-<span><span class="co">#&gt;   16.00   34.00   50.00   49.44   68.00   90.00      12</span></span></code></pre></div>
-<p>199 dos 211 códigos recebem um ISEI. Os doze restantes são os que não
+<span><span class="co">#&gt;    16.0    34.0    50.0    49.6    68.0    90.0      12</span></span></code></pre></div>
+<p>198 dos 210 códigos recebem um ISEI. Os doze restantes são os que não
 nomeiam ocupação: a categoria residual, os vínculos públicos sem função,
 quem está fora da população economicamente ativa.</p>
 <p><img src="safra-2026_files/figure-html/hist-1.png" class="r-plt" alt="" width="840"></p>
@@ -146,7 +151,7 @@ nomeadas uma a uma, e agrega grosseiramente a base.</p>
 <span><span class="co">#&gt;       Profissionais de nível superior Classe média técnica e administrativa </span></span>
 <span><span class="co">#&gt;                                    54                                    53 </span></span>
 <span><span class="co">#&gt;     Operários e trabalhadores manuais  Trabalhadores de serviços e comércio </span></span>
-<span><span class="co">#&gt;                                    39                                    31 </span></span>
+<span><span class="co">#&gt;                                    39                                    30 </span></span>
 <span><span class="co">#&gt;                Dirigentes e políticos         Militares e segurança pública </span></span>
 <span><span class="co">#&gt;                                     9                                     5 </span></span>
 <span><span class="co">#&gt;          Proprietários e empregadores                Inativo com trajetória </span></span>
@@ -173,9 +178,9 @@ e outubro de 2026 não aconteceu. Em vez de inventar um deflator, o
 pacote se abstém:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tse_validacao</span><span class="op">$</span><span class="va">n</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 3347794</span></span>
+<span><span class="co">#&gt; [1] 3360906</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tse_validacao</span><span class="op">$</span><span class="va">n_com_bens</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 1592142</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 1592312</span></span></code></pre></div>
 <p>O acréscimo de 2026 aparece no <code>n</code> e não aparece no
 <code>n_com_bens</code>. Nenhuma mediana de patrimônio do conjunto de
 validação foi tocada pela safra nova.</p>

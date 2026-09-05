@@ -70,10 +70,12 @@ femininas, o que não é a mesma coisa que ser robusta.
 
 **A relação com o critério externo não é linear nem monótona.** Veja
 [`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md):
-a correlação entre ISEI e patrimônio é de 0,682 no nível da ocupação e
-de apenas 0,207 no do indivíduo. Uma medida de posição ocupacional
-explica a variância *entre* ocupações e quase nada *dentro* de cada uma
-— por isso **não use o ISEI como proxy de renda individual**.
+a correlação entre ISEI e patrimônio é de 0,681 no nível da ocupação e
+de apenas 0,207 no do indivíduo, valor que
+[tse_dispersao_patrimonio](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
+permite recalcular. Uma medida de posição ocupacional explica a
+variância *entre* ocupações e quase nada *dentro* de cada uma — por isso
+**não use o ISEI como proxy de renda individual**.
 
 ## Referências
 

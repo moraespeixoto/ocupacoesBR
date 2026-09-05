@@ -1,7 +1,7 @@
 
 <!-- README.md é GERADO. Edite README.Rmd e rode devtools::build_readme(). -->
 
-# ocupacoesBR
+# ocupacoesBR <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 Traduz a **ocupação declarada nas candidaturas ao TSE** em
 classificações padronizadas e medidas de posição social: ISCO-88,
@@ -197,7 +197,7 @@ plausível e errado.
 ### A safra de 2026 já está coberta
 
 O dicionário vai de 1998 a 2026. A eleição em curso não trouxe **nenhum
-código novo**: os 211 códigos que aparecem nas candidaturas de 2026 são
+código novo**: os 210 códigos que aparecem nas candidaturas de 2026 são
 subconjunto dos 275 que o pacote já cobria, com a mesma grafia que
 vigora desde 2018.
 
@@ -378,6 +378,28 @@ cod_para_egp("6111", conta_propria = TRUE, n_supervisionados = 0, avisar = FALSE
 O único buraco vem da fonte: as forças armadas ficam sem ISEI e sem EGP
 porque o ISMF não pontua o ISCO-88 `0110`. São 2 dos 434, e `NA` é a
 resposta honesta.
+
+A PNAD também devolve o favor. O ISEI que este pacote sempre carregou é
+importado, escalonado por Ganzeboom, De Graaf e Treiman sobre dado de
+dezesseis países, nenhum deles o Brasil. Desde a versão 0.5.0 há a régua
+estimada aqui, pelo mesmo método, sobre os quatro trimestres de 2025:
+
+``` r
+data.frame(
+  rotulo  = tse_para_rotulo(c(111, 172, 601)),
+  isei08  = round(tse_para_isei08(c(111, 172, 601)), 1),
+  isei_br = tse_para_isei_br(c(111, 172, 601)))
+#>         rotulo isei08 isei_br
+#> 1       MÉDICO   88.7    87.7
+#> 2 PUBLICITÁRIO   73.9    68.5
+#> 3   AGRICULTOR   19.4    28.8
+```
+
+Ela não substitui o ISEI-08, que continua sendo a âncora para comparação
+internacional. Responde a outra pergunta: como o mercado de trabalho
+brasileiro ordena as ocupações. Veja `?isco08_isei_br` para o método e
+para o que se perde, e `vignette("validacao")` para as duas medidas
+contra o mesmo critério externo.
 
 ## ISCO-08 e a ambiguidade da ponte
 

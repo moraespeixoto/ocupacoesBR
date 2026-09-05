@@ -2,7 +2,8 @@ import re, csv, io, sys, os
 q = sys.argv[1]                     # ex: 012025
 ALVO = ["UPA","V1008","V1014","V2003","V20082",
         "UF","V1028","V2007","V2009","VD3004","V4010","V4012","VD4008","VD4009",
-        "V4016","V40161","V40162","V40163","V4018","VD4016","VD4019","VD4001","VD4002"]
+        "V4016","V40161","V40162","V40163","V4018","VD4016","VD4019","VD4001","VD4002",
+        "VD3005","V4039","VD4031","VD4017"]
 campos = {}
 with io.open("input_PNADC_trimestral.txt", encoding="latin1") as f:
     for ln in f:

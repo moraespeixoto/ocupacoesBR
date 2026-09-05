@@ -69,8 +69,9 @@ equivalente à do estrato, o próprio EGP funde os dois.
 O dado externo concorda. O ISEI do agricultor, 23, está **dentro** da
 faixa das classes populares, que vai de 16 a 43, e corresponde ao
 percentil 5 do dicionário. O patrimônio mediano declarado, de R\$
-254.582, fica acima do máximo das classes populares por menos de três
-mil reais: põe o agricultor no topo da classe popular, não fora dela.
+122.395, fica dentro da faixa das classes populares, cujo máximo é R\$
+126.801 – só um dos sessenta demais códigos do estrato declara mais: põe
+o agricultor no topo da classe popular, não fora dela.
 
 A distinção entre agricultura familiar e proletariado rural é real, e
 continua disponível onde Erikson e Goldthorpe a puseram: em

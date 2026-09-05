@@ -49,4 +49,7 @@ nrow(isco08_medidas)
 summary(isco08_medidas$isei08)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max. 
 #>   11.01   25.73   43.19   45.43   64.43   88.96 
+
+# Estes escores foram estimados fora do Brasil. Para a régua estimada em
+# dado brasileiro, com o mesmo método, veja [isco08_isei_br].
 ```

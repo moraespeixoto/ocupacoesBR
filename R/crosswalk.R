@@ -59,6 +59,8 @@ crosswalk_tse <- function(cod = NULL) {
     isco08          = isco08,
     isei88          = ocupacoesBR::isco88_medidas$isei88[m],
     isei08          = ocupacoesBR::isco08_medidas$isei08[m08],
+    isei_br         = ocupacoesBR::isco08_isei_br$isei_br[
+                        match(isco08, ocupacoesBR::isco08_isei_br$isco08)],
     siops88         = ocupacoesBR::isco88_medidas$siops88[m],
     # A chamada era `isco88_para_egp(isco, avisar = FALSE)`: o `avisar = FALSE`
     # fixo silenciava justamente o aviso de EGP degradado, e a coluna saía com

@@ -8,10 +8,10 @@ pacote.
 r <- tse_ocupacao_rotulos
 cods_2026 <- unique(r$cod_tse[r$ate == 2026])
 length(cods_2026)
-#> [1] 211
+#> [1] 210
 ```
 
-São 211 códigos vigentes.
+São 210 códigos vigentes.
 
 ## O TSE não criou código nenhum
 
@@ -31,7 +31,7 @@ em curso, e a cobertura é total:
 
 ``` r
 checa_cobertura(cods_2026)
-#> cobertura ok: 211 códigos observados, todos no dicionário.
+#> cobertura ok: 210 códigos observados, todos no dicionário.
 ```
 
 Os 46 códigos que aparecem como extintos merecem cuidado, porque o nome
@@ -39,20 +39,20 @@ engana. Eles não foram revogados: 2024 foi uma eleição municipal e 2026
 é geral, e há ocupações que simplesmente não foram declaradas por
 ninguém desta vez. Ausência de declaração não é revogação de código.
 Trocar de par de comparação não resolve — comparar duas eleições gerais
-devolve 47 extintos, e não menos.
+devolve 48 extintos, e não menos.
 
 ## O que a régua alcança
 
 ``` r
 isei_2026 <- suppressWarnings(tse_para_isei(cods_2026))
 sum(!is.na(isei_2026))
-#> [1] 199
+#> [1] 198
 summary(isei_2026)
 #>    Min. 1st Qu.  Median    Mean 3rd Qu.    Max.     NAs 
-#>   16.00   34.00   50.00   49.44   68.00   90.00      12
+#>    16.0    34.0    50.0    49.6    68.0    90.0      12
 ```
 
-199 dos 211 códigos recebem um ISEI. Os doze restantes são os que não
+198 dos 210 códigos recebem um ISEI. Os doze restantes são os que não
 nomeiam ocupação: a categoria residual, os vínculos públicos sem função,
 quem está fora da população economicamente ativa.
 
@@ -73,7 +73,7 @@ sort(table(as.character(cl)), decreasing = TRUE)
 #>       Profissionais de nível superior Classe média técnica e administrativa 
 #>                                    54                                    53 
 #>     Operários e trabalhadores manuais  Trabalhadores de serviços e comércio 
-#>                                    39                                    31 
+#>                                    39                                    30 
 #>                Dirigentes e políticos         Militares e segurança pública 
 #>                                     9                                     5 
 #>          Proprietários e empregadores                Inativo com trajetória 
@@ -104,9 +104,9 @@ abstém:
 
 ``` r
 sum(tse_validacao$n)
-#> [1] 3347794
+#> [1] 3360906
 sum(tse_validacao$n_com_bens)
-#> [1] 1592142
+#> [1] 1592312
 ```
 
 O acréscimo de 2026 aparece no `n` e não aparece no `n_com_bens`.

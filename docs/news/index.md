@@ -1,5 +1,265 @@
 # Changelog
 
+## ocupacoesBR 0.5.0
+
+### A régua deixa de ser importada
+
+A vinheta de validação terminava dizendo que o pacote mostrava que a
+medida **ordena** bem as ocupações, mas não que os escores estão
+**calibrados** para o Brasil, e que calibrá-los seria a melhoria de
+maior valor que ainda faltava. Esta versão a faz.
+
+`isco08_isei_br` traz o procedimento de Ganzeboom, De Graaf e Treiman
+(1992) refeito do zero sobre a PNAD Contínua de 2025: 655.787
+observações de 339.181 pessoas, dos quatro trimestres. Não é tradução de
+escala nem recalibragem do ISEI-08. É o mesmo método, estimado aqui.
+
+**O que a régua brasileira diz de diferente.** Contra o ISEI-08
+importado, nas 348 células apuradas em quatro dígitos, o Spearman é
+0,894 e o desvio absoluto médio é 9,7 pontos numa escala de 10 a 90.
+Concorda o bastante para ser reconhecível e discorda o bastante para
+valer a pena. Sobem as ocupações manuais e de segurança pública:
+operador de implemento agrícola, policial civil e militar, bombeiro,
+motoboy. Descem as artísticas, o clero e as liberais da saúde: escultor,
+sacerdote, veterinário, odontólogo, farmacêutico. Credencial alta e
+remuneração modesta de um lado, o inverso do outro.
+
+**A mediação não é completa, e isso é achado.** O procedimento de 1992
+supõe que a ocupação carrega todo o efeito da escolaridade sobre a renda
+e escolhe o ângulo onde o efeito direto zera. No Brasil ele não zera:
+para em 0,206 contra um efeito total de 0,494, de modo que a ocupação
+medeia **58,4%**. Os outros 41,6% são escolaridade que paga dentro da
+mesma ocupação. Adotou-se o ângulo de mínimo e publicou-se o resíduo,
+nos atributos da tabela.
+
+A decisão é segura porque o ordenamento não depende do ângulo. O
+Spearman entre a escala no ângulo adotado e em mais ou menos 0,15
+radianos é 0,999. Sete especificações alternativas foram testadas — 40
+horas, sem restrição de horas, renda-hora, rendimento efetivo, só homens
+como em 1992, escolaridade em categorias, idade a partir de 25 — e
+nenhuma move o ordenamento abaixo de 0,99 nem a parcela mediada para
+fora do intervalo de 57,9% a 60,1%.
+
+**Contra o critério externo, ela vai melhor.** Nas 165 ocupações do TSE
+com as três réguas e os dois critérios, a correlação com o log do
+patrimônio declarado sobe de 0,676 (ISEI-08) para 0,716, e o Spearman de
+0,708 para 0,768. Com a escolaridade dos candidatos ela vai um pouco
+pior, 0,736 contra 0,783, o que é esperado: o ângulo dá mais peso à
+renda. O patrimônio é o único dos dois que não entra na construção de
+régua nenhuma.
+
+### Nomes novos
+
+- `isco08_isei_br`, a tabela, com 590 linhas e os atributos `theta`,
+  `beta_direto`, `beta_total` e `parcela_mediada`.
+- [`tse_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md),
+  [`cod_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei_br.md),
+  [`cbo2002_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei_br.md),
+  [`cbo94_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei_br.md)
+  e
+  [`isco08_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isei_br.md).
+  São funções irmãs, e não um argumento nas existentes, porque é a
+  convenção do pacote e porque uma escala estimada no Brasil não deve
+  viajar debaixo do nome “08”.
+- [`crosswalk_tse()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_tse.md)
+  e
+  [`crosswalk_cod()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cod.md)
+  ganharam a coluna `isei_br`.
+
+### Por que 590 linhas, e não 434
+
+A ocupação declarada ao TSE é grossa, e a porta do TSE aterrissa em
+códigos ISCO-08 agregados de dois e três dígitos. Uma tabela só com
+células de quatro dígitos devolveria `NA` para a maioria dos candidatos.
+A tabela cobre então as mesmas 590 chaves de `isco08_medidas`, e cada
+agregado é apurado juntando os **indivíduos** da sua subárvore, não a
+média das médias. Dos 407 códigos de quatro dígitos, 348 têm escore
+próprio e 59 herdam do grupo acima por terem menos de 30 pessoas na
+amostra. A coluna `nivel` diz quais.
+
+### O que não mudou
+
+`isco08_medidas` está intacta, e continua sendo a âncora internacional.
+Nenhuma assinatura existente mudou. Os 1.524 testes anteriores seguem
+passando sem alteração.
+
+### Infraestrutura
+
+- `data-raw/extrai_tri.py` passa a extrair também `VD3005` (anos de
+  estudo), `V4039` e `VD4031` (horas) e `VD4017` (rendimento efetivo).
+  As 24 colunas antigas saem byte a byte idênticas, e `isco_posicao_br`
+  regenera igual.
+- `inst/extdata/PROVENIENCIA.yml` ganha a seção `microdados_externos`,
+  com os sha256 dos quatro zips da PNAD e do dicionário de largura fixa.
+  Ela usa chaves próprias para não colidir com
+  `00_confere_proveniencia.R`, que continua conferindo as mesmas 20
+  fontes de sempre.
+
+## ocupacoesBR 0.4.1
+
+### O patrimônio estava dobrado, e agora não está
+
+Todo valor de patrimônio que este pacote publicou até a 0.4.0 estava
+**duas vezes maior que o declarado**. A causa não é do pacote: a
+microbase de validação vinha de uma agregação de bens que somava cada
+bem duas vezes.
+
+**A prova.** Extraído o CSV bruto do TSE de 2024
+(`bem_candidato_2024_AC.csv`) e somados os bens candidato a candidato,
+das 1.206 candidaturas com bens a fonte antiga bate em **2** e a fonte
+nova bate em **1.206**. Sobre o conjunto das 296.096 candidaturas de
+2024, a razão entre as duas é **exatamente 2,0 em 100% dos casos**. A
+fonte passa a ser a microbase construída a partir de
+`novissimos_dados_tse`, cuja chave tripla de bens já está corrigida.
+
+**O que muda:** todo valor absoluto em reais. A mediana do agricultor
+(601) vai de R\$ 244.790 para **R\$ 122.395**; o máximo das classes
+populares, de R\$ 253.602 para **R\$ 126.801**. Os `.Rd` afetados foram
+corrigidos.
+
+**O que NÃO muda, e é a maior parte do que o pacote afirma.** Dobrar
+tudo é mudança de escala, e `log(2x)` difere de `log(x)` por uma
+constante. Logo:
+
+- a correlação entre ISEI e log do patrimônio no nível da ocupação segue
+  **0,681**, e o Spearman segue 0,695;
+- a correlação no nível do indivíduo segue **0,207** (era 0,208 antes de
+  a base ganhar 12.798 candidaturas nas safras fechadas, não por causa
+  da correção de escala);
+- `sd_log` em `tse_dispersao_patrimonio` segue **1,70** — desvio padrão
+  é invariante a deslocamento;
+- a conclusão sobre o agricultor sobrevive inteira: as duas medianas
+  dobravam juntas, de modo que ele continua **dentro** da faixa das
+  classes populares, com um só código do estrato acima dele.
+
+Muda também `media_log` em `tse_dispersao_patrimonio`, deslocada por
+`log(2) = 0,693` em cada nível — o que não afeta o coeficiente que a
+tabela existe para reproduzir, porque um deslocamento constante não move
+a correlação.
+
+### A microbase mudou de fonte, e ganhou linhas
+
+`data-raw/05a_microbase_2026.R` passa a ler a microbase de
+`classe_recrutamento_politico` em vez da antiga de `vices_do_brasil`.
+Além da correção dos bens, a base nova vem do repositório canônico de
+dados do TSE e traz **12.798 candidaturas a mais** nas safras de 1998 a
+2024. Três colunas saíram do contrato (`eleito_v1`, `eleito_1t`,
+`prest_contas`), nenhuma consumida pela validação.
+
+## ocupacoesBR 0.4.0
+
+### O número que faltava reproduzir agora reproduz: `tse_dispersao_patrimonio`
+
+O artigo de método afirma que a correlação entre status e patrimônio cai
+de **0,681** no nível da ocupação para **0,208** no nível do indivíduo,
+e que essa queda é o resultado, não um defeito: uma escala de posição
+ocupacional explica a variação *entre* ocupações e quase nada *dentro*
+de cada uma. O segundo número era o único do texto que o leitor não
+podia recalcular — dependia da microbase de patrimônio, que não
+acompanha o pacote e não vai acompanhar.
+
+A saída não foi publicar microdado. A correlação de Pearson é função
+apenas de somatórios, e o ISEI é constante dentro de cada nível: basta
+publicar, por nível de status, o `n` e as somas dos logaritmos do
+patrimônio e dos seus quadrados. É o que a nova tabela traz — 29 linhas,
+1,5 KB, nada identificável — e dela o coeficiente sai **exato**, não
+aproximado. `data-raw/08_gera_dispersao.R` trava essa identidade contra
+o microdado (`abs(r_micro - r_agreg) < 1e-12`), e `test-fonte.R` a trava
+contra o dado publicado.
+
+A coluna `sd_log` mostra o mesmo fato de perto, e é a razão para a
+tabela ir além dos somatórios: dentro de um mesmo nível de status, o
+desvio padrão do log do patrimônio é da ordem de 1,7 — uma potência de
+dez. Daí a advertência de
+[`?tse_para_isei`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md),
+que agora aponta para cá: não use o ISEI como proxy de renda ou
+patrimônio individual.
+
+A vinheta `validacao` e
+[`?tse_para_isei`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md)
+passam a extrair o valor da tabela em vez de citá-lo (a ajuda dizia
+0,207; o valor é 0,208).
+
+### No artigo, fora do repositório
+
+A validação convergente ganha a análise de sensibilidade que faltava: o
+coeficiente com cada critério externo sob quatro especificações — todas
+as ocupações, sem os códigos de autorrótulo, ponderada por candidaturas
+e na âncora ISCO-08 — com intervalo de 95% por bootstrap. Retirar os
+códigos de autorrótulo **eleva** a correlação com o patrimônio (0,681
+para 0,703), que é o sinal esperado. O artigo passa a declarar também o
+que o piso de duzentas candidaturas deixa de fora (50 ocupações, de ISEI
+médio 53,8 contra 47,4 das incluídas) e o viés de subdeclaração do
+patrimônio, que é correlacionado com o componente proprietário da classe
+alta. E ganha a primeira figura.
+
+## ocupacoesBR 0.3.1
+
+### A safra de 2026 é atualizada para a geração de 01/09/2026
+
+A eleição de 2026 continua aberta e o TSE republica o arquivo de
+candidaturas duas vezes ao dia. Esta versão troca a geração fixada de
+**17/08/2026, 08:30** (20.506 candidaturas) pela de **01/09/2026,
+12:31** (20.829 candidaturas) — 323 candidaturas a mais, todas com o
+mesmo tratamento de safra aberta: `eleito` e votos seguem `NA`, e o
+patrimônio segue fora da validação por falta do IPCA de outubro de 2026.
+
+**O achado central não muda.** Dos 210 códigos observados na nova
+geração (211 na anterior), nenhum é inédito: seguem todos dentro dos 275
+que o dicionário já cobria. `tse_isco` não mudou; nenhuma ponte mudou;
+nenhum ISEI, prestígio, EGP, classe ou estrato se deslocou de nenhum
+código. `tse_diff_cadastro(2024, 2026)` segue sem código criado (0), e
+os “extintos” seguem sendo artefato de safra pequena — 46 contra 2024,
+48 contra 2022 (era 47).
+
+O total de candidaturas do pacote sobe de 3.368.921 para **3.369.244**.
+O artigo de método (`paper/artigo.qmd`, fora do repositório) foi
+atualizado para a nova geração e para as novas contagens.
+
+### Três correções apontadas por revisão externa
+
+- **O patrimônio do agricultor estava descrito com o verbo errado.**
+  [`?tse_para_classe`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.md)
+  (e o artigo) diziam que a mediana do código 601 “fica acima do máximo
+  das classes populares por menos de três mil reais”. O número era de
+  uma safra anterior; recomputado sobre `tse_validacao`, a mediana do
+  601 é R\$ 244.790 e o máximo das populares (excluído o próprio 601) é
+  R\$ 253.602 — o agricultor está **dentro** da faixa, com só um código
+  do estrato acima dele. A conclusão (topo da classe popular, não fora
+  dela) não muda; a frase, sim. É exatamente o modo de erro que a regra
+  “número por execução” existe para impedir: o número era extraído, o
+  verbo era digitado. O mesmo vale para a correlação ISEI–patrimônio,
+  que os `.Rd` citavam como 0,682 e é 0,681 na safra atual; a vinheta
+  `validacao` passa a extraí-la.
+
+- **[`crosswalk_cbo2002()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cbo2002.md)
+  devolvia o que
+  [`cbo2002_para_isco()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isco.md)
+  recusa.** Para família de quatro dígitos sem ISCO majoritário, a porta
+  devolve `NA` por padrão (`empate = "na"`), mas a tabela auditável
+  entregava em silêncio o vencedor do desempate lexicográfico — o viés
+  que o próprio pacote documenta em
+  [`?cbo2002_para_isco`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isco.md).
+  A função ganha o argumento `empate` (mesmo padrão da porta) e a coluna
+  `empate`, que marca a família empatada em qualquer modo. Teste novo em
+  `test-cbo.R`.
+
+- **O artigo carimbava a versão errada do pacote.** O Apêndice A
+  imprimia `0.3.0` num texto que descrevia a geração da 0.3.1, porque o
+  `.qmd` lê o pacote instalado e o cache do Quarto reaproveitava a
+  render antiga. O chunk `setup` do artigo passa a exigir
+  `packageVersion("ocupacoesBR") >= "0.3.1"`, e ganha travas para os
+  números que a prosa escreve por extenso (os “dezesseis mais um”
+  códigos sem ISCO e os 0,68/0,76 do resumo, que o YAML não executa).
+
+Duas frágeis a menos: `data-raw/07_gera_posicao.R` lia a PNAD de um
+caminho fixo de outra máquina, e passa a usar `OCUPACOESBR_PNAD` com
+fallback em `~/dados_pnad`, como os scripts 05/05a; e `test-rotulos.R`
+trava que nenhum rótulo normalizado aponte para dois códigos, condição
+de que `tse_rotulo_para_cod(exato = TRUE)` depende sem dizer. O
+DESCRIPTION distingue agora as pontes geradas por script do dicionário
+TSE→ISCO-88, que é autoral.
+
 ## ocupacoesBR 0.3.0
 
 ### A safra de 2026 entra, e o dicionário não precisou de uma linha

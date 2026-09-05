@@ -15,6 +15,8 @@ cadastro de 2002.
   : Índice socioeconômico ISEI da ocupação declarada ao TSE
 - [`tse_para_isei08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei08.md)
   : ISEI-08 da ocupação declarada ao TSE
+- [`tse_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md)
+  : ISEI-BR: status ocupacional estimado em dado brasileiro
 - [`tse_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio.md)
   : Prestigio ocupacional de Treiman
 - [`tse_para_prestigio08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio08.md)
@@ -68,6 +70,8 @@ resgata códigos ausentes subindo a hierarquia.
   : Indice socioeconomico ISEI a partir da CBO-2002
 - [`cbo2002_para_isei08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei08.md)
   : ISEI-08 a partir da CBO-2002
+- [`cbo2002_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei_br.md)
+  : ISEI-BR a partir da CBO-2002
 - [`cbo2002_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_prestigio.md)
   : Prestigio de Treiman a partir da CBO-2002
 - [`cbo2002_para_prestigio08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_prestigio08.md)
@@ -84,6 +88,8 @@ resgata códigos ausentes subindo a hierarquia.
   : ISCO-08 a partir da CBO-94
 - [`cbo94_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei.md)
   : Indice socioeconomico ISEI a partir da CBO-94
+- [`cbo94_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei_br.md)
+  : ISEI-BR a partir da CBO-94
 - [`cbo94_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_prestigio.md)
   : Prestigio de Treiman a partir da CBO-94
 - [`cbo94_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_egp.md)
@@ -104,6 +110,8 @@ nome. É por aqui que se compara candidatura com população.
   : ISEI-88 a partir da COD
 - [`cod_para_isei08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei08.md)
   : ISEI-08 a partir da COD
+- [`cod_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei_br.md)
+  : ISEI-BR a partir da COD
 - [`cod_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_prestigio.md)
   : Prestigio de Treiman a partir da COD
 - [`cod_para_prestigio08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_prestigio08.md)
@@ -128,6 +136,8 @@ atravessar de uma revisão da ISCO para a outra.
   : Converte ISCO-88 em ISCO-08
 - [`isco08_para_isco88()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isco88.md)
   : Converte ISCO-08 em ISCO-88
+- [`isco08_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isei_br.md)
+  : ISEI-BR a partir da ISCO-08
 
 ## Cobertura, antes de analisar
 
@@ -168,6 +178,8 @@ diretamente é legítimo e recomendado.
 - [`tse_validacao`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_validacao.md)
   : Critério externo para aferir a medida: patrimônio e escolaridade por
   ocupação
+- [`tse_dispersao_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
+  : Dispersão do patrimônio dentro de cada nível de status
 - [`isco88_medidas`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_medidas.md)
   : Medidas ancoradas na ISCO-88
 - [`isco08_medidas`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_medidas.md)
@@ -189,6 +201,8 @@ diretamente é legítimo e recomendado.
   : Correspondência da COD do IBGE com a ISCO-08
 - [`isco_posicao_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco_posicao_br.md)
   : Posição na ocupação por código ISCO-88, medida na PNAD Contínua
+- [`isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md)
+  : ISEI-BR: status ocupacional estimado na PNAD Contínua
 
 ## Alias depreciados
 
