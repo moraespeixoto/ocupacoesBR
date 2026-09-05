@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -48,6 +48,35 @@
       <small>Fonte: <a href="https://github.com/moraespeixoto/ocupacoesBR/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.6.0" id="ocupacoesbr-060">ocupacoesBR 0.6.0<a class="anchor" aria-label="anchor" href="#ocupacoesbr-060"></a></h2>
+<p>Preparação para o CRAN, e uma aba nova no site.</p>
+<div class="section level3">
+<h3 id="o-digclass-sai-de-suggests--e-o-teste-fica-0-6-0">O <code>DIGCLASS</code> sai de <code>Suggests</code> — e o teste fica<a class="anchor" aria-label="anchor" href="#o-digclass-sai-de-suggests--e-o-teste-fica-0-6-0"></a></h3>
+<p>O <code>DIGCLASS</code> (Cimentada) é a única implementação independente contra a qual o EGP deste pacote é conferido. Ele não é dependência: é GPL-3, e embarcar tabela dele tornaria este pacote copyleft.</p>
+<p>Simulando a máquina do CRAN — biblioteca sem o pacote e <code>_R_CHECK_FORCE_SUGGESTS_</code> no padrão — o que aparece não é a NOTE que o <code>cran-comments.md</code> vinha explicando:</p>
+<pre><code>* checking package dependencies ... ERROR
+Package suggested but not available: 'DIGCLASS'</code></pre>
+<p>Verificado com rede: o <code>DIGCLASS</code> não está em repositório algum — nem CRAN, nem Bioconductor, nem r-universe (o universo <code>cimentadaj</code> existe e serve só o <code>perccalc</code>). Logo <code>Additional_repositories:</code> também não resolve, porque o campo exige um repositório no formato do CRAN.</p>
+<p>A saída preserva as duas coisas: o teste foi para <code>tests/testthat/test-digclass.R</code>, que está em <code>.Rbuildignore</code>. Ele continua no repositório, roda no <code><a href="https://devtools.r-lib.org/reference/test.html" class="external-link">devtools::test()</a></code> e apareceria num CI; o pacote distribuído não menciona o <code>DIGCLASS</code> em lugar nenhum. Com isso o check volta a <code>0 ERROR, 0 WARNING, 1 NOTE</code>, e a NOTE que sobra é “New submission” mais as URLs do repositório privado.</p>
+</div>
+<div class="section level3">
+<h3 id="a-referência-dessa-conferência-estava-solta-0-6-0">A referência dessa conferência estava solta<a class="anchor" aria-label="anchor" href="#a-refer%C3%AAncia-dessa-confer%C3%AAncia-estava-solta-0-6-0"></a></h3>
+<p>O <code>DIGCLASS</code> instala-se do HEAD do GitHub. A referência da única validação externa do pacote era, portanto, um ponteiro móvel: se o autor corrigisse uma célula, o teste passaria a falhar sem que se soubesse o que ele afirmava quando a validação foi feita. É o mesmo defeito que as chaves <code>sha256</code> do registro de proveniência existem para impedir nas fontes.</p>
+<p><code>inst/extdata/PROVENIENCIA.yml</code> ganhou a seção <code>conferencia_cruzada</code>, com a versão (0.0.3), o commit e a data. <code>00_confere_proveniencia.R</code> avisa quando o instalado diverge do registrado, e um teste falha se a seção sumir.</p>
+</div>
+<div class="section level3">
+<h3 id="provas-de-robustez-com-gráficos-0-6-0">Provas de robustez, com gráficos<a class="anchor" aria-label="anchor" href="#provas-de-robustez-com-gr%C3%A1ficos-0-6-0"></a></h3>
+<p>Aba nova no site, entre <em>Percursos</em> e <em>Artigos</em>: nove provas explicadas uma a uma — o que poderia dar errado, como se testa, o que o gráfico mostra e o que significaria se falhasse. Ida e volta entre as duas ISCO, ambiguidade preservada, conferência cruzada, critério externo, estatísticas suficientes, artefato de escala, quebra de 2002, EGP degradado e <code>sha256</code> das fontes.</p>
+<p>Nenhum número está digitado: todos saem de <em>chunks</em> executados sobre os dados instalados com o pacote. Três das provas existem porque o erro correspondente foi cometido e publicado aqui, e a página diz isso.</p>
+<p>Escrever a página corrigiu duas afirmações que estavam erradas na documentação anterior. No EGP degradado são <strong>duas</strong> degradações, e não uma: IVb e IVc separam o TSE da COD, e a diferença é a marca de posição no emprego; IVa e V saem vazias nos <strong>dois</strong>, porque separá-las exige o número de subordinados, que nenhuma porta do pacote tem. E na quebra de 2002, cinco dos sete códigos reutilizados saltam na escolaridade — o <code>215</code> e o <code>521</code> quase não se movem, e no caso da governanta quem separa as duas ocupações é a composição por sexo.</p>
+</div>
+<div class="section level3">
+<h3 id="description-com-o-doi-do-método-0-6-0">
+<code>Description</code> com o DOI do método<a class="anchor" aria-label="anchor" href="#description-com-o-doi-do-m%C3%A9todo-0-6-0"></a></h3>
+<p>O <code>DESCRIPTION</code> passa a trazer Ganzeboom, De Graaf e Treiman (1992) com <code>&lt;doi:10.1016/0049-089X(92)90017-B&gt;</code>, no formato que o CRAN pede para referência de método. O DOI foi conferido no Crossref.</p>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.2" id="ocupacoesbr-052">ocupacoesBR 0.5.2<a class="anchor" aria-label="anchor" href="#ocupacoesbr-052"></a></h2>
 <p>Auditoria geral, feita por três auditores independentes — engenharia de pacotes R e site, dados eleitorais do TSE, estratificação e medida. O pedido nasceu de uma insegurança: a 0.5.0 quebrou o pacote e teve de ser corrigida às pressas no mesmo dia, e não estava claro o que ainda restava errado.</p>
@@ -396,7 +425,7 @@
 <div class="section level3">
 <h3 id="o-uso-normal-ficou-explícito-logo-no-começo-0-3-0">O uso normal ficou explícito logo no começo<a class="anchor" aria-label="anchor" href="#o-uso-normal-ficou-expl%C3%ADcito-logo-no-come%C3%A7o-0-3-0"></a></h3>
 <p>A home do site e o artigo “Comece aqui” passam a abrir com a linha que responde à pergunta que todo mundo faz primeiro:</p>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dados</span> <span class="op">&lt;-</span> <span class="va">dados</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>isei <span class="op">=</span> <span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">CD_OCUPACAO</span>, ano <span class="op">=</span> <span class="va">ANO_ELEICAO</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>A coluna inteira entra, a coluna traduzida sai, alinhada linha a linha, e o banco não muda de tamanho. Estava implícito em toda a documentação e explícito em lugar nenhum: os exemplos anteriores usavam vetores curtos como <code>c("111", "169", "257")</code>, que cabem na tela mas sugerem tradução código a código. A versão em R base (<code>dados$isei &lt;- ...</code>) vem logo abaixo, e a junção com <code><a href="../reference/crosswalk_tse.html">crosswalk_tse()</a></code> fica ao lado, para quem quer as dezesseis colunas de uma vez.</p>
 <p>O exemplo é executado, não digitado, e a moldura inclui de propósito uma linha de 1998 com o código 214. Com isso as duas formas aparecem lado a lado sobre a mesma linha: o <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> com <code>ano</code> devolve <code>NA</code> e avisa, e a junção — que usa o cadastro corrente — devolve escultor e pintor com ISEI 54, em silêncio. A ressalva sobre <code>ano</code> deixa de ser uma advertência abstrata e passa a ser algo que o leitor vê acontecer.</p>
@@ -768,7 +797,7 @@ end repeat.</code></pre>
 <li><p><strong><code><a href="../reference/isei_retrospectivo.html">?isei_retrospectivo</a></code> ganha “O que ele erra, medido”.</strong> Entre os 680.317 pares consecutivos em que o ISEI foi observado nas duas pontas, <strong>52,1%</strong> mudam de código e <strong>45,3%</strong> mudam de escore, com diferença absoluta média de <strong>18,9 pontos</strong> quando muda. Mesmo com defasagem zero o escore herdado estaria errado em quase metade dos casos — e a defasagem não é zero: mediana de 4 anos, <strong>34,6%</strong> de 8 anos ou mais. Pior que o tamanho é a direção: o erro aponta sempre para o passado, então para quem ascendeu ele puxa a posição para baixo. É viés sistemático contra a própria quantidade que estudos de profissionalização política querem medir.</p></li>
 <li>
 <p><strong><code>tse_codigos_autorrotulo</code></strong> — os dez códigos cujo rótulo designa propriedade por autodescrição (empresário, comerciante, industrial, proprietário de estabelecimento) e que, por isso, não são ancorados em registro nenhum. São <strong>12,2%</strong> das candidaturas. O uso é análise de sensibilidade em uma linha:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span><span class="op">$</span><span class="va">isei_ancorado</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">cod</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">tse_codigos_autorrotulo</span>, <span class="cn">NA</span>, <span class="va">d</span><span class="op">$</span><span class="va">isei</span><span class="op">)</span></span></code></pre></div>
 <p>A decisão sobre o código <strong>257 (EMPRESÁRIO) foi medir e não mover</strong>. A proposta da auditoria — levá-lo à ISCO 13, ISEI 51 — é rejeitada pelo critério externo: 257 tem o <strong>maior</strong> patrimônio mediano entre os códigos proprietários (R$ 495.400, contra R$ 303.874 do industrial e R$ 296.088 do comerciante), e rebaixá-lo o poria abaixo do industrial. O problema do 257 não é o nível, é a dispersão: dentro do código os extremos de patrimônio distam 81 vezes, e o mediano varia por um fator de 25 conforme o cargo disputado. É uma <strong>mistura</strong> de duas populações sob um rótulo, e mistura não se corrige mudando o ponto — se torna visível.</p>
 <p>A escolha da classe e do estrato <strong>não dependia</strong> dessa decisão: 257 está em <code>.COD_PROPRIETARIO</code>, e a regra de classe testa a pertença antes de olhar o ISCO.</p>

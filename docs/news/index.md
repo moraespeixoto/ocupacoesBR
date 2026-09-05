@@ -1,5 +1,77 @@
 # Changelog
 
+## ocupacoesBR 0.6.0
+
+Preparação para o CRAN, e uma aba nova no site.
+
+### O `DIGCLASS` sai de `Suggests` — e o teste fica
+
+O `DIGCLASS` (Cimentada) é a única implementação independente contra a
+qual o EGP deste pacote é conferido. Ele não é dependência: é GPL-3, e
+embarcar tabela dele tornaria este pacote copyleft.
+
+Simulando a máquina do CRAN — biblioteca sem o pacote e
+`_R_CHECK_FORCE_SUGGESTS_` no padrão — o que aparece não é a NOTE que o
+`cran-comments.md` vinha explicando:
+
+    * checking package dependencies ... ERROR
+    Package suggested but not available: 'DIGCLASS'
+
+Verificado com rede: o `DIGCLASS` não está em repositório algum — nem
+CRAN, nem Bioconductor, nem r-universe (o universo `cimentadaj` existe e
+serve só o `perccalc`). Logo `Additional_repositories:` também não
+resolve, porque o campo exige um repositório no formato do CRAN.
+
+A saída preserva as duas coisas: o teste foi para
+`tests/testthat/test-digclass.R`, que está em `.Rbuildignore`. Ele
+continua no repositório, roda no
+[`devtools::test()`](https://devtools.r-lib.org/reference/test.html) e
+apareceria num CI; o pacote distribuído não menciona o `DIGCLASS` em
+lugar nenhum. Com isso o check volta a `0 ERROR, 0 WARNING, 1 NOTE`, e a
+NOTE que sobra é “New submission” mais as URLs do repositório privado.
+
+### A referência dessa conferência estava solta
+
+O `DIGCLASS` instala-se do HEAD do GitHub. A referência da única
+validação externa do pacote era, portanto, um ponteiro móvel: se o autor
+corrigisse uma célula, o teste passaria a falhar sem que se soubesse o
+que ele afirmava quando a validação foi feita. É o mesmo defeito que as
+chaves `sha256` do registro de proveniência existem para impedir nas
+fontes.
+
+`inst/extdata/PROVENIENCIA.yml` ganhou a seção `conferencia_cruzada`,
+com a versão (0.0.3), o commit e a data. `00_confere_proveniencia.R`
+avisa quando o instalado diverge do registrado, e um teste falha se a
+seção sumir.
+
+### Provas de robustez, com gráficos
+
+Aba nova no site, entre *Percursos* e *Artigos*: nove provas explicadas
+uma a uma — o que poderia dar errado, como se testa, o que o gráfico
+mostra e o que significaria se falhasse. Ida e volta entre as duas ISCO,
+ambiguidade preservada, conferência cruzada, critério externo,
+estatísticas suficientes, artefato de escala, quebra de 2002, EGP
+degradado e `sha256` das fontes.
+
+Nenhum número está digitado: todos saem de *chunks* executados sobre os
+dados instalados com o pacote. Três das provas existem porque o erro
+correspondente foi cometido e publicado aqui, e a página diz isso.
+
+Escrever a página corrigiu duas afirmações que estavam erradas na
+documentação anterior. No EGP degradado são **duas** degradações, e não
+uma: IVb e IVc separam o TSE da COD, e a diferença é a marca de posição
+no emprego; IVa e V saem vazias nos **dois**, porque separá-las exige o
+número de subordinados, que nenhuma porta do pacote tem. E na quebra de
+2002, cinco dos sete códigos reutilizados saltam na escolaridade — o
+`215` e o `521` quase não se movem, e no caso da governanta quem separa
+as duas ocupações é a composição por sexo.
+
+### `Description` com o DOI do método
+
+O `DESCRIPTION` passa a trazer Ganzeboom, De Graaf e Treiman (1992) com
+`<doi:10.1016/0049-089X(92)90017-B>`, no formato que o CRAN pede para
+referência de método. O DOI foi conferido no Crossref.
+
 ## ocupacoesBR 0.5.2
 
 Auditoria geral, feita por três auditores independentes — engenharia de

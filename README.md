@@ -65,7 +65,7 @@ dados |>
 #> 5         214          ESCULTOR E PINTOR   2452     54      57
 #>                                         egp                           classe
 #> 1  I: dirigentes e profissionais superiores  Profissionais de nível superior
-#> 2                VIIb: trabalhador agrícola             Trabalhadores rurais
+#> 2                   IVc: proprietário rural             Trabalhadores rurais
 #> 3                                      <NA> Vínculo público não especificado
 #> 4                                      <NA>                    Não informado
 #> 5 II: dirigentes e profissionais inferiores  Profissionais de nível superior
@@ -474,7 +474,14 @@ nenhum.
 O EGP é conferido contra o
 [DIGCLASS](https://cimentadaj.github.io/DIGCLASS/), uma implementação
 independente da mesma fonte, nas **oito** células de posição no emprego
-× supervisão. DIGCLASS não é dependência: entra apenas como conferência.
+× supervisão. DIGCLASS não é dependência nem `Suggests`, e o teste que o
+usa não viaja no pacote distribuído: ele é GPL-3 e não está em
+repositório algum. A versão contra a qual a conferência foi feita fica
+registrada em `inst/extdata/PROVENIENCIA.yml`.
+
+Esta e as outras oito provas que sustentam o pacote estão explicadas uma
+a uma, com gráficos, em
+[Robustez](https://moraespeixoto.github.io/ocupacoesBR/articles/robustez.html).
 
 ## Tabela completa
 

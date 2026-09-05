@@ -380,8 +380,14 @@ resultado de artigo publicado sem sinal nenhum.
 
 O EGP é conferido contra o [DIGCLASS](https://cimentadaj.github.io/DIGCLASS/),
 uma implementação independente da mesma fonte, nas **oito** células de posição
-no emprego × supervisão. DIGCLASS não é dependência: entra apenas como
-conferência.
+no emprego × supervisão. DIGCLASS não é dependência nem `Suggests`, e o teste
+que o usa não viaja no pacote distribuído: ele é GPL-3 e não está em
+repositório algum. A versão contra a qual a conferência foi feita fica
+registrada em `inst/extdata/PROVENIENCIA.yml`.
+
+Esta e as outras oito provas que sustentam o pacote estão explicadas uma a uma,
+com gráficos, em
+[Robustez](https://moraespeixoto.github.io/ocupacoesBR/articles/robustez.html).
 
 ## Tabela completa
 

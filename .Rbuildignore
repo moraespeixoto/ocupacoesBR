@@ -38,3 +38,4 @@
 ^vignettes/articles$
 ^index\.Rmd$
 ^index\.md$
+^tests/testthat/test-digclass\.R$

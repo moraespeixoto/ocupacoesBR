@@ -184,8 +184,10 @@ microdados_externos:
 # `sha256` acima existem para impedir nas fontes.
 #
 # Não é dependência e não pode ser: é GPL-3, e embarcar tabela dele tornaria
-# este pacote copyleft (ver LICENSE.note §3). Entra por `Suggests`, protegido
-# por skip_if_not_installed().
+# este pacote copyleft (ver LICENSE.note §3). Desde a 0.6.0 ele também saiu de
+# `Suggests`, e o teste que o usa (tests/testthat/test-digclass.R) ficou fora
+# do tarball: como o DIGCLASS não está em repositório algum, mantê-lo declarado
+# fazia o `R CMD check` devolver ERROR em qualquer máquina sem ele instalado.
 #
 # As chaves não são `arquivo`/`sha256` pelo mesmo motivo da seção acima.
 conferencia_cruzada:

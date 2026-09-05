@@ -60,7 +60,10 @@ conferência**, num teste que compara a nossa implementação do EGP com a dele
 (`tests/testthat/test-fonte.R`); o teste é ignorado quando o pacote não está
 instalado. Nenhuma tabela, nenhum código e nenhum dado do DIGCLASS foi copiado
 para cá — as tabelas deste pacote são geradas das sintaxes originais do ISMF.
-Ele não é dependência e não consta de `Imports` nem de `Suggests`.
+Ele não é dependência e não consta de `Imports` nem de `Suggests` — e o teste
+que o usa não viaja no pacote distribuído, porque o `DIGCLASS` não está em
+repositório nenhum e declará-lo faria o `R CMD check` falhar em qualquer
+máquina sem ele instalado.
 
 Essa separação é deliberada: embarcar material GPL-3 tornaria o pacote inteiro
 copyleft — inclusive congelar a tabela dele como *fixture* de teste, que seria

@@ -2,54 +2,58 @@
 
 ## Verificação
 
-`R CMD check --as-cran` na versão 0.5.2, x86_64-pc-linux-gnu (Ubuntu 26.04):
-**0 ERROR, 0 WARNING, 2 NOTEs.** 1.547 testes passam, sem SKIP.
+`R CMD check --as-cran` na versão 0.6.0, x86_64-pc-linux-gnu (Ubuntu 26.04):
+**0 ERROR, 0 WARNING, 1 NOTE.** Os testes passam sem falha e sem SKIP.
 
-A segunda NOTE é do ambiente de verificação, não do pacote: `checking HTML
-version of manual` avisa que o utilitário `tidy` não está instalado na
-máquina e pula a validação do HTML. Ela não aparece num ambiente com o
-`tidy` presente.
+A verificação foi feita **também** numa biblioteca sem os pacotes sugeridos e
+com `_R_CHECK_FORCE_SUGGESTS_=true`, para reproduzir o ambiente do CRAN.
 
-## Sobre a NOTE
+## A NOTE
 
-A NOTE vem de `checking CRAN incoming feasibility` e reúne três pontos, todos
-esperados:
+Vem de `checking CRAN incoming feasibility` e traz dois pontos.
 
 **1. "New submission"** — é o primeiro envio do pacote.
 
-**2. "Suggests or Enhances not in mainstream repositories: DIGCLASS"** — o
-`DIGCLASS` está em `Suggests` e entra apenas numa conferência cruzada da suíte
-(`test-fonte.R`), protegida por `skip_if_not_installed()`. Nunca é carregado em
-uso normal, e a sua ausência não afeta nenhum resultado do pacote.
-
-Ele não é distribuído por repositório algum — instala-se do HEAD do GitHub —,
-e por isso `Additional_repositories:` não se aplica: o campo exige um
-repositório no formato do CRAN, com índice `PACKAGES`. A versão e o commit
-contra os quais a conferência foi feita estão registrados em
-`inst/extdata/PROVENIENCIA.yml`, seção `conferencia_cruzada`. No ambiente do
-CRAN o teste simplesmente pula.
-
-**3. "URL ... Status: 404"** — não apareceu na verificação de 05/09/2026,
-porque a máquina estava sem rede e o verificador pulou a checagem de URLs. Ela
-volta a aparecer num ambiente conectado, e são três URLs, todas pelo mesmo motivo: o
-repositório está privado enquanto o pacote passa por revisão, e o verificador
-do CRAN é anônimo. Duas apontam para o repositório e para o rastreador de
-problemas; a terceira,
-`https://moraespeixoto.github.io/ocupacoesBR/`, é o site de documentação
-construído com pkgdown, que o GitHub Pages só passa a servir depois que o
-repositório for aberto. As três resolvem no mesmo momento, e a NOTE
-desaparece; se esta submissão ocorrer antes disso, os campos `URL` e
-`BugReports` serão removidos do `DESCRIPTION`.
+**2. URLs com status 404.** São três, todas pelo mesmo motivo: o repositório
+está privado enquanto o pacote passa por revisão, e o verificador do CRAN é
+anônimo. Duas apontam para o repositório e para o rastreador de problemas; a
+terceira, `https://moraespeixoto.github.io/ocupacoesBR/`, é o site de
+documentação, que o GitHub Pages só passa a servir depois que o repositório for
+aberto. As três resolvem no mesmo momento. Se esta submissão ocorrer antes
+disso, os campos `URL` e `BugReports` serão removidos do `DESCRIPTION`.
 
 ### O que deixou de aparecer, e por quê
 
-Até a versão 0.2.1 a NOTE trazia também **"The Title field should be in title
-case"**. Não era defeito do título: o verificador aplicava a convenção de
-capitalização do inglês a uma frase em português, cuja norma é a inversa. A
-partir de 0.3.0 o `DESCRIPTION` declara `Language: pt-BR`, como a política do
-CRAN pede para pacote que não é em inglês, e o aviso deixou de ocorrer — tanto
-para o `Title` quanto para a `Description`. Declarar a língua era a correção
-certa; capitalizar "Ao", "Em" e "Da" teria produzido um título agramatical.
+**"Suggests or Enhances not in mainstream repositories: DIGCLASS"**, até a
+0.5.2. O `DIGCLASS` (Cimentada) é uma implementação independente das mesmas
+sintaxes do ISMF, usada numa conferência cruzada do EGP — a única validação
+deste pacote contra código que não é dele nem da fonte que ele próprio leu.
+
+Ele não é distribuído por repositório algum: nem CRAN, nem Bioconductor, nem
+r-universe. Instala-se do HEAD do GitHub. Por isso `Additional_repositories:`
+não se aplica — o campo exige um repositório no formato do CRAN, com índice
+`PACKAGES` —, e mantê-lo em `Suggests` fazia o `R CMD check` devolver
+
+```
+* checking package dependencies ... ERROR
+Package suggested but not available: 'DIGCLASS'
+```
+
+em qualquer máquina que não o tivesse instalado, o que inclui as do CRAN.
+
+Desde a 0.6.0 o `DIGCLASS` saiu de `Suggests` e o teste que o usa
+(`tests/testthat/test-digclass.R`) está em `.Rbuildignore`: ele permanece no
+repositório e roda no desenvolvimento, mas não viaja no pacote distribuído, que
+não menciona o `DIGCLASS` em lugar nenhum. A versão e o *commit* contra os
+quais a conferência foi feita ficam registrados em
+`inst/extdata/PROVENIENCIA.yml`, seção `conferencia_cruzada`.
+
+**"The Title field should be in title case"**, até a 0.2.1. Não era defeito do
+título: o verificador aplicava a convenção de capitalização do inglês a uma
+frase em português, cuja norma é a inversa. A partir da 0.3.0 o `DESCRIPTION`
+declara `Language: pt-BR`, como a política do CRAN pede para pacote que não é
+em inglês, e o aviso deixou de ocorrer. Declarar a língua era a correção certa;
+capitalizar "Ao", "Em" e "Da" teria produzido um título agramatical.
 
 ## Materiais de terceiros
 
@@ -61,14 +65,15 @@ Elas viajam com o pacote **por necessidade metodológica**: nenhuma tabela de
 dados é digitada à mão, todas são geradas por script a partir dessas fontes, e
 a suíte de testes confere as tabelas contra elas linha a linha, mais o `sha256`
 de cada uma. Sem as fontes embarcadas, essa verificação não roda no ambiente de
-check — que é exatamente o problema que esta versão corrigiu.
+check.
 
 A autoria e as condições estão declaradas em `LICENSE.note`, que também viaja
-com o pacote. `citation("ocupacoesBR")` devolve o pacote **e** as referências do
-ISMF, conforme o pedido expresso dos autores das escalas.
+com o pacote. As sintaxes do ISMF são distribuídas pelos autores para uso
+público em pesquisa, com pedido expresso de citação, que `citation(
+"ocupacoesBR")` atende: devolve o pacote **e** as referências das escalas. A
+tábua do MTE é dado administrativo público, produzido e publicado por órgão do
+Estado brasileiro.
 
 ## Dependências
 
-Apenas `stats` e `utils` (base R). `DIGCLASS` está em `Suggests` e entra só
-como conferência cruzada num teste — nunca é carregado em uso normal, e por
-isso a sua licença GPL-3 não afeta a licença MIT deste pacote.
+Apenas `stats` e `utils` (base R). Nenhum código compilado.
