@@ -18,13 +18,16 @@ ocupação, 3, 2 e 1 são grupos cada vez mais grossos.}
 \item{log_renda}{média do log do rendimento habitual, sem residualizar.}
 }
 
-Os atributos \code{theta}, \code{beta_direto}, \code{beta_total} e \code{parcela_mediada}
-guardam os parâmetros da estimação.
+Os atributos \code{theta}, \code{beta_direto}, \code{beta_total}, \code{parcela_mediada},
+\code{n_obs} e \code{n_pessoas} guardam os parâmetros da estimação e o tamanho da
+amostra que a produziu. Note que \code{n_obs} como atributo é a amostra de
+estimação inteira, e \code{n_obs} como coluna é a célula daquela linha.
 }
 \source{
 PNAD Contínua trimestral, microdados dos quatro trimestres de 2025,
-IBGE. Acesso em 05/09/2026. Gerada por \verb{data-raw/09_gera_isei_br.R}; os
-sha256 dos arquivos estão em \code{inst/extdata/PROVENIENCIA.yml}.
+IBGE. Acesso em 05/09/2026. Gerada por \verb{data-raw/09_gera_isei_br.R}, com a
+sensibilidade em \verb{data-raw/09b_sensibilidade_isei_br.R}; os sha256 dos
+arquivos estão em \code{inst/extdata/PROVENIENCIA.yml}.
 }
 \usage{
 isco08_isei_br
@@ -68,7 +71,9 @@ entre elas exigir 40 horas, dispensar a restrição de horas, usar renda-hora,
 usar rendimento efetivo, restringir a homens como o artigo de 1992 fez, e
 usar escolaridade em categorias: nenhuma move o ordenamento abaixo de 0,99
 contra a especificação adotada, e a parcela mediada fica sempre entre 57,9\%
-e 60,1\%.
+e 60,1\%. Quem reproduz esses três números é
+\verb{data-raw/09b_sensibilidade_isei_br.R}, que imprime a tabela inteira e não
+grava nada.
 }
 
 \section{O que se perde}{
@@ -105,6 +110,6 @@ international socio-economic index of occupational status.
 \emph{Social Science Research}, 21(1), 1-56.
 }
 \seealso{
-\code{\link[=tse_para_isei_br]{tse_para_isei_br()}} e as irmãs por COD, CBO-2002 e CBO-94.
+\code{\link[=tse_para_isei_br]{tse_para_isei_br()}} e as irmãs por COD, CBO-2002 e ISCO-08.
 }
 \keyword{datasets}

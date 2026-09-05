@@ -31,8 +31,10 @@ diagnóstico que não existia.
 \examples{
 head(cbo94_isco88)
 
-# A CBO-94 chega à ISCO-88 e para aí: não há cbo94_para_isei08() nem
-# cbo94_para_prestigio08(). A assimetria é da tábua, não do pacote.
+# A CBO-94 chega à ISCO-88 e para aí no que toca a MEDIDAS: não há
+# cbo94_para_isei08(), cbo94_para_prestigio08() nem cbo94_para_isei_br().
+# A tradução de código existe (cbo94_para_isco08()); o que o pacote recusa é
+# pendurar escore de 2008 ou de 2025 em microdado anterior a 2003.
 nrow(cbo94_isco88)
 }
 \keyword{datasets}

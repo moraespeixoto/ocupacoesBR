@@ -1,3 +1,53 @@
+# ocupacoesBR 0.5.1
+
+Fecha as pontas soltas da 0.5.0, no mesmo dia. Nenhum escore mudou: os 590
+valores de `isco08_isei_br` saem idênticos aos da 0.5.0.
+
+## `cbo94_para_isei_br()` foi retirada
+
+Ela não deveria ter sido criada. O pacote recusa, e documenta que recusa,
+pendurar medidas ancoradas na ISCO-08 em microdado da CBO-94, e a função
+atravessava exatamente essa fronteira. O argumento decisivo não é a coerência
+com o texto, é a data: a CBO-94 é microdado anterior a 2003, e o ISEI-BR é uma
+régua de 2025 que a própria documentação declara ser de um ano só e não formar
+série. Oferecê-la a dado dos anos 1990 contradiz o que ela afirma sobre si.
+
+De passagem, a razão que o pacote alegava para a recusa estava imprecisa desde
+antes. Ele dizia que a assimetria era da tábua de conversão, mas a tradução até
+a ISCO-08 existe e é exportada em `cbo94_para_isco08()`. O que se recusa é
+pendurar escore naquele caminho, e isso é decisão do pacote. `?cbo94_isco88` e
+`vignette("comece-aqui")` passam a dizer isso.
+
+## Os números da sensibilidade agora se refazem
+
+A 0.5.0 afirmava, no NEWS e em `?isco08_isei_br`, que sete especificações
+alternativas foram testadas e nenhuma move o ordenamento abaixo de 0,99. Era
+verdade, mas o script que produzia esses números não estava no repositório, o
+que é exatamente o que a proveniência deste pacote existe para impedir.
+`data-raw/09b_sensibilidade_isei_br.R` os reproduz e imprime a tabela inteira.
+
+## O tamanho da amostra viaja com a tabela
+
+`isco08_isei_br` ganha os atributos `n_obs` e `n_pessoas`, com a amostra de
+estimação. Eles não se recuperavam das colunas, porque `n_obs` por linha conta
+a subárvore daquela célula e não a amostra que estimou o ângulo, e por isso
+existiam só digitados na documentação.
+
+## Citar o ISEI-BR
+
+O pacote dizia, em quatro lugares, ser o veículo e não a fonte das réguas. Para
+o ISEI-BR isso deixou de valer, porque a estimação é dele. `inst/CITATION`,
+a home, o README e `vignette("publicacoes")` passam a registrar a exceção e as
+três citações que ela pede: o pacote pela estimação, Ganzeboom, De Graaf e
+Treiman (1992) pelo método, e o IBGE pela PNAD Contínua de 2025.
+
+## Os dois diagramas
+
+O mapa de rede ganha o nó do ISEI-BR, ligado só à ISCO-08, e a legenda passa a
+distinguir medida importada de medida estimada pelo pacote. O fluxograma das
+quatro portas ganha o mesmo nó e acrescenta `cbo94_para_isei_br` à lista do que
+deliberadamente não existe.
+
 # ocupacoesBR 0.5.0
 
 ## A régua deixa de ser importada
@@ -33,7 +83,9 @@ a escala no ângulo adotado e em mais ou menos 0,15 radianos é 0,999. Sete
 especificações alternativas foram testadas — 40 horas, sem restrição de horas,
 renda-hora, rendimento efetivo, só homens como em 1992, escolaridade em
 categorias, idade a partir de 25 — e nenhuma move o ordenamento abaixo de 0,99
-nem a parcela mediada para fora do intervalo de 57,9% a 60,1%.
+nem a parcela mediada para fora do intervalo de 57,9% a 60,1%. Quem produz
+esses três números é `data-raw/09b_sensibilidade_isei_br.R`, e é dele que eles
+saem cada vez que forem reafirmados.
 
 **Contra o critério externo, ela vai melhor.** Nas 165 ocupações do TSE com as
 três réguas e os dois critérios, a correlação com o log do patrimônio declarado
@@ -46,10 +98,11 @@ entra na construção de régua nenhuma.
 
 * `isco08_isei_br`, a tabela, com 590 linhas e os atributos `theta`,
   `beta_direto`, `beta_total` e `parcela_mediada`.
-* `tse_para_isei_br()`, `cod_para_isei_br()`, `cbo2002_para_isei_br()`,
-  `cbo94_para_isei_br()` e `isco08_para_isei_br()`. São funções irmãs, e não um
-  argumento nas existentes, porque é a convenção do pacote e porque uma escala
-  estimada no Brasil não deve viajar debaixo do nome "08".
+* `tse_para_isei_br()`, `cod_para_isei_br()`, `cbo2002_para_isei_br()` e
+  `isco08_para_isei_br()`. São funções irmãs, e não um argumento nas
+  existentes, porque é a convenção do pacote e porque uma escala estimada no
+  Brasil não deve viajar debaixo do nome "08". Não há porta pela CBO-94, pela
+  razão que `?cbo94_isco88` explica.
 * `crosswalk_tse()` e `crosswalk_cod()` ganharam a coluna `isei_br`.
 
 ## Por que 590 linhas, e não 434

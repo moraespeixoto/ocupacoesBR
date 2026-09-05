@@ -88,8 +88,6 @@ resgata códigos ausentes subindo a hierarquia.
   : ISCO-08 a partir da CBO-94
 - [`cbo94_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei.md)
   : Indice socioeconomico ISEI a partir da CBO-94
-- [`cbo94_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei_br.md)
-  : ISEI-BR a partir da CBO-94
 - [`cbo94_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_prestigio.md)
   : Prestigio de Treiman a partir da CBO-94
 - [`cbo94_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_egp.md)

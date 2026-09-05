@@ -172,9 +172,15 @@ cbo94_para_isei(c("09220", "98140"))
 #> [1] 69 32
 ```
 
-A CBO-94 chega à ISCO-88 e para aí: não existem `cbo94_para_isei08()`
-nem `cbo94_para_prestigio08()`. A assimetria é da tábua de conversão,
-não do pacote, e está marcada no diagrama acima em vez de escondida.
+A CBO-94 chega à ISCO-88 e para aí no que toca a **medidas**: não
+existem `cbo94_para_isei08()`, `cbo94_para_prestigio08()` nem
+`cbo94_para_isei_br()`. A tradução de código existe, e
+[`cbo94_para_isco08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isco08.md)
+a faz. O que o pacote recusa é pendurar naquele caminho um escore
+ancorado na ISCO-08, e a razão é a data: a CBO-94 é microdado anterior a
+2003, e as medidas de 2008 e de 2025 pedem uma população que aquele dado
+não descreve. A recusa é decisão do pacote, não limitação da tábua, e
+está marcada no diagrama acima em vez de escondida.
 
 ### Pelo IBGE
 
@@ -183,7 +189,17 @@ cod_para_isco08(c("2211", "6111"))
 #> [1] "2211" "6111"
 cod_para_isei08(c("2211", "6111"))
 #> [1] 88.70 11.56
+
+# a régua estimada em dado brasileiro, pela mesma porta
+cod_para_isei_br(c("2211", "6111"))
+#> [1] 84.6 26.2
 ```
+
+A última é o ISEI-BR, estimado sobre a PNAD Contínua em vez de
+importado. Ela não substitui as outras duas e responde a outra pergunta.
+Leia
+[`?isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md)
+antes de escolher entre elas.
 
 ## O último passo, que não é opcional
 

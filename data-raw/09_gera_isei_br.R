@@ -205,7 +205,7 @@ linha <- function(k) {
 }
 tab <- rbindlist(lapply(chaves, linha))
 
-# --- reescala para 10 a 90 sobre as celulas de estimacao (decisao 2.5) ------
+# --- reescala para 10 a 90 sobre as celulas de estimacao --------------------
 r <- range(escore(theta))
 tab[, isei_br := round(pmin(pmax(10 + 80 * (u - r[1]) / (r[2] - r[1]), 10), 90), 1)]
 
@@ -215,6 +215,11 @@ attr(isco08_isei_br, "theta")           <- round(theta, 4)
 attr(isco08_isei_br, "beta_direto")     <- round(bdir, 4)
 attr(isco08_isei_br, "beta_total")      <- round(btot, 4)
 attr(isco08_isei_br, "parcela_mediada") <- round(mediada, 1)
+# O n da amostra de estimacao nao se recupera das colunas: `n_obs` por linha
+# conta a subarvore inteira, nao a amostra que estimou o angulo. Sem estes
+# dois atributos ele so existiria digitado na documentacao.
+attr(isco08_isei_br, "n_obs")           <- nrow(am)
+attr(isco08_isei_br, "n_pessoas")       <- data.table::uniqueN(am$pessoa)
 
 # --- invariantes ------------------------------------------------------------
 i8 <- ocupacoesBR::isco08_medidas$isei08[

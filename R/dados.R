@@ -275,8 +275,10 @@
 #' @examples
 #' head(cbo94_isco88)
 #'
-#' # A CBO-94 chega à ISCO-88 e para aí: não há cbo94_para_isei08() nem
-#' # cbo94_para_prestigio08(). A assimetria é da tábua, não do pacote.
+#' # A CBO-94 chega à ISCO-88 e para aí no que toca a MEDIDAS: não há
+#' # cbo94_para_isei08(), cbo94_para_prestigio08() nem cbo94_para_isei_br().
+#' # A tradução de código existe (cbo94_para_isco08()); o que o pacote recusa é
+#' # pendurar escore de 2008 ou de 2025 em microdado anterior a 2003.
 #' nrow(cbo94_isco88)
 "cbo94_isco88"
 
@@ -663,8 +665,10 @@
 #'   \item{log_renda}{média do log do rendimento habitual, sem residualizar.}
 #' }
 #'
-#' Os atributos `theta`, `beta_direto`, `beta_total` e `parcela_mediada`
-#' guardam os parâmetros da estimação.
+#' Os atributos `theta`, `beta_direto`, `beta_total`, `parcela_mediada`,
+#' `n_obs` e `n_pessoas` guardam os parâmetros da estimação e o tamanho da
+#' amostra que a produziu. Note que `n_obs` como atributo é a amostra de
+#' estimação inteira, e `n_obs` como coluna é a célula daquela linha.
 #'
 #' @section Método:
 #' A ocupação entra como variável interveniente entre escolaridade e renda, e o
@@ -693,7 +697,9 @@
 #' usar rendimento efetivo, restringir a homens como o artigo de 1992 fez, e
 #' usar escolaridade em categorias: nenhuma move o ordenamento abaixo de 0,99
 #' contra a especificação adotada, e a parcela mediada fica sempre entre 57,9%
-#' e 60,1%.
+#' e 60,1%. Quem reproduz esses três números é
+#' `data-raw/09b_sensibilidade_isei_br.R`, que imprime a tabela inteira e não
+#' grava nada.
 #'
 #' @section O que se perde:
 #' A COD funde oficiais e praças de polícia e bombeiro militar, então a escala
@@ -714,9 +720,10 @@
 #' *Social Science Research*, 21(1), 1-56.
 #'
 #' @source PNAD Contínua trimestral, microdados dos quatro trimestres de 2025,
-#'   IBGE. Acesso em 05/09/2026. Gerada por `data-raw/09_gera_isei_br.R`; os
-#'   sha256 dos arquivos estão em `inst/extdata/PROVENIENCIA.yml`.
-#' @seealso [tse_para_isei_br()] e as irmãs por COD, CBO-2002 e CBO-94.
+#'   IBGE. Acesso em 05/09/2026. Gerada por `data-raw/09_gera_isei_br.R`, com a
+#'   sensibilidade em `data-raw/09b_sensibilidade_isei_br.R`; os sha256 dos
+#'   arquivos estão em `inst/extdata/PROVENIENCIA.yml`.
+#' @seealso [tse_para_isei_br()] e as irmãs por COD, CBO-2002 e ISCO-08.
 #' @examples
 #' head(isco08_isei_br)
 #'

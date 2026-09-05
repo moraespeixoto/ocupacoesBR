@@ -48,14 +48,17 @@ e as colunas:
 
   média do log do rendimento habitual, sem residualizar.
 
-Os atributos `theta`, `beta_direto`, `beta_total` e `parcela_mediada`
-guardam os parâmetros da estimação.
+Os atributos `theta`, `beta_direto`, `beta_total`, `parcela_mediada`,
+`n_obs` e `n_pessoas` guardam os parâmetros da estimação e o tamanho da
+amostra que a produziu. Note que `n_obs` como atributo é a amostra de
+estimação inteira, e `n_obs` como coluna é a célula daquela linha.
 
 ## Fonte
 
 PNAD Contínua trimestral, microdados dos quatro trimestres de 2025,
-IBGE. Acesso em 05/09/2026. Gerada por `data-raw/09_gera_isei_br.R`; os
-sha256 dos arquivos estão em `inst/extdata/PROVENIENCIA.yml`.
+IBGE. Acesso em 05/09/2026. Gerada por `data-raw/09_gera_isei_br.R`, com
+a sensibilidade em `data-raw/09b_sensibilidade_isei_br.R`; os sha256 dos
+arquivos estão em `inst/extdata/PROVENIENCIA.yml`.
 
 ## Método
 
@@ -87,7 +90,9 @@ testadas, entre elas exigir 40 horas, dispensar a restrição de horas,
 usar renda-hora, usar rendimento efetivo, restringir a homens como o
 artigo de 1992 fez, e usar escolaridade em categorias: nenhuma move o
 ordenamento abaixo de 0,99 contra a especificação adotada, e a parcela
-mediada fica sempre entre 57,9% e 60,1%.
+mediada fica sempre entre 57,9% e 60,1%. Quem reproduz esses três
+números é `data-raw/09b_sensibilidade_isei_br.R`, que imprime a tabela
+inteira e não grava nada.
 
 ## O que se perde
 
@@ -114,7 +119,7 @@ standard international socio-economic index of occupational status.
 ## Veja também
 
 [`tse_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md)
-e as irmãs por COD, CBO-2002 e CBO-94.
+e as irmãs por COD, CBO-2002 e ISCO-08.
 
 ## Exemplos
 

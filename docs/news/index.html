@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -48,6 +48,32 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.1" id="ocupacoesbr-051">ocupacoesBR 0.5.1<a class="anchor" aria-label="anchor" href="#ocupacoesbr-051"></a></h2>
+<p>Fecha as pontas soltas da 0.5.0, no mesmo dia. Nenhum escore mudou: os 590 valores de <code>isco08_isei_br</code> saem idênticos aos da 0.5.0.</p>
+<div class="section level3">
+<h3 id="cbo94_para_isei_br-foi-retirada-0-5-1">
+<code>cbo94_para_isei_br()</code> foi retirada<a class="anchor" aria-label="anchor" href="#cbo94_para_isei_br-foi-retirada-0-5-1"></a></h3>
+<p>Ela não deveria ter sido criada. O pacote recusa, e documenta que recusa, pendurar medidas ancoradas na ISCO-08 em microdado da CBO-94, e a função atravessava exatamente essa fronteira. O argumento decisivo não é a coerência com o texto, é a data: a CBO-94 é microdado anterior a 2003, e o ISEI-BR é uma régua de 2025 que a própria documentação declara ser de um ano só e não formar série. Oferecê-la a dado dos anos 1990 contradiz o que ela afirma sobre si.</p>
+<p>De passagem, a razão que o pacote alegava para a recusa estava imprecisa desde antes. Ele dizia que a assimetria era da tábua de conversão, mas a tradução até a ISCO-08 existe e é exportada em <code><a href="../reference/cbo94_para_isco08.html">cbo94_para_isco08()</a></code>. O que se recusa é pendurar escore naquele caminho, e isso é decisão do pacote. <code><a href="../reference/cbo94_isco88.html">?cbo94_isco88</a></code> e <code>vignette("comece-aqui")</code> passam a dizer isso.</p>
+</div>
+<div class="section level3">
+<h3 id="os-números-da-sensibilidade-agora-se-refazem-0-5-1">Os números da sensibilidade agora se refazem<a class="anchor" aria-label="anchor" href="#os-n%C3%BAmeros-da-sensibilidade-agora-se-refazem-0-5-1"></a></h3>
+<p>A 0.5.0 afirmava, no NEWS e em <code><a href="../reference/isco08_isei_br.html">?isco08_isei_br</a></code>, que sete especificações alternativas foram testadas e nenhuma move o ordenamento abaixo de 0,99. Era verdade, mas o script que produzia esses números não estava no repositório, o que é exatamente o que a proveniência deste pacote existe para impedir. <code>data-raw/09b_sensibilidade_isei_br.R</code> os reproduz e imprime a tabela inteira.</p>
+</div>
+<div class="section level3">
+<h3 id="o-tamanho-da-amostra-viaja-com-a-tabela-0-5-1">O tamanho da amostra viaja com a tabela<a class="anchor" aria-label="anchor" href="#o-tamanho-da-amostra-viaja-com-a-tabela-0-5-1"></a></h3>
+<p><code>isco08_isei_br</code> ganha os atributos <code>n_obs</code> e <code>n_pessoas</code>, com a amostra de estimação. Eles não se recuperavam das colunas, porque <code>n_obs</code> por linha conta a subárvore daquela célula e não a amostra que estimou o ângulo, e por isso existiam só digitados na documentação.</p>
+</div>
+<div class="section level3">
+<h3 id="citar-o-isei-br-0-5-1">Citar o ISEI-BR<a class="anchor" aria-label="anchor" href="#citar-o-isei-br-0-5-1"></a></h3>
+<p>O pacote dizia, em quatro lugares, ser o veículo e não a fonte das réguas. Para o ISEI-BR isso deixou de valer, porque a estimação é dele. <code>inst/CITATION</code>, a home, o README e <code>vignette("publicacoes")</code> passam a registrar a exceção e as três citações que ela pede: o pacote pela estimação, Ganzeboom, De Graaf e Treiman (1992) pelo método, e o IBGE pela PNAD Contínua de 2025.</p>
+</div>
+<div class="section level3">
+<h3 id="os-dois-diagramas-0-5-1">Os dois diagramas<a class="anchor" aria-label="anchor" href="#os-dois-diagramas-0-5-1"></a></h3>
+<p>O mapa de rede ganha o nó do ISEI-BR, ligado só à ISCO-08, e a legenda passa a distinguir medida importada de medida estimada pelo pacote. O fluxograma das quatro portas ganha o mesmo nó e acrescenta <code>cbo94_para_isei_br</code> à lista do que deliberadamente não existe.</p>
+</div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.0" id="ocupacoesbr-050">ocupacoesBR 0.5.0<a class="anchor" aria-label="anchor" href="#ocupacoesbr-050"></a></h2>
 <div class="section level3">
 <h3 id="a-régua-deixa-de-ser-importada-0-5-0">A régua deixa de ser importada<a class="anchor" aria-label="anchor" href="#a-r%C3%A9gua-deixa-de-ser-importada-0-5-0"></a></h3>
@@ -55,7 +81,7 @@
 <p><code>isco08_isei_br</code> traz o procedimento de Ganzeboom, De Graaf e Treiman (1992) refeito do zero sobre a PNAD Contínua de 2025: 655.787 observações de 339.181 pessoas, dos quatro trimestres. Não é tradução de escala nem recalibragem do ISEI-08. É o mesmo método, estimado aqui.</p>
 <p><strong>O que a régua brasileira diz de diferente.</strong> Contra o ISEI-08 importado, nas 348 células apuradas em quatro dígitos, o Spearman é 0,894 e o desvio absoluto médio é 9,7 pontos numa escala de 10 a 90. Concorda o bastante para ser reconhecível e discorda o bastante para valer a pena. Sobem as ocupações manuais e de segurança pública: operador de implemento agrícola, policial civil e militar, bombeiro, motoboy. Descem as artísticas, o clero e as liberais da saúde: escultor, sacerdote, veterinário, odontólogo, farmacêutico. Credencial alta e remuneração modesta de um lado, o inverso do outro.</p>
 <p><strong>A mediação não é completa, e isso é achado.</strong> O procedimento de 1992 supõe que a ocupação carrega todo o efeito da escolaridade sobre a renda e escolhe o ângulo onde o efeito direto zera. No Brasil ele não zera: para em 0,206 contra um efeito total de 0,494, de modo que a ocupação medeia <strong>58,4%</strong>. Os outros 41,6% são escolaridade que paga dentro da mesma ocupação. Adotou-se o ângulo de mínimo e publicou-se o resíduo, nos atributos da tabela.</p>
-<p>A decisão é segura porque o ordenamento não depende do ângulo. O Spearman entre a escala no ângulo adotado e em mais ou menos 0,15 radianos é 0,999. Sete especificações alternativas foram testadas — 40 horas, sem restrição de horas, renda-hora, rendimento efetivo, só homens como em 1992, escolaridade em categorias, idade a partir de 25 — e nenhuma move o ordenamento abaixo de 0,99 nem a parcela mediada para fora do intervalo de 57,9% a 60,1%.</p>
+<p>A decisão é segura porque o ordenamento não depende do ângulo. O Spearman entre a escala no ângulo adotado e em mais ou menos 0,15 radianos é 0,999. Sete especificações alternativas foram testadas — 40 horas, sem restrição de horas, renda-hora, rendimento efetivo, só homens como em 1992, escolaridade em categorias, idade a partir de 25 — e nenhuma move o ordenamento abaixo de 0,99 nem a parcela mediada para fora do intervalo de 57,9% a 60,1%. Quem produz esses três números é <code>data-raw/09b_sensibilidade_isei_br.R</code>, e é dele que eles saem cada vez que forem reafirmados.</p>
 <p><strong>Contra o critério externo, ela vai melhor.</strong> Nas 165 ocupações do TSE com as três réguas e os dois critérios, a correlação com o log do patrimônio declarado sobe de 0,676 (ISEI-08) para 0,716, e o Spearman de 0,708 para 0,768. Com a escolaridade dos candidatos ela vai um pouco pior, 0,736 contra 0,783, o que é esperado: o ângulo dá mais peso à renda. O patrimônio é o único dos dois que não entra na construção de régua nenhuma.</p>
 </div>
 <div class="section level3">
@@ -63,7 +89,7 @@
 <ul><li>
 <code>isco08_isei_br</code>, a tabela, com 590 linhas e os atributos <code>theta</code>, <code>beta_direto</code>, <code>beta_total</code> e <code>parcela_mediada</code>.</li>
 <li>
-<code><a href="../reference/tse_para_isei_br.html">tse_para_isei_br()</a></code>, <code><a href="../reference/cod_para_isei_br.html">cod_para_isei_br()</a></code>, <code><a href="../reference/cbo2002_para_isei_br.html">cbo2002_para_isei_br()</a></code>, <code><a href="../reference/cbo94_para_isei_br.html">cbo94_para_isei_br()</a></code> e <code><a href="../reference/isco08_para_isei_br.html">isco08_para_isei_br()</a></code>. São funções irmãs, e não um argumento nas existentes, porque é a convenção do pacote e porque uma escala estimada no Brasil não deve viajar debaixo do nome “08”.</li>
+<code><a href="../reference/tse_para_isei_br.html">tse_para_isei_br()</a></code>, <code><a href="../reference/cod_para_isei_br.html">cod_para_isei_br()</a></code>, <code><a href="../reference/cbo2002_para_isei_br.html">cbo2002_para_isei_br()</a></code> e <code><a href="../reference/isco08_para_isei_br.html">isco08_para_isei_br()</a></code>. São funções irmãs, e não um argumento nas existentes, porque é a convenção do pacote e porque uma escala estimada no Brasil não deve viajar debaixo do nome “08”. Não há porta pela CBO-94, pela razão que <code><a href="../reference/cbo94_isco88.html">?cbo94_isco88</a></code> explica.</li>
 <li>
 <code><a href="../reference/crosswalk_tse.html">crosswalk_tse()</a></code> e <code><a href="../reference/crosswalk_cod.html">crosswalk_cod()</a></code> ganharam a coluna <code>isei_br</code>.</li>
 </ul></div>

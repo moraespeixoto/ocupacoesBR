@@ -120,12 +120,14 @@ Quatro réguas, que não são intercambiáveis
 
 ## O pacote entrega todas com a mesma facilidade. Escolher é com você.
 
-16 – 90
+10 – 90
 
 ### ISEI
 
 Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a
-literatura internacional usa como padrão.
+literatura internacional usa como padrão. Vem em três estimações: as
+âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote
+estima na PNAD Contínua e que não substitui as outras.
 
 Treiman, 1977
 
@@ -259,15 +261,19 @@ O pacote é o veículo, não a fonte. As réguas vêm do *International
 Stratification and Mobility File*, que Ganzeboom e Treiman mantêm há
 três décadas e pedem citação expressa.
 
+O ISEI-BR é a exceção, e pede três citações: o pacote, porque a
+estimação é dele; Ganzeboom, De Graaf e Treiman (1992), pelo método; e o
+IBGE, pela PNAD Contínua trimestral de 2025, que é o dado.
+
     Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
     Declarada ao TSE em Classificacoes Padronizadas_. R
-    package version 0.4.1,
+    package version 0.5.1,
     <https://github.com/moraespeixoto/ocupacoesBR>.
 
 Pacote
 [Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
 [Novidades
-(0.4.1)](https://moraespeixoto.github.io/ocupacoesBR/news/index.md)
+(0.5.1)](https://moraespeixoto.github.io/ocupacoesBR/news/index.md)
 [Código-fonte](https://github.com/moraespeixoto/ocupacoesBR) [Reportar
 um erro](https://github.com/moraespeixoto/ocupacoesBR/issues)
 

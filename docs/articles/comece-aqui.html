@@ -30,7 +30,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -245,11 +245,16 @@ declarada de todas. Ela sai como <code>NA</code> por construção.</p>
 <div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cbo94_para_isei.html">cbo94_para_isei</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"09220"</span>, <span class="st">"98140"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 69 32</span></span></code></pre></div>
-<p>A CBO-94 chega à ISCO-88 e para aí: não existem
-<code>cbo94_para_isei08()</code> nem
-<code>cbo94_para_prestigio08()</code>. A assimetria é da tábua de
-conversão, não do pacote, e está marcada no diagrama acima em vez de
-escondida.</p>
+<p>A CBO-94 chega à ISCO-88 e para aí no que toca a
+<strong>medidas</strong>: não existem <code>cbo94_para_isei08()</code>,
+<code>cbo94_para_prestigio08()</code> nem
+<code>cbo94_para_isei_br()</code>. A tradução de código existe, e
+<code><a href="../reference/cbo94_para_isco08.html">cbo94_para_isco08()</a></code> a faz. O que o pacote recusa é pendurar
+naquele caminho um escore ancorado na ISCO-08, e a razão é a data: a
+CBO-94 é microdado anterior a 2003, e as medidas de 2008 e de 2025 pedem
+uma população que aquele dado não descreve. A recusa é decisão do
+pacote, não limitação da tábua, e está marcada no diagrama acima em vez
+de escondida.</p>
 </div>
 <div class="section level3">
 <h3 id="pelo-ibge">Pelo IBGE<a class="anchor" aria-label="anchor" href="#pelo-ibge"></a>
@@ -258,7 +263,14 @@ escondida.</p>
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cod_para_isco08.html">cod_para_isco08</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"6111"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2211" "6111"</span></span>
 <span><span class="fu"><a href="../reference/cod_para_isei08.html">cod_para_isei08</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"6111"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt; [1] 88.70 11.56</span></span></code></pre></div>
+<span><span class="co">#&gt; [1] 88.70 11.56</span></span>
+<span></span>
+<span><span class="co"># a régua estimada em dado brasileiro, pela mesma porta</span></span>
+<span><span class="fu"><a href="../reference/cod_para_isei_br.html">cod_para_isei_br</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"6111"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 84.6 26.2</span></span></code></pre></div>
+<p>A última é o ISEI-BR, estimado sobre a PNAD Contínua em vez de
+importado. Ela não substitui as outras duas e responde a outra pergunta.
+Leia <code><a href="../reference/isco08_isei_br.html">?isco08_isei_br</a></code> antes de escolher entre elas.</p>
 </div>
 </div>
 <div class="section level2">

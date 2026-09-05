@@ -23,8 +23,9 @@ Escore de status ocupacional obtido refazendo o procedimento de Ganzeboom,
 De Graaf e Treiman (1992) sobre a PNAD Continua de 2025, em vez de importar
 os escores calculados por eles em dado estrangeiro. Esta funcao entra pela
 ocupacao declarada ao TSE; as irmas entram pela COD (\code{\link[=cod_para_isei_br]{cod_para_isei_br()}}),
-pela CBO-2002 (\code{\link[=cbo2002_para_isei_br]{cbo2002_para_isei_br()}}), pela CBO-94
-(\code{\link[=cbo94_para_isei_br]{cbo94_para_isei_br()}}) e pela propria ISCO-08 (\code{\link[=isco08_para_isei_br]{isco08_para_isei_br()}}).
+pela CBO-2002 (\code{\link[=cbo2002_para_isei_br]{cbo2002_para_isei_br()}}) e pela propria ISCO-08
+(\code{\link[=isco08_para_isei_br]{isco08_para_isei_br()}}). Nao ha porta pela CBO-94, e a razao esta em
+\link{cbo94_isco88}.
 }
 \section{O que esta regua e e o que ela nao e}{
 

@@ -1,6 +1,6 @@
 Package: ocupacoesBR
 Title: Traduz a Ocupação Declarada ao TSE em Classificações Padronizadas
-Version: 0.5.0
+Version: 0.5.1
 Authors@R:
     person("Vitor", "Peixoto", , "vpeixoto@uenf.br", role = c("aut", "cre"))
 Description: Traduz a ocupação registrada em fontes brasileiras para a

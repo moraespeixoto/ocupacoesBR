@@ -51,7 +51,6 @@ test_that("a regua propaga pelas quatro portas, e falha onde a irma falha", {
   expect_equal(is.na(cod_para_isei_br(cd)), is.na(cod_para_isei08(cd)))
   expect_equal(is.na(cbo2002_para_isei_br("225120")),
                is.na(cbo2002_para_isei08("225120")))
-  expect_false(is.na(cbo94_para_isei_br("2-11.20")))
   expect_false(is.na(isco08_para_isei_br("2211")))
 })
 

@@ -36,6 +36,15 @@ de Ganzeboom e Treiman, redistribuídas em `inst/extdata/fontes/` com
 atribuição para que a geração das tabelas seja reproduzível. Citar só o
 pacote credita a embalagem e omite o conteúdo.
 
+O ISEI-BR inverte isso, e é a única régua que inverte. Ele não foi
+importado de lugar nenhum: o pacote o estima, com o script
+`data-raw/09_gera_isei_br.R`, sobre microdados públicos. Quem o usa deve
+três citações. O pacote, porque a estimação é dele. Ganzeboom, De Graaf
+e Treiman (1992), porque o método é deles. E o IBGE, pela PNAD Contínua
+trimestral de 2025, porque o dado é dele. Creditar só Ganzeboom aqui
+seria o erro simétrico do anterior: atribuiria a eles números que não
+calcularam.
+
 > Ganzeboom, H. B. G. e Treiman, D. J. (1996). Internationally
 > comparable measures of occupational status for the 1988 International
 > Standard Classification of Occupations. *Social Science Research*,
@@ -82,10 +91,15 @@ citation("ocupacoesBR")
 #> nao a fonte -- citar so o pacote apaga a autoria de quem construiu as
 #> reguas. Veja tambem o arquivo LICENSE.note.
 #> 
+#> O ISEI-BR e a excecao: ele nao foi importado, o pacote o estimou sobre
+#> a PNAD Continua de 2025. Quem o usa deve tres citacoes -- o pacote pela
+#> estimacao, Ganzeboom, De Graaf e Treiman (1992) pelo metodo, e o IBGE
+#> pelo dado. Veja ?isco08_isei_br.
+#> 
 #> O pacote:
 #> 
 #>   Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em
-#>   Classificacoes Padronizadas_. R package version 0.5.0,
+#>   Classificacoes Padronizadas_. R package version 0.5.1,
 #>   <https://github.com/moraespeixoto/ocupacoesBR>.
 #> 
 #> A fonte do ISEI, do prestigio e do EGP:
@@ -102,6 +116,13 @@ citation("ocupacoesBR")
 #>   international socio-economic index of occupational status." _Social
 #>   Science Research_, *21*(1), 1-56. doi:10.1016/0049-089X(92)90017-B
 #>   <https://doi.org/10.1016/0049-089X%2892%2990017-B>.
+#> 
+#> O dado do ISEI-BR:
+#> 
+#>   IBGE (2025). _Pesquisa Nacional por Amostra de Domicilios Continua
+#>   trimestral: microdados_. Instituto Brasileiro de Geografia e
+#>   Estatistica, Rio de Janeiro.
+#>   <https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/>.
 #> 
 #> O prestigio ocupacional vem de Treiman, D. J. (1977), Occupational
 #> Prestige in Comparative Perspective (Academic Press) -- uma media de

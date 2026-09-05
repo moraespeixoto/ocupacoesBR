@@ -4,7 +4,11 @@ citHeader(
   "International Stratification and Mobility File; Ganzeboom e Treiman as\n",
   "mantem ha tres decadas e pedem citacao expressa. O pacote e o veiculo,\n",
   "nao a fonte -- citar so o pacote apaga a autoria de quem construiu as\n",
-  "reguas. Veja tambem o arquivo LICENSE.note.\n"
+  "reguas. Veja tambem o arquivo LICENSE.note.\n\n",
+  "O ISEI-BR e a excecao: ele nao foi importado, o pacote o estimou sobre a\n",
+  "PNAD Continua de 2025. Quem o usa deve tres citacoes -- o pacote pela\n",
+  "estimacao, Ganzeboom, De Graaf e Treiman (1992) pelo metodo, e o IBGE\n",
+  "pelo dado. Veja ?isco08_isei_br.\n"
 )
 
 bibentry(
@@ -50,6 +54,17 @@ bibentry(
   pages    = "1--56",
   doi      = "10.1016/0049-089X(92)90017-B",
   header   = "A construcao original do ISEI:"
+)
+
+bibentry(
+  bibtype      = "Manual",
+  title        = "Pesquisa Nacional por Amostra de Domicilios Continua trimestral: microdados",
+  author       = person("IBGE"),
+  organization = "Instituto Brasileiro de Geografia e Estatistica",
+  year         = "2025",
+  address      = "Rio de Janeiro",
+  url          = "https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/",
+  header       = "O dado do ISEI-BR:"
 )
 
 citFooter(

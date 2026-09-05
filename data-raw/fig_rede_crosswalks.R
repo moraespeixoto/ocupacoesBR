@@ -19,6 +19,7 @@ COR <- list(
   hub      = "#7D6608", hub_bg      = "#FCF3CF",
   medida   = "#4A235A", medida_bg   = "#E8DAEF",
   autoral  = "#B03A2E", autoral_bg  = "#FADBD8",
+  estimada = "#1E8449", estimada_bg = "#D5F5E3",
   existe   = "#34495E", proposta    = "#1E8449", falta = "#C0392B",
   texto    = "#212F3D", fraco       = "#7F8C8D")
 
@@ -40,8 +41,10 @@ N <- rbind(
   no("prest88", 5.3, 4.30, "Prestígio",  "Treiman 1977", "medida"),
   no("egp",     5.3, 3.45, "EGP",        "11 · 7 · 5 · 3 classes", "medida"),
   # medidas ancoradas na ISCO-08
-  no("isei08",  5.3, 2.05, "ISEI-08",    "status, âncora 2008", "medida"),
-  no("prest08", 5.3, 1.20, "Prestígio-08", "Treiman, âncora 2008", "medida"),
+  no("isei08",  5.3, 2.30, "ISEI-08",    "status, âncora 2008", "medida"),
+  no("prest08", 5.3, 1.50, "Prestígio-08", "Treiman, âncora 2008", "medida"),
+  # a única medida que o pacote ESTIMA em vez de importar
+  no("iseibr",  5.3, 0.70, "ISEI-BR",    "PNAD Contínua 2025", "estimada"),
   # esquema próprio — não passa pela ISCO
   no("classe",  3.1, 5.75, "Classe · Estrato", "esquema do pacote · 10 cat.", "autoral")
 )
@@ -63,6 +66,7 @@ A <- rbind(
   ar("i88",   "egp",     "existe",  "ISMF", 0),
   ar("i08",   "isei08",  "existe",  "ISMF", 0),
   ar("i08",   "prest08", "existe",  "ISMF", 0),
+  ar("i08",   "iseibr",  "estimada", "estimado aqui, na PNAD", 0),
   ar("cod",   "i08",     "existe",   "IBGE · 428 de 434 idênticos", 0),
   ar("i08",   "i88",     "existe",   "ISMF · volta fecha em 69%", -0.42)
 )
@@ -88,8 +92,8 @@ borda <- function(x0, y0, x1, y1) {
 for (i in seq_len(nrow(A))) {
   d <- N[A$de[i], ]; p <- N[A$para[i], ]
   cor <- COR[[A$sit[i]]]
-  lty <- switch(A$sit[i], existe = 1, proposta = 2, falta = 3)
-  lwd <- switch(A$sit[i], existe = 2.1, proposta = 2.1, falta = 1.7)
+  lty <- switch(A$sit[i], existe = 1, estimada = 1, proposta = 2, falta = 3)
+  lwd <- switch(A$sit[i], existe = 2.1, estimada = 2.6, proposta = 2.1, falta = 1.7)
   ini <- borda(p$x, p$y, d$x, d$y); fim <- borda(d$x, d$y, p$x, p$y)
   if (A$curva[i] != 0) {
     # arco para a aresta de volta, que senão se sobreporia à de ida
@@ -136,9 +140,12 @@ mtext("nós: classificações e medidas   ·   setas: correspondências, com a f
 legend("bottomright", bty = "n", cex = 0.52, seg.len = 2.4, lty = 1, lwd = 2.1,
        col = COR$existe, legend = "implementado — toda seta tem fonte declarada")
 legend("bottomleft", bty = "n", cex = 0.52, pch = 22, pt.cex = 1.5,
-       pt.bg = c(COR$origem_bg, COR$hub_bg, COR$medida_bg, COR$autoral_bg),
-       col   = c(COR$origem,    COR$hub,    COR$medida,    COR$autoral),
+       pt.bg = c(COR$origem_bg, COR$hub_bg, COR$medida_bg, COR$autoral_bg,
+                 COR$estimada_bg),
+       col   = c(COR$origem,    COR$hub,    COR$medida,    COR$autoral,
+                 COR$estimada),
        legend = c("origem (o dado entra aqui)", "classificação internacional",
-                  "medida de posição social", "esquema próprio do pacote"))
+                  "medida importada", "esquema próprio do pacote",
+                  "medida estimada pelo pacote"))
 par(op); dev.off()
 message("figura em ", SAIDA)

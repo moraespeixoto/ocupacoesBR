@@ -10,14 +10,14 @@ Fonte:
 [`inst/CITATION`](https://github.com/moraespeixoto/ocupacoesBR/blob/HEAD/inst/CITATION)
 
 Peixoto V (2026). *ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em
-Classificacoes Padronizadas*. R package version 0.5.0,
+Classificacoes Padronizadas*. R package version 0.5.1,
 <https://github.com/moraespeixoto/ocupacoesBR>.
 
     @Manual{,
       title = {ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em Classificacoes Padronizadas},
       author = {Vitor Peixoto},
       year = {2026},
-      note = {R package version 0.5.0},
+      note = {R package version 0.5.1},
       url = {https://github.com/moraespeixoto/ocupacoesBR},
     }
 
@@ -52,4 +52,18 @@ socio-economic index of occupational status.” *Social Science Research*,
       number = {1},
       pages = {1--56},
       doi = {10.1016/0049-089X(92)90017-B},
+    }
+
+IBGE (2025). *Pesquisa Nacional por Amostra de Domicilios Continua
+trimestral: microdados*. Instituto Brasileiro de Geografia e
+Estatistica, Rio de Janeiro.
+<https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/>.
+
+    @Manual{,
+      title = {Pesquisa Nacional por Amostra de Domicilios Continua trimestral: microdados},
+      author = {{IBGE}},
+      organization = {Instituto Brasileiro de Geografia e Estatistica},
+      year = {2025},
+      address = {Rio de Janeiro},
+      url = {https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/},
     }

@@ -149,9 +149,9 @@ dados |>
 <div class="ocb-grid-4">
 
 <div class="ocb-card-escuro">
-<span class="ocb-tag">16 – 90</span>
+<span class="ocb-tag">10 – 90</span>
 <h3>ISEI</h3>
-<p>Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a literatura internacional usa como padrão.</p>
+<p>Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a literatura internacional usa como padrão. Vem em três estimações: as âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote estima na PNAD Contínua e que não substitui as outras.</p>
 </div>
 
 <div class="ocb-card-escuro">
@@ -300,12 +300,15 @@ descritas. Os trabalhos empíricos usam o pacote como instrumento de medida.</p>
 <p>O pacote é o veículo, não a fonte. As réguas vêm do <i>International
 Stratification and Mobility File</i>, que Ganzeboom e Treiman mantêm há três
 décadas e pedem citação expressa.</p>
+<p>O ISEI-BR é a exceção, e pede três citações: o pacote, porque a estimação é
+dele; Ganzeboom, De Graaf e Treiman (1992), pelo método; e o IBGE, pela PNAD
+Contínua trimestral de 2025, que é o dado.</p>
 
 
 ```
 Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
 Declarada ao TSE em Classificacoes Padronizadas_. R
-package version 0.4.1,
+package version 0.5.1,
 <https://github.com/moraespeixoto/ocupacoesBR>.
 ```
 
@@ -314,7 +317,7 @@ package version 0.4.1,
 <div>
 <span class="ocb-rodape-titulo">Pacote</span>
 <a href="reference/index.html">Referência</a>
-<a href="news/index.html">Novidades (0.4.1)</a>
+<a href="news/index.html">Novidades (0.5.1)</a>
 <a href="https://github.com/moraespeixoto/ocupacoesBR">Código-fonte</a>
 <a href="https://github.com/moraespeixoto/ocupacoesBR/issues">Reportar um erro</a>
 </div>

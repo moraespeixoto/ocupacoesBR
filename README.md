@@ -398,7 +398,7 @@ data.frame(
 Ela não substitui o ISEI-08, que continua sendo a âncora para comparação
 internacional. Responde a outra pergunta: como o mercado de trabalho
 brasileiro ordena as ocupações. Veja `?isco08_isei_br` para o método e
-para o que se perde, e `vignette("validacao")` para as duas medidas
+para o que se perde, e `vignette("validacao")` para as três réguas
 contra o mesmo critério externo.
 
 ## ISCO-08 e a ambiguidade da ponte
@@ -495,7 +495,9 @@ suplementar de um artigo.
 ## Créditos e citação
 
 `citation("ocupacoesBR")` devolve **duas** referências: o pacote e o
-ISMF. Cite as duas — o pacote é o veículo, não a fonte das réguas.
+ISMF. Cite as duas — o pacote é o veículo, não a fonte das réguas. A
+exceção é o ISEI-BR, que o pacote estima e que pede três citações: o
+pacote, o método de 1992 e o IBGE pelo dado.
 
 Sobre os limites do EGP no Brasil:
 

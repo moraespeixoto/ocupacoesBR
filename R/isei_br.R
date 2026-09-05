@@ -4,8 +4,9 @@
 #' De Graaf e Treiman (1992) sobre a PNAD Continua de 2025, em vez de importar
 #' os escores calculados por eles em dado estrangeiro. Esta funcao entra pela
 #' ocupacao declarada ao TSE; as irmas entram pela COD ([cod_para_isei_br()]),
-#' pela CBO-2002 ([cbo2002_para_isei_br()]), pela CBO-94
-#' ([cbo94_para_isei_br()]) e pela propria ISCO-08 ([isco08_para_isei_br()]).
+#' pela CBO-2002 ([cbo2002_para_isei_br()]) e pela propria ISCO-08
+#' ([isco08_para_isei_br()]). Nao ha porta pela CBO-94, e a razao esta em
+#' [cbo94_isco88].
 #'
 #' @section O que esta regua e e o que ela nao e:
 #'
@@ -82,22 +83,6 @@ cbo2002_para_isei_br <- function(cbo, empate = c("na", "moda"),
                                  escada = FALSE) {
   i08 <- isco88_para_isco08(cbo2002_para_isco(cbo, empate, escada))
   .busca(i08, ocupacoesBR::isco08_isei_br, "isco08", "isei_br")
-}
-
-#' ISEI-BR a partir da CBO-94
-#'
-#' Versao para a RAIS anterior a 2003. Leia [tse_para_isei_br()] para o que a
-#' regua e e o que ela nao e.
-#'
-#' @inheritParams cbo94_para_isco
-#' @return Vetor numerico com o escore ISEI-BR, entre 10 e 90.
-#' @seealso [tse_para_isei_br()], [isco08_isei_br]
-#' @examples
-#' cbo94_para_isei_br("2-11.20")
-#' @export
-cbo94_para_isei_br <- function(cbo94) {
-  .busca(cbo94_para_isco08(cbo94), ocupacoesBR::isco08_isei_br,
-         "isco08", "isei_br")
 }
 
 #' ISEI-BR a partir da ISCO-08

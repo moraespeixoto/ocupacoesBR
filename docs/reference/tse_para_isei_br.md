@@ -6,11 +6,11 @@ vez de importar os escores calculados por eles em dado estrangeiro. Esta
 funcao entra pela ocupacao declarada ao TSE; as irmas entram pela COD
 ([`cod_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei_br.md)),
 pela CBO-2002
-([`cbo2002_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei_br.md)),
-pela CBO-94
-([`cbo94_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei_br.md))
+([`cbo2002_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei_br.md))
 e pela propria ISCO-08
 ([`isco08_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isei_br.md)).
+Nao ha porta pela CBO-94, e a razao esta em
+[cbo94_isco88](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_isco88.md).
 
 ## Uso
 

@@ -44,6 +44,14 @@ redistribuídas em `inst/extdata/fontes/` com atribuição para que a geração 
 tabelas seja reproduzível. Citar só o pacote credita a embalagem e omite o
 conteúdo.
 
+O ISEI-BR inverte isso, e é a única régua que inverte. Ele não foi importado de
+lugar nenhum: o pacote o estima, com o script `data-raw/09_gera_isei_br.R`,
+sobre microdados públicos. Quem o usa deve três citações. O pacote, porque a
+estimação é dele. Ganzeboom, De Graaf e Treiman (1992), porque o método é
+deles. E o IBGE, pela PNAD Contínua trimestral de 2025, porque o dado é dele.
+Creditar só Ganzeboom aqui seria o erro simétrico do anterior: atribuiria a
+eles números que não calcularam.
+
 > Ganzeboom, H. B. G. e Treiman, D. J. (1996). Internationally comparable
 > measures of occupational status for the 1988 International Standard
 > Classification of Occupations. *Social Science Research*, 25(3), 201–239.
