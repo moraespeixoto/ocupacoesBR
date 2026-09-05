@@ -28,6 +28,17 @@ bibentry(
 )
 
 bibentry(
+  bibtype  = "Misc",
+  title    = "Da ocupacao declarada a posicao social: as decisoes de medida do pacote ocupacoesBR",
+  author   = person("Vitor", "Peixoto"),
+  year     = "2026",
+  publisher = "SocArXiv",
+  doi      = "10.31235/osf.io/b29kg_v1",
+  note     = "Preprint",
+  header   = "O artigo de metodo, onde as decisoes sao justificadas:"
+)
+
+bibentry(
   bibtype  = "Article",
   title    = "Internationally comparable measures of occupational status for the 1988 International Standard Classification of Occupations",
   author   = c(person(c("Harry", "B.", "G."), "Ganzeboom"),

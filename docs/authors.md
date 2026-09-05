@@ -21,6 +21,20 @@ Classificacoes Padronizadas*. R package version 0.6.0,
       url = {https://github.com/moraespeixoto/ocupacoesBR},
     }
 
+Peixoto V (2026). “Da ocupacao declarada a posicao social: as decisoes
+de medida do pacote ocupacoesBR.”
+[doi:10.31235/osf.io/b29kg_v1](https://doi.org/10.31235/osf.io/b29kg_v1).
+Preprint.
+
+    @Misc{,
+      title = {Da ocupacao declarada a posicao social: as decisoes de medida do pacote ocupacoesBR},
+      author = {Vitor Peixoto},
+      year = {2026},
+      publisher = {SocArXiv},
+      doi = {10.31235/osf.io/b29kg_v1},
+      note = {Preprint},
+    }
+
 Ganzeboom HBG, Treiman DJ (1996). “Internationally comparable measures
 of occupational status for the 1988 International Standard
 Classification of Occupations.” *Social Science Research*, **25**(3),

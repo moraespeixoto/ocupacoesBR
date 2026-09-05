@@ -6,8 +6,8 @@ As decisões que a ponte entre o cadastro do TSE e a ISCO-88 exigiu estão
 documentadas em:
 
 > Peixoto, V. (2026). Da ocupação declarada à posição social: as
-> decisões de medida do pacote `ocupacoesBR`. **\[DOI em breve\]** ·
-> Manuscrito em preparação.
+> decisões de medida do pacote `ocupacoesBR`. *SocArXiv* (preprint).
+> <https://doi.org/10.31235/osf.io/b29kg_v1>
 
 O artigo é o lugar onde as escolhas são justificadas, e não apenas
 descritas: por que o agricultor deixou de ser tratado como proprietário,
@@ -18,10 +18,26 @@ documentação do pacote diz o que fazer; o artigo diz por quê.
 ## Trabalhos que usam o pacote
 
 Estes são os trabalhos empíricos que usam o `ocupacoesBR` como
-instrumento de medida. Os campos entre colchetes são preenchidos quando
-cada trabalho é publicado; os DOIs entram aqui assim que existirem.
+instrumento de medida. São o teste de uso do pacote: cada um deles
+exigiu dele algo que a documentação sozinha não teria revelado.
 
-> \[título\] · \[periódico, ano\] · \[DOI\]
+> Peixoto, V. (2026). Os três corpos de uma eleição: eleitorado,
+> candidaturas e eleitos no Brasil (1998–2026). *SocArXiv* (preprint).
+> <https://doi.org/10.31235/osf.io/57xp6_v1>
+
+O retrato descritivo das três populações. É de onde vêm as exigências de
+série longa que moldaram o tratamento da quebra de cadastro de 2002 — o
+argumento `ano` e o
+[`tse_vigencia()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_vigencia.md)
+existem porque este trabalho precisava comparar 1998 com 2024 sem somar
+duas ocupações na mesma linha.
+
+> Peixoto, V. (2026). As duas faces da classe no recrutamento político
+> brasileiro. **\[DOI em breve\]**
+
+O trabalho que separa a classe de origem da classe de destino no
+recrutamento — e que é a razão de o pacote desacoplar as réguas em vez
+de escolher uma. O DOI entra aqui quando o preprint for depositado.
 
 Se você publicou algo usando o pacote e quer que apareça nesta lista,
 abra uma questão em
@@ -102,6 +118,13 @@ citation("ocupacoesBR")
 #>   Classificacoes Padronizadas_. R package version 0.6.0,
 #>   <https://github.com/moraespeixoto/ocupacoesBR>.
 #> 
+#> O artigo de metodo, onde as decisoes sao justificadas:
+#> 
+#>   Peixoto V (2026). "Da ocupacao declarada a posicao social: as
+#>   decisoes de medida do pacote ocupacoesBR."
+#>   doi:10.31235/osf.io/b29kg_v1
+#>   <https://doi.org/10.31235/osf.io/b29kg_v1>. Preprint.
+#> 
 #> A fonte do ISEI, do prestigio e do EGP:
 #> 
 #>   Ganzeboom HBG, Treiman DJ (1996). "Internationally comparable
@@ -136,5 +159,7 @@ citation("ocupacoesBR")
 #> 'options(citation.bibtex.max=999)'.
 ```
 
-São três entradas, e as duas primeiras devem aparecer juntas em qualquer
-trabalho que use o pacote.
+São quatro entradas. As duas primeiras — o pacote e o artigo de método —
+devem aparecer juntas em qualquer trabalho que use o pacote: uma credita
+o instrumento, a outra a justificativa das decisões que ele embute. As
+demais creditam as réguas, e entram conforme a régua usada.
