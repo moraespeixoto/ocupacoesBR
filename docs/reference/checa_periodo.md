@@ -33,12 +33,17 @@ reutilizado **e** ano até 2000).
 
 ## Como os casos foram identificados
 
-Não por rótulo — o pacote não distribui os rótulos do TSE —, e sim pelo
-dado. Para cada código presente nos dois períodos, comparou-se a
-proporção de candidatos com ensino superior completo. A escolaridade
-sobe ao longo de todo o período, então altas de 20 a 27 pontos são a
-tendência geral. Uma queda de 60 a 85 pontos, não: a população sob o
-código passou a ser outra. Ver
+Não pelo rótulo, e sim pelo dado. Os rótulos existem e o pacote os
+distribui
+([tse_ocupacao_rotulos](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_ocupacao_rotulos.md),
+[`tse_para_rotulo()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_rotulo.md)),
+mas um rótulo novo tanto pode ser a mesma ocupação rebatizada quanto
+outra ocupação no mesmo código, e sozinho não distingue as duas coisas.
+Para cada código presente nos dois períodos, comparou-se a proporção de
+candidatos com ensino superior completo. A escolaridade sobe ao longo de
+todo o período, então altas de 20 a 27 pontos são a tendência geral. Uma
+queda de 60 a 85 pontos, não: a população sob o código passou a ser
+outra. Ver
 [tse_quebra_2002](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_quebra_2002.md).
 
 ## O que fazer

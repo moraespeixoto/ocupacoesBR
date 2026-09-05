@@ -27,8 +27,11 @@ Para comparar candidaturas entre si, prefira \code{\link[=tse_para_isei]{tse_par
 o pacote é ancorado nela e a ponte introduz erro. O ISEI-08 serve para juntar
 o dado eleitoral a fontes que já classificam por ISCO-08 — a PNAD Contínua,
 via COD, é o caso típico. As duas réguas correlacionam-se fortemente no
-agregado (\verb{isei08 = 1,212 x isei88 - 9,80}, r = 0,95), e a maior parte das
-diferenças de 5 a 15 pontos é o próprio reescalonamento, não erro. Mas alguns
+agregado (\verb{isei08 = 1,266 x isei88 - 12,72}, r = 0,97, n = 258), e a maior
+parte das diferenças de 5 a 15 pontos é o próprio reescalonamento, não erro.
+Esses coeficientes valem para a ponte \strong{corrigida} por
+\code{.corrige_isco08_tse()}; sem ela, seriam 1,212 e -9,80, e foram esses os que
+esta seção publicou até a auditoria de 05/09/2026. Mas alguns
 deslocamentos individuais são grandes \strong{e reais}: o enfermeiro (código 113)
 sobe 26 pontos, de 43 para 68,7, porque a ISCO-08 promoveu a enfermagem a
 profissão de nível superior (2221), separando-a dos técnicos (3221); o

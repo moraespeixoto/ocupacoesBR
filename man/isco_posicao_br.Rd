@@ -84,6 +84,21 @@ Como candidatos são selecionados por patrimônio, tomar estas proporções
 como piso — e não como estimativa central — é a leitura conservadora.
 }
 
+\section{A tabela atravessa a ponte reversa}{
+
+A PNAD classifica por COD, e a chave desta tabela é a ISCO-88, de modo que
+\verb{data-raw/07_gera_posicao.R} percorre COD -> ISCO-08 -> ISCO-88. O segundo
+passo é a ponte reversa, que \code{\link[=isco08_para_isco88]{isco08_para_isco88()}} documenta como voltando
+ao ponto de partida em apenas 69\% dos códigos. A advertência existia lá e
+não aqui, que é onde quem usa esta tabela vai olhar (auditoria de
+05/09/2026).
+
+Na prática o dano é pequeno, porque as linhas publicadas são grupos de dois
+dígitos e a perda da ponte está sobretudo no quarto. Mas quem descer ao
+código de quatro dígitos desta tabela deve saber que a chave passou por uma
+tradução que não é bijetiva.
+}
+
 \examples{
 # Dentro do mesmo ISCO convivem quem trabalha por conta própria e quem
 # emprega. É esta tabela, medida na PNAD Contínua, que separa os dois — e

@@ -47,17 +47,17 @@ tse_para_isco <- function(cod, ano = NULL) {
 #' 1970--80. Duas consequências para quem usa a versão ancorada na ISCO-88.
 #'
 #' **A escala é enviesada contra ocupações femininas.** Regressão no nível do
-#' código, ponderada por número de candidaturas (170 códigos com n >= 500, dos
+#' código, ponderada por número de candidaturas (168 códigos com n >= 500, dos
 #' quais 28 são majoritariamente femininos):
 #'
 #' ```
-#' ISEI = 38,6 + 0,469 x (% com superior) - 6,14 x (código majoritariamente feminino)
-#'                                           (ep 3,02; p = 0,044)
+#' ISEI = 38,6 + 0,469 x (% com superior) - 6,17 x (código majoritariamente feminino)
+#'                                           (ep 3,03; p = 0,043)
 #' ```
 #'
-#' **A credencial constante, um código feminino recebe 6,1 pontos de ISEI a
+#' **A credencial constante, um código feminino recebe 6,2 pontos de ISEI a
 #' menos.** E não é que essas ocupações tenham menos escolaridade — têm mais:
-#' 29,8% de superior contra 23,9%, com ISEI médio de 46,0 contra 48,7.
+#' 29,9% de superior contra 24,1%, com ISEI médio de 46,0 contra 49,0.
 #'
 #' O caso emblemático é a enfermagem, que a ISCO-88 põe em `2230` com **ISEI
 #' 43** — abaixo dos escriturários (`4100`, ISEI 45), apesar de ser profissão
@@ -72,7 +72,7 @@ tse_para_isco <- function(cod, ano = NULL) {
 #'
 #' **A relação com o critério externo não é linear nem monótona.** Veja
 #' `vignette("validacao")`: a correlação entre ISEI e patrimônio é de 0,681 no
-#' nível da ocupação e de apenas 0,207 no do indivíduo, valor que
+#' nível da ocupação e de apenas 0,207 no da candidatura, valor que
 #' [tse_dispersao_patrimonio] permite recalcular. Uma medida de posição
 #' ocupacional explica a variância *entre* ocupações e quase nada *dentro* de
 #' cada uma — por isso **não use o ISEI como proxy de renda individual**.
@@ -130,19 +130,23 @@ tse_para_siops <- function(cod, ano = NULL) {
 #' classe própria chegou a ser criada, em 29/07/2026, e foi revertida no mesmo
 #' dia.
 #'
-#' O esquema relacional só separa IVc de VIIb nas **onze** classes. Nos colapsos
-#' canônicos de Erikson e Goldthorpe, o agricultor e o assalariado rural voltam
-#' a ser a mesma coisa:
+#' O esquema relacional separa IVc de VIIb nas **onze** e nas **sete** classes.
+#' Nos dois colapsos mais fortes de Erikson e Goldthorpe, o agricultor e o
+#' assalariado rural voltam a ser a mesma coisa:
 #'
 #' | `n_classes` | 601 agricultor | 606 assalariado rural |
 #' |---|---|---|
 #' | 11 | IVc | VIIb |
+#' | 7 | IVc | VIIb |
 #' | 5 | IVc+VIIb | IVc+VIIb |
 #' | 3 | Agrícolas | Agrícolas |
 #'
-#' Comparar um esquema de onze classes com uma partição em três estratos é
-#' comparar resoluções diferentes, não encontrar divergência. Na resolução
-#' equivalente à do estrato, o próprio EGP funde os dois.
+#' A linha de sete classes estava ausente desta tabela até 05/09/2026, e a
+#' ausência importava: ela é o colapso mais usado para publicar, e nela a
+#' distinção **sobrevive**. Comparar um esquema de onze classes com uma
+#' partição em três estratos é comparar resoluções diferentes, não encontrar
+#' divergência. Só nas resoluções equivalentes à do estrato o próprio EGP funde
+#' os dois.
 #'
 #' O dado externo concorda. O ISEI do agricultor, 23, está **dentro** da faixa
 #' das classes populares, que vai de 16 a 43, e corresponde ao percentil 5 do
@@ -261,7 +265,8 @@ tse_para_estrato <- function(cod, ano = NULL) {
 #' A **alta credenciada** é ancorada em registro externo. "Advogado" não é
 #' autodescrição: pressupõe inscrição na OAB. Por isso o rótulo se comporta de
 #' modo estável — entre os que declaram o código 131, a proporção com ensino
-#' superior varia cerca de três pontos entre vereador e presidente.
+#' superior varia pouco mais de um ponto entre vereador e presidente (98,6% a
+#' 100%).
 #'
 #' A **alta proprietária** não tem âncora nenhuma. "Empresário" (código 257) é
 #' autodeclaração: nenhum registro precisa existir para que alguém se descreva
@@ -271,12 +276,16 @@ tse_para_estrato <- function(cod, ano = NULL) {
 #'
 #' | cargo | patrimônio mediano de quem declara 257 |
 #' |---|---|
-#' | Vereador | R$ 370.000 |
-#' | Prefeito | R$ 1.628.485 |
-#' | Senador | R$ 9.345.553 |
+#' | Vereador | R$ 185.000 |
+#' | Prefeito | R$ 812.544 |
+#' | Senador | R$ 4.678.498 |
 #'
 #' Tudo isso sob um **único** ISEI (68) e uma única classe. Dentro do código, os
-#' extremos de patrimônio distam 80 vezes (p10 R$ 41 mil, p90 R$ 3,3 milhões).
+#' extremos de patrimônio distam 76 vezes (p10 R$ 19,8 mil, p90 R$ 1,50 milhão).
+#' A tabela acima e esses dois quantis saem de [tse_autorrotulo_patrimonio], e
+#' não estão digitados aqui — a versão anterior deles estava, e sobreviveu
+#' errada à correção do patrimônio de 09/2026.
+#'
 #' O 257 não é uma ocupação medida com erro: é uma **mistura** de duas
 #' populações — o microempreendedor e o capitalista — sob um rótulo só. Nenhum
 #' escore único está certo para as duas, razão pela qual mudá-lo de valor não
@@ -291,8 +300,8 @@ tse_para_estrato <- function(cod, ano = NULL) {
 #' **O que o dado NÃO mostra**, e vale dizer para que ninguém repita: não há
 #' evidência de que as pessoas troquem de rótulo conforme o cargo. A frequência
 #' do 257 não cresce com a importância do posto — tem pico em prefeito (10,6%) e
-#' cai em senador (7,1%) e governador (6,2%). Quem cresce monotonicamente é
-#' "advogado" (1,6% a 15,2%), que é o caso ancorado, e "comerciante" **cai** de
+#' cai em senador (7,2%) e governador (6,9%). Quem cresce monotonicamente é
+#' "advogado" (1,6% a 14,8%), que é o caso ancorado, e "comerciante" **cai** de
 #' 6,2% a 0%. O gradiente de patrimônio acima é consistente tanto com
 #' recrutamento seletivo quanto com relabeling, e estes dados não separam as
 #' duas hipóteses.

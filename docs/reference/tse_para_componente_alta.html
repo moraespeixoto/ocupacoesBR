@@ -11,7 +11,7 @@ da classe alta."><meta property="og:image" content="https://moraespeixoto.github
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -92,14 +92,18 @@ publica o contraste precisa dizê-lo.</p>
 <p>A <strong>alta credenciada</strong> é ancorada em registro externo. "Advogado" não é
 autodescrição: pressupõe inscrição na OAB. Por isso o rótulo se comporta de
 modo estável — entre os que declaram o código 131, a proporção com ensino
-superior varia cerca de três pontos entre vereador e presidente.</p>
+superior varia pouco mais de um ponto entre vereador e presidente (98,6% a
+100%).</p>
 <p>A <strong>alta proprietária</strong> não tem âncora nenhuma. "Empresário" (código 257) é
 autodeclaração: nenhum registro precisa existir para que alguém se descreva
 assim. E o mesmo rótulo cobre posições materialmente incomparáveis — entre os
 que declaram 257, o patrimônio mediano varia por um fator de <strong>25</strong> conforme
-o cargo disputado:</p><table class="table table"><tr><td>cargo</td><td>patrimônio mediano de quem declara 257</td></tr><tr><td>Vereador</td><td>R$ 370.000</td></tr><tr><td>Prefeito</td><td>R$ 1.628.485</td></tr><tr><td>Senador</td><td>R$ 9.345.553</td></tr></table><p>Tudo isso sob um <strong>único</strong> ISEI (68) e uma única classe. Dentro do código, os
-extremos de patrimônio distam 80 vezes (p10 R$ 41 mil, p90 R$ 3,3 milhões).
-O 257 não é uma ocupação medida com erro: é uma <strong>mistura</strong> de duas
+o cargo disputado:</p><table class="table table"><tr><td>cargo</td><td>patrimônio mediano de quem declara 257</td></tr><tr><td>Vereador</td><td>R$ 185.000</td></tr><tr><td>Prefeito</td><td>R$ 812.544</td></tr><tr><td>Senador</td><td>R$ 4.678.498</td></tr></table><p>Tudo isso sob um <strong>único</strong> ISEI (68) e uma única classe. Dentro do código, os
+extremos de patrimônio distam 76 vezes (p10 R$ 19,8 mil, p90 R$ 1,50 milhão).
+A tabela acima e esses dois quantis saem de <a href="tse_autorrotulo_patrimonio.html">tse_autorrotulo_patrimonio</a>, e
+não estão digitados aqui — a versão anterior deles estava, e sobreviveu
+errada à correção do patrimônio de 09/2026.</p>
+<p>O 257 não é uma ocupação medida com erro: é uma <strong>mistura</strong> de duas
 populações — o microempreendedor e o capitalista — sob um rótulo só. Nenhum
 escore único está certo para as duas, razão pela qual mudá-lo de valor não
 resolve (veja <a href="tse_codigos_autorrotulo.html">tse_codigos_autorrotulo</a>).</p>
@@ -111,8 +115,8 @@ em rótulos.</p>
 <p><strong>O que o dado NÃO mostra</strong>, e vale dizer para que ninguém repita: não há
 evidência de que as pessoas troquem de rótulo conforme o cargo. A frequência
 do 257 não cresce com a importância do posto — tem pico em prefeito (10,6%) e
-cai em senador (7,1%) e governador (6,2%). Quem cresce monotonicamente é
-"advogado" (1,6% a 15,2%), que é o caso ancorado, e "comerciante" <strong>cai</strong> de
+cai em senador (7,2%) e governador (6,9%). Quem cresce monotonicamente é
+"advogado" (1,6% a 14,8%), que é o caso ancorado, e "comerciante" <strong>cai</strong> de
 6,2% a 0%. O gradiente de patrimônio acima é consistente tanto com
 recrutamento seletivo quanto com relabeling, e estes dados não separam as
 duas hipóteses.</p>

@@ -9,7 +9,7 @@ eSocial. Leia tse_para_isei_br() para o que a regua e e o que ela nao e."><meta 
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -87,6 +87,21 @@ ocupacao declarada e passa a ser o seu grupo. Use
     <div class="section level2">
     <h2 id="valor">Valor<a class="anchor" aria-label="anchor" href="#valor"></a></h2>
     <p>Vetor numerico com o escore ISEI-BR, entre 10 e 90.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="duas-pontes-empilhadas">Duas pontes empilhadas<a class="anchor" aria-label="anchor" href="#duas-pontes-empilhadas"></a></h2>
+
+
+<p>O caminho e CBO-2002 -&gt; ISCO-88 (tabua do Ministerio do Trabalho) -&gt; ISCO-08
+(ponte da OIT) -&gt; ISEI-BR, e a segunda ponte e ambigua em cerca de um terco
+dos codigos de origem. A ressalva e a mesma de <code><a href="cbo2002_para_isei08.html">cbo2002_para_isei08()</a></code> e
+<code><a href="cbo2002_para_prestigio08.html">cbo2002_para_prestigio08()</a></code>, que ja a traziam; esta porta nao a trazia ate
+05/09/2026.</p>
+<p>Vale ainda lembrar a data. O ISEI-BR e uma regua estimada em 2025 e que a
+propria documentacao declara nao formar serie. Foi esse o argumento que
+retirou a porta pela CBO-94 na versao 0.5.1. Ele nao se aplica aqui com a
+mesma forca — a CBO-2002 esta em uso hoje —, mas se aplica ao inicio de uma
+serie de RAIS que comece em 2003.</p>
     </div>
     <div class="section level2">
     <h2 id="veja-tamb-m">Veja também<a class="anchor" aria-label="anchor" href="#veja-tamb-m"></a></h2>

@@ -38,6 +38,22 @@ cbo2002_para_isei_br(cbo, empate = c("na", "moda"), escada = FALSE)
 
 Vetor numerico com o escore ISEI-BR, entre 10 e 90.
 
+## Duas pontes empilhadas
+
+O caminho e CBO-2002 -\> ISCO-88 (tabua do Ministerio do Trabalho) -\>
+ISCO-08 (ponte da OIT) -\> ISEI-BR, e a segunda ponte e ambigua em cerca
+de um terco dos codigos de origem. A ressalva e a mesma de
+[`cbo2002_para_isei08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei08.md)
+e
+[`cbo2002_para_prestigio08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_prestigio08.md),
+que ja a traziam; esta porta nao a trazia ate 05/09/2026.
+
+Vale ainda lembrar a data. O ISEI-BR e uma regua estimada em 2025 e que
+a propria documentacao declara nao formar serie. Foi esse o argumento
+que retirou a porta pela CBO-94 na versao 0.5.1. Ele nao se aplica aqui
+com a mesma forca — a CBO-2002 esta em uso hoje —, mas se aplica ao
+inicio de uma serie de RAIS que comece em 2003.
+
 ## Veja também
 
 [`tse_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md),

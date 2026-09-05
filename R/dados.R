@@ -42,7 +42,7 @@
 #'   \item{nivel}{número de dígitos da classificação de origem — 2, 3 ou 4.
 #'     A maioria é a dois dígitos; desce-se a três ou quatro só onde dois
 #'     fundiriam posições distantes demais, como médico e enfermeiro.}
-#'   \item{classe}{esquema de dez categorias para o dado eleitoral.}
+#'   \item{classe}{esquema de doze categorias para o dado eleitoral.}
 #'   \item{estrato}{classe alta, média, populares, ou uma das duas residuais.}
 #'   \item{componente_alta}{partição da classe alta em proprietária,
 #'     credenciada e dirigentes; `NA` fora dela.}
@@ -330,12 +330,13 @@
 #'   \item{cod_tse}{o código.}
 #'   \item{rotulo_ate_2000, rotulo_apos_2002}{como o TSE o chamava antes e depois.}
 #'   \item{ultimo_ano_antigo, primeiro_ano_novo}{as eleições comparadas.}
-#'   \item{n_ate_2000}{candidaturas com esse código até 2000.}
+#'   \item{n_ate_2000}{candidaturas com esse código até 2000, somando 1998 e
+#'     2000. Até 05/09/2026 esta coluna trazia apenas a eleição de 2000.}
 #'   \item{similaridade}{sobreposição de palavras entre os dois rótulos (0 a 1).}
 #'   \item{pct_superior_ate_2000, pct_superior_apos_2002, delta_pp}{proporção com
 #'     ensino superior completo em cada período, e a diferença.}
 #'   \item{delta_vs_tendencia}{`delta_pp` menos a tendência geral do período
-#'     (+7,8 pp). `NA` onde há menos de 30 candidaturas em algum dos lados, que é
+#'     (+7,6 pp). `NA` onde há menos de 30 candidaturas em algum dos lados, que é
 #'     pouco para o sinal significar coisa alguma.}
 #'   \item{tipo}{`reutilizado`, `renomeado`, `redefinido` ou `refinado`.}
 #' }
@@ -360,7 +361,7 @@
 #'
 #' @section O que fazer com cada tipo:
 #' \describe{
-#'   \item{reutilizado (7 códigos, 1.628 candidaturas)}{o código passou a
+#'   \item{reutilizado (7 códigos, 1.755 candidaturas)}{o código passou a
 #'     designar outra ocupação. Traduzir o período antigo pelo dicionário é
 #'     erro; exclua ou reclassifique.}
 #'   \item{renomeado (4)}{mesma ocupação, nome novo. Não é problema — está aqui
@@ -390,7 +391,7 @@
 #' candidatura e o grau de instrução. É contra ele que a vinheta
 #' `vignette("validacao")` afere o ISEI.
 #'
-#' @format `data.frame` com 221 linhas e as colunas:
+#' @format `data.frame` com 220 linhas e as colunas:
 #' \describe{
 #'   \item{cod_tse}{código de ocupação.}
 #'   \item{n}{candidaturas com esse código, 1998--2026.}
@@ -402,7 +403,7 @@
 #' }
 #' @section Por que agregado, e por que este piso:
 #' A unidade é a **ocupação**, não a candidatura, porque é nesse nível que uma
-#' medida de posição ocupacional é definida, e porque um agregado de 221 linhas
+#' medida de posição ocupacional é definida, e porque um agregado de 220 linhas
 #' não é microdado, não identifica ninguém e pode viajar com o pacote.
 #'
 #' Entram ocupações com pelo menos 200 candidaturas. A mediana de patrimônio
@@ -413,16 +414,34 @@
 #'
 #' **O segundo piso zera a mediana; não descarta a linha**, e a diferença
 #' importa. Até 29/07/2026 ele descartava a linha inteira, o que amputava do
-#' conjunto 46 ocupações cuja escolaridade e cuja composição por gênero estão
+#' conjunto 44 ocupações cuja escolaridade e cuja composição por gênero estão
 #' perfeitamente medidas e que apenas carecem de declarações de bens. A
 #' consequência era que a regressão de gênero documentada em [tse_para_isei()]
 #' não se reproduzia a partir do dado publicado. Hoje reproduz. Quem correlacionar
 #' com patrimônio deve filtrar `!is.na(mediana_patrimonio)`; quem usar
-#' escolaridade ou gênero tem as 221 linhas à disposição.
+#' escolaridade ou gênero tem as 220 linhas à disposição.
+#'
+#' @section Os códigos reutilizados entram só na vigência nova:
+#' Sete códigos foram reaproveitados para ocupação diferente depois de 2002
+#' (veja [tse_quebra_2002]). Até a auditoria de 05/09/2026 este conjunto os
+#' agregava sobre a série inteira, de modo que `pct_superior` e `pct_mulher`
+#' misturavam duas populações: o código 214 saía com 30,6% de ensino superior
+#' porque metade da massa era DELEGADO DE POLÍCIA, quando ESCULTOR E PINTOR tem
+#' 2,3%; o 521 saía com 42,3% de mulheres onde a GOVERNANTA tem 97,2%. Hoje
+#' cada um desses códigos entra apenas a partir do seu `primeiro_ano_novo`, que
+#' é o mesmo corte que o argumento `ano =` das funções de tradução aplica. Um
+#' deles deixou de alcançar o piso de 200 candidaturas dentro da própria
+#' vigência e saiu do conjunto — por isso 220 linhas, e não 221.
+#'
+#' O efeito sobre as correlações é imperceptível (a de escolaridade não se move
+#' na terceira casa), porque são 7 códigos em 220 e cerca de 1.800 candidaturas
+#' em 3,37 milhões. A correção não é pelo tamanho: é porque quem toma este
+#' conjunto como a tabela descritiva por ocupação — que é para isso que ele é
+#' publicado — lia cinco linhas materialmente erradas.
 #'
 #' @section As correlações que este conjunto sustenta:
-#' Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,765 (Spearman
-#' 0,812). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
+#' Contra a escolaridade, sobre as 207 ocupações com ISEI: r = 0,765 (Spearman
+#' 0,816). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
 #' têm mediana: r = 0,681 (Spearman 0,695). No nível do **indivíduo** a
 #' correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,681
 #' é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
@@ -456,7 +475,7 @@
 #' Dispersão do patrimônio dentro de cada nível de status
 #'
 #' Somatórios que reproduzem, sem microdado, a correlação entre o índice de
-#' status e o patrimônio declarado **no nível do indivíduo** — o número que
+#' status e o patrimônio declarado **no nível da candidatura** — o número que
 #' quantifica o que uma escala de posição ocupacional não explica.
 #'
 #' @format `data.frame` com 29 linhas e 6 colunas:
@@ -490,6 +509,15 @@
 #' A consequência prática está em [tse_para_isei()]: **não use o ISEI como
 #' proxy de renda ou de patrimônio individual.**
 #'
+#' @section A unidade é a candidatura, não a pessoa:
+#' As 1.103.019 observações são candidaturas, de 767.015 pessoas distintas
+#' entre 2006 e 2024 — a mesma pessoa entra até seis vezes. A documentação
+#' chamava isso de "nível do indivíduo" até 05/09/2026, o que convidava a
+#' tratar as observações como independentes. Para este número não há
+#' consequência, porque ele é descritivo e não vem com erro padrão. Mas não
+#' peça um intervalo de confiança a ele sem antes decidir o que fazer com a
+#' repetição.
+#'
 #' @source Declaração de bens das candidaturas ao TSE, 2006--2024, agregada
 #'   por `data-raw/08_gera_dispersao.R`. O patrimônio é deflacionado a reais
 #'   de outubro de 2024; 2026 não entra, pela razão exposta em [tse_validacao].
@@ -506,6 +534,70 @@
 #' # A dispersão dentro do nível de status, que é o mesmo fato visto de perto:
 #' summary(d$sd_log)
 "tse_dispersao_patrimonio"
+
+#' Patrimônio por trás dos códigos que são autodescrição
+#'
+#' Quantis do patrimônio declarado, por código de ocupação e cargo disputado,
+#' para os dez códigos de [tse_codigos_autorrotulo] mais o 131 (ADVOGADO), que
+#' entra como contraexemplo ancorado. Sustenta o argumento de
+#' [tse_para_componente_alta()] sobre a assimetria de confiabilidade entre as
+#' duas metades da classe alta.
+#'
+#' @format `data.frame` com 8 colunas:
+#' \describe{
+#'   \item{cod_tse}{código de ocupação do TSE, texto.}
+#'   \item{rotulo}{rótulo do código, vigente após 2002.}
+#'   \item{cargo}{cargo disputado, fator na ordem da hierarquia e não na
+#'     alfabética. O nível `"TODOS"` **não é um cargo**: é a linha agregada do
+#'     código, e existe porque uma razão entre quantis não se recupera das
+#'     células.}
+#'   \item{ancorado}{`TRUE` para o 131, cujo rótulo pressupõe inscrição na
+#'     OAB; `FALSE` para os dez autodeclarados.}
+#'   \item{n}{candidaturas com patrimônio declarado positivo na célula.}
+#'   \item{p10, mediana, p90}{quantis do patrimônio, em reais.}
+#' }
+#'
+#' @section Por que esta tabela existe:
+#' Ela não acrescenta fato novo — os números já estavam em
+#' `?tse_para_componente_alta`. O que ela acrescenta é que eles passam a ser
+#' **executados**. Digitados, erraram duas vezes: entraram com a agregação de
+#' bens que somava cada bem duas vezes e sobreviveram intactos à correção de
+#' 09/2026, porque ninguém revisita um número que não roda. A auditoria de
+#' 05/09/2026 os encontrou ainda dobrados. Agora a documentação lê a tabela, e
+#' uma troca de fonte se propaga sozinha.
+#'
+#' @section O contraste:
+#' Os dois regimes de rótulo têm gradiente por cargo — quem disputa posto mais
+#' alto é mais rico nos dois casos. O que os separa é a **dispersão interna**:
+#' na linha `"TODOS"`, o ADVOGADO tem a **menor** razão entre p90 e p10 de
+#' todos os códigos da tabela (47,8), e os autodeclarados vão de 55,1 a 75,6.
+#' É um único caso ancorado contra cinco autodeclarados, então isto é uma
+#' ilustração e não um teste. Mas é esse contraste, e não a diferença de
+#' mediana, que torna o 257 menos confiável que o 131 de um jeito que nenhuma
+#' tabela de escores mostra.
+#'
+#' @section Corte e sigilo:
+#' Células com menos de 30 candidaturas ficam de fora (atributo `n_min`). O que
+#' se publica são três quantis por célula: não há candidatura, não há
+#' município, não há ano. Os atributos `anos` e `n_obs` guardam o período e a
+#' amostra.
+#'
+#' @source Declaração de bens das candidaturas ao TSE, 2006--2024, agregada por
+#'   `data-raw/10_gera_autorrotulo.R`. Mesma microbase e mesma deflação de
+#'   [tse_dispersao_patrimonio]; 2026 não entra porque a declaração de bens
+#'   daquela safra ainda não está fechada.
+#' @seealso [tse_para_componente_alta()], que interpreta esta tabela;
+#'   [tse_codigos_autorrotulo], a lista dos códigos; [tse_dispersao_patrimonio],
+#'   para a dispersão dentro do nível de status.
+#' @examples
+#' p <- tse_autorrotulo_patrimonio
+#' # o gradiente do "empresário" por cargo
+#' p[p$cod_tse == "257", c("cargo", "n", "mediana")]
+#'
+#' # a dispersão interna, autodeclarado contra ancorado
+#' a <- p[p$cargo == "TODOS", ]
+#' data.frame(a["rotulo"], a["ancorado"], razao = round(a$p90 / a$p10, 1))
+"tse_autorrotulo_patrimonio"
 
 #' Ponte da ISCO-08 de volta para a ISCO-88
 #'
@@ -630,6 +722,19 @@
 #' Como candidatos são selecionados por patrimônio, tomar estas proporções
 #' como piso — e não como estimativa central — é a leitura conservadora.
 #'
+#' @section A tabela atravessa a ponte reversa:
+#' A PNAD classifica por COD, e a chave desta tabela é a ISCO-88, de modo que
+#' `data-raw/07_gera_posicao.R` percorre COD -> ISCO-08 -> ISCO-88. O segundo
+#' passo é a ponte reversa, que [isco08_para_isco88()] documenta como voltando
+#' ao ponto de partida em apenas 69% dos códigos. A advertência existia lá e
+#' não aqui, que é onde quem usa esta tabela vai olhar (auditoria de
+#' 05/09/2026).
+#'
+#' Na prática o dano é pequeno, porque as linhas publicadas são grupos de dois
+#' dígitos e a perda da ponte está sobretudo no quarto. Mas quem descer ao
+#' código de quatro dígitos desta tabela deve saber que a chave passou por uma
+#' tradução que não é bijetiva.
+#'
 #' @source Microdados da PNAD Contínua trimestral, IBGE, quatro trimestres de
 #'   2025, acessados em 28/07/2026.
 #'   <https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/>
@@ -700,6 +805,22 @@
 #' e 60,1%. Quem reproduz esses três números é
 #' `data-raw/09b_sensibilidade_isei_br.R`, que imprime a tabela inteira e não
 #' grava nada.
+#'
+#' @section A escala não é a do ISEI, e isso importa na comparação:
+#' Os escores saem de um min--max sobre as células de estimação, para o
+#' intervalo de 10 a 90. O intervalo é o mesmo do ISEI, a **dispersão não**: o
+#' desvio padrão do ISEI-BR é da ordem de 14 a 15, contra 21 do ISEI-08, porque
+#' o min--max é governado pelas células extremas. A consequência é operacional
+#' e foi encontrada na auditoria de 05/09/2026: a diferença bruta
+#' `isei_br - isei08` correlaciona-se a **-0,85** com o próprio `isei08`, de
+#' modo que a lista das ocupações que "mais sobem" é, em boa parte, a lista das
+#' que estavam mais embaixo. Num gráfico das duas, a diagonal de 45 graus marca
+#' a igualdade de escore e não a de posição.
+#'
+#' Para comparar as duas réguas, padronize as duas antes de subtrair. É o que
+#' `vignette("validacao")` passou a fazer. Para usar o ISEI-BR sozinho — que é
+#' o uso previsto — nada disso importa, porque a escala é monotônica e qualquer
+#' análise por ordenamento é indiferente a ela.
 #'
 #' @section O que se perde:
 #' A COD funde oficiais e praças de polícia e bombeiro militar, então a escala

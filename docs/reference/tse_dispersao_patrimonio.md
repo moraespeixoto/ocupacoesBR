@@ -1,8 +1,8 @@
 # Dispersão do patrimônio dentro de cada nível de status
 
 Somatórios que reproduzem, sem microdado, a correlação entre o índice de
-status e o patrimônio declarado **no nível do indivíduo** — o número que
-quantifica o que uma escala de posição ocupacional não explica.
+status e o patrimônio declarado **no nível da candidatura** — o número
+que quantifica o que uma escala de posição ocupacional não explica.
 
 ## Uso
 
@@ -69,6 +69,16 @@ do log do patrimônio dentro de um mesmo nível de status é da ordem de
 1,7, isto é, uma ordem de grandeza. A consequência prática está em
 [`tse_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md):
 **não use o ISEI como proxy de renda ou de patrimônio individual.**
+
+## A unidade é a candidatura, não a pessoa
+
+As 1.103.019 observações são candidaturas, de 767.015 pessoas distintas
+entre 2006 e 2024 — a mesma pessoa entra até seis vezes. A documentação
+chamava isso de "nível do indivíduo" até 05/09/2026, o que convidava a
+tratar as observações como independentes. Para este número não há
+consequência, porque ele é descritivo e não vem com erro padrão. Mas não
+peça um intervalo de confiança a ele sem antes decidir o que fazer com a
+repetição.
 
 ## Veja também
 

@@ -149,16 +149,19 @@ test_that("a dispersao individual reproduz o 0,207 sem microdado", {
 
 test_that("a regressao de genero de ?tse_para_isei reproduz a partir do dado publicado", {
   # Ate 29/07/2026 nao reproduzia: o piso de declaracoes de bens descartava a
-  # linha inteira e amputava 46 ocupacoes com escolaridade e genero medidos,
-  # deixando 157 codigos onde a ajuda afirma 170. Este teste trava a correcao.
+  # linha inteira e amputava ocupacoes com escolaridade e genero medidos,
+  # deixando 157 codigos onde a ajuda afirmava 170. Este teste trava a correcao.
+  # Em 05/09/2026 o total caiu de 170 para 168, porque `tse_validacao` passou a
+  # respeitar a vigencia dos codigos reutilizados: um saiu do conjunto e outros
+  # perderam as candidaturas da ocupacao ANTERIOR, que nunca deveriam contar.
   v <- tse_validacao
   v$isei <- tse_para_isei(v$cod_tse)
   w <- v[!is.na(v$isei) & v$n > 500, ]
   w$fem <- w$pct_mulher > 50
-  expect_equal(nrow(w), 170L)
+  expect_equal(nrow(w), 168L)
   expect_equal(sum(w$fem), 28L)
   co <- summary(stats::lm(isei ~ pct_superior + fem, data = w, weights = w$n))$coefficients
-  expect_equal(unname(co["femTRUE", "Estimate"]), -6.14, tolerance = 0.01)
+  expect_equal(unname(co["femTRUE", "Estimate"]), -6.17, tolerance = 0.01)
   expect_lt(co["femTRUE", "Pr(>|t|)"], 0.05)
   # o achado substantivo: mais credencial e menos status
   expect_gt(mean(w$pct_superior[w$fem]), mean(w$pct_superior[!w$fem]))

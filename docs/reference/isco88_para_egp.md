@@ -60,11 +60,12 @@ Vetor de texto (ou inteiro, se `rotulo = FALSE`).
 O EGP não é uma função só da ocupação. As suas regras usam duas
 variáveis adicionais: a posição na ocupação (`conta_propria`) e o número
 de pessoas supervisionadas (`n_supervisionados`). Sem elas, **IVa e IVb
-— a pequena burguesia — ficam estruturalmente vazias**, e V
-(supervisores manuais) sai fortemente subestimada, porque só dois
-códigos ISCO a produzem sem a variável de supervisão. Como o formulário
-do TSE pergunta apenas a ocupação, quem parte dele obtém uma versão
-degradada do esquema, e a função avisa quando é esse o caso.
+— a pequena burguesia — ficam estruturalmente vazias**, e V (técnicos de
+nível inferior e supervisores manuais) sai fortemente subestimada,
+porque só dois códigos ISCO a produzem sem a variável de supervisão.
+Como o formulário do TSE pergunta apenas a ocupação, quem parte dele
+obtém uma versão degradada do esquema, e a função avisa quando é esse o
+caso.
 
 Partindo só da ocupação, o resultado **não deve ser publicado como uma
 tabela EGP de onze classes**. Os colapsos de 5 e 3 classes, em que IVa e

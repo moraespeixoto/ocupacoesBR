@@ -99,7 +99,7 @@ citation("ocupacoesBR")
 #> O pacote:
 #> 
 #>   Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em
-#>   Classificacoes Padronizadas_. R package version 0.5.1,
+#>   Classificacoes Padronizadas_. R package version 0.5.2,
 #>   <https://github.com/moraespeixoto/ocupacoesBR>.
 #> 
 #> A fonte do ISEI, do prestigio e do EGP:

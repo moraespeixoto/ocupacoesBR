@@ -31,7 +31,8 @@ publica o contraste precisa dizê-lo.
 A \strong{alta credenciada} é ancorada em registro externo. "Advogado" não é
 autodescrição: pressupõe inscrição na OAB. Por isso o rótulo se comporta de
 modo estável — entre os que declaram o código 131, a proporção com ensino
-superior varia cerca de três pontos entre vereador e presidente.
+superior varia pouco mais de um ponto entre vereador e presidente (98,6\% a
+100\%).
 
 A \strong{alta proprietária} não tem âncora nenhuma. "Empresário" (código 257) é
 autodeclaração: nenhum registro precisa existir para que alguém se descreva
@@ -39,14 +40,18 @@ assim. E o mesmo rótulo cobre posições materialmente incomparáveis — entre
 que declaram 257, o patrimônio mediano varia por um fator de \strong{25} conforme
 o cargo disputado:\tabular{ll}{
    cargo \tab patrimônio mediano de quem declara 257 \cr
-   Vereador \tab R$ 370.000 \cr
-   Prefeito \tab R$ 1.628.485 \cr
-   Senador \tab R$ 9.345.553 \cr
+   Vereador \tab R$ 185.000 \cr
+   Prefeito \tab R$ 812.544 \cr
+   Senador \tab R$ 4.678.498 \cr
 }
 
 
 Tudo isso sob um \strong{único} ISEI (68) e uma única classe. Dentro do código, os
-extremos de patrimônio distam 80 vezes (p10 R$ 41 mil, p90 R$ 3,3 milhões).
+extremos de patrimônio distam 76 vezes (p10 R$ 19,8 mil, p90 R$ 1,50 milhão).
+A tabela acima e esses dois quantis saem de \link{tse_autorrotulo_patrimonio}, e
+não estão digitados aqui — a versão anterior deles estava, e sobreviveu
+errada à correção do patrimônio de 09/2026.
+
 O 257 não é uma ocupação medida com erro: é uma \strong{mistura} de duas
 populações — o microempreendedor e o capitalista — sob um rótulo só. Nenhum
 escore único está certo para as duas, razão pela qual mudá-lo de valor não
@@ -61,8 +66,8 @@ em rótulos.
 \strong{O que o dado NÃO mostra}, e vale dizer para que ninguém repita: não há
 evidência de que as pessoas troquem de rótulo conforme o cargo. A frequência
 do 257 não cresce com a importância do posto — tem pico em prefeito (10,6\%) e
-cai em senador (7,1\%) e governador (6,2\%). Quem cresce monotonicamente é
-"advogado" (1,6\% a 15,2\%), que é o caso ancorado, e "comerciante" \strong{cai} de
+cai em senador (7,2\%) e governador (6,9\%). Quem cresce monotonicamente é
+"advogado" (1,6\% a 14,8\%), que é o caso ancorado, e "comerciante" \strong{cai} de
 6,2\% a 0\%. O gradiente de patrimônio acima é consistente tanto com
 recrutamento seletivo quanto com relabeling, e estes dados não separam as
 duas hipóteses.

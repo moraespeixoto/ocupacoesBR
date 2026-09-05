@@ -47,7 +47,8 @@ Stratification and Mobility File, de Ganzeboom e Treiman.
 O EGP não é uma função só da ocupação. As suas regras usam duas variáveis
 adicionais: a posição na ocupação (\code{conta_propria}) e o número de pessoas
 supervisionadas (\code{n_supervisionados}). Sem elas, \strong{IVa e IVb — a pequena
-burguesia — ficam estruturalmente vazias}, e V (supervisores manuais) sai
+burguesia — ficam estruturalmente vazias}, e V (técnicos de nível inferior e
+supervisores manuais) sai
 fortemente subestimada, porque só dois códigos ISCO a produzem sem a
 variável de supervisão. Como o formulário do TSE pergunta apenas a ocupação,
 quem parte dele obtém uma versão degradada do esquema, e a função avisa

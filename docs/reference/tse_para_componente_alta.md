@@ -37,7 +37,8 @@ publica o contraste precisa dizê-lo.
 A **alta credenciada** é ancorada em registro externo. "Advogado" não é
 autodescrição: pressupõe inscrição na OAB. Por isso o rótulo se comporta
 de modo estável — entre os que declaram o código 131, a proporção com
-ensino superior varia cerca de três pontos entre vereador e presidente.
+ensino superior varia pouco mais de um ponto entre vereador e presidente
+(98,6% a 100%).
 
 A **alta proprietária** não tem âncora nenhuma. "Empresário" (código
 257) é autodeclaração: nenhum registro precisa existir para que alguém
@@ -48,16 +49,21 @@ por um fator de **25** conforme o cargo disputado:
 |          |                                        |
 |----------|----------------------------------------|
 | cargo    | patrimônio mediano de quem declara 257 |
-| Vereador | R\$ 370.000                            |
-| Prefeito | R\$ 1.628.485                          |
-| Senador  | R\$ 9.345.553                          |
+| Vereador | R\$ 185.000                            |
+| Prefeito | R\$ 812.544                            |
+| Senador  | R\$ 4.678.498                          |
 
 Tudo isso sob um **único** ISEI (68) e uma única classe. Dentro do
-código, os extremos de patrimônio distam 80 vezes (p10 R\$ 41 mil, p90
-R\$ 3,3 milhões). O 257 não é uma ocupação medida com erro: é uma
-**mistura** de duas populações — o microempreendedor e o capitalista —
-sob um rótulo só. Nenhum escore único está certo para as duas, razão
-pela qual mudá-lo de valor não resolve (veja
+código, os extremos de patrimônio distam 76 vezes (p10 R\$ 19,8 mil, p90
+R\$ 1,50 milhão). A tabela acima e esses dois quantis saem de
+[tse_autorrotulo_patrimonio](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_autorrotulo_patrimonio.md),
+e não estão digitados aqui — a versão anterior deles estava, e
+sobreviveu errada à correção do patrimônio de 09/2026.
+
+O 257 não é uma ocupação medida com erro: é uma **mistura** de duas
+populações — o microempreendedor e o capitalista — sob um rótulo só.
+Nenhum escore único está certo para as duas, razão pela qual mudá-lo de
+valor não resolve (veja
 [tse_codigos_autorrotulo](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_codigos_autorrotulo.md)).
 
 Consequência: um gráfico que compare os dois componentes está comparando
@@ -69,8 +75,8 @@ insistia em *employment relations*, não em rótulos.
 **O que o dado NÃO mostra**, e vale dizer para que ninguém repita: não
 há evidência de que as pessoas troquem de rótulo conforme o cargo. A
 frequência do 257 não cresce com a importância do posto — tem pico em
-prefeito (10,6%) e cai em senador (7,1%) e governador (6,2%). Quem
-cresce monotonicamente é "advogado" (1,6% a 15,2%), que é o caso
+prefeito (10,6%) e cai em senador (7,2%) e governador (6,9%). Quem
+cresce monotonicamente é "advogado" (1,6% a 14,8%), que é o caso
 ancorado, e "comerciante" **cai** de 6,2% a 0%. O gradiente de
 patrimônio acima é consistente tanto com recrutamento seletivo quanto
 com relabeling, e estes dados não separam as duas hipóteses.

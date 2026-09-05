@@ -45,16 +45,16 @@ anos 1970–80. Duas consequências para quem usa a versão ancorada na
 ISCO-88.
 
 **A escala é enviesada contra ocupações femininas.** Regressão no nível
-do código, ponderada por número de candidaturas (170 códigos com n \>=
+do código, ponderada por número de candidaturas (168 códigos com n \>=
 500, dos quais 28 são majoritariamente femininos):
 
-    ISEI = 38,6 + 0,469 x (% com superior) - 6,14 x (código majoritariamente feminino)
-                                              (ep 3,02; p = 0,044)
+    ISEI = 38,6 + 0,469 x (% com superior) - 6,17 x (código majoritariamente feminino)
+                                              (ep 3,03; p = 0,043)
 
-**A credencial constante, um código feminino recebe 6,1 pontos de ISEI a
+**A credencial constante, um código feminino recebe 6,2 pontos de ISEI a
 menos.** E não é que essas ocupações tenham menos escolaridade — têm
-mais: 29,8% de superior contra 23,9%, com ISEI médio de 46,0 contra
-48,7.
+mais: 29,9% de superior contra 24,1%, com ISEI médio de 46,0 contra
+49,0.
 
 O caso emblemático é a enfermagem, que a ISCO-88 põe em `2230` com
 **ISEI 43** — abaixo dos escriturários (`4100`, ISEI 45), apesar de ser
@@ -71,7 +71,7 @@ femininas, o que não é a mesma coisa que ser robusta.
 **A relação com o critério externo não é linear nem monótona.** Veja
 [`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md):
 a correlação entre ISEI e patrimônio é de 0,681 no nível da ocupação e
-de apenas 0,207 no do indivíduo, valor que
+de apenas 0,207 no da candidatura, valor que
 [tse_dispersao_patrimonio](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
 permite recalcular. Uma medida de posição ocupacional explica a
 variância *entre* ocupações e quase nada *dentro* de cada uma — por isso

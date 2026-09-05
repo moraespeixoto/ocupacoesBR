@@ -10,12 +10,13 @@
 \item{cod_tse}{o código.}
 \item{rotulo_ate_2000, rotulo_apos_2002}{como o TSE o chamava antes e depois.}
 \item{ultimo_ano_antigo, primeiro_ano_novo}{as eleições comparadas.}
-\item{n_ate_2000}{candidaturas com esse código até 2000.}
+\item{n_ate_2000}{candidaturas com esse código até 2000, somando 1998 e
+2000. Até 05/09/2026 esta coluna trazia apenas a eleição de 2000.}
 \item{similaridade}{sobreposição de palavras entre os dois rótulos (0 a 1).}
 \item{pct_superior_ate_2000, pct_superior_apos_2002, delta_pp}{proporção com
 ensino superior completo em cada período, e a diferença.}
 \item{delta_vs_tendencia}{\code{delta_pp} menos a tendência geral do período
-(+7,8 pp). \code{NA} onde há menos de 30 candidaturas em algum dos lados, que é
+(+7,6 pp). \code{NA} onde há menos de 30 candidaturas em algum dos lados, que é
 pouco para o sinal significar coisa alguma.}
 \item{tipo}{\code{reutilizado}, \code{renomeado}, \code{redefinido} ou \code{refinado}.}
 }
@@ -60,7 +61,7 @@ tabela} — os dois rótulos viajam ao lado das duas evidências.
 \section{O que fazer com cada tipo}{
 
 \describe{
-\item{reutilizado (7 códigos, 1.628 candidaturas)}{o código passou a
+\item{reutilizado (7 códigos, 1.755 candidaturas)}{o código passou a
 designar outra ocupação. Traduzir o período antigo pelo dicionário é
 erro; exclua ou reclassifique.}
 \item{renomeado (4)}{mesma ocupação, nome novo. Não é problema — está aqui

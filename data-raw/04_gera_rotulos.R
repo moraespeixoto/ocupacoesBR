@@ -163,6 +163,16 @@ novo  <- por_ano[por_ano$ano >= 2002, ]
 velho <- velho[!duplicated(velho$cod, fromLast = TRUE), ]   # último até 2000
 novo  <- novo[!duplicated(novo$cod), ]                      # primeiro após 2002
 m <- merge(velho, novo, by = "cod", suffixes = c("_ate2000", "_apos2002"))
+# ATENCAO ao denominador, de novo: `velho` guarda UM ano por codigo (o ultimo
+# ate 2000), entao o `n` que veio no merge conta so aquela eleicao. A coluna
+# publicada `n_ate_2000` diz "candidaturas com esse codigo ate 2000", que e a
+# SOMA de 1998 e 2000 — e ate a auditoria de 05/09/2026 ela trazia so 2000,
+# subestimando em 7,8% o total dos reutilizados (1.628 em vez de 1.755) e
+# contradizendo o proprio cabecalho deste script, que documenta 52.090 para o
+# 601 enquanto a coluna carregava 51.953.
+soma_ate2000 <- tapply(por_ano$n[por_ano$ano <= 2000],
+                       por_ano$cod[por_ano$ano <= 2000], sum)
+m$n_ate2000 <- as.integer(soma_ate2000[as.character(m$cod)])
 m$jac <- mapply(jaccard, m$rotulo_n_ate2000, m$rotulo_n_apos2002)
 mudou <- m[m$rotulo_n_ate2000 != m$rotulo_n_apos2002, ]
 

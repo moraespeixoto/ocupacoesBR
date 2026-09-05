@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -48,6 +48,81 @@
     </div>
 
     <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.5.2" id="ocupacoesbr-052">ocupacoesBR 0.5.2<a class="anchor" aria-label="anchor" href="#ocupacoesbr-052"></a></h2>
+<p>Auditoria geral, feita por três auditores independentes — engenharia de pacotes R e site, dados eleitorais do TSE, estratificação e medida. O pedido nasceu de uma insegurança: a 0.5.0 quebrou o pacote e teve de ser corrigida às pressas no mesmo dia, e não estava claro o que ainda restava errado.</p>
+<p>A infraestrutura passou. <code>R CMD check</code> limpo, os testes passando, o site sincronizado, a proveniência conferindo por sha256, e o ISEI-BR reproduzindo dígito a dígito a partir da PNAD. <strong>O que não passou foi a documentação de números</strong>: valores que ficaram para trás quando a fonte mudou, e uma divergência real entre duas funções exportadas.</p>
+<p>Nenhuma dessas correções muda uma conclusão do pacote. Quase todas mudam números que ele publica.</p>
+<div class="section level3">
+<h3 id="a-correção-do-patrimônio-dobrado-estava-incompleta-0-5-2">A correção do patrimônio dobrado estava incompleta<a class="anchor" aria-label="anchor" href="#a-corre%C3%A7%C3%A3o-do-patrim%C3%B4nio-dobrado-estava-incompleta-0-5-2"></a></h3>
+<p>A 0.4.0 trocou a microbase porque a anterior somava cada bem duas vezes. A tabela de patrimônio do código 257 em <code><a href="../reference/tse_para_componente_alta.html">?tse_para_componente_alta</a></code> não foi revisitada, e continuou publicando o dobro por mais duas versões. Vereador R$ 370.000 onde são R$ 185.000; prefeito R$ 1.628.485 onde são R$ 812.544; senador R$ 9.345.553 onde são R$ 4.678.498.</p>
+<p>O argumento não muda — o fator de 25 entre vereador e senador é o mesmo, e a razão entre os extremos continua na casa das dezenas. Mudam os reais.</p>
+<p>A causa é a mesma que o NEWS 0.3.1 já tinha diagnosticado: “o número era extraído, o verbo era digitado”. Por isso a correção não é digitar os valores certos. <strong><code>tse_autorrotulo_patrimonio</code> é novo</strong> e publica os quantis de patrimônio por código e cargo para os dez códigos de <code>tse_codigos_autorrotulo</code>, mais o 131 (ADVOGADO) como contraexemplo ancorado. A documentação e a vinheta <code>qual-regua</code> agora leem a tabela. Uma próxima troca de fonte se propaga sozinha.</p>
+<p>De quebra, a tabela mostra o contraste melhor do que a prosa mostrava: na linha agregada, o ADVOGADO tem a menor razão entre p90 e p10 de todos os códigos (47,8), e os autodeclarados vão de 55,1 a 75,6.</p>
+</div>
+<div class="section level3">
+<h3 id="crosswalk_tse-e-tse_para_egp-discordavam-0-5-2">
+<code>crosswalk_tse()</code> e <code>tse_para_egp()</code> discordavam<a class="anchor" aria-label="anchor" href="#crosswalk_tse-e-tse_para_egp-discordavam-0-5-2"></a></h3>
+<p>A tabela usava a marca <code>proprietario</code> onde a função usa <code>conta_propria</code>. As duas são distintas desde 07/2026, e o crosswalk ficou de fora daquela decisão: o agricultor (601) e o pescador (604) saíam em VIIb ali e em IVc aqui.</p>
+<p>Como <code><a href="../reference/crosswalk_tse.html">?crosswalk_tse</a></code> manda publicar essa tabela como material suplementar de artigo, o suplemento contradizia o código que produziu as estimativas — e justamente na distinção que Carvalhaes (2015) aponta como o teste do EGP no Brasil. Um teste novo trava as duas saídas juntas, porque nenhum <code>R CMD check</code> pega divergência entre duas funções que rodam sem erro.</p>
+<p>A mesma afirmação errada estava em <code><a href="../reference/tse_para_egp.html">?tse_para_egp</a></code>, que dizia ser <code>proprietario</code> o <code>SEMPL = 2</code> do ISMF. É <code>conta_propria</code>.</p>
+</div>
+<div class="section level3">
+<h3 id="tse_para_isei08-publicava-a-regressão-de-duas-versões-atrás-0-5-2">
+<code>?tse_para_isei08</code> publicava a regressão de duas versões atrás<a class="anchor" aria-label="anchor" href="#tse_para_isei08-publicava-a-regress%C3%A3o-de-duas-vers%C3%B5es-atr%C3%A1s-0-5-2"></a></h3>
+<p>Os coeficientes <code>1,212</code> e <code>-9,80</code> são anteriores a <code>.corrige_isco08_tse()</code>, que entrou na 0.2.1. Os atuais são <code>1,266</code> e <code>-12,72</code>, com r = 0,97.</p>
+</div>
+<div class="section level3">
+<h3 id="a-comparação-entre-o-isei-br-e-o-isei-estava-contaminada-pela-escala-0-5-2">A comparação entre o ISEI-BR e o ISEI-08 estava contaminada pela escala<a class="anchor" aria-label="anchor" href="#a-compara%C3%A7%C3%A3o-entre-o-isei-br-e-o-isei-estava-contaminada-pela-escala-0-5-2"></a></h3>
+<p>A 0.5.0 lia a diferença bruta <code>isei_br - isei08</code> como relocação substantiva: sobem os manuais, descem os credenciados. As duas escalas não têm a mesma dispersão — o ISEI-BR sai de um min–max e tem desvio padrão 14,3 contra 21,1 —, e numa escala mais estreita o topo cai e a base sobe por aritmética. A diferença bruta correlaciona-se a <strong>-0,847</strong> com o próprio ISEI-08.</p>
+<p>Padronizando antes de subtrair, a correlação cai para -0,17. Sobrevive a alta da segurança pública e a queda das artísticas, do clero e das liberais da saúde. <strong>Não sobrevive</strong> a outra metade: igualadas as escalas, entram entre as maiores altas o diretor de empresas, o médico e o professor de ensino superior.</p>
+<p>A escala não foi alterada. A recomendação inicial era reescalar para 16–90, mas a conta mostra que isso <em>piora</em> a compressão — a faixa fica mais estreita, não mais larga. O que muda é a leitura: <code><a href="../articles/validacao.html">vignette("validacao")</a></code> passou a padronizar antes de comparar, e <code><a href="../reference/isco08_isei_br.html">?isco08_isei_br</a></code> ganhou a ressalva de que a diagonal de 45 graus marca igualdade de escore e não de posição. Para quem usa o ISEI-BR sozinho, que é o uso previsto, nada disso importa: a escala é monotônica.</p>
+</div>
+<div class="section level3">
+<h3 id="tse_validacao-não-respeitava-a-vigência-dos-códigos-reutilizados-0-5-2">
+<code>tse_validacao</code> não respeitava a vigência dos códigos reutilizados<a class="anchor" aria-label="anchor" href="#tse_validacao-n%C3%A3o-respeitava-a-vig%C3%AAncia-dos-c%C3%B3digos-reutilizados-0-5-2"></a></h3>
+<p>Sete códigos foram reaproveitados para ocupação diferente depois de 2002. O conjunto os agregava sobre a série inteira, misturando duas populações: o 214 saía com 30,6% de ensino superior porque metade da massa era DELEGADO DE POLÍCIA, quando ESCULTOR E PINTOR tem 2,3%; o 521 saía com 42,3% de mulheres onde a GOVERNANTA tem 97,2%.</p>
+<p>O pacote manda o usuário passar <code>ano =</code> justamente para impedir isso, e não passava em casa. Agora cada um desses códigos entra a partir do seu <code>primeiro_ano_novo</code>. Um deles deixou de alcançar o piso de 200 candidaturas dentro da própria vigência: são <strong>220 linhas</strong>, e não 221.</p>
+<p>As correlações agregadas não se movem de forma perceptível (escolaridade r = 0,765; patrimônio r = 0,681). A regressão de gênero de <code><a href="../reference/tse_para_isei.html">?tse_para_isei</a></code> passa de 170 para 168 códigos, e o coeficiente de -6,14 para -6,17.</p>
+</div>
+<div class="section level3">
+<h3 id="tse_quebra_2002n_ate_2000-contava-só-uma-eleição-0-5-2">
+<code>tse_quebra_2002$n_ate_2000</code> contava só uma eleição<a class="anchor" aria-label="anchor" href="#tse_quebra_2002n_ate_2000-contava-s%C3%B3-uma-elei%C3%A7%C3%A3o-0-5-2"></a></h3>
+<p>A coluna diz “candidaturas com esse código até 2000”, que é a soma de 1998 e 2000, e trazia apenas 2000. O total dos reutilizados sobe de 1.628 para 1.755. O objeto chegava a se contradizer: documentava 52.090 para o 601 e carregava 51.953 na coluna.</p>
+</div>
+<div class="section level3">
+<h3 id="números-que-a-troca-de-microbase-deixou-para-trás-0-5-2">Números que a troca de microbase deixou para trás<a class="anchor" aria-label="anchor" href="#n%C3%BAmeros-que-a-troca-de-microbase-deixou-para-tr%C3%A1s-0-5-2"></a></h3>
+<p><code><a href="../reference/isei_retrospectivo.html">?isei_retrospectivo</a></code> afirmava 680.317 pares consecutivos (são 684.179), 52,1% de mudança de código (52,2%) e 45,3% de mudança de escore (45,2%); a cobertura feminina vai a 58,8%. <code><a href="../reference/tse_quebra_2002.html">?tse_quebra_2002</a></code> descontava uma tendência de +7,8 pp que hoje é +7,6.</p>
+<p>Também esses estavam só digitados. <strong><code>data-raw/11_confere_retrospectivo.R</code></strong> é novo, não grava nada e imprime todos eles, medindo a defasagem e a cobertura com a própria <code><a href="../reference/isei_retrospectivo.html">isei_retrospectivo()</a></code> em vez de reimplementá-la.</p>
+</div>
+<div class="section level3">
+<h3 id="o-egp-dos-crosswalks-sai-degradado-e-agora-está-dito-0-5-2">O EGP dos crosswalks sai degradado, e agora está dito<a class="anchor" aria-label="anchor" href="#o-egp-dos-crosswalks-sai-degradado-e-agora-est%C3%A1-dito-0-5-2"></a></h3>
+<p><code><a href="../reference/crosswalk_cod.html">crosswalk_cod()</a></code>, <code><a href="../reference/crosswalk_cbo2002.html">crosswalk_cbo2002()</a></code> e <code><a href="../reference/crosswalk_cbo94.html">crosswalk_cbo94()</a></code> calculam o EGP sem posição no emprego nem supervisão, porque não há nenhuma das duas num código de COD ou de CBO. IVa, IVb e V saem estruturalmente vazias — a pequena burguesia contada como classe de serviço, que é inversão de classe e não arredondamento. Nenhum dos quatro <code>.Rd</code> dizia isso. Os quatro passam a dizer, e <code><a href="../reference/crosswalk_cod.html">?crosswalk_cod</a></code> aponta <code>isco_posicao_br</code> como prior empírico disponível.</p>
+</div>
+<div class="section level3">
+<h3 id="correções-menores-0-5-2">Correções menores<a class="anchor" aria-label="anchor" href="#corre%C3%A7%C3%B5es-menores-0-5-2"></a></h3>
+<ul><li>
+<code><a href="../reference/cbo2002_para_egp.html">cbo2002_para_egp()</a></code> ganha <code>empate</code> e <code>escada</code>, que existiam em todas as outras portas da CBO-2002 e que o bloco de documentação já anunciava. A porta ficava presa em <code>empate = "na"</code>.</li>
+<li>
+<code><a href="../reference/tse_isco.html">?tse_isco</a></code> dizia que <code>classe</code> tem dez categorias. Tem doze, como <code><a href="../reference/tse_para_classe.html">?tse_para_classe</a></code> já dizia.</li>
+<li>A tabela de colapsos do EGP em <code><a href="../reference/tse_para_classe.html">?tse_para_classe</a></code> pulava de 11 para 5 classes, omitindo o <strong>7</strong> — que é o colapso mais usado para publicar, e onde a distinção entre IVc e VIIb <strong>sobrevive</strong>. A frase “nos colapsos canônicos o agricultor e o assalariado rural voltam a ser a mesma coisa” era falsa ali.</li>
+<li>O rótulo da classe V perdia metade do nome: são os <em>lower-grade technicians and supervisors of manual workers</em>, e os técnicos tinham sumido do português.</li>
+<li>
+<code><a href="../reference/tse_dispersao_patrimonio.html">?tse_dispersao_patrimonio</a></code> chamava a unidade de “nível do indivíduo”. São candidaturas: 1.103.019 delas, de 767.015 pessoas distintas.</li>
+<li>
+<code><a href="../reference/isco_posicao_br.html">?isco_posicao_br</a></code> não avisava que a sua chave atravessa a ponte reversa ISCO-08 -&gt; ISCO-88, que volta ao ponto de partida em 69% dos casos.</li>
+<li>
+<code><a href="../reference/cbo2002_para_isei_br.html">cbo2002_para_isei_br()</a></code> não trazia a ressalva das duas pontes empilhadas que as irmãs <code><a href="../reference/cbo2002_para_isei08.html">cbo2002_para_isei08()</a></code> e <code><a href="../reference/cbo2002_para_prestigio08.html">cbo2002_para_prestigio08()</a></code> já traziam.</li>
+<li>
+<code><a href="../reference/checa_periodo.html">?checa_periodo</a></code> afirmava que o pacote não distribui os rótulos do TSE. Ele distribui, em <code>tse_ocupacao_rotulos</code>.</li>
+<li>O <code>DESCRIPTION</code> não mencionava o ISEI-BR, que é a régua que o pacote estima e a única que exige citação própria.</li>
+<li>
+<code>LICENSE.md</code> apontava para <code>LICENSE.note</code>, que não é publicado como página — era o único link interno quebrado do site.</li>
+<li>
+<code>ocupacoesBR-package</code> entra no índice de referência do pkgdown, de onde faltava.</li>
+<li>Um teste novo trava as duas pontes ISCO recíprocas, que são geradas por scripts separados e poderiam divergir se um fosse regerado sem o outro.</li>
+</ul></div>
+</div>
+    <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.5.1" id="ocupacoesbr-051">ocupacoesBR 0.5.1<a class="anchor" aria-label="anchor" href="#ocupacoesbr-051"></a></h2>
 <p>Fecha as pontas soltas da 0.5.0, no mesmo dia. Nenhum escore mudou: os 590 valores de <code>isco08_isei_br</code> saem idênticos aos da 0.5.0.</p>
 <div class="section level3">
@@ -79,7 +154,9 @@
 <h3 id="a-régua-deixa-de-ser-importada-0-5-0">A régua deixa de ser importada<a class="anchor" aria-label="anchor" href="#a-r%C3%A9gua-deixa-de-ser-importada-0-5-0"></a></h3>
 <p>A vinheta de validação terminava dizendo que o pacote mostrava que a medida <strong>ordena</strong> bem as ocupações, mas não que os escores estão <strong>calibrados</strong> para o Brasil, e que calibrá-los seria a melhoria de maior valor que ainda faltava. Esta versão a faz.</p>
 <p><code>isco08_isei_br</code> traz o procedimento de Ganzeboom, De Graaf e Treiman (1992) refeito do zero sobre a PNAD Contínua de 2025: 655.787 observações de 339.181 pessoas, dos quatro trimestres. Não é tradução de escala nem recalibragem do ISEI-08. É o mesmo método, estimado aqui.</p>
-<p><strong>O que a régua brasileira diz de diferente.</strong> Contra o ISEI-08 importado, nas 348 células apuradas em quatro dígitos, o Spearman é 0,894 e o desvio absoluto médio é 9,7 pontos numa escala de 10 a 90. Concorda o bastante para ser reconhecível e discorda o bastante para valer a pena. Sobem as ocupações manuais e de segurança pública: operador de implemento agrícola, policial civil e militar, bombeiro, motoboy. Descem as artísticas, o clero e as liberais da saúde: escultor, sacerdote, veterinário, odontólogo, farmacêutico. Credencial alta e remuneração modesta de um lado, o inverso do outro.</p>
+<p><strong>O que a régua brasileira diz de diferente.</strong> Contra o ISEI-08 importado, nas 348 células apuradas em quatro dígitos, o Spearman é 0,894 e o desvio absoluto médio é 9,7 pontos numa escala de 10 a 90. Concorda o bastante para ser reconhecível e discorda o bastante para valer a pena.</p>
+<p>Onde discorda, é preciso cuidado com a leitura, e a versão 0.5.2 corrigiu a que estava aqui. As duas escalas <strong>não têm a mesma dispersão</strong> — o ISEI-BR sai de um min–max sobre as células de estimação e tem desvio padrão 14,3 contra 21,1 do ISEI-08 —, e por isso a diferença bruta entre as duas correlaciona-se a −0,847 com o próprio ISEI-08: quem estava no topo cai e quem estava embaixo sobe, por aritmética antes de qualquer sociologia. Igualando média e desvio, essa correlação cai para −0,17 e o desvio absoluto médio, de 9,7 para 8,1.</p>
+<p>O que sobrevive à correção: sobem a segurança pública (policial civil e militar, bombeiro) e descem as profissões artísticas, o clero e as liberais da saúde (escultor, sacerdote, cantor, veterinário, farmacêutico) — credencial alta e remuneração modesta. O que <strong>não</strong> sobrevive é a outra metade da frase: igualadas as escalas, não são as ocupações manuais que sobem. Entram entre as maiores altas o diretor de empresas, o médico e o professor de ensino superior.</p>
 <p><strong>A mediação não é completa, e isso é achado.</strong> O procedimento de 1992 supõe que a ocupação carrega todo o efeito da escolaridade sobre a renda e escolhe o ângulo onde o efeito direto zera. No Brasil ele não zera: para em 0,206 contra um efeito total de 0,494, de modo que a ocupação medeia <strong>58,4%</strong>. Os outros 41,6% são escolaridade que paga dentro da mesma ocupação. Adotou-se o ângulo de mínimo e publicou-se o resíduo, nos atributos da tabela.</p>
 <p>A decisão é segura porque o ordenamento não depende do ângulo. O Spearman entre a escala no ângulo adotado e em mais ou menos 0,15 radianos é 0,999. Sete especificações alternativas foram testadas — 40 horas, sem restrição de horas, renda-hora, rendimento efetivo, só homens como em 1992, escolaridade em categorias, idade a partir de 25 — e nenhuma move o ordenamento abaixo de 0,99 nem a parcela mediada para fora do intervalo de 57,9% a 60,1%. Quem produz esses três números é <code>data-raw/09b_sensibilidade_isei_br.R</code>, e é dele que eles saem cada vez que forem reafirmados.</p>
 <p><strong>Contra o critério externo, ela vai melhor.</strong> Nas 165 ocupações do TSE com as três réguas e os dois critérios, a correlação com o log do patrimônio declarado sobe de 0,676 (ISEI-08) para 0,716, e o Spearman de 0,708 para 0,768. Com a escolaridade dos candidatos ela vai um pouco pior, 0,736 contra 0,783, o que é esperado: o ângulo dá mais peso à renda. O patrimônio é o único dos dois que não entra na construção de régua nenhuma.</p>

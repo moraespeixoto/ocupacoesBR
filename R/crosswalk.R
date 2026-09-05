@@ -14,6 +14,25 @@
 #' @return `data.frame` com o código do TSE, ISCO-88, ISCO-08, ISEI-88, ISEI-08,
 #'   SIOPS, EGP, classe, estrato, componente da classe alta e as marcas de
 #'   ocupação política e de proprietário.
+#'
+#' @section A coluna `egp`, e por que só aqui ela é comparável:
+#' Esta é a única das quatro tabelas de tradução em que o EGP sai com a posição
+#' no emprego informada: o dicionário do TSE marca em `tse_isco$conta_propria`
+#' quem trabalha por conta própria, e é essa marca — não `proprietario` — que
+#' corresponde ao `SEMPL = 2` das sintaxes do ISMF. Por isso IVb e IVc aparecem
+#' aqui e saem vazias em [crosswalk_cod()], [crosswalk_cbo2002()] e
+#' [crosswalk_cbo94()], onde o código não carrega posição alguma.
+#'
+#' O que **continua** faltando é o número de subordinados: IVa e IVb não se
+#' separam, todos caem em IVb, e V fica subestimada. Para publicar, prefira os
+#' colapsos de 7 ou 5 classes.
+#'
+#' Até 05/09/2026 esta coluna usava `proprietario`, e discordava de
+#' [tse_para_egp()] em dois códigos — o agricultor (601) e o pescador (604)
+#' saíam em VIIb aqui e em IVc na função. Como esta tabela existe para ser
+#' publicada como suplemento, o suplemento contradizia o código que produziu as
+#' estimativas. As duas saídas hoje são idênticas por teste.
+#'
 #' @examples
 #' head(crosswalk_tse())
 #' crosswalk_tse(c(111, 169, 257))
@@ -47,6 +66,10 @@ crosswalk_tse <- function(cod = NULL) {
            ifelse(!is.na(n_alt) & n_alt > 1L, "amb\u00edgua",
            ifelse(d$nivel[i] >= 4L,           "exata",
                                               "agregada")))
+  # Mesmo tratamento de `tse_para_egp()`: NA na marca vira FALSE, senão o EGP
+  # sai NA onde o dicionário apenas não afirma nada sobre a posição no emprego.
+  cp <- d$conta_propria[i]
+  cp[is.na(cp)] <- FALSE
   # O rotulo faltava, e sem ele a funcao nao serve ao uso que a propria
   # documentacao anuncia: ninguem audita "169 -> 1300 -> 51 -> Proprietarios"
   # sem saber que 169 e COMERCIANTE. Todo o valor autoral do pacote esta neste
@@ -66,8 +89,13 @@ crosswalk_tse <- function(cod = NULL) {
     # fixo silenciava justamente o aviso de EGP degradado, e a coluna saía com
     # IVa, IVb e V ZERADAS — a pequena burguesia contada como classe de serviço,
     # numa tabela que a documentação manda publicar como material suplementar.
-    # A marca `proprietario` é o SEMPL do ISMF e estava aqui o tempo todo.
-    egp             = isco88_para_egp(isco, conta_propria = d$proprietario[i],
+    # O SEMPL do ISMF é `conta_propria`, não `proprietario`: são marcas
+    # distintas desde 07/2026, e esta coluna ficou de fora daquela decisão até
+    # 09/2026. Enquanto usou `proprietario`, o agricultor (601) e o pescador
+    # (604) saíam em VIIb aqui e em IVc na `tse_para_egp()` — a tabela que a
+    # documentação manda publicar como suplemento contradizia o código que
+    # produziu as estimativas. O teste em test-crosswalk.R trava as duas juntas.
+    egp             = isco88_para_egp(isco, conta_propria = cp,
                                       avisar = FALSE),
     classe          = d$classe[i],
     estrato         = d$estrato[i],

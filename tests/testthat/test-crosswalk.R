@@ -85,3 +85,42 @@ test_that("o residuo esta partido em tres, e todos ficam fora dos estratos", {
   # e nenhum codigo COM ISCO cai no residuo
   expect_false(any(cw$classe[!is.na(cw$isco88)] %in% res))
 })
+
+test_that("o EGP do crosswalk e o de tse_para_egp() sao o mesmo", {
+  # Regressao da auditoria de 05/09/2026. A tabela usava a marca
+  # `proprietario` onde a funcao usa `conta_propria`, e as duas discordavam em
+  # 601 (AGRICULTOR) e 604 (PESCADOR): VIIb aqui, IVc la. Como `?crosswalk_tse`
+  # manda publicar esta tabela como material suplementar, o suplemento
+  # contradizia o codigo que produziu as estimativas — e nenhum R CMD check
+  # pega divergencia entre duas saidas que rodam sem erro.
+  cw <- crosswalk_tse()
+  expect_identical(cw$egp, tse_para_egp(cw$cod_tse, avisar = FALSE))
+  # o caso que motivou o teste: conta propria sem ser classe proprietaria
+  expect_identical(cw$egp[cw$cod_tse %in% c("601", "604")],
+                   rep("IVc: proprietário rural", 2L))
+  # e o SEMPL continua chegando: IVc e IVb nao podem sair vazias
+  expect_gt(sum(cw$egp == "IVc: proprietário rural", na.rm = TRUE), 0L)
+  expect_gt(sum(cw$egp == "IVb: conta própria sem empregados", na.rm = TRUE), 0L)
+})
+
+test_that("as duas pontes ISCO recíprocas não divergem", {
+  # `isco88_isco08` sai de 01_gera_dados.R e `isco08_isco88` de 06_gera_cod.R.
+  # Sao objetos distintos e legitimos, mantidos por scripts SEPARADOS, e nada
+  # impede que um seja regerado sem o outro. Este teste e a trava: a ida e a
+  # volta tem de concordar onde a volta e definida. Auditoria de 05/09/2026.
+  ida <- isco88_isco08
+  volta <- isco08_isco88
+  # todo destino da ida que a volta conhece tem de voltar a algum lugar
+  d <- ida$isco08[!is.na(ida$isco08)]
+  conhecidos <- d %in% volta$isco08
+  expect_gt(mean(conhecidos), 0.9)
+  # e onde a ida e UNIVOCA, a volta tem de devolver o codigo de origem numa
+  # fracao alta -- 69% e o valor que ?isco08_para_isco88 documenta
+  u <- ida[!is.na(ida$isco08) & ida$n_alternativas == 1L, ]
+  v <- volta$isco88[match(u$isco08, volta$isco08)]
+  ok <- !is.na(v)
+  expect_gt(mean(v[ok] == u$isco88[ok]), 0.6)
+  # nenhuma das duas pode ter chave duplicada
+  expect_false(any(duplicated(ida$isco88)))
+  expect_false(any(duplicated(volta$isco08)))
+})

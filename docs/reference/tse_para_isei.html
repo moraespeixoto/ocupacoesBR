@@ -9,7 +9,7 @@ status) de Ganzeboom, De Graaf e Treiman, ancorado na ISCO-88."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -94,13 +94,13 @@ indireto da escolaridade sobre a renda <strong>via ocupação</strong>, estimado
 Ganzeboom, De Graaf e Treiman (1992) sobre dados internacionais dos anos
 1970–80. Duas consequências para quem usa a versão ancorada na ISCO-88.</p>
 <p><strong>A escala é enviesada contra ocupações femininas.</strong> Regressão no nível do
-código, ponderada por número de candidaturas (170 códigos com n &gt;= 500, dos
+código, ponderada por número de candidaturas (168 códigos com n &gt;= 500, dos
 quais 28 são majoritariamente femininos):</p>
-<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>ISEI <span class="ot">=</span> <span class="dv">38</span>,<span class="dv">6</span> <span class="sc">+</span> <span class="dv">0</span>,<span class="dv">469</span> <span class="fu">x</span> (% com superior) <span class="sc">-</span> <span class="dv">6</span>,<span class="dv">14</span> <span class="fu">x</span> (código majoritariamente feminino)</span>
-<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                                          (ep <span class="dv">3</span>,<span class="dv">02</span>; <span class="at">p =</span> <span class="dv">0</span>,<span class="dv">044</span>)</span></code></pre><p></p></div>
-<p><strong>A credencial constante, um código feminino recebe 6,1 pontos de ISEI a
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a>ISEI <span class="ot">=</span> <span class="dv">38</span>,<span class="dv">6</span> <span class="sc">+</span> <span class="dv">0</span>,<span class="dv">469</span> <span class="fu">x</span> (% com superior) <span class="sc">-</span> <span class="dv">6</span>,<span class="dv">17</span> <span class="fu">x</span> (código majoritariamente feminino)</span>
+<span id="cb1-2"><a href="#cb1-2" tabindex="-1"></a>                                          (ep <span class="dv">3</span>,<span class="dv">03</span>; <span class="at">p =</span> <span class="dv">0</span>,<span class="dv">043</span>)</span></code></pre><p></p></div>
+<p><strong>A credencial constante, um código feminino recebe 6,2 pontos de ISEI a
 menos.</strong> E não é que essas ocupações tenham menos escolaridade — têm mais:
-29,8% de superior contra 23,9%, com ISEI médio de 46,0 contra 48,7.</p>
+29,9% de superior contra 24,1%, com ISEI médio de 46,0 contra 49,0.</p>
 <p>O caso emblemático é a enfermagem, que a ISCO-88 põe em <code>2230</code> com <strong>ISEI
 43</strong> — abaixo dos escriturários (<code>4100</code>, ISEI 45), apesar de ser profissão
 universitária. A âncora da ISCO-08 corrige boa parte disso: o mesmo posto
@@ -112,7 +112,7 @@ ela está certa no sinal, mas é conservadora <em>porque</em> a escala é envies
 contra ocupações femininas, o que não é a mesma coisa que ser robusta.</p>
 <p><strong>A relação com o critério externo não é linear nem monótona.</strong> Veja
 <code><a href="../articles/validacao.html">vignette("validacao")</a></code>: a correlação entre ISEI e patrimônio é de 0,681 no
-nível da ocupação e de apenas 0,207 no do indivíduo, valor que
+nível da ocupação e de apenas 0,207 no da candidatura, valor que
 <a href="tse_dispersao_patrimonio.html">tse_dispersao_patrimonio</a> permite recalcular. Uma medida de posição
 ocupacional explica a variância <em>entre</em> ocupações e quase nada <em>dentro</em> de
 cada uma — por isso <strong>não use o ISEI como proxy de renda individual</strong>.</p>

@@ -188,6 +188,7 @@ reference:
   - tse_quebra_2002
   - tse_validacao
   - tse_dispersao_patrimonio
+  - tse_autorrotulo_patrimonio
   - isco88_medidas
   - isco08_medidas
   - isco88_isco08
@@ -213,3 +214,9 @@ reference:
   - cbo2002_para_siops
   - cbo2002_para_siops08
   - cbo94_para_siops
+
+- title: O pacote
+  desc: >
+    A visão geral, com as duas portas de entrada e a política de proveniência.
+  contents:
+  - ocupacoesBR-package

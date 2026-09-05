@@ -104,9 +104,9 @@ abstém:
 
 ``` r
 sum(tse_validacao$n)
-#> [1] 3360906
+#> [1] 3359194
 sum(tse_validacao$n_com_bens)
-#> [1] 1592312
+#> [1] 1592274
 ```
 
 O acréscimo de 2026 aparece no `n` e não aparece no `n_com_bens`.

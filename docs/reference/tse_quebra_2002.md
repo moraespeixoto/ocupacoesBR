@@ -32,7 +32,8 @@ tse_quebra_2002
 
 - n_ate_2000:
 
-  candidaturas com esse código até 2000.
+  candidaturas com esse código até 2000, somando 1998 e 2000. Até
+  05/09/2026 esta coluna trazia apenas a eleição de 2000.
 
 - similaridade:
 
@@ -44,7 +45,7 @@ tse_quebra_2002
 
 - delta_vs_tendencia:
 
-  `delta_pp` menos a tendência geral do período (+7,8 pp). `NA` onde há
+  `delta_pp` menos a tendência geral do período (+7,6 pp). `NA` onde há
   menos de 30 candidaturas em algum dos lados, que é pouco para o sinal
   significar coisa alguma.
 
@@ -82,7 +83,7 @@ própria tabela** — os dois rótulos viajam ao lado das duas evidências.
 
 ## O que fazer com cada tipo
 
-- reutilizado (7 códigos, 1.628 candidaturas):
+- reutilizado (7 códigos, 1.755 candidaturas):
 
   o código passou a designar outra ocupação. Traduzir o período antigo
   pelo dicionário é erro; exclua ou reclassifique.

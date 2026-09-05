@@ -24,4 +24,5 @@ SOFTWARE.
 
 **A licença acima cobre o código deste pacote.** Os materiais de terceiros
 redistribuídos em `data-raw/fontes/` têm origem e termos próprios, descritos em
-[`LICENSE.note`](LICENSE.note).
+`LICENSE.note`, na raiz do pacote. O arquivo viaja no tarball e no
+repositório; não é publicado como página do site, e por isso não é um link aqui.

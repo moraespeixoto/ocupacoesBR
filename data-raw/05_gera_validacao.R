@@ -10,12 +10,14 @@
 #   escolaridade         — o grau de instrução declarado.
 #
 # O agregado sai por OCUPAÇÃO, e não por candidatura, porque é nesse nível que
-# uma medida de posição ocupacional é definida. Não há microdado aqui: 164
+# uma medida de posição ocupacional é definida. Não há microdado aqui: 220
 # linhas, nada identificável.
 #
 # FONTE: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds, produzida por
 #   `05a_microbase_2026.R`: as candidaturas de 1998 a 2024 do
-#   `microdados_classe_v2.rds` (vices_do_brasil), mais a safra de 2026 anexada.
+#   `microdados_classe_v3.rds` (classe_recrutamento_politico), mais a safra de
+#   2026 anexada. A v2 somava cada bem duas vezes; a troca e de 09/2026 e o
+#   motivo esta no cabecalho de `05a_microbase_2026.R`.
 #   Não versionada. Ajuste OCUPACOESBR_MICROBASE se estiver noutro lugar.
 #
 #   O PATRIMÔNIO DE 2026 É `NA`, e de propósito: a coluna está deflacionada a
@@ -52,14 +54,30 @@ if (!file.exists(MICRO))
        "\nAponte OCUPACOESBR_MICROBASE para o arquivo.", call. = FALSE)
 
 m <- readRDS(MICRO)
-stopifnot(all(c("cod_ocup", "isei", "patrim", "superior", "gen") %in% names(m)))
+stopifnot(all(c("cod_ocup", "ano", "isei", "patrim", "superior", "gen") %in% names(m)))
 
 cod <- as.character(m$cod_ocup)
 n_por_cod <- table(cod)
 manter <- names(n_por_cod)[n_por_cod >= N_MIN]
 
+# ---- vigencia: os codigos reutilizados nao podem agregar duas ocupacoes -----
+# Auditoria de 05/09/2026. Sete codigos foram reaproveitados para ocupacao
+# DIFERENTE depois de 2002 — o 214 e DELEGADO DE POLICIA ate 2000 e ESCULTOR E
+# PINTOR depois, o 521 vai de porteiro/cozinheiro a GOVERNANTA. Agregando a
+# serie inteira, `pct_superior` e `pct_mulher` misturavam as duas populacoes: o
+# escultor saia com 30,6% de superior (sao 2,3%) e a governanta com 42,3% de
+# mulheres (sao 97,2%). O pacote manda o usuario passar `ano =` justamente para
+# impedir isso, e nao o passava em casa.
+#
+# A mediana de patrimonio nao era atingida — bens so existem de 2006 em diante,
+# ja na vigencia nova —, mas o corte se aplica a ela tambem, por coerencia.
+load("data/tse_quebra_2002.rda")
+reut <- tse_quebra_2002[tse_quebra_2002$tipo == "reutilizado", ]
+piso <- stats::setNames(reut$primeiro_ano_novo, reut$cod_tse)
+
 agrega <- function(k) {
   s <- cod == k
+  if (!is.na(piso[k])) s <- s & m$ano >= piso[[k]]
   pat <- m$patrim[s]
   pat <- pat[!is.na(pat) & pat > 0]
   data.frame(
@@ -72,6 +90,14 @@ agrega <- function(k) {
     stringsAsFactors = FALSE)
 }
 tse_validacao <- do.call(rbind, lapply(sort(manter), agrega))
+# o piso de N_MIN vale sobre a janela EFETIVA: um codigo reutilizado pode
+# passar no cadastro inteiro e nao passar so na vigencia nova
+antes <- nrow(tse_validacao)
+tse_validacao <- tse_validacao[tse_validacao$n >= N_MIN, ]
+if (nrow(tse_validacao) < antes)
+  message(antes - nrow(tse_validacao),
+          " codigo(s) sairam por nao alcancarem n >= ", N_MIN,
+          " dentro da propria vigencia.")
 # a linha FICA; o que cai é a mediana onde ela seria ruidosa (ver bloco acima)
 tse_validacao$mediana_patrimonio[tse_validacao$n_com_bens < N_MIN] <- NA_real_
 rownames(tse_validacao) <- NULL
@@ -104,7 +130,7 @@ message(sprintf("  ISEI x log mediana patrim. : r = %.3f | rho = %.3f  (n = %d)"
 # que é o que uma medida de posição ocupacional deve fazer, e é também o
 # argumento contra usá-la como proxy de renda individual.
 ind <- !is.na(m$isei) & !is.na(m$patrim) & m$patrim > 0
-message(sprintf("  no nível do indivíduo, ISEI x log patrim.: r = %.3f (n = %s)",
+message(sprintf("  no nível da candidatura, ISEI x log patrim.: r = %.3f (n = %s)",
                 cs(m$isei[ind], log(m$patrim[ind])),
                 format(sum(ind), big.mark = " ")))
 

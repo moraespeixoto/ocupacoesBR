@@ -13,7 +13,7 @@ ocupação (não informada, fora da PEA, vínculo sem função).}
 \item{nivel}{número de dígitos da classificação de origem — 2, 3 ou 4.
 A maioria é a dois dígitos; desce-se a três ou quatro só onde dois
 fundiriam posições distantes demais, como médico e enfermeiro.}
-\item{classe}{esquema de dez categorias para o dado eleitoral.}
+\item{classe}{esquema de doze categorias para o dado eleitoral.}
 \item{estrato}{classe alta, média, populares, ou uma das duas residuais.}
 \item{componente_alta}{partição da classe alta em proprietária,
 credenciada e dirigentes; \code{NA} fora dela.}

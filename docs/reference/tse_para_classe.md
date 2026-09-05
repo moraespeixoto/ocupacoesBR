@@ -51,20 +51,24 @@ entre as duas medidas é **artefato de granularidade**, e o registro é
 útil porque a classe própria chegou a ser criada, em 29/07/2026, e foi
 revertida no mesmo dia.
 
-O esquema relacional só separa IVc de VIIb nas **onze** classes. Nos
-colapsos canônicos de Erikson e Goldthorpe, o agricultor e o assalariado
-rural voltam a ser a mesma coisa:
+O esquema relacional separa IVc de VIIb nas **onze** e nas **sete**
+classes. Nos dois colapsos mais fortes de Erikson e Goldthorpe, o
+agricultor e o assalariado rural voltam a ser a mesma coisa:
 
 |             |                |                       |
 |-------------|----------------|-----------------------|
 | `n_classes` | 601 agricultor | 606 assalariado rural |
 | 11          | IVc            | VIIb                  |
+| 7           | IVc            | VIIb                  |
 | 5           | IVc+VIIb       | IVc+VIIb              |
 | 3           | Agrícolas      | Agrícolas             |
 
-Comparar um esquema de onze classes com uma partição em três estratos é
-comparar resoluções diferentes, não encontrar divergência. Na resolução
-equivalente à do estrato, o próprio EGP funde os dois.
+A linha de sete classes estava ausente desta tabela até 05/09/2026, e a
+ausência importava: ela é o colapso mais usado para publicar, e nela a
+distinção **sobrevive**. Comparar um esquema de onze classes com uma
+partição em três estratos é comparar resoluções diferentes, não
+encontrar divergência. Só nas resoluções equivalentes à do estrato o
+próprio EGP funde os dois.
 
 O dado externo concorda. O ISEI do agricultor, 23, está **dentro** da
 faixa das classes populares, que vai de 16 a 43, e corresponde ao

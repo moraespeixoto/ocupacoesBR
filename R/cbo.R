@@ -275,9 +275,14 @@ cbo2002_para_siops <- function(cbo, empate = c("na", "moda"), escada = FALSE) {
 #' cbo2002_para_egp("521110", conta_propria = TRUE, n_supervisionados = 0)
 #' @export
 cbo2002_para_egp <- function(cbo, conta_propria = NULL, n_supervisionados = NULL,
-                             n_classes = 11, rotulo = TRUE, avisar = TRUE) {
-  isco88_para_egp(cbo2002_para_isco(cbo), conta_propria, n_supervisionados,
-                  n_classes, rotulo, avisar)
+                             n_classes = 11, rotulo = TRUE, avisar = TRUE,
+                             empate = c("na", "moda"), escada = FALSE) {
+  # `empate` e `escada` faltavam aqui e existiam em todas as outras portas da
+  # CBO-2002, embora o bloco de doc ja as anunciasse por @inheritParams. A porta
+  # ficava presa em `empate = "na"` sem que o usuario pudesse mudar. Auditoria
+  # de 05/09/2026. Entram no fim da assinatura para nao mover posicao nenhuma.
+  isco88_para_egp(cbo2002_para_isco(cbo, empate, escada), conta_propria,
+                  n_supervisionados, n_classes, rotulo, avisar)
 }
 
 #' ISCO-08 a partir da CBO-2002
@@ -360,6 +365,19 @@ cbo94_para_isei <- function(cbo94) {
 #'   quando a linha e uma familia de quatro digitos sem ISCO majoritario; com
 #'   `empate = "na"` (padrao) o ISCO dessa linha sai `NA`, exatamente como em
 #'   [cbo2002_para_isco()] — a tabela nao pode devolver o que a porta recusa.
+#'
+#' @section A coluna `egp` sai degradada, e em silêncio:
+#' O EGP não é função só da ocupação: as suas regras pedem a posição no emprego
+#' e o número de subordinados, e nenhum dos dois existe num código de CBO-2002. A
+#' coluna é calculada sem eles, e a consequência não é ruído — **IVa, IVb e V
+#' saem estruturalmente vazias**, de modo que a pequena burguesia aparece
+#' contada como classe de serviço. Isso é inversão de classe, não
+#' arredondamento.
+#'
+#' A chamada silencia o aviso que [isco88_para_egp()] emitiria, porque repeti-lo
+#' uma vez por linha seria inútil; a ressalva passou a viver aqui, na auditoria
+#' de 05/09/2026. Para publicar, use os colapsos de 5 ou 3 classes, onde IVa e
+#' IVb se fundem a categorias que existem, e leia [isco88_para_egp()].
 #' @examples
 #' head(crosswalk_cbo2002())
 #' crosswalk_cbo2002(c("1111-05", "225120"))
@@ -554,6 +572,19 @@ checa_cobertura_cbo94 <- function(cbo94, silencioso = FALSE) {
 #'
 #' @param cbo94 Vetor opcional de codigos. Se omitido, devolve a tabua inteira.
 #' @return `data.frame` com CBO-94, ISCO-88, ISCO-08, ISEI-88, prestigio e EGP.
+#'
+#' @section A coluna `egp` sai degradada, e em silêncio:
+#' O EGP não é função só da ocupação: as suas regras pedem a posição no emprego
+#' e o número de subordinados, e nenhum dos dois existe num código de CBO-94. A
+#' coluna é calculada sem eles, e a consequência não é ruído — **IVa, IVb e V
+#' saem estruturalmente vazias**, de modo que a pequena burguesia aparece
+#' contada como classe de serviço. Isso é inversão de classe, não
+#' arredondamento.
+#'
+#' A chamada silencia o aviso que [isco88_para_egp()] emitiria, porque repeti-lo
+#' uma vez por linha seria inútil; a ressalva passou a viver aqui, na auditoria
+#' de 05/09/2026. Para publicar, use os colapsos de 5 ou 3 classes, onde IVa e
+#' IVb se fundem a categorias que existem, e leia [isco88_para_egp()].
 #' @examples
 #' head(crosswalk_cbo94())
 #' @export

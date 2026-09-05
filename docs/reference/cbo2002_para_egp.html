@@ -13,7 +13,7 @@ campos existirem, passe-os: o EGP so sai completo com eles."><meta property="og:
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -69,7 +69,9 @@ campos existirem, passe-os: o EGP so sai completo com eles.</p>
 <span>  n_supervisionados <span class="op">=</span> <span class="cn">NULL</span>,</span>
 <span>  n_classes <span class="op">=</span> <span class="fl">11</span>,</span>
 <span>  rotulo <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  avisar <span class="op">=</span> <span class="cn">TRUE</span></span>
+<span>  avisar <span class="op">=</span> <span class="cn">TRUE</span>,</span>
+<span>  empate <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"na"</span>, <span class="st">"moda"</span><span class="op">)</span>,</span>
+<span>  escada <span class="op">=</span> <span class="cn">FALSE</span></span>
 <span><span class="op">)</span></span></code></pre></div>
     </div>
 
@@ -104,6 +106,21 @@ inclusive nas colapsadas; se <code>FALSE</code>, os códigos inteiros.</p></dd>
 <dt id="arg-avisar">avisar<a class="anchor" aria-label="anchor" href="#arg-avisar"></a></dt>
 <dd><p>Se <code>TRUE</code> (padrão), avisa quando <code>conta_propria</code> ou
 <code>n_supervisionados</code> não são fornecidos.</p></dd>
+
+
+<dt id="arg-empate">empate<a class="anchor" aria-label="anchor" href="#arg-empate"></a></dt>
+<dd><p>O que fazer quando a familia nao tem ISCO majoritario:
+<code>"na"</code> (padrao) devolve <code>NA</code>; <code>"moda"</code> devolve o vencedor do desempate
+por menor codigo, como nas versoes anteriores.</p></dd>
+
+
+<dt id="arg-escada">escada<a class="anchor" aria-label="anchor" href="#arg-escada"></a></dt>
+<dd><p>Se <code>TRUE</code>, sobe a hierarquia da CBO quando a ocupacao de seis
+digitos nao esta na tabua: tenta a familia de 4, depois o subgrupo de 3,
+depois o subgrupo principal de 2. Leva a cobertura do dominio oficial de
+<strong>49,8% para 89,8%</strong>. Padrao <code>FALSE</code>, porque o resultado deixa de ser a
+ocupacao declarada e passa a ser o seu grupo. Use
+<code><a href="crosswalk_cbo2002.html">crosswalk_cbo2002()</a></code> para ver <code>nivel_usado</code> caso a caso.</p></dd>
 
 </dl></div>
     <div class="section level2">

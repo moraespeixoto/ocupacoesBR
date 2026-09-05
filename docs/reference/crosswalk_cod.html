@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -69,6 +69,24 @@
     <h2 id="valor">Valor<a class="anchor" aria-label="anchor" href="#valor"></a></h2>
     <p><code>data.frame</code> com COD, titulo, ISCO-08, ISCO-88, as duas versoes do
 ISEI, o prestigio, o EGP e o tipo de correspondencia.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="a-coluna-egp-sai-degradada-e-em-sil-ncio">A coluna <code>egp</code> sai degradada, e em silêncio<a class="anchor" aria-label="anchor" href="#a-coluna-egp-sai-degradada-e-em-sil-ncio"></a></h2>
+
+
+<p>O EGP não é função só da ocupação: as suas regras pedem a posição no emprego
+e o número de subordinados, e nenhum dos dois existe num código de COD da PNAD. A
+coluna é calculada sem eles, e a consequência não é ruído — <strong>IVa, IVb e V
+saem estruturalmente vazias</strong>, de modo que a pequena burguesia aparece
+contada como classe de serviço. Isso é inversão de classe, não
+arredondamento.</p>
+<p>A chamada silencia o aviso que <code><a href="isco88_para_egp.html">isco88_para_egp()</a></code> emitiria, porque repeti-lo
+uma vez por linha seria inútil; a ressalva passou a viver aqui, na auditoria
+de 05/09/2026. Para publicar, use os colapsos de 5 ou 3 classes, onde IVa e
+IVb se fundem a categorias que existem, e considere <a href="isco_posicao_br.html">isco_posicao_br</a> como
+prior empírico da posição no emprego. Compare com <code><a href="crosswalk_tse.html">crosswalk_tse()</a></code>, que é
+a única das quatro tabelas em que o EGP sai completo, porque o dicionário
+do TSE marca quem trabalha por conta própria.</p>
     </div>
 
     <div class="section level2">

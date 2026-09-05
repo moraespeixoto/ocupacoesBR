@@ -5,7 +5,7 @@
 \alias{tse_validacao}
 \title{Critério externo para aferir a medida: patrimônio e escolaridade por ocupação}
 \format{
-\code{data.frame} com 221 linhas e as colunas:
+\code{data.frame} com 220 linhas e as colunas:
 \describe{
 \item{cod_tse}{código de ocupação.}
 \item{n}{candidaturas com esse código, 1998--2026.}
@@ -32,7 +32,7 @@ candidatura e o grau de instrução. É contra ele que a vinheta
 \section{Por que agregado, e por que este piso}{
 
 A unidade é a \strong{ocupação}, não a candidatura, porque é nesse nível que uma
-medida de posição ocupacional é definida, e porque um agregado de 221 linhas
+medida de posição ocupacional é definida, e porque um agregado de 220 linhas
 não é microdado, não identifica ninguém e pode viajar com o pacote.
 
 Entram ocupações com pelo menos 200 candidaturas. A mediana de patrimônio
@@ -43,18 +43,38 @@ fica instável.
 
 \strong{O segundo piso zera a mediana; não descarta a linha}, e a diferença
 importa. Até 29/07/2026 ele descartava a linha inteira, o que amputava do
-conjunto 46 ocupações cuja escolaridade e cuja composição por gênero estão
+conjunto 44 ocupações cuja escolaridade e cuja composição por gênero estão
 perfeitamente medidas e que apenas carecem de declarações de bens. A
 consequência era que a regressão de gênero documentada em \code{\link[=tse_para_isei]{tse_para_isei()}}
 não se reproduzia a partir do dado publicado. Hoje reproduz. Quem correlacionar
 com patrimônio deve filtrar \code{!is.na(mediana_patrimonio)}; quem usar
-escolaridade ou gênero tem as 221 linhas à disposição.
+escolaridade ou gênero tem as 220 linhas à disposição.
+}
+
+\section{Os códigos reutilizados entram só na vigência nova}{
+
+Sete códigos foram reaproveitados para ocupação diferente depois de 2002
+(veja \link{tse_quebra_2002}). Até a auditoria de 05/09/2026 este conjunto os
+agregava sobre a série inteira, de modo que \code{pct_superior} e \code{pct_mulher}
+misturavam duas populações: o código 214 saía com 30,6\% de ensino superior
+porque metade da massa era DELEGADO DE POLÍCIA, quando ESCULTOR E PINTOR tem
+2,3\%; o 521 saía com 42,3\% de mulheres onde a GOVERNANTA tem 97,2\%. Hoje
+cada um desses códigos entra apenas a partir do seu \code{primeiro_ano_novo}, que
+é o mesmo corte que o argumento \verb{ano =} das funções de tradução aplica. Um
+deles deixou de alcançar o piso de 200 candidaturas dentro da própria
+vigência e saiu do conjunto — por isso 220 linhas, e não 221.
+
+O efeito sobre as correlações é imperceptível (a de escolaridade não se move
+na terceira casa), porque são 7 códigos em 220 e cerca de 1.800 candidaturas
+em 3,37 milhões. A correção não é pelo tamanho: é porque quem toma este
+conjunto como a tabela descritiva por ocupação — que é para isso que ele é
+publicado — lia cinco linhas materialmente erradas.
 }
 
 \section{As correlações que este conjunto sustenta}{
 
-Contra a escolaridade, sobre as 208 ocupações com ISEI: r = 0,765 (Spearman
-0,812). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
+Contra a escolaridade, sobre as 207 ocupações com ISEI: r = 0,765 (Spearman
+0,816). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
 têm mediana: r = 0,681 (Spearman 0,695). No nível do \strong{indivíduo} a
 correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,681
 é o resultado, não um defeito: o ISEI explica a variação entre ocupações e

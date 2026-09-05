@@ -57,13 +57,13 @@ quem analisa precisa poder condicionar ou excluir.}
 \section{O que ele erra, medido}{
 
 O carregamento supõe que a ocupação da pessoa não mudou. Ela muda com
-frequência. Entre os \strong{680.317} pares de candidaturas consecutivas da mesma
+frequência. Entre os \strong{684.179} pares de candidaturas consecutivas da mesma
 pessoa em que o ISEI foi \strong{observado nas duas pontas} — isto é, onde dá para
 conferir:
 
 \describe{
-\item{52,1\%}{mudam de código de ocupação.}
-\item{45,3\%}{mudam de escore ISEI.}
+\item{52,2\%}{mudam de código de ocupação.}
+\item{45,2\%}{mudam de escore ISEI.}
 \item{18,9 pontos}{é a diferença absoluta média \strong{quando} muda.}
 }
 
@@ -87,7 +87,7 @@ suposição que este parágrafo mostra ser falsa em quase metade dos casos.
 \section{O que ele resolve, medido}{
 
 Nas candidaturas ao TSE de 1998 a 2024, a cobertura do ISEI sobe de 68,5\%
-para 76,0\% entre homens e de \strong{52,9\% para 58,7\% entre mulheres}. A janela
+para 76,0\% entre homens e de \strong{52,9\% para 58,8\% entre mulheres}. A janela
 para aqui de propósito, e não por desatualização: a medição exige o painel
 por pessoa, que identifica a mesma candidatura em eleições diferentes, e a
 safra de 2026 ainda não tem esse painel montado. O restante do pacote vai a

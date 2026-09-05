@@ -15,7 +15,7 @@ em aberto."><meta property="og:image" content="https://moraespeixoto.github.io/o
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -146,6 +146,24 @@ contra a especificação adotada, e a parcela mediada fica sempre entre 57,9%
 e 60,1%. Quem reproduz esses três números é
 <code>data-raw/09b_sensibilidade_isei_br.R</code>, que imprime a tabela inteira e não
 grava nada.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="a-escala-n-o-a-do-isei-e-isso-importa-na-compara-o">A escala não é a do ISEI, e isso importa na comparação<a class="anchor" aria-label="anchor" href="#a-escala-n-o-a-do-isei-e-isso-importa-na-compara-o"></a></h2>
+
+
+<p>Os escores saem de um min–max sobre as células de estimação, para o
+intervalo de 10 a 90. O intervalo é o mesmo do ISEI, a <strong>dispersão não</strong>: o
+desvio padrão do ISEI-BR é da ordem de 14 a 15, contra 21 do ISEI-08, porque
+o min–max é governado pelas células extremas. A consequência é operacional
+e foi encontrada na auditoria de 05/09/2026: a diferença bruta
+<code>isei_br - isei08</code> correlaciona-se a <strong>-0,85</strong> com o próprio <code>isei08</code>, de
+modo que a lista das ocupações que "mais sobem" é, em boa parte, a lista das
+que estavam mais embaixo. Num gráfico das duas, a diagonal de 45 graus marca
+a igualdade de escore e não a de posição.</p>
+<p>Para comparar as duas réguas, padronize as duas antes de subtrair. É o que
+<code><a href="../articles/validacao.html">vignette("validacao")</a></code> passou a fazer. Para usar o ISEI-BR sozinho — que é
+o uso previsto — nada disso importa, porque a escala é monotônica e qualquer
+análise por ordenamento é indiferente a ela.</p>
     </div>
     <div class="section level2">
     <h2 id="o-que-se-perde">O que se perde<a class="anchor" aria-label="anchor" href="#o-que-se-perde"></a></h2>

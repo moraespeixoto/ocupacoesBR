@@ -11,7 +11,10 @@
 #' o seu dado é atingido.
 #'
 #' @section Como os casos foram identificados:
-#' Não por rótulo — o pacote não distribui os rótulos do TSE —, e sim pelo dado.
+#' Não pelo rótulo, e sim pelo dado. Os rótulos existem e o pacote os
+#' distribui ([tse_ocupacao_rotulos], [tse_para_rotulo()]), mas um rótulo novo
+#' tanto pode ser a mesma ocupação rebatizada quanto outra ocupação no mesmo
+#' código, e sozinho não distingue as duas coisas.
 #' Para cada código presente nos dois períodos, comparou-se a proporção de
 #' candidatos com ensino superior completo. A escolaridade sobe ao longo de todo
 #' o período, então altas de 20 a 27 pontos são a tendência geral. Uma queda de

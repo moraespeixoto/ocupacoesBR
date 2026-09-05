@@ -212,6 +212,22 @@ checa_cobertura_cod <- function(cod, silencioso = FALSE) {
 #' @param cod Vetor opcional de codigos. Se omitido, devolve a tabela inteira.
 #' @return `data.frame` com COD, titulo, ISCO-08, ISCO-88, as duas versoes do
 #'   ISEI, o prestigio, o EGP e o tipo de correspondencia.
+#'
+#' @section A coluna `egp` sai degradada, e em silêncio:
+#' O EGP não é função só da ocupação: as suas regras pedem a posição no emprego
+#' e o número de subordinados, e nenhum dos dois existe num código de COD da PNAD. A
+#' coluna é calculada sem eles, e a consequência não é ruído — **IVa, IVb e V
+#' saem estruturalmente vazias**, de modo que a pequena burguesia aparece
+#' contada como classe de serviço. Isso é inversão de classe, não
+#' arredondamento.
+#'
+#' A chamada silencia o aviso que [isco88_para_egp()] emitiria, porque repeti-lo
+#' uma vez por linha seria inútil; a ressalva passou a viver aqui, na auditoria
+#' de 05/09/2026. Para publicar, use os colapsos de 5 ou 3 classes, onde IVa e
+#' IVb se fundem a categorias que existem, e considere [isco_posicao_br] como
+#' prior empírico da posição no emprego. Compare com [crosswalk_tse()], que é
+#' a única das quatro tabelas em que o EGP sai completo, porque o dicionário
+#' do TSE marca quem trabalha por conta própria.
 #' @examples
 #' head(crosswalk_cod())
 #' crosswalk_cod(c("2211", "0411", "6225"))

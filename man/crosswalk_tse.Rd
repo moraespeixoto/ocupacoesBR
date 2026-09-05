@@ -21,6 +21,26 @@ de ocupação do TSE. Serve para inspecionar a medida antes de aplicá-la, para
 publicar como material suplementar de um artigo e para auditar decisões de
 classificação uma a uma.
 }
+\section{A coluna \code{egp}, e por que só aqui ela é comparável}{
+
+Esta é a única das quatro tabelas de tradução em que o EGP sai com a posição
+no emprego informada: o dicionário do TSE marca em \code{tse_isco$conta_propria}
+quem trabalha por conta própria, e é essa marca — não \code{proprietario} — que
+corresponde ao \code{SEMPL = 2} das sintaxes do ISMF. Por isso IVb e IVc aparecem
+aqui e saem vazias em \code{\link[=crosswalk_cod]{crosswalk_cod()}}, \code{\link[=crosswalk_cbo2002]{crosswalk_cbo2002()}} e
+\code{\link[=crosswalk_cbo94]{crosswalk_cbo94()}}, onde o código não carrega posição alguma.
+
+O que \strong{continua} faltando é o número de subordinados: IVa e IVb não se
+separam, todos caem em IVb, e V fica subestimada. Para publicar, prefira os
+colapsos de 7 ou 5 classes.
+
+Até 05/09/2026 esta coluna usava \code{proprietario}, e discordava de
+\code{\link[=tse_para_egp]{tse_para_egp()}} em dois códigos — o agricultor (601) e o pescador (604)
+saíam em VIIb aqui e em IVc na função. Como esta tabela existe para ser
+publicada como suplemento, o suplemento contradizia o código que produziu as
+estimativas. As duas saídas hoje são idênticas por teste.
+}
+
 \examples{
 head(crosswalk_tse())
 crosswalk_tse(c(111, 169, 257))

@@ -178,6 +178,8 @@ diretamente é legítimo e recomendado.
   ocupação
 - [`tse_dispersao_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
   : Dispersão do patrimônio dentro de cada nível de status
+- [`tse_autorrotulo_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_autorrotulo_patrimonio.md)
+  : Patrimônio por trás dos códigos que são autodescrição
 - [`isco88_medidas`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_medidas.md)
   : Medidas ancoradas na ISCO-88
 - [`isco08_medidas`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_medidas.md)
@@ -221,3 +223,13 @@ inteiramente. Prefira as funções `*_prestigio*`.
   : Prestigio ancorado na ISCO-08 a partir da CBO-2002
 - [`cbo94_para_siops()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_siops.md)
   : Prestigio ocupacional de Treiman a partir da CBO-94
+
+## O pacote
+
+A visão geral, com as duas portas de entrada e a política de
+proveniência.
+
+- [`ocupacoesBR`](https://moraespeixoto.github.io/ocupacoesBR/reference/ocupacoesBR-package.md)
+  [`ocupacoesBR-package`](https://moraespeixoto.github.io/ocupacoesBR/reference/ocupacoesBR-package.md)
+  : ocupacoesBR: da ocupação brasileira a medidas padronizadas de
+  posição social

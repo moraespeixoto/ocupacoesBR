@@ -94,6 +94,26 @@ mediada fica sempre entre 57,9% e 60,1%. Quem reproduz esses três
 números é `data-raw/09b_sensibilidade_isei_br.R`, que imprime a tabela
 inteira e não grava nada.
 
+## A escala não é a do ISEI, e isso importa na comparação
+
+Os escores saem de um min–max sobre as células de estimação, para o
+intervalo de 10 a 90. O intervalo é o mesmo do ISEI, a **dispersão
+não**: o desvio padrão do ISEI-BR é da ordem de 14 a 15, contra 21 do
+ISEI-08, porque o min–max é governado pelas células extremas. A
+consequência é operacional e foi encontrada na auditoria de 05/09/2026:
+a diferença bruta `isei_br - isei08` correlaciona-se a **-0,85** com o
+próprio `isei08`, de modo que a lista das ocupações que "mais sobem" é,
+em boa parte, a lista das que estavam mais embaixo. Num gráfico das
+duas, a diagonal de 45 graus marca a igualdade de escore e não a de
+posição.
+
+Para comparar as duas réguas, padronize as duas antes de subtrair. É o
+que
+[`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
+passou a fazer. Para usar o ISEI-BR sozinho — que é o uso previsto —
+nada disso importa, porque a escala é monotônica e qualquer análise por
+ordenamento é indiferente a ela.
+
 ## O que se perde
 
 A COD funde oficiais e praças de polícia e bombeiro militar, então a

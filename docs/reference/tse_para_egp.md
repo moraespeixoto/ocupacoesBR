@@ -74,16 +74,24 @@ Vetor de texto (ou inteiro, se `rotulo = FALSE`).
 
 ## A posição no emprego que o dicionário conhece
 
-O TSE não pergunta posição na ocupação, mas dez dos seus códigos
-**nomeiam** o proprietário no próprio rótulo da ocupação — comerciante,
-empresário, pecuarista, proprietário de estabelecimento. O dicionário do
-pacote os marca em `tse_isco$proprietario`, e essa marca é exatamente o
-`SEMPL = 2` que as sintaxes do ISMF pedem.
+O TSE não pergunta posição na ocupação, mas alguns dos seus códigos
+**nomeiam** no próprio rótulo quem trabalha por conta própria —
+comerciante, empresário, pecuarista, proprietário de estabelecimento, e
+também o agricultor e o pescador. O dicionário marca essa condição em
+`tse_isco$conta_propria`, e é ela, não `proprietario`, que corresponde
+ao `SEMPL = 2` das sintaxes do ISMF. As duas marcas são distintas desde
+07/2026: `proprietario` é o subconjunto que pertence à classe
+proprietária, e o agricultor (601) e o pescador (604) estão fora dele
+sem deixarem de trabalhar por conta própria. Enquanto eram uma coisa só,
+os dois caíam em VIIb, o fundo do esquema, ao lado do assalariado rural.
 
-Por padrão (`usa_proprietario = TRUE`) a função a utiliza. Sem ela,
-esses códigos caíam em II — a classe de serviço assalariada —, o que é
-uma inversão: a pequena burguesia contada como classe de serviço. Os
-códigos afetados são 169, 902, 903, 904 e 905.
+Por padrão (`usa_proprietario = TRUE` — o nome do argumento é anterior à
+separação das duas marcas e foi mantido por compatibilidade) a função a
+utiliza. São doze os códigos marcados, e sete deles mudam de classe por
+causa dela. Cinco — 169, 902, 903, 904 e 905 — sairiam em II, a classe
+de serviço assalariada, o que é uma inversão: a pequena burguesia
+contada como classe de serviço. Os outros dois — 601 e 604 — sairiam em
+VIIb, ao lado do assalariado rural.
 
 O que **continua** indeterminado é a divisão entre IVa (conta própria
 com empregados) e IVb (sem), que exige o número de subordinados. Todos

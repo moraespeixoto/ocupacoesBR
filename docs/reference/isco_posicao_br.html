@@ -11,7 +11,7 @@ PNAD Contínua de 2025."><meta property="og:image" content="https://moraespeixot
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -142,6 +142,21 @@ assalariado rural. O dado brasileiro separa as duas com folga:</p><table class="
 sem pertencer à classe proprietária.</p>
 <p>Como candidatos são selecionados por patrimônio, tomar estas proporções
 como piso — e não como estimativa central — é a leitura conservadora.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="a-tabela-atravessa-a-ponte-reversa">A tabela atravessa a ponte reversa<a class="anchor" aria-label="anchor" href="#a-tabela-atravessa-a-ponte-reversa"></a></h2>
+
+
+<p>A PNAD classifica por COD, e a chave desta tabela é a ISCO-88, de modo que
+<code>data-raw/07_gera_posicao.R</code> percorre COD -&gt; ISCO-08 -&gt; ISCO-88. O segundo
+passo é a ponte reversa, que <code><a href="isco08_para_isco88.html">isco08_para_isco88()</a></code> documenta como voltando
+ao ponto de partida em apenas 69% dos códigos. A advertência existia lá e
+não aqui, que é onde quem usa esta tabela vai olhar (auditoria de
+05/09/2026).</p>
+<p>Na prática o dano é pequeno, porque as linhas publicadas são grupos de dois
+dígitos e a perda da ponte está sobretudo no quarto. Mas quem descer ao
+código de quatro dígitos desta tabela deve saber que a chave passou por uma
+tradução que não é bijetiva.</p>
     </div>
 
     <div class="section level2">

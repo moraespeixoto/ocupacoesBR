@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.5.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -377,17 +377,44 @@ registro nenhum:</p>
 tipografia — mas não com a mesma procedência. Para chegar a 85, é
 preciso estar inscrito na OAB; para chegar a 68, basta escrever
 “empresário” no formulário.</p>
-<p>E o que esse 68 cobre: entre os que se declaram empresário, o
-patrimônio mediano vai de R$ 370 mil (candidatos a vereador) a R$ 9,3
-milhões (candidatos a senador), e dentro do código os extremos distam
-<strong>80 vezes</strong>. Não é erro de medida: é uma
-<strong>mistura</strong> de duas populações — o microempreendedor e o
-capitalista — sob um rótulo só. Nenhum escore único está certo para as
-duas, e por isso trocar o 68 por outro número não resolveria.</p>
+<p>E o que esse 68 cobre:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">tse_autorrotulo_patrimonio</span></span>
+<span><span class="va">p</span><span class="op">[</span><span class="va">p</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op">==</span> <span class="st">"257"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cargo"</span>, <span class="st">"n"</span>, <span class="st">"p10"</span>, <span class="st">"mediana"</span>, <span class="st">"p90"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt;                 cargo      n    p10 mediana      p90</span></span>
+<span><span class="co">#&gt; 25           VEREADOR  80829  16285  185000   996021</span></span>
+<span><span class="co">#&gt; 26           PREFEITO  10691 129521  812544  5089263</span></span>
+<span><span class="co">#&gt; 27  DEPUTADO ESTADUAL   5275  31723  410824  3300418</span></span>
+<span><span class="co">#&gt; 28 DEPUTADO DISTRITAL    289  34773  420496  3867513</span></span>
+<span><span class="co">#&gt; 29   DEPUTADO FEDERAL   2772  39985  646282  5935381</span></span>
+<span><span class="co">#&gt; 30            SENADOR     95 352110 4678498 75937286</span></span>
+<span><span class="co">#&gt; 31         GOVERNADOR     66 225763 3548117 74426844</span></span>
+<span><span class="co">#&gt; 32              TODOS 100017  19804  229468  1496826</span></span></code></pre></div>
+<p>Entre os que se declaram empresário, o patrimônio mediano vai de R$
+185 mil (candidatos a vereador) a R$ 4,7 milhões (candidatos a senador),
+e dentro do código os extremos distam dezenas de vezes:</p>
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">todos</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">[</span><span class="va">p</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op">==</span> <span class="st">"257"</span> <span class="op">&amp;</span> <span class="va">p</span><span class="op">$</span><span class="va">cargo</span> <span class="op">==</span> <span class="st">"TODOS"</span>, <span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">todos</span><span class="op">$</span><span class="va">p90</span> <span class="op">/</span> <span class="va">todos</span><span class="op">$</span><span class="va">p10</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 75.6</span></span></code></pre></div>
+<p>Não é erro de medida: é uma <strong>mistura</strong> de duas
+populações — o microempreendedor e o capitalista — sob um rótulo só.
+Nenhum escore único está certo para as duas, e por isso trocar o 68 por
+outro número não resolveria.</p>
+<p>Compare com o 131, que é ancorado na OAB. O gradiente por cargo
+existe nos dois — quem disputa posto mais alto é mais rico —, mas a
+distância entre os extremos é bem menor onde o rótulo pressupõe registro
+externo:</p>
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">[</span><span class="va">p</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"131"</span>, <span class="st">"257"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">p</span><span class="op">$</span><span class="va">cargo</span> <span class="op">==</span> <span class="st">"TODOS"</span>, <span class="op">]</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="st">"rotulo"</span><span class="op">]</span>, razao_p90_p10 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">a</span><span class="op">$</span><span class="va">p90</span> <span class="op">/</span> <span class="va">a</span><span class="op">$</span><span class="va">p10</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        rotulo razao_p90_p10</span></span>
+<span><span class="co">#&gt; 8    ADVOGADO          47.8</span></span>
+<span><span class="co">#&gt; 32 EMPRESARIO          75.6</span></span></code></pre></div>
 <p>Isso não invalida o código; torna-o menos confiável que os ancorados,
 de um jeito que a tabela não mostra. A saída é sensibilidade, não
 conserto:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>cod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"131"</span>, <span class="st">"257"</span>, <span class="st">"111"</span>, <span class="st">"265"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">d</span><span class="op">$</span><span class="va">isei</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">cod</span><span class="op">)</span></span>
 <span><span class="va">d</span><span class="op">$</span><span class="va">isei_ancorado</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">cod</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">tse_codigos_autorrotulo</span>, <span class="cn">NA</span>, <span class="va">d</span><span class="op">$</span><span class="va">isei</span><span class="op">)</span></span>

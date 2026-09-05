@@ -73,6 +73,19 @@ cod_para_isei_br <- function(cod) {
 #' Versao para o microdado do trabalho a partir de 2003, RAIS, CAGED e
 #' eSocial. Leia [tse_para_isei_br()] para o que a regua e e o que ela nao e.
 #'
+#' @section Duas pontes empilhadas:
+#' O caminho e CBO-2002 -> ISCO-88 (tabua do Ministerio do Trabalho) -> ISCO-08
+#' (ponte da OIT) -> ISEI-BR, e a segunda ponte e ambigua em cerca de um terco
+#' dos codigos de origem. A ressalva e a mesma de [cbo2002_para_isei08()] e
+#' [cbo2002_para_prestigio08()], que ja a traziam; esta porta nao a trazia ate
+#' 05/09/2026.
+#'
+#' Vale ainda lembrar a data. O ISEI-BR e uma regua estimada em 2025 e que a
+#' propria documentacao declara nao formar serie. Foi esse o argumento que
+#' retirou a porta pela CBO-94 na versao 0.5.1. Ele nao se aplica aqui com a
+#' mesma forca — a CBO-2002 esta em uso hoje —, mas se aplica ao inicio de uma
+#' serie de RAIS que comece em 2003.
+#'
 #' @inheritParams cbo2002_para_isco
 #' @return Vetor numerico com o escore ISEI-BR, entre 10 e 90.
 #' @seealso [tse_para_isei_br()], [isco08_isei_br]

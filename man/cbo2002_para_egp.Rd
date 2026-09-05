@@ -10,7 +10,9 @@ cbo2002_para_egp(
   n_supervisionados = NULL,
   n_classes = 11,
   rotulo = TRUE,
-  avisar = TRUE
+  avisar = TRUE,
+  empate = c("na", "moda"),
+  escada = FALSE
 )
 }
 \arguments{
@@ -30,6 +32,17 @@ inclusive nas colapsadas; se \code{FALSE}, os códigos inteiros.}
 
 \item{avisar}{Se \code{TRUE} (padrão), avisa quando \code{conta_propria} ou
 \code{n_supervisionados} não são fornecidos.}
+
+\item{empate}{O que fazer quando a familia nao tem ISCO majoritario:
+\code{"na"} (padrao) devolve \code{NA}; \code{"moda"} devolve o vencedor do desempate
+por menor codigo, como nas versoes anteriores.}
+
+\item{escada}{Se \code{TRUE}, sobe a hierarquia da CBO quando a ocupacao de seis
+digitos nao esta na tabua: tenta a familia de 4, depois o subgrupo de 3,
+depois o subgrupo principal de 2. Leva a cobertura do dominio oficial de
+\strong{49,8\% para 89,8\%}. Padrao \code{FALSE}, porque o resultado deixa de ser a
+ocupacao declarada e passa a ser o seu grupo. Use
+\code{\link[=crosswalk_cbo2002]{crosswalk_cbo2002()}} para ver \code{nivel_usado} caso a caso.}
 }
 \value{
 Vetor de texto (ou inteiro, se \code{rotulo = FALSE}).

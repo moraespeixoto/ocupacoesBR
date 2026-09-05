@@ -2,8 +2,8 @@
 
 ## Verificação
 
-`R CMD check --as-cran` na versão 0.3.0, x86_64-pc-linux-gnu (Ubuntu 26.04):
-**0 ERROR, 0 WARNING, 2 NOTEs.**
+`R CMD check --as-cran` na versão 0.5.2, x86_64-pc-linux-gnu (Ubuntu 26.04):
+**0 ERROR, 0 WARNING, 2 NOTEs.** 1.547 testes passam, sem SKIP.
 
 A segunda NOTE é do ambiente de verificação, não do pacote: `checking HTML
 version of manual` avisa que o utilitário `tidy` não está instalado na
@@ -22,7 +22,9 @@ esperados:
 (`test-fonte.R`), protegida por `skip_if_not_installed()`. Nunca é carregado em
 uso normal, e a sua ausência não afeta nenhum resultado do pacote.
 
-**3. "URL ... Status: 404"** — são três URLs, e todas pelo mesmo motivo: o
+**3. "URL ... Status: 404"** — não apareceu na verificação de 05/09/2026,
+porque a máquina estava sem rede e o verificador pulou a checagem de URLs. Ela
+volta a aparecer num ambiente conectado, e são três URLs, todas pelo mesmo motivo: o
 repositório está privado enquanto o pacote passa por revisão, e o verificador
 do CRAN é anônimo. Duas apontam para o repositório e para o rastreador de
 problemas; a terceira,

@@ -27,7 +27,7 @@ v <- v[!is.na(v$isei), ]
 vb <- v[!is.na(v$mediana_patrimonio), ]
 c(com_escolaridade = nrow(v), com_patrimonio = nrow(vb))
 #> com_escolaridade   com_patrimonio 
-#>              208              165
+#>              207              165
 ```
 
 ## O resultado
@@ -51,7 +51,7 @@ data.frame(
   spearman = c(r(v$isei, v$pct_superior, "spearman"),
                r(vb$isei, log(vb$mediana_patrimonio), "spearman")))
 #>                       criterio   n pearson spearman
-#> 1        % com ensino superior 208   0.765    0.811
+#> 1        % com ensino superior 207   0.765    0.816
 #> 2 log da mediana de patrimonio 165   0.681    0.695
 ```
 
@@ -92,7 +92,7 @@ d[order(-d$isei), ]
 #> 126 PROFESSOR DE ENSINO FUNDAMENTAL   66         74.8              96893
 #> 57                      COMERCIANTE   51          7.1             148044
 #> 11                       ENFERMEIRO   43         59.6             111353
-#> 189                      AGRICULTOR   23          2.5             122395
+#> 188                      AGRICULTOR   23          2.5             122395
 ```
 
 O comerciante e o empresário têm ISEI de classe média e patrimônio de
@@ -136,7 +136,7 @@ round(c(feminina = mean(v$isei[fem]), masculina = mean(v$isei[!fem])), 1)
 round(c(feminina = mean(v$pct_superior[fem]),
         masculina = mean(v$pct_superior[!fem])), 1)
 #>  feminina masculina 
-#>      32.1      24.0
+#>      32.1      23.8
 ```
 
 Ocupações majoritariamente femininas têm **mais** escolaridade e
@@ -168,9 +168,9 @@ data.frame(
                           log(w$mediana_patrimonio), m = "spearman"),
   row.names = NULL)
 #>     regua escolaridade patrimonio patrimonio_rho
-#> 1 ISEI-88        0.774      0.681          0.695
-#> 2 ISEI-08        0.783      0.676          0.708
-#> 3 ISEI-BR        0.736      0.716          0.768
+#> 1 ISEI-88        0.775      0.681          0.695
+#> 2 ISEI-08        0.782      0.676          0.708
+#> 3 ISEI-BR        0.741      0.716          0.768
 ```
 
 São 165 ocupações, as mesmas nas três linhas.
@@ -193,6 +193,8 @@ d <- w[order(-abs(w$isei_br - w$isei08)), ]
 plot(w$isei08, w$isei_br, pch = 19, col = "#00000055",
      xlab = "ISEI-08 (importado)", ylab = "ISEI-BR (PNAD Contínua)",
      xlim = c(10, 90), ylim = c(10, 90))
+# a diagonal marca a igualdade de ESCORE, nao a de posicao: as duas escalas
+# tem dispersoes diferentes, e a leitura correta vem logo abaixo
 abline(0, 1, col = "#C0392B", lty = 2)
 text(d$isei08[1:6], d$isei_br[1:6], substr(d$rotulo[1:6], 1, 22),
      pos = 4, cex = 0.65, col = "#1B4F72", xpd = NA)
@@ -200,17 +202,66 @@ text(d$isei08[1:6], d$isei_br[1:6], substr(d$rotulo[1:6], 1, 22),
 
 ![](validacao_files/figure-html/isei-br-1.png)
 
-As que mais sobem são ocupações manuais e de segurança pública: operador
-de implemento agrícola, policial militar e civil, bombeiro, motoboy. São
-trabalhos que a régua importada põe na base e que no Brasil pagam acima
-do que o escore internacional sugere.
+A diagonal vermelha do gráfico é tentadora e engana. As duas escalas não
+têm a mesma dispersão: o ISEI-BR sai de um min–max sobre as células de
+estimação, e o seu desvio padrão nestas ocupações é bem menor que o do
+ISEI-08.
+
+``` r
+c(isei08 = sd(w$isei08), isei_br = sd(w$isei_br))
+#>   isei08  isei_br 
+#> 21.35294 14.49087
+```
+
+Numa escala mais estreita, o topo cai e a base sobe por construção. A
+conta que mostra o tamanho do problema é esta:
+
+``` r
+z <- function(x) (x - mean(x)) / sd(x)
+c(bruta       = cor(w$isei_br - w$isei08, w$isei08),
+  padronizada = cor(z(w$isei_br) - z(w$isei08), w$isei08))
+#>       bruta padronizada 
+#>  -0.8425687  -0.1731228
+```
+
+A diferença **bruta** correlaciona-se a −0,85 com o próprio ISEI-08 —
+ler nela uma relocação substantiva é ler, em boa parte, de onde a
+ocupação partiu. Igualando média e desvio, a correlação some. Então a
+leitura tem de ser feita sobre a diferença padronizada:
+
+``` r
+w$d <- z(w$isei_br) - z(w$isei08)
+sobem  <- head(w[order(-w$d), c("rotulo", "isei08", "isei_br")], 6)
+descem <- head(w[order(w$d),  c("rotulo", "isei08", "isei_br")], 6)
+rbind(sobem, descem)
+#>                                              rotulo isei08 isei_br
+#> 36                                   BOMBEIRO CIVIL  51.50    69.1
+#> 101                                  POLICIAL CIVIL  51.50    69.1
+#> 102                                POLICIAL MILITAR  51.50    69.1
+#> 122                                BOMBEIRO MILITAR  51.50    69.1
+#> 140                             DIRETOR DE EMPRESAS  70.34    80.7
+#> 9                                            MÉDICO  88.70    87.7
+#> 88                                ESCULTOR E PINTOR  61.82    44.2
+#> 89                  ARTISTA PLÁSTICO E ASSEMELHADOS  61.82    44.2
+#> 214 SACERDOTE OU MEMBRO DE ORDEM OU SEITA RELIGIOSA  71.55    54.8
+#> 51                              CANTOR E COMPOSITOR  64.44    50.1
+#> 52                                           MÚSICO  64.44    50.1
+#> 104  PROFESSOR E INSTRUTOR DE FORMACAO PROFISSIONAL  72.30    57.9
+```
+
+As que mais sobem são as de segurança pública: policial civil e militar,
+bombeiro. São trabalhos que a régua importada põe no meio da tabela e
+que no Brasil pagam acima do que o escore internacional sugere. Ao lado
+deles aparecem o diretor de empresas e o médico — e é justamente isso
+que a comparação bruta escondia, porque ocupações de topo não têm para
+onde subir numa escala comprimida.
 
 As que mais descem são as profissões artísticas, o clero e as liberais
-da saúde: escultor, artista plástico, sacerdote, veterinário,
-odontólogo, farmacêutico. Credencial alta, remuneração modesta. É a
-mesma anomalia do cuidado vista pelo outro lado: a régua importada mede
-sobretudo credencial, e no Brasil credencial e remuneração andam mais
-separadas do que ela supõe.
+da saúde: escultor, artista plástico, sacerdote, cantor, veterinário,
+farmacêutico. Credencial alta, remuneração modesta. É a mesma anomalia
+do cuidado vista pelo outro lado: a régua importada mede sobretudo
+credencial, e no Brasil credencial e remuneração andam mais separadas do
+que ela supõe.
 
 ## O que esta vinheta não prova
 
@@ -236,7 +287,7 @@ A terceira é que 242 das 590 linhas foram apuradas num grupo mais grosso
 que a própria ocupação, por falta de amostra. A coluna `nivel` diz
 quais, e quem depende de uma ocupação específica deve conferi-la antes.
 
-A quarta é que a correlação no nível do indivíduo, em
+A quarta é que a correlação no nível da candidatura, em
 `tse_dispersao_patrimonio`, existe só para o ISEI-88, porque a tabela de
 somatórios é indexada por faixas daquela régua. Refazê-la para a
 brasileira é trabalho de outra rodada.

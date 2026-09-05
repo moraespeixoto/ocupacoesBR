@@ -298,13 +298,48 @@ tipografia — mas não com a mesma procedência. Para chegar a 85, é
 preciso estar inscrito na OAB; para chegar a 68, basta escrever
 “empresário” no formulário.
 
-E o que esse 68 cobre: entre os que se declaram empresário, o patrimônio
-mediano vai de R\$ 370 mil (candidatos a vereador) a R\$ 9,3 milhões
-(candidatos a senador), e dentro do código os extremos distam **80
-vezes**. Não é erro de medida: é uma **mistura** de duas populações — o
+E o que esse 68 cobre:
+
+``` r
+p <- tse_autorrotulo_patrimonio
+p[p$cod_tse == "257", c("cargo", "n", "p10", "mediana", "p90")]
+#>                 cargo      n    p10 mediana      p90
+#> 25           VEREADOR  80829  16285  185000   996021
+#> 26           PREFEITO  10691 129521  812544  5089263
+#> 27  DEPUTADO ESTADUAL   5275  31723  410824  3300418
+#> 28 DEPUTADO DISTRITAL    289  34773  420496  3867513
+#> 29   DEPUTADO FEDERAL   2772  39985  646282  5935381
+#> 30            SENADOR     95 352110 4678498 75937286
+#> 31         GOVERNADOR     66 225763 3548117 74426844
+#> 32              TODOS 100017  19804  229468  1496826
+```
+
+Entre os que se declaram empresário, o patrimônio mediano vai de R\$ 185
+mil (candidatos a vereador) a R\$ 4,7 milhões (candidatos a senador), e
+dentro do código os extremos distam dezenas de vezes:
+
+``` r
+todos <- p[p$cod_tse == "257" & p$cargo == "TODOS", ]
+round(todos$p90 / todos$p10, 1)
+#> [1] 75.6
+```
+
+Não é erro de medida: é uma **mistura** de duas populações — o
 microempreendedor e o capitalista — sob um rótulo só. Nenhum escore
 único está certo para as duas, e por isso trocar o 68 por outro número
 não resolveria.
+
+Compare com o 131, que é ancorado na OAB. O gradiente por cargo existe
+nos dois — quem disputa posto mais alto é mais rico —, mas a distância
+entre os extremos é bem menor onde o rótulo pressupõe registro externo:
+
+``` r
+a <- p[p$cod_tse %in% c("131", "257") & p$cargo == "TODOS", ]
+data.frame(a["rotulo"], razao_p90_p10 = round(a$p90 / a$p10, 1))
+#>        rotulo razao_p90_p10
+#> 8    ADVOGADO          47.8
+#> 32 EMPRESARIO          75.6
+```
 
 Isso não invalida o código; torna-o menos confiável que os ancorados, de
 um jeito que a tabela não mostra. A saída é sensibilidade, não conserto:

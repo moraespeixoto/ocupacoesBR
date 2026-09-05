@@ -75,3 +75,33 @@ test_that("tse_codigos_autorrotulo e usavel e coerente", {
   expect_true(is.na(ancorado[2]))
   expect_false(any(is.na(ancorado[c(1, 3)])))
 })
+
+test_that("tse_autorrotulo_patrimonio sustenta o que a doc afirma sobre o 257", {
+  # Auditoria de 05/09/2026: estes numeros viviam digitados em
+  # `?tse_para_componente_alta` e sobreviveram errados (dobrados) a correcao do
+  # patrimonio. Agora saem do objeto, e o teste trava a leitura.
+  p <- tse_autorrotulo_patrimonio
+  expect_true(all(c("cod_tse", "rotulo", "cargo", "ancorado",
+                    "n", "p10", "mediana", "p90") %in% names(p)))
+  expect_true(all(p$n >= attr(p, "n_min")))
+  expect_true(all(p$p10 <= p$mediana & p$mediana <= p$p90))
+  # "TODOS" e a linha agregada, e todo codigo da tabela tem a sua
+  expect_setequal(p$cod_tse[p$cargo == "TODOS"], unique(p$cod_tse))
+  # ela nao pode ser menor que qualquer celula de cargo do mesmo codigo
+  for (k in unique(p$cod_tse)) {
+    tot <- p$n[p$cod_tse == k & p$cargo == "TODOS"]
+    expect_gte(tot, max(p$n[p$cod_tse == k & p$cargo != "TODOS"]))
+  }
+  # os dez autodeclarados sao os de tse_codigos_autorrotulo; o 131 e o ancorado
+  expect_setequal(p$cod_tse[p$ancorado], "131")
+  expect_true(all(p$cod_tse[!p$ancorado] %in% tse_codigos_autorrotulo))
+
+  # a afirmacao substantiva: o gradiente por cargo dentro do 257
+  m <- function(c_) p$mediana[p$cod_tse == "257" & p$cargo == c_]
+  expect_lt(m("VEREADOR"), m("PREFEITO"))
+  expect_lt(m("PREFEITO"), m("SENADOR"))
+  expect_gt(m("SENADOR") / m("VEREADOR"), 20)
+  # e a dispersao interna: o ancorado tem a menor razao p90/p10 da tabela
+  a <- p[p$cargo == "TODOS", ]
+  expect_identical(a$cod_tse[which.min(a$p90 / a$p10)], "131")
+})

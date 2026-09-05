@@ -23,6 +23,30 @@ crosswalk_tse(cod = NULL)
 SIOPS, EGP, classe, estrato, componente da classe alta e as marcas de
 ocupação política e de proprietário.
 
+## A coluna `egp`, e por que só aqui ela é comparável
+
+Esta é a única das quatro tabelas de tradução em que o EGP sai com a
+posição no emprego informada: o dicionário do TSE marca em
+`tse_isco$conta_propria` quem trabalha por conta própria, e é essa marca
+— não `proprietario` — que corresponde ao `SEMPL = 2` das sintaxes do
+ISMF. Por isso IVb e IVc aparecem aqui e saem vazias em
+[`crosswalk_cod()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cod.md),
+[`crosswalk_cbo2002()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cbo2002.md)
+e
+[`crosswalk_cbo94()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cbo94.md),
+onde o código não carrega posição alguma.
+
+O que **continua** faltando é o número de subordinados: IVa e IVb não se
+separam, todos caem em IVb, e V fica subestimada. Para publicar, prefira
+os colapsos de 7 ou 5 classes.
+
+Até 05/09/2026 esta coluna usava `proprietario`, e discordava de
+[`tse_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_egp.md)
+em dois códigos — o agricultor (601) e o pescador (604) saíam em VIIb
+aqui e em IVc na função. Como esta tabela existe para ser publicada como
+suplemento, o suplemento contradizia o código que produziu as
+estimativas. As duas saídas hoje são idênticas por teste.
+
 ## Exemplos
 
 ``` r

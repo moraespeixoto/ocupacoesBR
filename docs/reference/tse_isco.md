@@ -29,7 +29,7 @@ tse_isco
 
 - classe:
 
-  esquema de dez categorias para o dado eleitoral.
+  esquema de doze categorias para o dado eleitoral.
 
 - estrato:
 

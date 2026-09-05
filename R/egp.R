@@ -10,7 +10,7 @@
             "IIIb: vendas e servi\u00e7os de baixa qualifica\u00e7\u00e3o",
             "IVa: conta pr\u00f3pria com empregados",
             "IVb: conta pr\u00f3pria sem empregados",
-            "V: supervisores manuais",
+            "V: t\u00e9cnicos de n\u00edvel inferior e supervisores manuais",
             "VI: trabalhador manual qualificado",
             "VIIa: trabalhador manual n\u00e3o qualificado",
             "VIIb: trabalhador agr\u00edcola",
@@ -60,7 +60,8 @@
 #' O EGP não é uma função só da ocupação. As suas regras usam duas variáveis
 #' adicionais: a posição na ocupação (`conta_propria`) e o número de pessoas
 #' supervisionadas (`n_supervisionados`). Sem elas, **IVa e IVb — a pequena
-#' burguesia — ficam estruturalmente vazias**, e V (supervisores manuais) sai
+#' burguesia — ficam estruturalmente vazias**, e V (técnicos de nível inferior e
+#' supervisores manuais) sai
 #' fortemente subestimada, porque só dois códigos ISCO a produzem sem a
 #' variável de supervisão. Como o formulário do TSE pergunta apenas a ocupação,
 #' quem parte dele obtém uma versão degradada do esquema, e a função avisa
@@ -121,7 +122,7 @@ isco88_para_egp <- function(isco, conta_propria = NULL,
     stop("`n_classes` deve ser um \u00fanico valor: 11, 7, 5 ou 3.", call. = FALSE)
   n <- length(isco)
   # O aviso diz exatamente o que falta. Com `conta_propria` informada — e
-  # tse_para_egp() a informa a partir da marca `proprietario` — IVb deixa de ser
+  # tse_para_egp() a informa a partir da marca `conta_propria` — IVb deixa de ser
   # vazia, e repetir "IVa e IVb ficam VAZIAS" seria mentir na direcao oposta.
   if (avisar) {
     sem_cp <- is.null(conta_propria)
@@ -283,16 +284,24 @@ isco88_para_egp <- function(isco, conta_propria = NULL,
 #' porque o formulário não pergunta supervisão.
 #'
 #' @section A posição no emprego que o dicionário conhece:
-#' O TSE não pergunta posição na ocupação, mas dez dos seus códigos **nomeiam**
-#' o proprietário no próprio rótulo da ocupação — comerciante, empresário,
-#' pecuarista, proprietário de estabelecimento. O dicionário do pacote os marca
-#' em `tse_isco$proprietario`, e essa marca é exatamente o `SEMPL = 2` que as
-#' sintaxes do ISMF pedem.
+#' O TSE não pergunta posição na ocupação, mas alguns dos seus códigos
+#' **nomeiam** no próprio rótulo quem trabalha por conta própria — comerciante,
+#' empresário, pecuarista, proprietário de estabelecimento, e também o
+#' agricultor e o pescador. O dicionário marca essa condição em
+#' `tse_isco$conta_propria`, e é ela, não `proprietario`, que corresponde ao
+#' `SEMPL = 2` das sintaxes do ISMF. As duas marcas são distintas desde
+#' 07/2026: `proprietario` é o subconjunto que pertence à classe proprietária,
+#' e o agricultor (601) e o pescador (604) estão fora dele sem deixarem de
+#' trabalhar por conta própria. Enquanto eram uma coisa só, os dois caíam em
+#' VIIb, o fundo do esquema, ao lado do assalariado rural.
 #'
-#' Por padrão (`usa_proprietario = TRUE`) a função a utiliza. Sem ela, esses
-#' códigos caíam em II — a classe de serviço assalariada —, o que é uma
-#' inversão: a pequena burguesia contada como classe de serviço. Os códigos
-#' afetados são 169, 902, 903, 904 e 905.
+#' Por padrão (`usa_proprietario = TRUE` — o nome do argumento é anterior à
+#' separação das duas marcas e foi mantido por compatibilidade) a função a
+#' utiliza. São doze os códigos marcados, e sete deles mudam de classe por
+#' causa dela. Cinco — 169, 902, 903, 904 e 905 — sairiam em II, a classe de
+#' serviço assalariada, o que é uma inversão: a pequena burguesia contada como
+#' classe de serviço. Os outros dois — 601 e 604 — sairiam em VIIb, ao lado do
+#' assalariado rural.
 #'
 #' O que **continua** indeterminado é a divisão entre IVa (conta própria com
 #' empregados) e IVb (sem), que exige o número de subordinados. Todos caem em
