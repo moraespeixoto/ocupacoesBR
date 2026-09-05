@@ -21,7 +21,7 @@
 # ============================================================================
 
 # os .md da raiz que SAO do pacote e devem virar pagina
-PUBLICAVEIS <- c("README.md", "NEWS.md", "LICENSE.md", "LICENCE.md",
+PUBLICAVEIS <- c("README.md", "index.md", "NEWS.md", "LICENSE.md", "LICENCE.md",
                  "cran-comments.md", "404.md")
 
 # Tudo dentro de uma funcao: `on.exit` no nivel de topo de um script dispara

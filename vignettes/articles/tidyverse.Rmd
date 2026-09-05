@@ -1,0 +1,371 @@
+---
+title: "Com o tidyverse: o percurso inteiro dentro do mutate()"
+description: >
+  As funções do pacote são vetorizadas puras, então cada tradução é uma coluna
+  nova, e todas cabem no mesmo `mutate()` de um pipeline em dplyr.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>")
+options(width = 72)
+library(ocupacoesBR)
+```
+
+Toda função de tradução deste pacote recebe um vetor e devolve um vetor do mesmo
+comprimento, sem estado e sem efeito colateral. É a única propriedade que
+importa para o dplyr: uma função assim entra em `mutate()`, em `summarise()`, em
+`across()` e em `group_by()` sem adaptação nenhuma. Este artigo percorre um
+pipeline inteiro, do código bruto do TSE à tabela agregada, sem sair do pipe.
+
+Os outros artigos cobrem outras coisas. [Comece
+aqui](comece-aqui.html) explica o que cada medida significa, e [Os
+percursos](percursos.html) mostra onde cada tradução se interrompe. Aqui o
+assunto é só a mecânica de aplicar essas funções a um banco de verdade.
+
+```{r pacotes, message = FALSE}
+library(dplyr)
+library(ocupacoesBR)
+```
+
+## A moldura de dados
+
+O recorte abaixo usa os nomes de coluna do cadastro de candidaturas do TSE e
+códigos de ocupação reais, escolhidos para cobrir estratos diferentes. As
+pessoas são fictícias e identificadas só pelo `SQ_CANDIDATO`; os rótulos nunca
+são digitados, e sim pedidos ao pacote com `tse_para_rotulo()`.
+
+```{r moldura}
+candidaturas <- tibble(
+  SQ_CANDIDATO = 10001:10012,
+  ANO_ELEICAO  = c(2026L, 2026L, 2022L, 2022L, 2022L, 2026L,
+                   2026L, 2022L, 2026L, 2026L, 2010L, 1998L),
+  CD_OCUPACAO  = c("111", "131", "601", "169", "257", "298",
+                   "265", "532", "709", "278", "999", "214"),
+  DS_CARGO     = c("DEPUTADO FEDERAL", "DEPUTADO FEDERAL", "DEPUTADO ESTADUAL",
+                   "DEPUTADO ESTADUAL", "SENADOR", "DEPUTADO ESTADUAL",
+                   "DEPUTADO ESTADUAL", "DEPUTADO ESTADUAL", "DEPUTADO ESTADUAL",
+                   "DEPUTADO ESTADUAL", "DEPUTADO FEDERAL", "DEPUTADO FEDERAL"),
+  SG_UF        = c("RJ", "SP", "MG", "BA", "SP", "RJ",
+                   "CE", "PR", "PE", "GO", "AM", "RS")
+)
+
+candidaturas |>
+  mutate(rotulo = tse_para_rotulo(CD_OCUPACAO, ano = ANO_ELEICAO)) |>
+  select(CD_OCUPACAO, ANO_ELEICAO, rotulo)
+```
+
+A última linha já mostra a razão de o `ano` existir: o código 214 em 1998 não é
+o 214 de hoje.
+
+## Uma coluna por régua, num só `mutate()`
+
+Cada função de tradução vira uma coluna. Elas não conversam entre si, então a
+ordem dentro do `mutate()` é indiferente e todas podem entrar de uma vez.
+
+```{r um-mutate}
+medidas <- candidaturas |>
+  mutate(
+    isco88    = tse_para_isco(CD_OCUPACAO, ano = ANO_ELEICAO),
+    isco08    = tse_para_isco08(CD_OCUPACAO, ano = ANO_ELEICAO),
+    isei      = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO),
+    prestigio = tse_para_prestigio(CD_OCUPACAO, ano = ANO_ELEICAO),
+    egp       = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO, avisar = FALSE),
+    classe    = tse_para_classe(CD_OCUPACAO, ano = ANO_ELEICAO),
+    estrato   = tse_para_estrato(CD_OCUPACAO, ano = ANO_ELEICAO)
+  )
+
+medidas |> select(CD_OCUPACAO, isco88, isco08, isei, prestigio)
+```
+
+O aviso que veio junto é da última linha, o 214 de 1998, e a próxima seção é
+sobre ele. Ele reaparece a cada chamada que toca aquele código; da seção do
+`across()` em diante este artigo o omite, para não repetir dez vezes a mesma
+frase.
+
+As colunas categóricas são largas e ficam melhor à parte:
+
+```{r um-mutate-categoricas}
+medidas |>
+  mutate(rotulo = tse_para_rotulo(CD_OCUPACAO, ano = ANO_ELEICAO)) |>
+  select(CD_OCUPACAO, classe, estrato) |>
+  print(n = Inf)
+```
+
+O médico tem ISEI `r with(medidas, isei[CD_OCUPACAO == "111"])` e o trabalhador
+de construção civil, `r with(medidas, isei[CD_OCUPACAO == "709"])`. As linhas de
+servidor público municipal, "outros" e do 214 de 1998 saem com `NA` no ISEI, e
+mesmo assim recebem classe: são os três motivos diferentes de o pacote se
+abster, e [Comece aqui](comece-aqui.html) explica cada um.
+
+## O `ano` é o que evita o erro silencioso
+
+Sem o `ano`, o pacote aplica o cadastro vigente a partir de 2002 a todas as
+linhas, inclusive às de 1998 e 2000. Compare as duas chamadas na mesma tabela:
+
+```{r com-e-sem-ano}
+candidaturas |>
+  filter(ANO_ELEICAO == 1998) |>
+  mutate(
+    rotulo_sem_ano = tse_para_rotulo(CD_OCUPACAO),
+    rotulo_com_ano = tse_para_rotulo(CD_OCUPACAO, ano = ANO_ELEICAO),
+    isei_sem_ano   = tse_para_isei(CD_OCUPACAO),
+    isei_com_ano   = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO)
+  ) |>
+  select(starts_with("rotulo"), starts_with("isei")) |>
+  glimpse()
+```
+
+A versão sem `ano` devolve um número plausível para uma ocupação que aquela
+pessoa não tinha. Para descobrir isso antes de traduzir, `checa_periodo()` marca
+as posições atingidas e avisa. Ela devolve o vetor lógico invisivelmente, o que
+a torna útil dentro do pipe:
+
+```{r checa-periodo}
+candidaturas |>
+  mutate(atingido = checa_periodo(CD_OCUPACAO, ANO_ELEICAO)) |>
+  count(atingido)
+```
+
+## `across()`, quando a mesma transformação vale para várias colunas
+
+Como as funções são vetorizadas puras, elas entram em `across()` como qualquer
+outra. Duas formas são úteis. A primeira aplica várias traduções à mesma coluna
+de códigos, nomeando o resultado pelo nome da função:
+
+```{r across-funcoes, warning = FALSE}
+candidaturas |>
+  mutate(across(
+    CD_OCUPACAO,
+    list(isei = ~ tse_para_isei(.x, ano = ANO_ELEICAO),
+         prestigio = ~ tse_para_prestigio(.x, ano = ANO_ELEICAO),
+         isei08 = ~ tse_para_isei08(.x, ano = ANO_ELEICAO)),
+    .names = "{.fn}"
+  )) |>
+  select(CD_OCUPACAO, isei, prestigio, isei08)
+```
+
+A segunda arruma de uma vez as colunas já traduzidas:
+
+```{r across-arredonda}
+medidas |>
+  mutate(across(c(isei, prestigio), \(x) round(x))) |>
+  select(CD_OCUPACAO, isei, prestigio) |>
+  head(4)
+```
+
+## Agregar por cargo, ano ou partido
+
+Daqui em diante é dplyr comum. O cuidado que permanece é com o `NA`: ele precisa
+aparecer na contagem, e não sumir dentro de um `na.rm = TRUE` que ninguém
+relata.
+
+```{r agrega-cargo}
+medidas |>
+  group_by(DS_CARGO) |>
+  summarise(
+    n         = n(),
+    com_isei  = sum(!is.na(isei)),
+    isei_medio = round(mean(isei, na.rm = TRUE), 1),
+    .groups = "drop"
+  )
+```
+
+A coluna `com_isei` ao lado de `n` é o mínimo que se publica junto de uma média
+de ISEI. Sem ela, a média descreve um subconjunto que o leitor não conhece.
+
+Nas variáveis categóricas, `count()` já mostra o `NA` sem ajuda:
+
+```{r conta-classe}
+medidas |> count(classe, sort = TRUE)
+```
+
+## A junção com o dicionário inteiro
+
+Quando o que se quer não é uma medida e sim todas, mais a régua de qualidade da
+tradução, o caminho é juntar com o dicionário. `crosswalk_tse()` sem argumento
+devolve as `r nrow(crosswalk_tse())` linhas do cadastro.
+
+```{r junta-crosswalk}
+candidaturas |>
+  left_join(crosswalk_tse(), by = c("CD_OCUPACAO" = "cod_tse")) |>
+  select(CD_OCUPACAO, isco88, isei88, qualidade, nivel)
+```
+
+A `qualidade` diz como cada tradução foi obtida, e serve para restringir a
+análise ao que é exato:
+
+```{r qualidade}
+candidaturas |>
+  left_join(crosswalk_tse(), by = c("CD_OCUPACAO" = "cod_tse")) |>
+  count(qualidade)
+```
+
+Há uma ressalva importante nessa junção, e ela é o preço de usar a tabela em vez
+das funções: **a junção não conhece o `ano`**. O dicionário tem uma linha por
+código, com o cadastro vigente a partir de 2002, então a candidatura de 1998
+recebe calada o rótulo novo do 214.
+
+```{r junta-sem-ano}
+candidaturas |>
+  filter(ANO_ELEICAO == 1998) |>
+  left_join(crosswalk_tse(), by = c("CD_OCUPACAO" = "cod_tse")) |>
+  select(ANO_ELEICAO, CD_OCUPACAO, rotulo, isei88)
+```
+
+Para dado que cruza 2000 e 2002, junte pelo dicionário para inspecionar e
+traduza pelas funções com `ano` para analisar.
+
+## EGP com o que o TSE conhece
+
+O EGP distingue quem supervisiona de quem não supervisiona, e o cadastro do TSE
+não registra isso. `tse_para_egp()` calcula assim mesmo e avisa; o `avisar =
+FALSE` acima serviu para não repetir o mesmo aviso em cada chunk deste artigo,
+depois de ele ter sido explicado. Os dois argumentos que mudam o resultado são
+`n_classes`, que colapsa o esquema, e `usa_proprietario`, que decide se a marca
+de proprietário do dicionário entra na classificação.
+
+```{r egp, warning = FALSE}
+egps <- candidaturas |>
+  mutate(
+    egp11 = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO, avisar = FALSE),
+    egp7  = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO, n_classes = 7,
+                         avisar = FALSE),
+    egp7_sem_prop = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO, n_classes = 7,
+                                 usa_proprietario = FALSE, avisar = FALSE)
+  )
+
+egps |> select(CD_OCUPACAO, egp11) |> print(n = Inf)
+```
+
+O `usa_proprietario` muda a classe só de quem o dicionário marca como
+proprietário, e o `filter()` isola essas linhas:
+
+```{r egp-proprietario, warning = FALSE}
+egps |>
+  filter(egp7 != egp7_sem_prop) |>
+  select(CD_OCUPACAO, egp7, egp7_sem_prop) |>
+  as.data.frame()
+```
+
+Agricultor e comerciante mudam de lado. É uma decisão de medida, e ela deve ser
+declarada no texto do artigo que a usa.
+
+## Cobertura, antes de analisar
+
+`checa_cobertura()` falha com erro quando algum código do seu vetor não está no
+dicionário, ou quando não há código nenhum. Ela é uma barreira, não uma
+transformação, então o lugar dela no pipe é antes do `mutate()`, alimentada por
+um `pull()`:
+
+```{r cobertura-ok}
+candidaturas |> pull(CD_OCUPACAO) |> checa_cobertura()
+```
+
+Com um código que não existe no cadastro, o pipeline para:
+
+```{r cobertura-erro, error = TRUE}
+candidaturas |>
+  mutate(CD_OCUPACAO = if_else(row_number() == 1, "812", CD_OCUPACAO)) |>
+  pull(CD_OCUPACAO) |>
+  checa_cobertura()
+```
+
+Vale a pena parar assim. A alternativa é um vetor de `NA` que atravessa a
+análise inteira sem chamar atenção, e quase sempre a causa é de formato do
+código, não de dicionário: zeros à esquerda perdidos numa leitura de CSV, ou um
+fator convertido para inteiro.
+
+## Série longa, com a mesma pessoa em várias eleições
+
+Quando a mesma pessoa se candidata mais de uma vez, um registro sem ocupação
+classificável pode herdar o escore do registro anterior dela própria.
+`isei_retrospectivo()` recebe `escore`, `id` e `tempo`, e devolve um
+`data.frame` com o escore final, a marca de herança e a defasagem.
+
+O ponto que costuma escapar: **não use `group_by()`**. A função já corta na
+fronteira de cada `id`, e receber o painel inteiro é o que lhe permite fazer
+isso. O que ela precisa é da ordenação, que o `arrange()` garante.
+
+```{r painel}
+painel <- tibble(
+  SQ_CANDIDATO = c(rep(20001L, 4), rep(20002L, 4)),
+  ANO_ELEICAO  = rep(c(2010L, 2014L, 2018L, 2022L), 2),
+  CD_OCUPACAO  = c("131", "999", "999", "278",
+                   "999", "111", "931", "999")
+)
+
+carregado <- painel |>
+  arrange(SQ_CANDIDATO, ANO_ELEICAO) |>
+  mutate(isei = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO)) |>
+  mutate(ret = isei_retrospectivo(isei, SQ_CANDIDATO, ANO_ELEICAO,
+                                  cod = CD_OCUPACAO, excluir = "931")) |>
+  mutate(isei_cheio = ret$escore,
+         herdado    = ret$herdado,
+         defasagem  = ret$defasagem) |>
+  select(-ret)
+
+carregado |>
+  select(SQ_CANDIDATO, ANO_ELEICAO, CD_OCUPACAO, isei,
+         isei_cheio, herdado, defasagem) |>
+  print(n = Inf)
+```
+
+Os códigos do painel são 131 para advogado, 111 para médico, 278 para vereador,
+931 para estudante e 999 para "outros", que é o que não se classifica.
+
+O `excluir = "931"` deixa de fora estudante e estagiário, cuja posição
+raramente se explica pelo passado. O primeiro registro de cada pessoa nunca
+herda, porque só o passado da própria pessoa é usado.
+
+A herança tem custo, e ele é grande: o escore herdado supõe que a ocupação não
+mudou, e nas candidaturas ela muda em cerca de metade dos casos, sempre com o
+erro apontando para o passado. Por isso `herdado` e `defasagem` saem no
+resultado. Relate quantos escores são herdados e repita a análise só com os
+observados:
+
+```{r conta-herdados}
+carregado |> count(herdado)
+```
+
+A documentação de `?isei_retrospectivo` traz as taxas medidas no painel completo
+de candidaturas, e a decisão de usar ou não o carregamento deve passar por elas.
+
+## O resumo, função por coluna
+
+```{r tabela-final, echo = FALSE}
+tibble(
+  `Chamada dentro do mutate()` = c(
+    "tse_para_isco(cod, ano = )",
+    "tse_para_isco08(cod, ano = )",
+    "tse_para_isei(cod, ano = )",
+    "tse_para_prestigio(cod, ano = )",
+    "tse_para_egp(cod, ano = )",
+    "tse_para_classe(cod, ano = )",
+    "tse_para_estrato(cod, ano = )",
+    "tse_para_rotulo(cod, ano = )",
+    "checa_periodo(cod, ano)",
+    "isei_retrospectivo(escore, id, tempo)"),
+  `O que vira` = c(
+    "código ISCO-88, texto",
+    "código ISCO-08, texto",
+    "ISEI, numérico de 16 a 90",
+    "prestígio de Treiman, numérico",
+    "classe do EGP, texto; com rotulo = FALSE, o código",
+    "classe do esquema do pacote, texto",
+    "estrato, texto",
+    "rótulo do cadastro no ano, texto",
+    "lógico: a linha é atingida pela quebra de 2002",
+    "data.frame com escore, herdado e defasagem")
+) |>
+  knitr::kable()
+```
+
+Fora do pipe ficam duas: `checa_cobertura()`, que é barreira e recebe o vetor
+por `pull()`, e `crosswalk_tse()`, que é tabela e entra por `left_join()`.
+
+## Onde continuar
+
+A escolha entre ISEI, prestígio, EGP e o esquema de classes está em [Qual régua
+responde à sua pergunta](qual-regua.html). Se a medida vai sustentar um
+resultado publicado, [A medida se sustenta?](validacao.html) mostra como
+confrontá-la com um critério externo que não entrou na sua construção.

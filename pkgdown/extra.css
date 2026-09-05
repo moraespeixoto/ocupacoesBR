@@ -16,3 +16,454 @@
   overflow-x: auto;
   max-width: 100%;
 }
+
+/* ==========================================================================
+   A HOME
+   --------------------------------------------------------------------------
+   O pkgdown entrega a home dentro de `.container` com `main.col-md-9` e uma
+   `aside.col-md-3` vazia (home.sidebar: false). Aqui a home passa a ocupar a
+   largura toda, e cada secao pinta o proprio fundo; a largura de leitura volta
+   pelo `.ocb-wrap` interno. Os tokens de cor sao os do mockup aprovado.
+   ========================================================================== */
+
+.template-home {
+  --ocb-fundo:      #F6FAFB;
+  --ocb-card:       #FFFFFF;
+  --ocb-faixa:      #FFFFFF;
+  --ocb-hero-topo:  #EAF6F8;
+  --ocb-sup:        #EAF3F5;
+  --ocb-sup2:       #EAF6F8;
+  --ocb-borda:      #D9E8EB;
+  --ocb-borda2:     #C9DCE0;
+  --ocb-tinta:      #1C3540;
+  --ocb-texto:      #3B5560;
+  --ocb-fraco:      #6B8891;
+  --ocb-teal:       #1E8A99;
+  --ocb-teal-esc:   #156B78;
+  --ocb-laranja:    #F26522;
+  --ocb-ciano:      #7FC8D3;
+  --ocb-pessego:    #F8B08A;
+  --ocb-verde:      #2E9E5B;
+  --ocb-escuro:     #1C3540;
+
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  background: var(--ocb-fundo);
+  color: var(--ocb-texto);
+}
+
+[data-bs-theme="dark"] .template-home {
+  --ocb-fundo:      #142731;
+  --ocb-card:       #1C3540;
+  --ocb-faixa:      #18303A;
+  --ocb-hero-topo:  #1A3A45;
+  --ocb-sup:        #21404C;
+  --ocb-sup2:       #1F3B46;
+  --ocb-borda:      #2B4A57;
+  --ocb-borda2:     #335866;
+  --ocb-tinta:      #EAF5F7;
+  --ocb-texto:      #C0D5DC;
+  --ocb-fraco:      #8AA6AF;
+  --ocb-teal:       #4FB3C1;
+  --ocb-teal-esc:   #7FC8D3;
+  --ocb-laranja:    #FF8149;
+  --ocb-escuro:     #10222B;
+}
+
+.template-home > .row { margin-left: 0; margin-right: 0; }
+.template-home main.col-md-9 { flex: 0 0 100%; max-width: 100%; width: 100%; padding: 0; }
+.template-home aside.col-md-3 { display: none; }
+.template-home > footer {
+  padding: 18px clamp(20px, 4vw, 64px);
+  border-top: 1px solid var(--ocb-borda);
+  font-size: 13px;
+  color: var(--ocb-fraco);
+}
+.template-home > footer p { color: var(--ocb-fraco); margin: 0; }
+
+/* O pkgdown insere <img class="logo"> e envolve o primeiro h1 em .page-header.
+   No hero o logo ja esta no banner e na navbar; o h1 fica, o resto some. */
+.template-home .ocb-hero-text img.logo { display: none; }
+.template-home .ocb-hero-text .page-header {
+  margin: 0; padding: 0; border: 0;
+}
+
+/* --- estrutura ----------------------------------------------------------- */
+
+.ocb-wrap {
+  max-width: 1320px;
+  margin: 0 auto;
+  padding-left: clamp(20px, 4vw, 64px);
+  padding-right: clamp(20px, 4vw, 64px);
+}
+.ocb-secao { padding-top: 64px; padding-bottom: 64px; }
+
+.template-home h1, .template-home h2, .template-home h3 {
+  color: var(--ocb-tinta);
+  font-weight: 700;
+  margin: 0;
+  border: 0;
+}
+.template-home h1 { font-size: clamp(34px, 3.6vw, 52px); line-height: 1.08; }
+.template-home h2 { font-size: clamp(26px, 2.4vw, 34px); line-height: 1.15; max-width: 22em; }
+.template-home h3 { font-size: 20px; }
+.template-home p { color: var(--ocb-texto); }
+.template-home a { color: var(--ocb-teal-esc); text-decoration: none; }
+.template-home a:hover { color: var(--ocb-laranja); }
+
+.ocb-kicker {
+  display: block;
+  font-size: 13px; font-weight: 700;
+  letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--ocb-teal);
+  margin-bottom: 10px;
+}
+.ocb-kicker-laranja { color: var(--ocb-laranja); }
+.ocb-kicker-ciano   { color: #7FC8D3; }
+
+.ocb-link-forte { font-weight: 600; white-space: nowrap; }
+.ocb-link-pessego { color: #F8B08A !important; font-weight: 600; }
+.ocb-link-pessego:hover { color: #FFFFFF !important; }
+
+/* --- hero ---------------------------------------------------------------- */
+
+.ocb-hero {
+  background: linear-gradient(180deg, var(--ocb-hero-topo) 0%, var(--ocb-fundo) 100%);
+  border-bottom: 1px solid var(--ocb-borda);
+}
+.ocb-hero-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px;
+  align-items: center;
+  padding-top: 72px;
+  padding-bottom: 64px;
+}
+.ocb-hero-text > * + * { margin-top: 22px; }
+.ocb-hero-text .ocb-kicker { margin-bottom: 0; }
+.ocb-lead { font-size: 20px; line-height: 1.5; }
+
+.ocb-install {
+  background: #1C3540;
+  color: #E6F1F3;
+  border-radius: 8px;
+  padding: 14px 18px;
+  overflow-x: auto;
+}
+.ocb-install code {
+  background: none; color: inherit; padding: 0;
+  font-size: 15px; white-space: nowrap;
+}
+.ocb-install .ocb-c1 { color: #7FC8D3; }
+.ocb-install .ocb-c2 { color: #F8B08A; }
+
+.ocb-cta { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
+.ocb-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-weight: 600; font-size: 16px;
+  padding: 12px 22px; border-radius: 8px;
+}
+.ocb-btn-laranja { background: #F26522; color: #FFFFFF !important; }
+.ocb-btn-laranja:hover { background: #D8551A; color: #FFFFFF !important; }
+.ocb-btn-claro {
+  background: var(--ocb-card); color: var(--ocb-teal-esc) !important;
+  border: 1.5px solid var(--ocb-borda2);
+}
+.ocb-btn-claro:hover { border-color: var(--ocb-teal); }
+.ocb-btn-nu { padding: 12px 6px; }
+
+.ocb-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+.ocb-badge {
+  display: inline-flex; font-size: 12px; font-weight: 600;
+  border-radius: 4px; overflow: hidden;
+  border: 1px solid var(--ocb-borda2);
+}
+.ocb-badge-k { background: var(--ocb-sup); color: var(--ocb-texto); padding: 3px 8px; }
+.ocb-badge-v { background: #1E8A99; color: #FFFFFF; padding: 3px 8px; }
+.ocb-badge-v.ocb-verde { background: #2E9E5B; }
+
+.ocb-hero-arte { display: flex; justify-content: center; align-items: center; }
+.ocb-hero-arte img {
+  width: 100%; max-width: 620px; height: auto;
+  border-radius: 14px;
+  box-shadow: 0 18px 48px rgba(28, 53, 64, 0.16);
+}
+[data-bs-theme="dark"] .ocb-hero-arte img {
+  border: 1px solid var(--ocb-borda2);
+  box-shadow: 0 18px 48px rgba(0, 0, 0, 0.45);
+}
+
+/* --- duas colunas com o terminal ----------------------------------------- */
+
+.ocb-duas-colunas {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px;
+  align-items: start;
+  padding-bottom: 24px;
+}
+.ocb-duas-colunas > div > * + * { margin-top: 14px; }
+
+.ocb-terminal {
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid var(--ocb-borda2);
+  box-shadow: 0 8px 28px rgba(28, 53, 64, 0.08);
+}
+.ocb-terminal-barra {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--ocb-sup);
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--ocb-borda2);
+  font-size: 13px; color: var(--ocb-texto);
+}
+.ocb-ponto { width: 10px; height: 10px; border-radius: 50%; display: inline-block; }
+.ocb-ponto-l { background: #F26522; }
+.ocb-ponto-a { background: #F2B822; }
+.ocb-ponto-v { background: #2E9E5B; }
+.ocb-terminal-nome { margin-left: 8px; font-family: var(--bs-font-monospace); }
+
+/* o bloco de codigo escuro, dentro da moldura */
+.ocb-terminal div.sourceCode,
+.ocb-terminal pre {
+  background: #1C3540 !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  margin: 0 !important;
+}
+.ocb-terminal pre { padding: 18px 20px; }
+.ocb-terminal pre, .ocb-terminal pre code, .ocb-terminal pre code span {
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+.ocb-terminal pre, .ocb-terminal pre code, .ocb-terminal pre code span { color: #E6F1F3; }
+.ocb-terminal pre code { font-size: 13.5px; line-height: 1.6; }
+.ocb-terminal .fu, .ocb-terminal .kw, .ocb-terminal .cf { color: #7FC8D3; }
+.ocb-terminal .st, .ocb-terminal .dv, .ocb-terminal .fl { color: #F8B08A; }
+.ocb-terminal .co { color: #93AEB7; }
+.ocb-terminal .wa, .ocb-terminal .er { color: #F2B822; }
+.ocb-terminal a, .ocb-terminal a code { color: inherit !important; text-decoration: none; }
+.ocb-terminal .sourceCode a:hover { text-decoration: underline; }
+
+/* --- cartoes ------------------------------------------------------------- */
+
+.ocb-grid-4 {
+  display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 20px;
+  margin-top: 24px;
+}
+.ocb-grid-3 {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 20px;
+  margin-top: 24px;
+}
+
+.ocb-card {
+  display: flex; flex-direction: column; gap: 12px;
+  background: var(--ocb-card);
+  border: 1px solid var(--ocb-borda);
+  border-radius: 12px;
+  padding: 24px;
+}
+.ocb-card p { font-size: 15px; margin: 0; flex: 1 1 auto; }
+.ocb-icone { color: var(--ocb-teal); }
+.ocb-assinatura {
+  align-self: flex-start;
+  font-size: 13px; color: var(--ocb-teal-esc);
+  background: var(--ocb-sup);
+  padding: 6px 10px; border-radius: 6px;
+}
+
+.ocb-card-escuro {
+  display: flex; flex-direction: column; gap: 10px;
+  background: #1C3540; border-radius: 12px; padding: 24px;
+}
+.ocb-card-escuro h3 { color: #FFFFFF !important; }
+.ocb-card-escuro p { color: #C7DCE1; font-size: 15px; margin: 0; }
+.ocb-card-escuro .ocb-tag {
+  font-family: var(--bs-font-monospace); font-size: 13px; color: #7FC8D3;
+}
+.ocb-card-teal { background: #1E8A99; }
+.ocb-card-teal p { color: #E6F5F7; }
+.ocb-card-teal .ocb-tag { color: #D6F0F4; }
+
+/* --- por onde comecar ---------------------------------------------------- */
+
+.ocb-faixa-clara {
+  background: var(--ocb-faixa);
+  border-top: 1px solid var(--ocb-borda);
+  border-bottom: 1px solid var(--ocb-borda);
+}
+.ocb-titulo-linha {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 24px;
+}
+
+.ocb-card-artigo {
+  display: flex; flex-direction: column; gap: 10px;
+  border: 1px solid var(--ocb-borda);
+  border-radius: 12px;
+  padding: 24px;
+  background: var(--ocb-fundo);
+  transition: border-color .15s ease, transform .15s ease;
+}
+.ocb-card-artigo:hover { border-color: var(--ocb-teal); transform: translateY(-2px); }
+.ocb-card-artigo h3 { font-size: 19px; }
+.ocb-card-artigo p { font-size: 15px; margin: 0; }
+.ocb-card-artigo:hover h3 { color: var(--ocb-teal-esc); }
+
+.ocb-etiqueta {
+  font-size: 12px; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; color: var(--ocb-teal);
+}
+.ocb-etiqueta-laranja { color: var(--ocb-laranja); }
+.ocb-etiqueta-pessego { color: #F8B08A; }
+.ocb-etiqueta-ciano   { color: #7FC8D3; }
+
+.ocb-card-checa {
+  display: flex; flex-direction: column; justify-content: center; gap: 10px;
+  border: 1px dashed var(--ocb-borda2);
+  border-radius: 12px; padding: 24px;
+  background: var(--ocb-sup2);
+}
+.ocb-card-checa h3 { font-size: 19px; color: var(--ocb-teal-esc) !important; }
+.ocb-card-checa p { font-size: 14px; margin: 0; }
+.ocb-card-checa div.sourceCode, .ocb-card-checa pre {
+  background: transparent !important; border: 0 !important; margin: 0 !important;
+  padding: 0 !important;
+}
+.ocb-card-checa pre, .ocb-card-checa pre code { white-space: pre-wrap; word-break: break-word; }
+.ocb-card-checa pre code { font-size: 13px; color: var(--ocb-tinta); }
+.ocb-card-checa .co { color: #1F7A46; }
+[data-bs-theme="dark"] .ocb-card-checa .co { color: #6ED49B; }
+.ocb-card-checa a, .ocb-card-checa a code { color: inherit !important; }
+
+/* --- mapa das traducoes --------------------------------------------------- */
+
+.ocb-mapa {
+  display: grid; grid-template-columns: 5fr 7fr; gap: 48px; align-items: center;
+}
+.ocb-mapa > div > * + * { margin-top: 14px; }
+.ocb-moldura {
+  background: #FFFFFF;
+  border: 1px solid var(--ocb-borda);
+  border-radius: 12px;
+  padding: 16px;
+}
+.ocb-moldura img { width: 100%; height: auto; display: block; }
+
+/* --- publicacoes ---------------------------------------------------------- */
+
+.ocb-faixa-escura { background: #1C3540; color: #E6F1F3; }
+.ocb-publicacoes {
+  display: grid; grid-template-columns: 4fr 8fr; gap: 56px;
+  padding-top: 72px; padding-bottom: 72px;
+}
+.ocb-publicacoes h2 { color: #FFFFFF !important; }
+.ocb-publicacoes > div > * + * { margin-top: 14px; }
+.ocb-publicacoes p { color: #C7DCE1; }
+.ocb-lista-pub { display: flex; flex-direction: column; gap: 14px; }
+.ocb-pub {
+  display: flex; flex-direction: column; gap: 8px;
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 12px;
+  padding: 22px 24px;
+}
+.ocb-pub p { margin: 0; font-size: 17px; color: #FFFFFF !important; }
+.ocb-pub-meta {
+  display: flex; align-items: center; gap: 10px;
+  font-size: 13px; color: #8AA0A7;
+}
+.ocb-pub-meta a { color: #7FC8D3 !important; font-family: var(--bs-font-monospace); }
+.ocb-doi-vazio {
+  font-family: var(--bs-font-monospace);
+  border: 1px dashed #5E7C86; border-radius: 4px; padding: 2px 8px;
+}
+
+/* --- rodape da home ------------------------------------------------------- */
+
+.ocb-rodape {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 56px; align-items: start;
+}
+.ocb-rodape > div > * + * { margin-top: 12px; }
+.ocb-rodape p { font-size: 15px; }
+.ocb-rodape pre {
+  background: var(--ocb-sup) !important;
+  border: 0 !important;
+  border-radius: 8px !important;
+  padding: 16px 18px !important;
+  font-size: 13px; line-height: 1.6;
+  color: var(--ocb-tinta);
+  white-space: pre-wrap;
+}
+.ocb-rodape-links {
+  display: grid; grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 24px; font-size: 15px;
+}
+.ocb-rodape-links > div > p,
+.ocb-rodape-links > div { display: flex; flex-direction: column; gap: 8px; margin: 0; }
+.ocb-rodape-titulo { font-weight: 700; color: var(--ocb-tinta); }
+
+/* --- telas estreitas ------------------------------------------------------ */
+
+@media (max-width: 991px) {
+  .ocb-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ocb-grid-3 { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ocb-rodape-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
+@media (max-width: 767px) {
+  .ocb-hero-grid,
+  .ocb-duas-colunas,
+  .ocb-mapa,
+  .ocb-publicacoes,
+  .ocb-rodape { grid-template-columns: minmax(0, 1fr); gap: 32px; }
+  .ocb-hero-grid { padding-top: 40px; padding-bottom: 40px; }
+  .ocb-secao { padding-top: 44px; padding-bottom: 44px; }
+  .ocb-grid-4, .ocb-grid-3 { grid-template-columns: minmax(0, 1fr); }
+  .ocb-titulo-linha { flex-direction: column; align-items: flex-start; }
+  .ocb-rodape-links { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .ocb-install code { white-space: pre-wrap; word-break: break-word; }
+  .ocb-hero-arte { order: -1; }
+}
+
+/* No tema escuro o bslib repinta os tokens de codigo com seletor mais
+   especifico; dentro da moldura do terminal a paleta e a mesma nos dois temas. */
+.ocb-terminal pre code span,
+[data-bs-theme="dark"] .ocb-terminal pre code span {
+  font-style: normal !important;
+}
+.ocb-terminal .fu, .ocb-terminal .kw, .ocb-terminal .cf,
+[data-bs-theme="dark"] .ocb-terminal .fu,
+[data-bs-theme="dark"] .ocb-terminal .kw,
+[data-bs-theme="dark"] .ocb-terminal .cf { color: #7FC8D3 !important; }
+.ocb-terminal .st, .ocb-terminal .dv, .ocb-terminal .fl,
+[data-bs-theme="dark"] .ocb-terminal .st,
+[data-bs-theme="dark"] .ocb-terminal .dv,
+[data-bs-theme="dark"] .ocb-terminal .fl { color: #F8B08A !important; }
+.ocb-terminal .co,
+[data-bs-theme="dark"] .ocb-terminal .co { color: #93AEB7 !important; }
+.ocb-terminal .va, .ocb-terminal .op, .ocb-terminal .sc,
+[data-bs-theme="dark"] .ocb-terminal .va,
+[data-bs-theme="dark"] .ocb-terminal .op,
+[data-bs-theme="dark"] .ocb-terminal .sc { color: #E6F1F3 !important; }
+
+[data-bs-theme="dark"] .ocb-install { border: 1px solid var(--ocb-borda2); }
+[data-bs-theme="dark"] .ocb-card-escuro { border: 1px solid var(--ocb-borda); }
+[data-bs-theme="dark"] .ocb-card-checa .fu,
+[data-bs-theme="dark"] .ocb-card-checa .va { color: var(--ocb-teal-esc) !important; }
+
+/* ==========================================================================
+   OS BLOCOS DE CODIGO DOS ARTIGOS
+   --------------------------------------------------------------------------
+   As mensagens de aviso do pacote sao frases inteiras, e passam de 120
+   caracteres. Sem quebra, elas saem para fora do bloco e ficam ilegiveis na
+   pagina — justamente as mensagens que os artigos existem para mostrar. A
+   quebra e a mesma que o terminal da home ja usa.
+   ========================================================================== */
+main pre.downlit,
+main pre.downlit code,
+main div.sourceCode pre,
+main div.sourceCode pre code {
+  white-space: pre-wrap;
+  overflow-wrap: break-word;
+}
