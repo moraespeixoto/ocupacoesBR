@@ -41,6 +41,31 @@ proveniência existem para impedir nas fontes.
 versão (0.0.3), o commit e a data. `00_confere_proveniencia.R` avisa quando o
 instalado diverge do registrado, e um teste falha se a seção sumir.
 
+## Antecedentes: uma aba sobre de onde o pacote vem
+
+O site ganhou uma página teórica, entre *Percursos* e *Robustez*. Ela declara a
+linhagem em que o pacote se inscreve — Valle Silva, Hasenbalg, Costa Ribeiro,
+Carvalhaes — e faz a subtração honesta: o que aqui é reimplementação de coisa
+alheia e o que é contribuição.
+
+Três antecedentes que o pacote precisava nomear e não nomeava:
+
+- **Jaime e Ganzeboom (2025)** reestimaram o índice socioeconômico para a
+  Argentina pelo mesmo procedimento de 1992 — e encontraram o índice
+  internacional superando o local, o oposto do que a validação daqui mostra
+  contra patrimônio. A divergência entra declarada, com a separação entre o que
+  nela é substantivo e o que é de desenho.
+- **Codato, Costa e Massimo (2014)** já haviam classificado a ocupação prévia à
+  entrada na política, por critério analítico e não sociográfico. Os dois
+  caminhos respondem a perguntas diferentes.
+- **Connelly, Gayle e Lambert (2016)** recomendam não desenvolver medida própria
+  sem justificativa forte. O pacote faz as duas coisas de que a recomendação
+  desconfia, e a página enuncia a justificativa em vez de ignorá-la.
+
+Também se registra o que não existe: nenhum dos pacotes de R que traduzem ISCO
+em ISEI, prestígio ou EGP cobre a CBO brasileira, e nenhum leva o cadastro do
+TSE a classificação alguma.
+
 ## Provas de robustez, com gráficos
 
 Aba nova no site, entre *Percursos* e *Artigos*: nove provas explicadas uma a

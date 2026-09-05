@@ -25,7 +25,7 @@ home:
 
 navbar:
   structure:
-    left:  [comece, percursos, robustez, articles, reference, publicacoes, news]
+    left:  [comece, percursos, antecedentes, robustez, articles, reference, publicacoes, news]
     right: [search, github, lightswitch]
   components:
     comece:
@@ -34,6 +34,9 @@ navbar:
     percursos:
       text: Percursos
       href: articles/percursos.html
+    antecedentes:
+      text: Antecedentes
+      href: articles/antecedentes.html
     robustez:
       text: Robustez
       href: articles/robustez.html
@@ -75,6 +78,7 @@ articles:
   - matches("^articles/safra-2026$")
 - title: Publicações e créditos
   contents:
+  - matches("^articles/antecedentes$")
   - matches("^articles/publicacoes$")
 
 reference:

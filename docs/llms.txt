@@ -573,6 +573,13 @@ proveniência.
 
 ### Publicações e créditos
 
+- [Antecedentes: de onde vem este
+  pacote](https://moraespeixoto.github.io/ocupacoesBR/articles/antecedentes.md):
+
+  A linhagem intelectual em que o pacote se inscreve, o que já existia
+  antes dele, e a delimitação honesta do que aqui é contribuição e do
+  que é reimplementação de coisa alheia.
+
 - [Publicações e como
   citar](https://moraespeixoto.github.io/ocupacoesBR/articles/publicacoes.md):
 
