@@ -26,9 +26,7 @@ sobre estrutura de classes e mobilidade; e **Flávio Carvalhaes**, cuja
 avaliação por classes latentes do esquema EGP no caso brasileiro é a
 advertência mais direta que este pacote teve de incorporar.
 
-O autor deste pacote foi aluno de Valle Silva e de Costa Ribeiro, de
-quem foi monitor de disciplina, e colega de turma de Carvalhaes. O que
-se lê aqui não é uma alternativa a essa linhagem: é um instrumento
+Este pacote não é uma alternativa a essa linhagem. É um instrumento
 construído dentro dela, para uma fonte de dados que ela ainda não tinha
 alcançado.
 

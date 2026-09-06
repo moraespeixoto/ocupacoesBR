@@ -44,6 +44,31 @@ com a versão (0.0.3), o commit e a data. `00_confere_proveniencia.R`
 avisa quando o instalado diverge do registrado, e um teste falha se a
 seção sumir.
 
+### As classificações, uma a uma
+
+Aba nova no site, entre *Percursos* e *Antecedentes*. Cada uma das
+quatro classificações por onde o dado entra — a ISCO, a CBO, a COD do
+IBGE e o cadastro do TSE — com a mesma estrutura: de onde veio, para que
+foi feita, e o que ela não pode responder.
+
+A tese da página é que saber a história de uma classificação não é
+erudição: **é o que permite prever onde ela vai falhar.** Cada uma
+carrega no desenho a pergunta que a originou. A ISCO-88 não dá nível de
+habilidade aos grandes grupos 0 e 1, e por isso o primeiro dígito não é
+escala. A CBO ancora em 1988 e a COD em 2008, e por isso não são duas
+versões da mesma árvore. O cadastro do TSE não é classificação
+estatística: é lista de preenchimento de formulário, e daí vêm as suas
+quatro propriedades incômodas, da escala à reutilização de códigos.
+
+Fecha com um quadro comparativo cuja última linha é a razão de o pacote
+existir: para a CBO e para a COD há tábua oficial para a ISCO; para o
+cadastro do TSE não há.
+
+Os números computáveis saem de *chunks*; as datas e os números de
+resolução são digitados e vêm das fontes registradas. Onde os dois
+poderiam se contradizer — o tamanho da CBO contra o que o pacote cobre
+dela — a distinção está dita no próprio código.
+
 ### Antecedentes: uma aba sobre de onde o pacote vem
 
 O site ganhou uma página teórica, entre *Percursos* e *Robustez*. Ela

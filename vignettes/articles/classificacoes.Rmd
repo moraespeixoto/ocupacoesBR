@@ -1,0 +1,288 @@
+---
+title: "As classificações: história, alcance e limites"
+description: >
+  As quatro classificações de ocupação por onde o dado entra no pacote — a ISCO,
+  a CBO, a classificação domiciliar do IBGE e o cadastro do TSE. De onde cada
+  uma veio, para que foi feita, e o que ela não pode responder.
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(collapse = TRUE, comment = "#>", fig.width = 7,
+                      fig.height = 3.6, dpi = 110, fig.retina = 2)
+library(ocupacoesBR)
+VERDE <- "#1E8A99"; LARANJA <- "#F26522"
+```
+
+Quatro classificações de ocupação entram neste pacote, e nenhuma delas foi feita
+para o que aqui se faz com ela. Uma foi desenhada para comparar países, duas
+para administrar registros do Estado brasileiro, e a quarta nem é
+classificação — é uma lista de opções de formulário.
+
+Saber de onde cada uma vem não é erudição: **é o que permite prever onde ela vai
+falhar.** Uma classificação carrega no seu desenho a pergunta que a originou, e
+usá-la para outra pergunta produz erro com aparência de normalidade.
+
+Esta página trata das classificações — os endereços. Para as **medidas** que se
+constroem sobre elas (ISEI, prestígio, EGP), veja
+[Qual régua responde à sua pergunta](../articles/qual-regua.html).
+
+Os números computáveis desta página saem dos dados instalados com o pacote. As
+datas, os números de resolução e os fatos documentais são digitados, e vêm das
+fontes registradas em `inst/extdata/PROVENIENCIA.yml` e na bibliografia do
+artigo de método.
+
+## A ISCO, o eixo internacional
+
+**História.** A Classificação Internacional Uniforme de Ocupações teve quatro
+versões. A de **1958** foi adotada pela 9ª Conferência Internacional de
+Estatísticos do Trabalho e organizava as ocupações em dez grandes grupos. A de
+**1968** reduziu-os a oito e ampliou o detalhe. A de **1988** — adotada em 1987,
+publicada em 1990 — é uma ruptura conceitual com as duas anteriores. A de
+**2008** manteve o arcabouço de 1988 e ampliou a granularidade.
+
+**A ruptura de 1988** consistiu em substituir a acumulação de categorias por dois
+critérios explícitos: o **nível de habilidade** (complexidade e amplitude das
+tarefas) e a **especialização** (campo de conhecimento, instrumentos, materiais,
+tipo de bem ou serviço). O primeiro dígito resulta principalmente do primeiro
+critério.
+
+O nível de habilidade não é abstrato: a OIT o ancorou na Classificação
+Internacional Normalizada da Educação. O nível 4 corresponde ao primeiro grau
+universitário; o 3, ao terciário curto; o 2, do secundário inferior ao
+pós-secundário não terciário; o 1, ao primário. Sobre essa âncora, o grande
+grupo 2 recebe o nível 4, o grupo 3 o nível 3, os grupos 4 a 8 o nível 2, e o
+grupo 9 o nível 1.
+
+**Por que importa.** É o eixo. Toda medida deste pacote — ISEI, prestígio, EGP —
+está publicada sobre a ISCO, e não sobre classificação nacional alguma. Sem
+passar por ela, não há régua.
+
+```{r isco-tamanho}
+c(`grupos com medidas na ISCO-88` = nrow(isco88_medidas),
+  `grupos com medidas na ISCO-08` = nrow(isco08_medidas))
+```
+
+### O limite que mais engana
+
+**Os grandes grupos 0 e 1 da ISCO-88 não receberam nível de habilidade algum.**
+Dirigentes e legisladores (grupo 1) e forças armadas (grupo 0) foram construídos
+por outro critério — a função de direção e a natureza militar da tarefa — e
+apenas *ocupam posições vizinhas na numeração*.
+
+A consequência é dura: **o primeiro dígito da ISCO-88 não é uma escala
+percorrida de ponta a ponta.** Qualquer uso dele como ordenação contínua herda
+essa descontinuidade. É a razão de este pacote nunca ordenar por código, e de a
+[armadilha do primeiro dígito](../articles/comece-aqui.html) ter teste próprio
+na suíte.
+
+O segundo limite é a **fronteira entre os grandes grupos 2 e 3** — profissionais
+e técnicos. Ela foi desenhada quando muitas ocupações hoje universitárias ainda
+não o eram, e a revisão de 2008 promoveu parte delas. O caso da enfermagem é o
+mais visível, e a documentação do pacote recomenda ancorar na ISCO-08 para
+análise de gênero por causa dele.
+
+## A CBO, e a ruptura de 2002
+
+**História.** A Classificação Brasileira de Ocupações nasceu de convênio entre o
+Brasil e as Nações Unidas, com estrutura elaborada em **1977** e primeira versão
+publicada em **1982**. A sua matriz internacional declarada é a ISCO de **1968**
+— não a de 1958, confusão fácil porque a cronologia oficial abre registrando a
+primeira edição da OIT.
+
+A **CBO-94** tinha cinco dígitos, sete grandes grupos, 354 grupos de base e 2.355
+ocupações. O princípio classificatório era o **cargo**, ou posto de trabalho,
+agregado por analogia de tarefas — pergunta diferente da que a ISCO-88 faz, que
+agrupa por nível de habilidade.
+
+A **CBO-2002**, aprovada pela Resolução CONCLA nº 5 de setembro de 2002, mudou o
+princípio: passou a seis dígitos, substituiu o cargo pela **família ocupacional**
+e adotou os dez grandes grupos da ISCO-88 com o critério de agregação por nível
+de competência. A construção mobilizou cerca de sete mil trabalhadores em mil e
+oitocentas reuniões-dia, pelo método DACUM — em que a descrição de uma ocupação é
+produzida por quem a exerce.
+
+**Por que importa.** É a classificação do registro administrativo brasileiro:
+RAIS, CAGED, eSocial. Quem trabalha com vínculo formal entra por ela.
+
+```{r cbo-tamanho}
+# Os dois números abaixo são o que o pacote COBRE, e não o tamanho da CBO: ela
+# tem 2.422 ocupações em 596 famílias, e a tábua oficial do MTE só cobre as que
+# existem também na CBO-94. Veja ?cbo2002_para_isco.
+c(`códigos com correspondência oficial` = nrow(cbo2002_isco88),
+  `famílias com correspondência` = nrow(cbo2002_familia_isco88))
+```
+
+### Dois limites, e o segundo é uma ausência
+
+O primeiro: a conversão entre a **CBO-94 e a CBO-2002 não é um a um**. As
+ocupações de uma família antiga podem se distribuir por famílias diferentes na
+estrutura nova — a comparabilidade existe no nível dos códigos, não no das
+famílias.
+
+O segundo é mais consequente. **Não existe tábua oficial ligando a CBO-2002 à
+ISCO-08.** A CBO permanece ancorada na ISCO-88, com quase duas décadas de
+defasagem em relação à revisão vigente. Um dado que chegue pela CBO só alcança a
+ISCO-08 por travessia — CBO → ISCO-88 → ISCO-08 —, e cada passo custa precisão.
+A prova §1 de [Robustez](robustez.html) mostra o tamanho desse custo.
+
+## A COD, a classificação das pesquisas domiciliares
+
+**História.** A Classificação de Ocupações para Pesquisas Domiciliares foi
+desenvolvida pelo IBGE para o **Censo de 2010**, e é usada desde o primeiro
+trimestre de **2012** na PNAD Contínua. A sua referência declarada é a
+**ISCO-08**.
+
+E a ancoragem é observável na estrutura, sem depender da declaração:
+
+```{r cod}
+cc <- cod_isco08
+c(`grupos de base` = nrow(cc),
+  `idênticos ao código da ISCO-08` = sum(cc$cod == cc$isco08),
+  `porcentagem` = round(100 * mean(cc$cod == cc$isco08), 1))
+```
+
+**Por que importa.** Esta é a diferença mais consequente entre as duas
+classificações brasileiras: **a CBO ancora em 1988 e a COD em 2008.** Não são
+duas versões da mesma árvore — são duas árvores. Um dado que chegue pela COD já
+está na ISCO-08 para quase todos os seus grupos; um dado que chegue pela CBO
+precisa atravessar.
+
+É também por isso que o ISEI-BR é estimado sobre a PNAD Contínua: ali a ocupação
+já está, quase sempre, no endereço internacional vigente.
+
+### Os limites: granularidade e o grande grupo 0
+
+A COD é mais curta que a CBO — 434 grupos de base contra 596 famílias —, e a
+razão declarada é metodológica antes de classificatória. Em pesquisa domiciliar
+a ocupação é a **frase que o morador diz ao entrevistador**, e essa frase
+frequentemente não detalha o suficiente para distinguir grupos de base da
+classificação internacional. A CBO é construída sobre descrições de cargo em
+registro administrativo; a COD, sobre uma resposta de entrevista. A
+granularidade de cada uma responde ao seu instrumento de coleta.
+
+As exceções à identidade com a ISCO-08 são poucas e concentradas:
+
+```{r cod-excecoes}
+cc[cc$correspondencia != "identidade",
+   c("cod", "titulo", "isco08", "correspondencia")]
+```
+
+Quatro delas dizem respeito ao **policiamento**. A classificação brasileira aloca
+oficiais e praças da polícia militar e do corpo de bombeiros militar ao grande
+grupo 0 — o das forças armadas —, ocupando subgrupos que a internacional deixa
+vazios. Com isso ela separa o policial militar do não militar, pondo os dois em
+grandes grupos diferentes.
+
+As duas exceções restantes são de outra natureza, e a tabela as exibe. Uma é uma
+categoria que a classificação brasileira nomeia e a internacional não, conduzida
+ao código vizinho. A outra é a pesca: onde a ISCO-08 distingue pesca costeira,
+de águas interiores e outras, a COD mantém um código único, que só encontra
+destino no agregado.
+
+Convém não atribuir à escolha sobre o policiamento uma intenção que a fonte não
+declara. O IBGE
+registra que preservou nesse grupo o detalhamento da classificação anterior "para
+melhor comparabilidade com outras estatísticas de mercado de trabalho, em
+especial os registros administrativos, classificados segundo a CBO 2002". O
+grande grupo 0 é o ponto em que a COD deliberadamente se afasta da ISCO-08 para
+se aproximar da CBO. Que a estrutura resultante também registre o caráter
+militarizado do policiamento ostensivo brasileiro é leitura possível — e não é o
+motivo declarado.
+
+## O cadastro do TSE, que não é uma classificação
+
+**História e natureza.** O cadastro de ocupações do Tribunal Superior Eleitoral
+difere das anteriores em natureza, não em tamanho. **Ele não é uma classificação
+estatística.** É uma lista de opções de preenchimento de formulário, mantida pela
+Corregedoria-Geral Eleitoral e publicada como anexo de **Provimento** — não de
+Resolução. A sua finalidade é o cadastro eleitoral, não a mensuração, e a
+diferença de propósito explica todas as suas propriedades.
+
+**Por que importa.** É a única fonte de ocupação das candidaturas brasileiras.
+Quem quer estudar recrutamento político por posição social não tem outra porta.
+
+```{r tse-tamanho}
+c(`códigos no dicionário do pacote (1998–2026)` = nrow(tse_isco),
+  `sem correspondência na ISCO-88` = sum(is.na(tse_isco$isco88)),
+  `rótulos distintos ao longo do tempo` = nrow(tse_ocupacao_rotulos))
+```
+
+### Quatro limites, em ordem de gravidade
+
+**1. A escala.** A versão vigente do cadastro traz 257 códigos, contra 2.422
+ocupações da CBO-2002. São instrumentos de ordens de grandeza distintas, e isso
+sozinho impede tratar o código do TSE como equivalente ao da classificação
+nacional. Uma tradução do TSE é, em boa parte, **agregada** — e é por isso que
+`crosswalk_tse()` traz a coluna `qualidade`:
+
+```{r qualidade}
+table(crosswalk_tse()$qualidade, useNA = "ifany")
+```
+
+**2. Não é autodocumentado.** O leiaute que acompanha os arquivos de candidaturas
+descreve os campos de código e descrição da ocupação mas — ao contrário do que
+faz para grau de instrução, estado civil e cor ou raça — **não enumera os valores
+possíveis**. Quem precisa da tabela tem de buscá-la na legislação da
+Corregedoria.
+
+**3. O cadastro muda.** O Provimento de 2005 justifica-se, entre outros motivos,
+pela necessidade de desmembrar grupos de ocupações anotados sob um mesmo número.
+O de 2023 introduziu flexão de gênero em todas as entradas. Nenhuma dessas
+alterações produz valor inválido em série alguma — o que é justamente o
+problema.
+
+```{r mudanca}
+table(tse_quebra_2002$tipo)
+```
+
+**4. E alguns códigos foram reaproveitados.** Sete deles passaram a designar
+ocupação distinta:
+
+```{r reutilizados}
+r <- tse_quebra_2002[tse_quebra_2002$tipo == "reutilizado", ]
+r[order(r$similaridade),
+  c("cod_tse", "rotulo_ate_2000", "rotulo_apos_2002", "primeiro_ano_novo")]
+```
+
+Uma candidatura de 1998 traduzida pelo cadastro atual classifica um ocupante de
+cargo de direção e assessoramento superior como **artista plástico**, e um
+procurador como **estivador**. É o pior tipo de descontinuidade: produz valor
+errado, em silêncio, com aparência de normalidade — sem gerar `NA` nem código
+desconhecido.
+
+É por isso que **toda função de tradução deste pacote aceita `ano`**:
+
+```{r ano}
+c(`214 em 1998` = tse_para_rotulo(214, ano = 1998),
+  `214 em 2010` = tse_para_rotulo(214, ano = 2010))
+```
+
+A prova §7 de [Robustez](robustez.html) mostra o salto de escolaridade que
+confirma a reatribuição, e onde ele não aparece.
+
+## As quatro, lado a lado
+
+| | ISCO-88/08 | CBO-2002 | COD | Cadastro do TSE |
+|---|---|---|---|---|
+| **Quem mantém** | OIT | Ministério do Trabalho | IBGE | Corregedoria-Geral Eleitoral |
+| **Para que foi feita** | comparar países | registro administrativo | pesquisa domiciliar | preencher formulário |
+| **Unidade** | grupo de base | família ocupacional | grupo de base | opção de lista |
+| **Âncora internacional** | é a âncora | ISCO-88 | ISCO-08 | nenhuma |
+| **Ordem de grandeza** | centenas | milhares | centenas | dezenas a centenas |
+| **Estável no tempo** | revisões declaradas | revisões declaradas | estável | **muda sem aviso** |
+| **Tem tábua oficial para a ISCO** | — | sim, para a 88 | sim, para a 08 | **não existe** |
+
+A última linha é a razão de este pacote existir. Para a CBO e para a COD há
+documento oficial a seguir; para o cadastro do TSE não há, e a ponte teve de ser
+construída código a código. É a única parte do pacote que nenhuma autoridade
+externa confirma — e é por isso que ela vem com rótulos, com régua de qualidade
+e com [validação contra critério externo](../articles/validacao.html).
+
+## Para seguir
+
+- [Qual régua responde à sua pergunta](../articles/qual-regua.html) — as
+  **medidas** construídas sobre estes endereços, e como escolher entre elas.
+- [Robustez](robustez.html) — as provas de que as travessias entre elas fazem o
+  que dizem fazer.
+- [Antecedentes](antecedentes.html) — a linhagem em que este trabalho se
+  inscreve, e o que nele é contribuição.

@@ -25,7 +25,7 @@ home:
 
 navbar:
   structure:
-    left:  [comece, percursos, antecedentes, robustez, articles, reference, publicacoes, news]
+    left:  [comece, percursos, classificacoes, antecedentes, robustez, articles, reference, publicacoes, news]
     right: [search, github, lightswitch]
   components:
     comece:
@@ -34,6 +34,9 @@ navbar:
     percursos:
       text: Percursos
       href: articles/percursos.html
+    classificacoes:
+      text: Classificações
+      href: articles/classificacoes.html
     antecedentes:
       text: Antecedentes
       href: articles/antecedentes.html
@@ -70,6 +73,7 @@ articles:
   - matches("^articles/percursos$")
 - title: Escolher e validar a medida
   contents:
+  - matches("^articles/classificacoes$")
   - matches("^qual-regua$")
   - matches("^validacao$")
   - matches("^articles/robustez$")

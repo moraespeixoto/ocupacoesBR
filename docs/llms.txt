@@ -550,6 +550,14 @@ proveniência.
 
 ### Escolher e validar a medida
 
+- [As classificações: história, alcance e
+  limites](https://moraespeixoto.github.io/ocupacoesBR/articles/classificacoes.md):
+
+  As quatro classificações de ocupação por onde o dado entra no pacote —
+  a ISCO, a CBO, a classificação domiciliar do IBGE e o cadastro do TSE.
+  De onde cada uma veio, para que foi feita, e o que ela não pode
+  responder.
+
 - [Qual régua responde à sua
   pergunta](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md):
 
