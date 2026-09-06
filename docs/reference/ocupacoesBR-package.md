@@ -33,6 +33,17 @@ originais guardados em `inst/extdata/fontes/`, nunca transcrita à mão. O
 script está em `data-raw/01_gera_dados.R` e pode ser reexecutado para
 reconferir qualquer valor contra a sua fonte.
 
+## Para quem lê por máquina
+
+O pacote traz um resumo operacional de uma página, escrito para ser lido
+inteiro antes da primeira chamada — a gramática dos nomes, o contrato de
+chamada e as três maneiras de obter um resultado errado e silencioso:
+
+    system.file("llm", "GUIA_AGENTE.md", package = "ocupacoesBR")
+
+A escolha da régua, que é o erro mais caro, está em forma consultável em
+[reguas](https://moraespeixoto.github.io/ocupacoesBR/reference/reguas.md).
+
 ## Veja também
 
 Useful links:

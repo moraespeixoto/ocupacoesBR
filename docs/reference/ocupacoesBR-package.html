@@ -11,7 +11,7 @@ eleitoral."><meta property="og:image" content="https://moraespeixoto.github.io/o
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -82,6 +82,17 @@ vínculo público sem função — e que não têm equivalente na CBO.</p>
 originais guardados em <code>inst/extdata/fontes/</code>, nunca transcrita à mão. O script
 está em <code>data-raw/01_gera_dados.R</code> e pode ser reexecutado para reconferir
 qualquer valor contra a sua fonte.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="para-quem-l-por-m-quina">Para quem lê por máquina<a class="anchor" aria-label="anchor" href="#para-quem-l-por-m-quina"></a></h2>
+
+
+<p>O pacote traz um resumo operacional de uma página, escrito para ser lido
+inteiro antes da primeira chamada — a gramática dos nomes, o contrato de
+chamada e as três maneiras de obter um resultado errado e silencioso:</p>
+<p></p><div class="sourceCode"><pre><code><span id="cb1-1"><a href="#cb1-1" tabindex="-1"></a><span class="fu">system.file</span>(<span class="st">"llm"</span>, <span class="st">"GUIA_AGENTE.md"</span>, <span class="at">package =</span> <span class="st">"ocupacoesBR"</span>)</span></code></pre><p></p></div>
+<p>A escolha da régua, que é o erro mais caro, está em forma consultável em
+<a href="reguas.html">reguas</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="veja-tamb-m">Veja também<a class="anchor" aria-label="anchor" href="#veja-tamb-m"></a></h2>

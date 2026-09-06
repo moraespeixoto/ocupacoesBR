@@ -1,5 +1,77 @@
 # Changelog
 
+## ocupacoesBR 0.7.0
+
+O pacote fica legível por quem lê máquina, e a regra que ele mais repete
+vira tabela.
+
+### `reguas`: a escolha da régua deixa de morar só na prosa
+
+O risco central deste pacote nunca foi errar uma tradução. É trocar uma
+régua por outra sem perceber — a troca custa uma letra no nome da
+função, não produz erro nenhum, e a vinheta `qual-regua` abre dizendo
+exatamente isso. O aviso existia, mas em prosa, que é o último formato
+que um leitor apressado consulta.
+
+Agora existe `reguas`: nove linhas, uma por medida, com a pergunta que
+cada uma responde, o que ela mede, de onde vem e **quando não usá-la**.
+É filtrável:
+
+``` r
+reguas[reguas$tipo == "continua", c("medida", "ancora", "funcao_tse")]
+reguas$quando_nao_usar[reguas$medida == "EGP"]
+```
+
+Duas decisões merecem registro. A primeira é que a tabela é **dado, não
+função**: é onde a documentação do pacote já manda procurar, e onde
+`tse_isco` e `tse_quebra_2002` já guardam julgamento autoral. A segunda
+é que ela é a única tabela do pacote que não deriva de fonte externa, e
+por isso fica fora da auditoria de proveniência. O que a mantém honesta
+é outra coisa — `tests/testthat/test-reguas.R` amarra as funções citadas
+aos exports reais nas duas direções, de modo que uma porta nova sem
+linha na tabela reprova o teste. Os intervalos das réguas contínuas
+também não são digitados: saem de `isco88_medidas` e irmãs no momento da
+geração.
+
+A seção 1 da vinheta `qual-regua` passou a **consumir** a tabela em vez
+de repeti-la. Uma fonte só.
+
+### Um guia de uma página para quem lê por máquina
+
+`inst/llm/GUIA_AGENTE.md` concentra o que precisa ser sabido **antes da
+primeira chamada**: a gramática `<origem>_para_<destino>` que 47 dos 61
+exports seguem, o contrato de chamada, e as três maneiras de obter um
+resultado errado e silencioso — régua trocada, série longa sem `ano`,
+`NA` tratado como zero quando a ausência é generificada.
+
+``` r
+system.file("llm", "GUIA_AGENTE.md", package = "ocupacoesBR")
+```
+
+Ele remete a `reguas` em vez de repetir a tabela, e não é uma quarta
+cópia da prosa: `tests/testthat/test-guia-agente.R` confere que toda
+função citada existe, que as contagens batem com o NAMESPACE, e que o
+contraexemplo do guia (`cbo94_para_isei_br()`, a porta que
+deliberadamente não existe) continua não existindo.
+
+### O site parou de sabotar quem copia, e quem lê por máquina
+
+Duas correções na home, com a mesma origem: SVG e `<code>` escritos à
+mão atravessam mal o pandoc.
+
+A linha de instalação estava marcada como `<code>` com `<span>` de cor
+dentro. O pandoc lê o texto entre tags inline como markdown, e a
+extensão `smart` transformava as aspas retas de `install_github("...")`
+em aspas curvas — quem copiava do site recebia código que não roda.
+Agora é um bloco de código de verdade, realçado pelo próprio pandoc, com
+as cores devolvidas por CSS.
+
+Os cinco ícones da home eram `<svg>` inline. O pandoc os converte em URI
+`data:` base64, o que enchia de lixo os espelhos `.md` que o pkgdown
+gera e o `docs/llms.txt` — o arquivo que modelos de linguagem leem. Os
+ícones viraram máscaras em CSS: o desenho é o mesmo, e o markup não os
+contém mais.
+
 ## ocupacoesBR 0.6.0
 
 Preparação para o CRAN, e uma aba nova no site.

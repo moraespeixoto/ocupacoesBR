@@ -14,12 +14,23 @@ library(ocupacoesBR)
 
 ## 1. Escolha a régua pela pergunta
 
+A tabela abaixo não está digitada aqui: ela é a tabela `reguas`, que
+viaja com o pacote e pode ser consultada de dentro do R.
+
 | se você quer saber… | use | o que ela mede |
-|----|----|----|
-| quanto uma posição converte educação em renda | [`tse_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md) | **status socioeconômico**, contínuo |
-| o quanto uma ocupação é socialmente estimada | [`tse_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio.md) | **prestígio**, contínuo |
-| a relação de emprego (quem contrata, quem é contratado) | [`tse_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_egp.md) | **classe relacional**, categórica |
-| a estrutura de classes do dado eleitoral brasileiro | [`tse_para_classe()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.md) | esquema próprio, categórico |
+|:---|:---|:---|
+| quanto uma posição converte educação em renda | [`tse_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md) | status socioeconômico, contínua |
+| o quanto uma ocupação é socialmente estimada | [`tse_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio.md) | prestígio, isto é, reputação e não recurso, contínua |
+| a relação de emprego: quem contrata, quem é contratado | [`tse_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_egp.md) | classe relacional, categórica |
+| a estrutura de classes do dado eleitoral brasileiro | [`tse_para_classe()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.md) | esquema próprio, que cobre os 17 códigos sem ISCO, categórica |
+
+As outras cinco réguas — ISEI-08, ISEI-BR, prestígio-08, estrato e a
+partição da classe alta — estão na mesma tabela, com a mesma coluna
+dizendo quando cada uma é a escolha errada:
+
+``` r
+reguas[, c("medida", "pergunta", "quando_nao_usar")]
+```
 
 ### ISEI e prestígio não são a mesma coisa
 

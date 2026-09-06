@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -50,6 +50,34 @@
       <small>Fonte: <a href="https://github.com/moraespeixoto/ocupacoesBR/blob/HEAD/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.7.0" id="ocupacoesbr-070">ocupacoesBR 0.7.0<a class="anchor" aria-label="anchor" href="#ocupacoesbr-070"></a></h2>
+<p>O pacote fica legível por quem lê máquina, e a regra que ele mais repete vira tabela.</p>
+<div class="section level3">
+<h3 id="reguas-a-escolha-da-régua-deixa-de-morar-só-na-prosa-0-7-0">
+<code>reguas</code>: a escolha da régua deixa de morar só na prosa<a class="anchor" aria-label="anchor" href="#reguas-a-escolha-da-r%C3%A9gua-deixa-de-morar-s%C3%B3-na-prosa-0-7-0"></a></h3>
+<p>O risco central deste pacote nunca foi errar uma tradução. É trocar uma régua por outra sem perceber — a troca custa uma letra no nome da função, não produz erro nenhum, e a vinheta <code>qual-regua</code> abre dizendo exatamente isso. O aviso existia, mas em prosa, que é o último formato que um leitor apressado consulta.</p>
+<p>Agora existe <code>reguas</code>: nove linhas, uma por medida, com a pergunta que cada uma responde, o que ela mede, de onde vem e <strong>quando não usá-la</strong>. É filtrável:</p>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">reguas</span><span class="op">[</span><span class="va">reguas</span><span class="op">$</span><span class="va">tipo</span> <span class="op">==</span> <span class="st">"continua"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"medida"</span>, <span class="st">"ancora"</span>, <span class="st">"funcao_tse"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="va">reguas</span><span class="op">$</span><span class="va">quando_nao_usar</span><span class="op">[</span><span class="va">reguas</span><span class="op">$</span><span class="va">medida</span> <span class="op">==</span> <span class="st">"EGP"</span><span class="op">]</span></span></code></pre></div>
+<p>Duas decisões merecem registro. A primeira é que a tabela é <strong>dado, não função</strong>: é onde a documentação do pacote já manda procurar, e onde <code>tse_isco</code> e <code>tse_quebra_2002</code> já guardam julgamento autoral. A segunda é que ela é a única tabela do pacote que não deriva de fonte externa, e por isso fica fora da auditoria de proveniência. O que a mantém honesta é outra coisa — <code>tests/testthat/test-reguas.R</code> amarra as funções citadas aos exports reais nas duas direções, de modo que uma porta nova sem linha na tabela reprova o teste. Os intervalos das réguas contínuas também não são digitados: saem de <code>isco88_medidas</code> e irmãs no momento da geração.</p>
+<p>A seção 1 da vinheta <code>qual-regua</code> passou a <strong>consumir</strong> a tabela em vez de repeti-la. Uma fonte só.</p>
+</div>
+<div class="section level3">
+<h3 id="um-guia-de-uma-página-para-quem-lê-por-máquina-0-7-0">Um guia de uma página para quem lê por máquina<a class="anchor" aria-label="anchor" href="#um-guia-de-uma-p%C3%A1gina-para-quem-l%C3%AA-por-m%C3%A1quina-0-7-0"></a></h3>
+<p><code>inst/llm/GUIA_AGENTE.md</code> concentra o que precisa ser sabido <strong>antes da primeira chamada</strong>: a gramática <code>&lt;origem&gt;_para_&lt;destino&gt;</code> que 47 dos 61 exports seguem, o contrato de chamada, e as três maneiras de obter um resultado errado e silencioso — régua trocada, série longa sem <code>ano</code>, <code>NA</code> tratado como zero quando a ausência é generificada.</p>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/system.file.html" class="external-link">system.file</a></span><span class="op">(</span><span class="st">"llm"</span>, <span class="st">"GUIA_AGENTE.md"</span>, package <span class="op">=</span> <span class="st">"ocupacoesBR"</span><span class="op">)</span></span></code></pre></div>
+<p>Ele remete a <code>reguas</code> em vez de repetir a tabela, e não é uma quarta cópia da prosa: <code>tests/testthat/test-guia-agente.R</code> confere que toda função citada existe, que as contagens batem com o NAMESPACE, e que o contraexemplo do guia (<code>cbo94_para_isei_br()</code>, a porta que deliberadamente não existe) continua não existindo.</p>
+</div>
+<div class="section level3">
+<h3 id="o-site-parou-de-sabotar-quem-copia-e-quem-lê-por-máquina-0-7-0">O site parou de sabotar quem copia, e quem lê por máquina<a class="anchor" aria-label="anchor" href="#o-site-parou-de-sabotar-quem-copia-e-quem-l%C3%AA-por-m%C3%A1quina-0-7-0"></a></h3>
+<p>Duas correções na home, com a mesma origem: SVG e <code>&lt;code&gt;</code> escritos à mão atravessam mal o pandoc.</p>
+<p>A linha de instalação estava marcada como <code>&lt;code&gt;</code> com <code>&lt;span&gt;</code> de cor dentro. O pandoc lê o texto entre tags inline como markdown, e a extensão <code>smart</code> transformava as aspas retas de <code>install_github("...")</code> em aspas curvas — quem copiava do site recebia código que não roda. Agora é um bloco de código de verdade, realçado pelo próprio pandoc, com as cores devolvidas por CSS.</p>
+<p>Os cinco ícones da home eram <code>&lt;svg&gt;</code> inline. O pandoc os converte em URI <code>data:</code> base64, o que enchia de lixo os espelhos <code>.md</code> que o pkgdown gera e o <code>docs/llms.txt</code> — o arquivo que modelos de linguagem leem. Os ícones viraram máscaras em CSS: o desenho é o mesmo, e o markup não os contém mais.</p>
+</div>
+</div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.6.0" id="ocupacoesbr-060">ocupacoesBR 0.6.0<a class="anchor" aria-label="anchor" href="#ocupacoesbr-060"></a></h2>
 <p>Preparação para o CRAN, e uma aba nova no site.</p>
@@ -446,7 +474,7 @@ Package suggested but not available: 'DIGCLASS'</code></pre>
 <div class="section level3">
 <h3 id="o-uso-normal-ficou-explícito-logo-no-começo-0-3-0">O uso normal ficou explícito logo no começo<a class="anchor" aria-label="anchor" href="#o-uso-normal-ficou-expl%C3%ADcito-logo-no-come%C3%A7o-0-3-0"></a></h3>
 <p>A home do site e o artigo “Comece aqui” passam a abrir com a linha que responde à pergunta que todo mundo faz primeiro:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">dados</span> <span class="op">&lt;-</span> <span class="va">dados</span> <span class="op">|&gt;</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span>isei <span class="op">=</span> <span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">CD_OCUPACAO</span>, ano <span class="op">=</span> <span class="va">ANO_ELEICAO</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p>A coluna inteira entra, a coluna traduzida sai, alinhada linha a linha, e o banco não muda de tamanho. Estava implícito em toda a documentação e explícito em lugar nenhum: os exemplos anteriores usavam vetores curtos como <code>c("111", "169", "257")</code>, que cabem na tela mas sugerem tradução código a código. A versão em R base (<code>dados$isei &lt;- ...</code>) vem logo abaixo, e a junção com <code><a href="../reference/crosswalk_tse.html">crosswalk_tse()</a></code> fica ao lado, para quem quer as dezesseis colunas de uma vez.</p>
 <p>O exemplo é executado, não digitado, e a moldura inclui de propósito uma linha de 1998 com o código 214. Com isso as duas formas aparecem lado a lado sobre a mesma linha: o <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code> com <code>ano</code> devolve <code>NA</code> e avisa, e a junção — que usa o cadastro corrente — devolve escultor e pintor com ISEI 54, em silêncio. A ressalva sobre <code>ano</code> deixa de ser uma advertência abstrata e passa a ser algo que o leitor vê acontecer.</p>
@@ -818,7 +846,7 @@ end repeat.</code></pre>
 <li><p><strong><code><a href="../reference/isei_retrospectivo.html">?isei_retrospectivo</a></code> ganha “O que ele erra, medido”.</strong> Entre os 680.317 pares consecutivos em que o ISEI foi observado nas duas pontas, <strong>52,1%</strong> mudam de código e <strong>45,3%</strong> mudam de escore, com diferença absoluta média de <strong>18,9 pontos</strong> quando muda. Mesmo com defasagem zero o escore herdado estaria errado em quase metade dos casos — e a defasagem não é zero: mediana de 4 anos, <strong>34,6%</strong> de 8 anos ou mais. Pior que o tamanho é a direção: o erro aponta sempre para o passado, então para quem ascendeu ele puxa a posição para baixo. É viés sistemático contra a própria quantidade que estudos de profissionalização política querem medir.</p></li>
 <li>
 <p><strong><code>tse_codigos_autorrotulo</code></strong> — os dez códigos cujo rótulo designa propriedade por autodescrição (empresário, comerciante, industrial, proprietário de estabelecimento) e que, por isso, não são ancorados em registro nenhum. São <strong>12,2%</strong> das candidaturas. O uso é análise de sensibilidade em uma linha:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span><span class="op">$</span><span class="va">isei_ancorado</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">cod</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">tse_codigos_autorrotulo</span>, <span class="cn">NA</span>, <span class="va">d</span><span class="op">$</span><span class="va">isei</span><span class="op">)</span></span></code></pre></div>
 <p>A decisão sobre o código <strong>257 (EMPRESÁRIO) foi medir e não mover</strong>. A proposta da auditoria — levá-lo à ISCO 13, ISEI 51 — é rejeitada pelo critério externo: 257 tem o <strong>maior</strong> patrimônio mediano entre os códigos proprietários (R$ 495.400, contra R$ 303.874 do industrial e R$ 296.088 do comerciante), e rebaixá-lo o poria abaixo do industrial. O problema do 257 não é o nível, é a dispersão: dentro do código os extremos de patrimônio distam 81 vezes, e o mediano varia por um fator de 25 conforme o cargo disputado. É uma <strong>mistura</strong> de duas populações sob um rótulo, e mistura não se corrige mudando o ponto — se torna visível.</p>
 <p>A escolha da classe e do estrato <strong>não dependia</strong> dessa decisão: 257 está em <code>.COD_PROPRIETARIO</code>, e a regra de classe testa a pertença antes de olhar o ISCO.</p>

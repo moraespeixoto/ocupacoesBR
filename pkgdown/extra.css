@@ -1,8 +1,8 @@
 /* Os fluxogramas sao SVG de fundo claro, gerados pelo mermaid. No tema escuro
    eles ficariam como ilhas de luz com contorno duro; a moldura branca com canto
    arredondado os apresenta como figura, e nao como falha de tema. */
-.contents img[src*="figuras/"],
-.contents img[src$=".svg"] {
+body > .container:not(.template-home) main img[src*="figuras/"],
+body > .container:not(.template-home) main img[src$=".svg"] {
   background: #ffffff;
   border-radius: 8px;
   padding: 0.75rem;
@@ -11,7 +11,7 @@
 }
 
 /* Tabelas largas de referencia rolam dentro de si, em vez de esticar a pagina. */
-.contents table {
+body > .container:not(.template-home) main table {
   display: block;
   overflow-x: auto;
   max-width: 100%;
@@ -26,7 +26,7 @@
    pelo `.ocb-wrap` interno. Os tokens de cor sao os do mockup aprovado.
    ========================================================================== */
 
-.template-home {
+:root {
   --ocb-fundo:      #F6FAFB;
   --ocb-card:       #FFFFFF;
   --ocb-faixa:      #FFFFFF;
@@ -45,15 +45,9 @@
   --ocb-pessego:    #F8B08A;
   --ocb-verde:      #2E9E5B;
   --ocb-escuro:     #1C3540;
-
-  max-width: 100%;
-  padding-left: 0;
-  padding-right: 0;
-  background: var(--ocb-fundo);
-  color: var(--ocb-texto);
 }
 
-[data-bs-theme="dark"] .template-home {
+[data-bs-theme="dark"] {
   --ocb-fundo:      #142731;
   --ocb-card:       #1C3540;
   --ocb-faixa:      #18303A;
@@ -69,6 +63,14 @@
   --ocb-teal-esc:   #7FC8D3;
   --ocb-laranja:    #FF8149;
   --ocb-escuro:     #10222B;
+}
+
+.template-home {
+  max-width: 100%;
+  padding-left: 0;
+  padding-right: 0;
+  background: var(--ocb-fundo);
+  color: var(--ocb-texto);
 }
 
 .template-home > .row { margin-left: 0; margin-right: 0; }
@@ -526,4 +528,364 @@ main div.sourceCode pre,
 main div.sourceCode pre code {
   white-space: pre-wrap;
   overflow-wrap: break-word;
+}
+
+/* ==========================================================================
+   AS PAGINAS INTERNAS
+   --------------------------------------------------------------------------
+   Vinhetas, referencia, novidades e autores saiam com o Bootstrap cru: fundo
+   branco, texto cinza, bloco de codigo cinza-claro e indice com realce cinza.
+   Ao lado da home, que tem paleta propria, pareciam outro site. Aqui elas
+   herdam os mesmos tokens: tinta teal nos titulos, laranja no realce, o mesmo
+   bloco de codigo escuro que a home usa no terminal, e o conteudo dentro de um
+   cartao sobre o fundo azulado.
+
+   O seletor e sempre `body > .container:not(.template-home)`, que e a unica classe
+   que o pkgdown poe na div de topo de cada pagina: pega vinheta, referencia,
+   novidades, autores e qualquer template futuro, e nunca a home.
+   ========================================================================== */
+
+body { background: var(--ocb-fundo); }
+
+/* --- a barra de navegacao, em todas as paginas ---------------------------- */
+
+.navbar {
+  background-color: var(--ocb-hero-topo) !important;
+  border-bottom: 1px solid var(--ocb-borda);
+}
+.navbar .navbar-brand { color: var(--ocb-tinta); font-weight: 700; }
+/* Sem isto "Comece aqui" quebra em duas linhas, a barra fica com o dobro da
+   altura e cobre o h1 da pagina — que e fixed-top e nao reserva espaco. */
+.navbar .navbar-nav .nav-link { white-space: nowrap; }
+.navbar .nav-link, .navbar .nav-text, .navbar .pkg-version {
+  color: var(--ocb-texto) !important;
+}
+.navbar .nav-link:hover { color: var(--ocb-laranja) !important; }
+.navbar .nav-item.active > .nav-link,
+.navbar .nav-link.active {
+  color: var(--ocb-teal-esc) !important;
+  font-weight: 600;
+  background: var(--ocb-sup);
+  border-radius: 6px;
+}
+.navbar .form-control {
+  background: var(--ocb-card);
+  border-color: var(--ocb-borda2);
+  color: var(--ocb-tinta);
+}
+.navbar .dropdown-menu {
+  background: var(--ocb-card);
+  border: 1px solid var(--ocb-borda);
+}
+.navbar .dropdown-item { color: var(--ocb-texto); }
+.navbar .dropdown-item:hover { background: var(--ocb-sup); color: var(--ocb-teal-esc); }
+
+/* --- o cartao de conteudo ------------------------------------------------- */
+
+/* A barra e fixed-top e nao empurra o conteudo; a home resolve isso com o
+   respiro do hero, as demais paginas precisam reservar a altura aqui. */
+html { scroll-padding-top: 84px; }
+body > .container:not(.template-home) { padding-top: 84px; padding-bottom: 48px; }
+@media (max-width: 991px) {
+  html { scroll-padding-top: 66px; }
+  body > .container:not(.template-home) { padding-top: 66px; }
+}
+
+body > .container:not(.template-home) main {
+  background: var(--ocb-card);
+  border: 1px solid var(--ocb-borda);
+  border-radius: 14px;
+  padding: 36px 40px 44px;
+  color: var(--ocb-texto);
+}
+
+/* A calha do Bootstrap e padding nas colunas; como o cartao pinta ate a borda
+   dela, a folga entre cartao e indice tem de virar margem. */
+@media (min-width: 768px) {
+  body > .container:not(.template-home) > .row { --bs-gutter-x: 0; margin-left: 0; margin-right: 0; }
+  body > .container:not(.template-home) main.col-md-9 { flex: 0 0 74%; max-width: 74%; }
+  body > .container:not(.template-home) aside.col-md-3 {
+    flex: 0 0 24%; max-width: 24%; margin-left: 2%; padding: 0;
+  }
+}
+@media (max-width: 767px) {
+  body > .container:not(.template-home) main { padding: 24px 22px 32px; }
+}
+
+/* --- tipografia ----------------------------------------------------------- */
+
+body > .container:not(.template-home) main h1,
+body > .container:not(.template-home) main h2,
+body > .container:not(.template-home) main h3,
+body > .container:not(.template-home) main h4 {
+  color: var(--ocb-tinta);
+  font-weight: 700;
+  border: 0;
+}
+body > .container:not(.template-home) .page-header {
+  border-bottom: 1px solid var(--ocb-borda);
+  padding-bottom: 20px;
+  margin-bottom: 28px;
+}
+body > .container:not(.template-home) .page-header h1 {
+  font-size: clamp(28px, 3vw, 38px);
+  line-height: 1.15;
+  margin: 0 0 10px;
+}
+body > .container:not(.template-home) .page-header img.logo {
+  width: 88px; height: auto; margin-left: 20px;
+}
+body > .container:not(.template-home) .page-header small.dont-index {
+  color: var(--ocb-fraco); font-size: 13px;
+}
+
+/* O h2 ganha um tracinho teal em cima: e o mesmo gesto do kicker da home, e da
+   ritmo de secao a um texto longo sem precisar de faixa colorida. */
+body > .container:not(.template-home) main h2 {
+  font-size: 27px;
+  line-height: 1.2;
+  margin-top: 3rem;
+  margin-bottom: 0.9rem;
+  padding-top: 18px;
+  position: relative;
+}
+body > .container:not(.template-home) main h2::before {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 44px; height: 3px; border-radius: 2px;
+  background: var(--ocb-teal);
+}
+body > .container:not(.template-home) main .page-header + .section > h2:first-child,
+body > .container:not(.template-home) main .ref-description + .section > h2:first-child {
+  margin-top: 1.5rem;
+}
+body > .container:not(.template-home) main h3 {
+  font-size: 20px; margin-top: 2rem; margin-bottom: 0.6rem;
+}
+body > .container:not(.template-home) main h4 {
+  font-size: 17px; margin-top: 1.6rem; color: var(--ocb-teal-esc);
+}
+body > .container:not(.template-home) main p,
+body > .container:not(.template-home) main li {
+  color: var(--ocb-texto);
+  line-height: 1.68;
+}
+body > .container:not(.template-home) main .ref-description p {
+  font-size: 18px; line-height: 1.55; color: var(--ocb-tinta);
+}
+body > .container:not(.template-home) main strong { color: var(--ocb-tinta); }
+body > .container:not(.template-home) main a { color: var(--ocb-teal-esc); text-decoration: none; }
+body > .container:not(.template-home) main a:hover { color: var(--ocb-laranja); text-decoration: underline; }
+body > .container:not(.template-home) main .anchor { opacity: .45; }
+
+/* --- codigo --------------------------------------------------------------- */
+
+/* Inline: uma etiqueta teal, no lugar do vermelho do Bootstrap. */
+body > .container:not(.template-home) main code {
+  background: var(--ocb-sup);
+  color: var(--ocb-teal-esc);
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 0.88em;
+}
+/* Bloco: a mesma moldura escura do terminal da home, nos dois temas. */
+body > .container:not(.template-home) main div.sourceCode,
+body > .container:not(.template-home) main pre {
+  background: var(--ocb-escuro) !important;
+  border: 0 !important;
+  border-radius: 10px;
+  margin: 1.2rem 0;
+}
+[data-bs-theme="dark"] body > .container:not(.template-home) main div.sourceCode,
+[data-bs-theme="dark"] body > .container:not(.template-home) main pre {
+  border: 1px solid var(--ocb-borda2) !important;
+}
+body > .container:not(.template-home) main div.sourceCode pre {
+  margin: 0; border: 0 !important;
+}
+body > .container:not(.template-home) main pre { padding: 18px 20px; }
+body > .container:not(.template-home) main pre code {
+  background: none; padding: 0;
+  font-size: 13.5px; line-height: 1.6;
+}
+body > .container:not(.template-home) main pre,
+body > .container:not(.template-home) main pre code,
+body > .container:not(.template-home) main pre code span { color: #E6F1F3; }
+
+body > .container:not(.template-home) main pre .fu,
+body > .container:not(.template-home) main pre .kw,
+body > .container:not(.template-home) main pre .cf,
+body > .container:not(.template-home) main pre .cn { color: #7FC8D3 !important; }
+body > .container:not(.template-home) main pre .st,
+body > .container:not(.template-home) main pre .dv,
+body > .container:not(.template-home) main pre .fl { color: #F8B08A !important; }
+body > .container:not(.template-home) main pre .co { color: #A5C0C9 !important; }
+body > .container:not(.template-home) main pre .wa,
+body > .container:not(.template-home) main pre .er { color: #F2B822 !important; }
+body > .container:not(.template-home) main pre .va,
+body > .container:not(.template-home) main pre .op,
+body > .container:not(.template-home) main pre .sc { color: #E6F1F3 !important; }
+body > .container:not(.template-home) main pre code span { font-style: normal !important; }
+body > .container:not(.template-home) main pre a,
+body > .container:not(.template-home) main pre a code { color: inherit !important; text-decoration: none; }
+body > .container:not(.template-home) main pre a:hover { text-decoration: underline; }
+
+/* --- tabelas -------------------------------------------------------------- */
+
+body > .container:not(.template-home) main table {
+  border: 1px solid var(--ocb-borda);
+  border-radius: 12px;
+  background: var(--ocb-card);
+  margin: 1.4rem 0;
+  font-size: 15px;
+}
+body > .container:not(.template-home) main table > thead th {
+  background: var(--ocb-sup);
+  color: var(--ocb-tinta);
+  font-weight: 700;
+  border-bottom: 2px solid var(--ocb-borda2) !important;
+  border-top: 0 !important;
+}
+body > .container:not(.template-home) main table td,
+body > .container:not(.template-home) main table th {
+  border-color: var(--ocb-borda) !important;
+  padding: 9px 14px;
+  color: var(--ocb-texto);
+}
+body > .container:not(.template-home) main table tr.even > td { background: var(--ocb-sup2); }
+body > .container:not(.template-home) main table code { background: transparent; padding: 0; }
+
+/* --- as listas de definicao (indice da referencia e argumentos) ------------ */
+
+body > .container:not(.template-home) main dl {
+  display: grid;
+  grid-template-columns: minmax(180px, 30%) 1fr;
+  column-gap: 24px;
+  margin: 0.8rem 0 0;
+}
+body > .container:not(.template-home) main dl > dt {
+  font-weight: 600;
+  color: var(--ocb-teal-esc);
+  padding: 10px 0;
+  border-top: 1px solid var(--ocb-borda);
+}
+/* Nome de funcao e nome de argumento sao codigo e vao em monoespacada; titulo
+   de vinheta, no indice dos artigos, e prosa e nao vai. */
+body > .container.template-reference-topic main dl > dt {
+  font-family: var(--bs-font-monospace);
+  font-size: 14px;
+}
+body > .container:not(.template-home) main dl > dd {
+  margin: 0;
+  padding: 10px 0;
+  border-top: 1px solid var(--ocb-borda);
+  color: var(--ocb-texto);
+}
+body > .container:not(.template-home) main dl > dt:first-child,
+body > .container:not(.template-home) main dl > dt:first-child + dd {
+  border-top: 0;
+}
+body > .container:not(.template-home) main dl > dd > p:last-child { margin-bottom: 0; }
+body > .container:not(.template-home) main dl > dt code {
+  background: transparent; padding: 0; font-size: 14px;
+}
+@media (max-width: 767px) {
+  body > .container:not(.template-home) main dl { grid-template-columns: minmax(0, 1fr); }
+  body > .container:not(.template-home) main dl > dd { border-top: 0; padding-top: 0; }
+}
+
+body > .container:not(.template-home) .section-desc p {
+  color: var(--ocb-fraco);
+  font-size: 15.5px;
+  max-width: 46em;
+}
+
+/* --- citacao em bloco ------------------------------------------------------ */
+
+body > .container:not(.template-home) main blockquote {
+  border-left: 3px solid var(--ocb-teal);
+  background: var(--ocb-sup2);
+  border-radius: 0 8px 8px 0;
+  padding: 14px 20px;
+  margin: 1.4rem 0;
+  font-size: 15.5px;
+}
+body > .container:not(.template-home) main blockquote p:last-child { margin-bottom: 0; }
+
+/* --- o indice lateral ------------------------------------------------------ */
+
+body > .container:not(.template-home) aside nav#toc {
+  position: sticky;
+  top: 84px;
+  background: var(--ocb-card);
+  border: 1px solid var(--ocb-borda);
+  border-radius: 12px;
+  padding: 18px 14px;
+}
+body > .container:not(.template-home) aside nav#toc h2 {
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--ocb-teal);
+  margin: 0 0 12px 10px;
+  border: 0;
+}
+body > .container:not(.template-home) aside nav#toc .nav-link {
+  color: var(--ocb-texto);
+  font-size: 14px;
+  line-height: 1.35;
+  padding: 7px 10px;
+  border-left: 2px solid transparent;
+  border-radius: 0 6px 6px 0;
+}
+body > .container:not(.template-home) aside nav#toc .nav-link:hover {
+  color: var(--ocb-teal-esc);
+  background: var(--ocb-sup2);
+}
+body > .container:not(.template-home) aside nav#toc .nav-link.active {
+  color: var(--ocb-teal-esc);
+  font-weight: 600;
+  background: var(--ocb-sup);
+  border-left-color: var(--ocb-laranja);
+}
+body > .container:not(.template-home) aside nav#toc ul ul .nav-link {
+  font-size: 13px;
+  padding-left: 22px;
+  color: var(--ocb-fraco);
+}
+
+/* --- rodape ---------------------------------------------------------------- */
+
+body > .container:not(.template-home) > footer {
+  margin-top: 32px;
+  padding-top: 18px;
+  border-top: 1px solid var(--ocb-borda);
+  font-size: 13px;
+}
+body > .container:not(.template-home) > footer p { color: var(--ocb-fraco); margin: 0; }
+body > .container:not(.template-home) > footer a { color: var(--ocb-teal-esc); }
+
+/* O indice dos artigos agrupa as vinhetas em h3, nao em h2. Como ali ele e o
+   titulo de secao, ganha o mesmo tratamento — inclusive o tracinho teal. */
+body > .container.template-article-index main .section > h3 {
+  font-size: 27px;
+  line-height: 1.2;
+  margin-top: 3rem;
+  margin-bottom: 0.9rem;
+  padding-top: 18px;
+  position: relative;
+}
+body > .container.template-article-index main .section > h3::before {
+  content: "";
+  position: absolute; top: 0; left: 0;
+  width: 44px; height: 3px; border-radius: 2px;
+  background: var(--ocb-teal);
+}
+body > .container.template-article-index main .section:first-of-type > h3 { margin-top: 1.5rem; }
+body > .container.template-article-index main dl > dt { font-size: 16px; }
+
+/* No celular o indice vem depois do texto: grudar no topo nao ajuda. */
+@media (max-width: 767px) {
+  body > .container:not(.template-home) aside nav#toc { position: static; margin-top: 24px; }
 }

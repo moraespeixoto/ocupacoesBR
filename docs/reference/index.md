@@ -1,5 +1,14 @@
 # Índice de pacotes
 
+## Escolher a régua
+
+As réguas não são intercambiáveis, e trocar uma pela outra custa uma
+letra no nome da função. Esta tabela diz qual delas responde a qual
+pergunta, e quando cada uma é a escolha errada.
+
+- [`reguas`](https://moraespeixoto.github.io/ocupacoesBR/reference/reguas.md)
+  : Qual régua responde a qual pergunta
+
 ## A porta do TSE
 
 O código de ocupação declarado nas candidaturas é a porta principal.

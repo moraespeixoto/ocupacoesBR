@@ -6,10 +6,12 @@ Traduz o código de ocupação das candidaturas em ISCO-88 e ISCO-08, e daí
 em ISEI, prestígio de Treiman, EGP e um esquema de classes desenhado
 para o dado eleitoral. Também entra pela CBO da RAIS e pela COD da PNAD.
 
-`remotes::``install_github(``“moraespeixoto/ocupacoesBR”``)`
+``` r
+remotes::install_github("moraespeixoto/ocupacoesBR")
+```
 
-[Comece aqui
-![](data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iMTYiIGhlaWdodD0iMTYiIHZpZXdib3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMi4yIiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGFyaWEtaGlkZGVuPSJ0cnVlIj48cGF0aCBkPSJNNSAxMmgxNE0xMyA2bDYgNi02IDYiIC8+PC9zdmc+)](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md)
+[Comece
+aqui](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md)
 [Qual régua
 usar?](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
 [Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
@@ -80,16 +82,12 @@ Quatro portas de entrada
 
 ## Cada fonte brasileira tem a sua porta, e todas levam ao mesmo lugar
 
-![](data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ib2NiLWljb25lIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdib3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGFyaWEtaGlkZGVuPSJ0cnVlIj48cmVjdCB4PSIzIiB5PSI0IiB3aWR0aD0iMTgiIGhlaWdodD0iMTYiIHJ4PSIyIiAvPjxwYXRoIGQ9Ik04IDloOE04IDEzaDUiIC8+PHBhdGggZD0iTTE2IDE1bDEuNSAxLjVMMjAgMTQiIC8+PC9zdmc+)
-
 ### TSE
 
 O código de ocupação das candidaturas, de 1998 a 2026. A única ponte
 autoral do pacote, com régua de qualidade em cada linha.
 
 `tse_para_*()`
-
-![](data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ib2NiLWljb25lIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdib3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGFyaWEtaGlkZGVuPSJ0cnVlIj48cGF0aCBkPSJNNCAyMFY5bDgtNSA4IDV2MTEiIC8+PHBhdGggZD0iTTkgMjB2LTZoNnY2IiAvPjwvc3ZnPg==)
 
 ### CBO
 
@@ -98,16 +96,12 @@ pela tábua oficial do Ministério do Trabalho. CBO-2002 e CBO-94.
 
 `cbo2002_para_*()`
 
-![](data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ib2NiLWljb25lIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdib3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGFyaWEtaGlkZGVuPSJ0cnVlIj48cGF0aCBkPSJNMyAyMWgxOCIgLz48cGF0aCBkPSJNNSAyMVY4bDctNCA3IDR2MTMiIC8+PHBhdGggZD0iTTkgMjF2LTRoNnY0TTkgMTJoMk0xMyAxMmgyIiAvPjwvc3ZnPg==)
-
 ### COD
 
 A classificação da PNAD Contínua e do Censo, construída sobre a ISCO-08.
 É por aqui que se compara candidatura com população.
 
 `cod_para_*()`
-
-![](data:image/svg+xml;base64,PHN2ZyBjbGFzcz0ib2NiLWljb25lIiB3aWR0aD0iMjgiIGhlaWdodD0iMjgiIHZpZXdib3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSJjdXJyZW50Q29sb3IiIHN0cm9rZS13aWR0aD0iMS44IiBzdHJva2UtbGluZWNhcD0icm91bmQiIHN0cm9rZS1saW5lam9pbj0icm91bmQiIGFyaWEtaGlkZGVuPSJ0cnVlIj48Y2lyY2xlIGN4PSIxMiIgY3k9IjEyIiByPSI5Ij48L2NpcmNsZT48cGF0aCBkPSJNMyAxMmgxOE0xMiAzYzMgMy41IDMgMTQuNSAwIDE4TTEyIDNjLTMgMy41LTMgMTQuNSAwIDE4IiAvPjwvc3ZnPg==)
 
 ### ISCO
 
@@ -267,13 +261,13 @@ IBGE, pela PNAD Contínua trimestral de 2025, que é o dado.
 
     Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
     Declarada ao TSE em Classificacoes Padronizadas_. R
-    package version 0.5.1,
+    package version 0.7.0,
     <https://github.com/moraespeixoto/ocupacoesBR>.
 
 Pacote
 [Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
 [Novidades
-(0.5.1)](https://moraespeixoto.github.io/ocupacoesBR/news/index.md)
+(0.7.0)](https://moraespeixoto.github.io/ocupacoesBR/news/index.md)
 [Código-fonte](https://github.com/moraespeixoto/ocupacoesBR) [Reportar
 um erro](https://github.com/moraespeixoto/ocupacoesBR/issues)
 
@@ -289,6 +283,15 @@ Autor Vitor Peixoto UENF [Licença
 MIT](https://moraespeixoto.github.io/ocupacoesBR/LICENSE.md)
 
 # Índice de pacotes
+
+## Escolher a régua
+
+As réguas não são intercambiáveis, e trocar uma pela outra custa uma
+letra no nome da função. Esta tabela diz qual delas responde a qual
+pergunta, e quando cada uma é a escolha errada.
+
+- [`reguas`](https://moraespeixoto.github.io/ocupacoesBR/reference/reguas.md)
+  : Qual régua responde a qual pergunta
 
 ## A porta do TSE
 

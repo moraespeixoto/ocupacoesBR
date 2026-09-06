@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.6.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -92,10 +92,11 @@ Da ocupação declarada ao TSE à posição social
 Traduz o código de ocupação das candidaturas em ISCO-88 e ISCO-08, e daí em ISEI, prestígio de Treiman, EGP e um esquema de classes desenhado para o dado eleitoral. Também entra pela CBO da RAIS e pela COD da PNAD.
 </p>
 <div class="ocb-install">
-<code><span class="ocb-c1">remotes::</span>install_github(<span class="ocb-c2">“moraespeixoto/ocupacoesBR”</span>)</code>
+<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"moraespeixoto/ocupacoesBR"</span><span class="op">)</span></span></code></pre></div>
 </div>
 <div class="ocb-cta">
-<p><a class="ocb-btn ocb-btn-laranja" href="articles/comece-aqui.html">Comece aqui <svg width="16" height="16" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a> <a class="ocb-btn ocb-btn-claro" href="articles/qual-regua.html">Qual régua usar?</a> <a class="ocb-btn ocb-btn-nu" href="reference/index.html">Referência</a></p>
+<p><a class="ocb-btn ocb-btn-laranja" href="articles/comece-aqui.html">Comece aqui</a> <a class="ocb-btn ocb-btn-claro" href="articles/qual-regua.html">Qual régua usar?</a> <a class="ocb-btn ocb-btn-nu" href="reference/index.html">Referência</a></p>
 </div>
 <div class="ocb-badges">
 <p><span class="ocb-badge"><span class="ocb-badge-k">R-CMD-check</span><span class="ocb-badge-v ocb-verde">passing</span></span> <span class="ocb-badge"><span class="ocb-badge-k">licença</span><span class="ocb-badge-v">MIT</span></span> <span class="ocb-badge"><span class="ocb-badge-k">cadastro TSE</span><span class="ocb-badge-v">1998–2026</span></span> <span class="ocb-badge"><span class="ocb-badge-k">idioma</span><span class="ocb-badge-v">pt-BR</span></span></p>
@@ -120,7 +121,7 @@ Uma linha, e o banco ganha uma coluna
 <div class="ocb-terminal-barra">
 <span class="ocb-ponto ocb-ponto-l"></span><span class="ocb-ponto ocb-ponto-a"></span><span class="ocb-ponto ocb-ponto-v"></span><span class="ocb-terminal-nome">R</span>
 </div>
-<div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://dplyr.tidyverse.org" class="external-link">dplyr</a></span><span class="op">)</span></span>
 <span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/moraespeixoto/ocupacoesBR" class="external-link">ocupacoesBR</a></span><span class="op">)</span></span>
 <span></span>
@@ -161,8 +162,8 @@ Uma linha, e o banco ganha uma coluna
 Cada fonte brasileira tem a sua porta, e todas levam ao mesmo lugar
 </h2>
 <div class="ocb-grid-4">
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M8 9h8M8 13h5"></path><path d="M16 15l1.5 1.5L20 14"></path></svg><h3>
+<div class="ocb-card ocb-card-tse">
+<h3>
 TSE
 </h3>
 <p>
@@ -170,8 +171,8 @@ O código de ocupação das candidaturas, de 1998 a 2026. A única ponte autoral
 </p>
 <p><code class="ocb-assinatura">tse_para_*()</code></p>
 </div>
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"></path><path d="M9 20v-6h6v6"></path></svg><h3>
+<div class="ocb-card ocb-card-cbo">
+<h3>
 CBO
 </h3>
 <p>
@@ -179,8 +180,8 @@ A Classificação Brasileira de Ocupações da RAIS, do CAGED e do eSocial, pela
 </p>
 <p><code class="ocb-assinatura">cbo2002_para_*()</code></p>
 </div>
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V8l7-4 7 4v13"></path><path d="M9 21v-4h6v4M9 12h2M13 12h2"></path></svg><h3>
+<div class="ocb-card ocb-card-cod">
+<h3>
 COD
 </h3>
 <p>
@@ -188,8 +189,8 @@ A classificação da PNAD Contínua e do Censo, construída sobre a ISCO-08. É 
 </p>
 <p><code class="ocb-assinatura">cod_para_*()</code></p>
 </div>
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewbox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"></path></svg><h3>
+<div class="ocb-card ocb-card-isco">
+<h3>
 ISCO
 </h3>
 <p>
@@ -376,12 +377,12 @@ O ISEI-BR é a exceção, e pede três citações: o pacote, porque a estimaçã
 </p>
 <pre><code>Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
 Declarada ao TSE em Classificacoes Padronizadas_. R
-package version 0.5.1,
+package version 0.7.0,
 &lt;https://github.com/moraespeixoto/ocupacoesBR&gt;.</code></pre>
 </div>
 <div class="ocb-rodape-links">
 <div>
-<p><span class="ocb-rodape-titulo">Pacote</span> <a href="reference/index.html">Referência</a> <a href="news/index.html">Novidades (0.5.1)</a> <a href="https://github.com/moraespeixoto/ocupacoesBR" class="external-link">Código-fonte</a> <a href="https://github.com/moraespeixoto/ocupacoesBR/issues" class="external-link">Reportar um erro</a></p>
+<p><span class="ocb-rodape-titulo">Pacote</span> <a href="reference/index.html">Referência</a> <a href="news/index.html">Novidades (0.7.0)</a> <a href="https://github.com/moraespeixoto/ocupacoesBR" class="external-link">Código-fonte</a> <a href="https://github.com/moraespeixoto/ocupacoesBR/issues" class="external-link">Reportar um erro</a></p>
 </div>
 <div>
 <p><span class="ocb-rodape-titulo">Ler</span> <a href="articles/comece-aqui.html">Comece aqui</a> <a href="articles/qual-regua.html">Qual régua</a> <a href="articles/validacao.html">Validação</a> <a href="articles/safra-2026.html">Safra 2026</a></p>
