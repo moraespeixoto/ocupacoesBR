@@ -15,10 +15,16 @@ ISCO-08, e daí em ISEI, prestígio de Treiman, EGP e um esquema de classes
 desenhado para o dado eleitoral. Também entra pela CBO da RAIS e pela COD da
 PNAD.</p>
 
-<div class="ocb-install"><code><span class="ocb-c1">remotes::</span>install_github(<span class="ocb-c2">"moraespeixoto/ocupacoesBR"</span>)</code></div>
+<div class="ocb-install">
+
+```r
+remotes::install_github("moraespeixoto/ocupacoesBR")
+```
+
+</div>
 
 <div class="ocb-cta">
-<a class="ocb-btn ocb-btn-laranja" href="articles/comece-aqui.html">Comece aqui <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg></a>
+<a class="ocb-btn ocb-btn-laranja" href="articles/comece-aqui.html">Comece aqui</a>
 <a class="ocb-btn ocb-btn-claro" href="articles/qual-regua.html">Qual régua usar?</a>
 <a class="ocb-btn ocb-btn-nu" href="reference/index.html">Referência</a>
 </div>
@@ -109,29 +115,25 @@ dados |>
 
 <div class="ocb-grid-4">
 
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"></rect><path d="M8 9h8M8 13h5"></path><path d="M16 15l1.5 1.5L20 14"></path></svg>
+<div class="ocb-card ocb-card-tse">
 <h3>TSE</h3>
 <p>O código de ocupação das candidaturas, de 1998 a 2026. A única ponte autoral do pacote, com régua de qualidade em cada linha.</p>
 <code class="ocb-assinatura">tse_para_*()</code>
 </div>
 
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 20V9l8-5 8 5v11"></path><path d="M9 20v-6h6v6"></path></svg>
+<div class="ocb-card ocb-card-cbo">
 <h3>CBO</h3>
 <p>A Classificação Brasileira de Ocupações da RAIS, do CAGED e do eSocial, pela tábua oficial do Ministério do Trabalho. CBO-2002 e CBO-94.</p>
 <code class="ocb-assinatura">cbo2002_para_*()</code>
 </div>
 
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"></path><path d="M5 21V8l7-4 7 4v13"></path><path d="M9 21v-4h6v4M9 12h2M13 12h2"></path></svg>
+<div class="ocb-card ocb-card-cod">
 <h3>COD</h3>
 <p>A classificação da PNAD Contínua e do Censo, construída sobre a ISCO-08. É por aqui que se compara candidatura com população.</p>
 <code class="ocb-assinatura">cod_para_*()</code>
 </div>
 
-<div class="ocb-card">
-<svg class="ocb-icone" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="9"></circle><path d="M3 12h18M12 3c3 3.5 3 14.5 0 18M12 3c-3 3.5-3 14.5 0 18"></path></svg>
+<div class="ocb-card ocb-card-isco">
 <h3>ISCO</h3>
 <p>Para quem já tem o código internacional e quer só a medida, ou precisa atravessar da ISCO-88 para a ISCO-08 e voltar.</p>
 <code class="ocb-assinatura">isco88_para_*()</code>
@@ -308,7 +310,7 @@ Contínua trimestral de 2025, que é o dado.</p>
 ```
 Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
 Declarada ao TSE em Classificacoes Padronizadas_. R
-package version 0.5.1,
+package version 0.7.0,
 <https://github.com/moraespeixoto/ocupacoesBR>.
 ```
 
@@ -317,7 +319,7 @@ package version 0.5.1,
 <div>
 <span class="ocb-rodape-titulo">Pacote</span>
 <a href="reference/index.html">Referência</a>
-<a href="news/index.html">Novidades (0.5.1)</a>
+<a href="news/index.html">Novidades (0.7.0)</a>
 <a href="https://github.com/moraespeixoto/ocupacoesBR">Código-fonte</a>
 <a href="https://github.com/moraespeixoto/ocupacoesBR/issues">Reportar um erro</a>
 </div>

@@ -25,12 +25,31 @@ library(ocupacoesBR)
 
 ## 1. Escolha a régua pela pergunta
 
-| se você quer saber… | use | o que ela mede |
-|---|---|---|
-| quanto uma posição converte educação em renda | `tse_para_isei()` | **status socioeconômico**, contínuo |
-| o quanto uma ocupação é socialmente estimada | `tse_para_prestigio()` | **prestígio**, contínuo |
-| a relação de emprego (quem contrata, quem é contratado) | `tse_para_egp()` | **classe relacional**, categórica |
-| a estrutura de classes do dado eleitoral brasileiro | `tse_para_classe()` | esquema próprio, categórico |
+A tabela abaixo não está digitada aqui: ela é a tabela `reguas`, que viaja com
+o pacote e pode ser consultada de dentro do R.
+
+```{r, echo = FALSE}
+r <- reguas[match(c("ISEI-88", "Prestigio-88", "EGP", "Classe"), reguas$medida), ]
+knitr::kable(
+  data.frame(
+    `se você quer saber…` = r$pergunta,
+    use = paste0("`", r$funcao_tse, "()`"),
+    # `tipo` e um token de filtro, sem acento de proposito; aqui ele e exibido
+    `o que ela mede` = paste0(
+      r$mede, ", ",
+      c(continua = "contínua", categorica = "categórica",
+        ordinal = "ordinal")[r$tipo]),
+    check.names = FALSE),
+  row.names = FALSE)
+```
+
+As outras cinco réguas — ISEI-08, ISEI-BR, prestígio-08, estrato e a partição
+da classe alta — estão na mesma tabela, com a mesma coluna dizendo quando cada
+uma é a escolha errada:
+
+```{r, eval = FALSE}
+reguas[, c("medida", "pergunta", "quando_nao_usar")]
+```
 
 ### ISEI e prestígio não são a mesma coisa
 

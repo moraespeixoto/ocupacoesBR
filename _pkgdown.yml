@@ -86,6 +86,14 @@ articles:
   - matches("^articles/publicacoes$")
 
 reference:
+- title: Escolher a régua
+  desc: >
+    As réguas não são intercambiáveis, e trocar uma pela outra custa uma letra
+    no nome da função. Esta tabela diz qual delas responde a qual pergunta, e
+    quando cada uma é a escolha errada.
+  contents:
+  - reguas
+
 - title: A porta do TSE
   desc: >
     O código de ocupação declarado nas candidaturas é a porta principal. Cada

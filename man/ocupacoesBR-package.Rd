@@ -30,6 +30,19 @@ originais guardados em \verb{inst/extdata/fontes/}, nunca transcrita à mão. O 
 está em \verb{data-raw/01_gera_dados.R} e pode ser reexecutado para reconferir
 qualquer valor contra a sua fonte.
 }
+\section{Para quem lê por máquina}{
+
+O pacote traz um resumo operacional de uma página, escrito para ser lido
+inteiro antes da primeira chamada — a gramática dos nomes, o contrato de
+chamada e as três maneiras de obter um resultado errado e silencioso:
+
+\if{html}{\out{<div class="sourceCode">}}\preformatted{system.file("llm", "GUIA_AGENTE.md", package = "ocupacoesBR")
+}\if{html}{\out{</div>}}
+
+A escolha da régua, que é o erro mais caro, está em forma consultável em
+\link{reguas}.
+}
+
 \seealso{
 Useful links:
 \itemize{
