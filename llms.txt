@@ -1,0 +1,600 @@
+# Da ocupação declarada ao TSE à posição social
+
+Pacote R · dado eleitoral brasileiro
+
+Traduz o código de ocupação das candidaturas em ISCO-88 e ISCO-08, e daí
+em ISEI, prestígio de Treiman, EGP e um esquema de classes desenhado
+para o dado eleitoral. Também entra pela CBO da RAIS e pela COD da PNAD.
+
+``` r
+
+remotes::install_github("moraespeixoto/ocupacoesBR")
+```
+
+[Comece
+aqui](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md)
+[Qual régua
+usar?](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+[Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
+
+R-CMD-checkpassing licençaMIT cadastro TSE1998–2026 idiomapt-BR
+
+![Do código bruto de ocupação às ocupações
+classificadas](banner_ocupacoes.jpg)
+
+O uso normal
+
+## Uma linha, e o banco ganha uma coluna
+
+Você passa a coluna inteira de códigos e recebe a coluna traduzida,
+alinhada linha a linha. Não há loop nem tradução código a código, e o
+banco não muda de tamanho.
+
+Cada régua é uma função, e cada função é uma coluna nova. Como todas são
+vetorizadas puras, elas cabem no mesmo
+[`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html), em
+qualquer ordem, e o pipeline não sai do dplyr. O artigo [Com o
+tidyverse](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md)
+percorre um pipeline inteiro assim.
+
+O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de
+2002: em 1998 o código 214 era delegado de polícia; a partir de 2002
+passou a ser escultor e pintor. Sem o ano, aquela linha receberia calada
+o escore de escultor. Com ele, o pacote devolve `NA` e avisa.
+
+R
+
+``` r
+
+library(dplyr)
+library(ocupacoesBR)
+
+dados |>
+  mutate(
+    isco  = tse_para_isco(CD_OCUPACAO, ano = ANO_ELEICAO),
+    isei  = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO),
+    prest = tse_para_prestigio(CD_OCUPACAO, ano = ANO_ELEICAO),
+    egp   = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO,
+                         avisar = FALSE),
+    classe = tse_para_classe(CD_OCUPACAO, ano = ANO_ELEICAO)
+  ) |>
+  select(-DS_CARGO) |>
+  glimpse()
+#> Warning: There were 5 warnings in `mutate()`.
+#> The first warning was:
+#> ℹ In argument: `isco = tse_para_isco(CD_OCUPACAO, ano =
+#>   ANO_ELEICAO)`.
+#> Caused by warning:
+#> ! 1 candidatura(s) usam código(s) que o TSE REUTILIZOU depois (214): naquele ano designavam outra ocupação, e voltam NA.
+#> Veja ?tse_vigencia.
+#> ℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining
+#>   warnings.
+#> Rows: 5
+#> Columns: 7
+#> $ ANO_ELEICAO <int> 2026, 2026, 2026, 2026, 1998
+#> $ CD_OCUPACAO <chr> "131", "601", "298", "999", "214"
+#> $ isco        <chr> "2421", "6100", NA, NA, NA
+#> $ isei        <dbl> 85, 23, NA, NA, NA
+#> $ prest       <dbl> 73, 38, NA, NA, NA
+#> $ egp         <chr> "I: dirigentes e profissionais superiore…
+#> $ classe      <chr> "Profissionais de nível superior", "Trab…
+```
+
+Quatro portas de entrada
+
+## Cada fonte brasileira tem a sua porta, e todas levam ao mesmo lugar
+
+### TSE
+
+O código de ocupação das candidaturas, de 1998 a 2026. A única ponte
+autoral do pacote, com régua de qualidade em cada linha.
+
+`tse_para_*()`
+
+### CBO
+
+A Classificação Brasileira de Ocupações da RAIS, do CAGED e do eSocial,
+pela tábua oficial do Ministério do Trabalho. CBO-2002 e CBO-94.
+
+`cbo2002_para_*()`
+
+### COD
+
+A classificação da PNAD Contínua e do Censo, construída sobre a ISCO-08.
+É por aqui que se compara candidatura com população.
+
+`cod_para_*()`
+
+### ISCO
+
+Para quem já tem o código internacional e quer só a medida, ou precisa
+atravessar da ISCO-88 para a ISCO-08 e voltar.
+
+`isco88_para_*()`
+
+Quatro réguas, que não são intercambiáveis
+
+## O pacote entrega todas com a mesma facilidade. Escolher é com você.
+
+10 – 90
+
+### ISEI
+
+Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a
+literatura internacional usa como padrão. Vem em três estimações: as
+âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote
+estima na PNAD Contínua e que não substitui as outras.
+
+Treiman, 1977
+
+### Prestígio
+
+Escala de prestígio ocupacional comparativa. Mede reputação, não
+recurso; as duas se separam em ocupações inteiras.
+
+11 · 7 · 5 · 3 classes
+
+### EGP
+
+Erikson-Goldthorpe-Portocarero, portado das sintaxes originais. Exige
+posição na ocupação, que o TSE não pergunta: o pacote avisa.
+
+esquema do pacote
+
+### Classe e estrato
+
+Desenhado para o que o cadastro do TSE de fato registra, inclusive o
+político profissional e o vínculo público não especificado.
+
+Por onde começar
+
+## Seis artigos, e o primeiro importa mais que a documentação de qualquer função
+
+[Todos os artigos
+→](https://moraespeixoto.github.io/ocupacoesBR/articles/index.md)
+
+[Comece
+aqui](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md)
+
+### Da ocupação declarada à posição social
+
+O percurso inteiro em uma sessão, com códigos reais do TSE, e a tabela
+que mostra onde cada medida responde e onde ela se abstém.
+
+[No
+pipe](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md)
+
+### Com o tidyverse
+
+O percurso inteiro dentro de um mutate(): uma coluna por régua,
+across(), a junção com o dicionário e a checagem de cobertura antes de
+analisar.
+
+[Escolher a
+medida](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+
+### Qual régua responde à sua pergunta
+
+Quatro medidas, nenhuma intercambiável, e os sete erros que as pessoas
+cometem, na ordem em que os cometem.
+
+[Validar](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
+
+### A medida se sustenta?
+
+Patrimônio declarado e escolaridade como critério externo, que não
+entram na construção da medida.
+
+[Percursos](https://moraespeixoto.github.io/ocupacoesBR/articles/percursos.md)
+
+### Um roteiro para cada fonte de dado
+
+Candidaturas, RAIS, PNAD: o que chamar, em que ordem, e o que verificar
+antes de analisar.
+
+[A eleição em
+curso](https://moraespeixoto.github.io/ocupacoesBR/articles/safra-2026.md)
+
+### A safra de 2026, na régua
+
+Nenhum código novo: os 210 códigos declarados em 2026 são subconjunto
+dos 275 que o pacote já cobria.
+
+O mapa das traduções
+
+## Cada seta tem fonte declarada
+
+As tábuas de conversão derivam das sintaxes publicadas do *International
+Stratification and Mobility File*, de Ganzeboom e Treiman, e da tábua
+oficial do Ministério do Trabalho. São geradas por script a partir dos
+arquivos originais, nunca transcritas à mão.
+
+A do TSE para a ISCO-88 é a única autoral. É por isso que ela carrega os
+rótulos e a régua de qualidade: é a parte que ninguém pode conferir
+contra um documento oficial.
+
+[Ver as tabelas na referência
+→](https://moraespeixoto.github.io/ocupacoesBR/reference/index.html#as-tabelas)
+
+![As traduções que o pacote faz, e as que não
+faz](reference/figures/rede_crosswalks.png)
+
+Publicações
+
+## O que foi construído com o pacote
+
+O artigo de método é o lugar onde as escolhas são justificadas, e não
+apenas descritas. Os trabalhos empíricos usam o pacote como instrumento
+de medida.
+
+[Como citar o pacote e as réguas
+→](https://moraespeixoto.github.io/ocupacoesBR/articles/publicacoes.md)
+
+Artigo de método
+
+Peixoto, V. (2026). Da ocupação declarada à posição social: as decisões
+de medida do pacote ocupacoesBR.
+
+\[DOI EM BREVE\]Manuscrito em preparação
+
+Trabalho empírico
+
+\[TÍTULO DO ARTIGO SOBRE CLASSE E RECRUTAMENTO POLÍTICO\]
+
+\[DOI\]\[PERIÓDICO, ANO\]
+
+A fonte das réguas
+
+Ganzeboom, H. B. G. e Treiman, D. J. (1996). Internationally comparable
+measures of occupational status for the 1988 ISCO. *Social Science
+Research*, 25(3), 201–239.
+
+[doi:10.1006/ssre.1996.0010](https://doi.org/10.1006/ssre.1996.0010)
+
+### Ao usar o ocupacoesBR, cite o pacote e a fonte das escalas
+
+O pacote é o veículo, não a fonte. As réguas vêm do *International
+Stratification and Mobility File*, que Ganzeboom e Treiman mantêm há
+três décadas e pedem citação expressa.
+
+O ISEI-BR é a exceção, e pede três citações: o pacote, porque a
+estimação é dele; Ganzeboom, De Graaf e Treiman (1992), pelo método; e o
+IBGE, pela PNAD Contínua trimestral de 2025, que é o dado.
+
+    Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
+    Declarada ao TSE em Classificacoes Padronizadas_. R
+    package version 0.7.0,
+    <https://github.com/moraespeixoto/ocupacoesBR>.
+
+Pacote
+[Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
+[Novidades
+(0.7.0)](https://moraespeixoto.github.io/ocupacoesBR/news/index.md)
+[Código-fonte](https://github.com/moraespeixoto/ocupacoesBR) [Reportar
+um erro](https://github.com/moraespeixoto/ocupacoesBR/issues)
+
+Ler [Comece
+aqui](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md)
+[Qual
+régua](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+[Validação](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
+[Safra
+2026](https://moraespeixoto.github.io/ocupacoesBR/articles/safra-2026.md)
+
+Autor Vitor Peixoto UENF [Licença
+MIT](https://moraespeixoto.github.io/ocupacoesBR/LICENSE.md)
+
+# Package index
+
+## Escolher a régua
+
+As réguas não são intercambiáveis, e trocar uma pela outra custa uma
+letra no nome da função. Esta tabela diz qual delas responde a qual
+pergunta, e quando cada uma é a escolha errada.
+
+- [`reguas`](https://moraespeixoto.github.io/ocupacoesBR/reference/reguas.md)
+  : Qual régua responde a qual pergunta
+
+## A porta do TSE
+
+O código de ocupação declarado nas candidaturas é a porta principal.
+Cada função traduz um vetor de códigos e devolve um vetor do mesmo
+comprimento. Todas aceitam `ano`, que é o que resolve a quebra de
+cadastro de 2002.
+
+- [`tse_para_isco()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isco.md)
+  : Traduz a ocupação declarada ao TSE em ISCO-88
+- [`tse_para_isco08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isco08.md)
+  : ISCO-08 da ocupação declarada ao TSE
+- [`tse_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md)
+  : Índice socioeconômico ISEI da ocupação declarada ao TSE
+- [`tse_para_isei08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei08.md)
+  : ISEI-08 da ocupação declarada ao TSE
+- [`tse_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md)
+  : ISEI-BR: status ocupacional estimado em dado brasileiro
+- [`tse_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio.md)
+  : Prestigio ocupacional de Treiman
+- [`tse_para_prestigio08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_prestigio08.md)
+  : Prestigio de Treiman ancorado na ISCO-08, a partir do TSE
+- [`tse_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_egp.md)
+  : Classe EGP da ocupação declarada ao TSE
+- [`tse_para_classe()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.md)
+  : Classe social da ocupação declarada ao TSE
+- [`tse_para_estrato()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_estrato.md)
+  : Estrato social da ocupação declarada ao TSE
+- [`tse_para_componente_alta()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_componente_alta.md)
+  : Partição da classe alta em proprietária, credenciada e dirigente
+- [`tse_para_politico()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_politico.md)
+  : A ocupação declarada é um mandato ou cargo político?
+- [`crosswalk_tse()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_tse.md)
+  : Tabela completa de tradução, do TSE a todas as medidas
+
+## O cadastro do TSE ao longo do tempo
+
+O cadastro não é estável: rótulos mudam, códigos são reaproveitados e
+ocupações deixam de ser declaradas. Estas funções tornam a história do
+cadastro consultável em vez de suposta.
+
+- [`tse_para_rotulo()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_rotulo.md)
+  : Rótulo da ocupação, como o TSE o escreveu
+- [`tse_vigencia()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_vigencia.md)
+  : Em que eleições cada código esteve em vigor, e com que nome
+- [`tse_diff_cadastro()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_diff_cadastro.md)
+  : O que mudou no cadastro entre duas eleições
+- [`tse_rotulo_para_cod()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_rotulo_para_cod.md)
+  : Encontra o código a partir do rótulo da ocupação
+- [`tse_codigos_autorrotulo`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_codigos_autorrotulo.md)
+  : Códigos cujo rótulo é autodescrição, sem registro externo que o
+  valide
+- [`checa_periodo()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_periodo.md)
+  : Verifica se o seu dado é atingido pela quebra de cadastro do TSE em
+  2002
+
+## A porta da CBO
+
+A Classificação Brasileira de Ocupações, que é o que a RAIS, o CAGED e o
+eSocial usam. A tradução vem da tábua oficial do Ministério do Trabalho.
+`empate` decide o que fazer com famílias sem ISCO majoritário; `escada`
+resgata códigos ausentes subindo a hierarquia.
+
+- [`cbo2002_para_isco()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isco.md)
+  : Traduz a CBO-2002 em ISCO-88
+- [`cbo2002_para_isco08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isco08.md)
+  : ISCO-08 a partir da CBO-2002
+- [`cbo2002_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei.md)
+  : Indice socioeconomico ISEI a partir da CBO-2002
+- [`cbo2002_para_isei08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei08.md)
+  : ISEI-08 a partir da CBO-2002
+- [`cbo2002_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isei_br.md)
+  : ISEI-BR a partir da CBO-2002
+- [`cbo2002_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_prestigio.md)
+  : Prestigio de Treiman a partir da CBO-2002
+- [`cbo2002_para_prestigio08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_prestigio08.md)
+  : Prestigio de Treiman ancorado na ISCO-08, a partir da CBO-2002
+- [`cbo2002_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_egp.md)
+  : Classe EGP a partir da CBO-2002
+- [`cbo2002_concordancia()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_concordancia.md)
+  : Quao homogenea e a familia da CBO-2002?
+- [`crosswalk_cbo2002()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cbo2002.md)
+  : Tabela completa de traducao a partir da CBO-2002
+- [`cbo94_para_isco()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isco.md)
+  : Traduz a CBO-94 em ISCO-88
+- [`cbo94_para_isco08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isco08.md)
+  : ISCO-08 a partir da CBO-94
+- [`cbo94_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_isei.md)
+  : Indice socioeconomico ISEI a partir da CBO-94
+- [`cbo94_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_prestigio.md)
+  : Prestigio de Treiman a partir da CBO-94
+- [`cbo94_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_egp.md)
+  : Classe EGP a partir da CBO-94
+- [`crosswalk_cbo94()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cbo94.md)
+  : Tabela completa de traducao a partir da CBO-94
+
+## A porta do IBGE
+
+A COD, usada na PNAD Contínua e no Censo, é quase a ISCO-08 com outro
+nome. É por aqui que se compara candidatura com população.
+
+- [`cod_para_isco()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isco.md)
+  : ISCO-88 a partir da COD
+- [`cod_para_isco08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isco08.md)
+  : Traduz a COD do IBGE em ISCO-08
+- [`cod_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei.md)
+  : ISEI-88 a partir da COD
+- [`cod_para_isei08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei08.md)
+  : ISEI-08 a partir da COD
+- [`cod_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isei_br.md)
+  : ISEI-BR a partir da COD
+- [`cod_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_prestigio.md)
+  : Prestigio de Treiman a partir da COD
+- [`cod_para_prestigio08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_prestigio08.md)
+  : Prestigio de Treiman ancorado na ISCO-08, a partir da COD
+- [`cod_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_egp.md)
+  : Classe EGP a partir da COD
+- [`crosswalk_cod()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_cod.md)
+  : Tabela completa de traducao a partir da COD
+
+## A partir da ISCO
+
+Para quem já tem um código internacional e quer apenas a medida, ou quer
+atravessar de uma revisão da ISCO para a outra.
+
+- [`isco88_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_isei.md)
+  : Indice socioeconomico ISEI a partir do ISCO-88
+- [`isco88_para_prestigio()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_prestigio.md)
+  : Prestigio de Treiman a partir do ISCO-88
+- [`isco88_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_egp.md)
+  : Traduz ISCO-88 no esquema de classes EGP
+- [`isco88_para_isco08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_isco08.md)
+  : Converte ISCO-88 em ISCO-08
+- [`isco08_para_isco88()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isco88.md)
+  : Converte ISCO-08 em ISCO-88
+- [`isco08_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_para_isei_br.md)
+  : ISEI-BR a partir da ISCO-08
+
+## Cobertura, antes de analisar
+
+Rodar uma destas antes de qualquer análise é a diferença entre uma
+medida e um vetor de `NA` silencioso. Quase todo problema de cobertura é
+de formato do código, não de dicionário.
+
+- [`checa_cobertura()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura.md)
+  : Verifica se todos os códigos observados estão no dicionário
+- [`checa_cobertura_cbo2002()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura_cbo2002.md)
+  : Verifica a cobertura de códigos da CBO-2002
+- [`checa_cobertura_cbo94()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura_cbo94.md)
+  : Verifica a cobertura de codigos da CBO-94
+- [`checa_cobertura_cod()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura_cod.md)
+  : Verifica a cobertura de codigos da COD
+
+## Carregamento retrospectivo
+
+Quando a mesma pessoa aparece em eleições sucessivas, o escore de um
+registro sem ocupação informada pode ser herdado do registro anterior
+dela própria, com marca de herança e defasagem.
+
+- [`isei_retrospectivo()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isei_retrospectivo.md)
+  : Carrega o último escore conhecido da própria pessoa
+
+## As tabelas
+
+Todas as tábuas de conversão são dados do pacote, geradas por script a
+partir dos arquivos originais e nunca transcritas à mão. Consultá-las
+diretamente é legítimo e recomendado.
+
+- [`tse_isco`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_isco.md)
+  : Dicionário de ocupações do TSE
+- [`tse_ocupacao_rotulos`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_ocupacao_rotulos.md)
+  : Vigências do cadastro de ocupações do TSE, 1998–2026
+- [`tse_quebra_2002`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_quebra_2002.md)
+  : Códigos de ocupação do TSE que mudaram de nome ou de sentido em 2002
+- [`tse_validacao`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_validacao.md)
+  : Critério externo para aferir a medida: patrimônio e escolaridade por
+  ocupação
+- [`tse_dispersao_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
+  : Dispersão do patrimônio dentro de cada nível de status
+- [`tse_autorrotulo_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_autorrotulo_patrimonio.md)
+  : Patrimônio por trás dos códigos que são autodescrição
+- [`isco88_medidas`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_medidas.md)
+  : Medidas ancoradas na ISCO-88
+- [`isco08_medidas`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_medidas.md)
+  : Medidas ancoradas na ISCO-08
+- [`isco88_isco08`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_isco08.md)
+  : Ponte da ISCO-88 para a ISCO-08
+- [`isco08_isco88`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isco88.md)
+  : Ponte da ISCO-08 de volta para a ISCO-88
+- [`cbo2002_isco88`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_isco88.md)
+  : Correspondência da CBO-2002 com a ISCO-88, por ocupação
+- [`cbo2002_familia_isco88`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_familia_isco88.md)
+  : Correspondência da CBO-2002 com a ISCO-88, por família
+- [`cbo2002_escada`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_escada.md)
+  : Escada hierárquica da CBO-2002 para quando a ocupação não está na
+  tábua
+- [`cbo94_isco88`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_isco88.md)
+  : Correspondência da CBO-94 com a ISCO-88
+- [`cod_isco08`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_isco08.md)
+  : Correspondência da COD do IBGE com a ISCO-08
+- [`isco_posicao_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco_posicao_br.md)
+  : Posição na ocupação por código ISCO-88, medida na PNAD Contínua
+- [`isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md)
+  : ISEI-BR: status ocupacional estimado na PNAD Contínua
+
+## Alias depreciados
+
+Estas funções continuam existindo para não quebrar código antigo. O nome
+“SIOPS” foi trocado por “prestígio” porque colide com o Sistema de
+Informações sobre Orçamentos Públicos em Saúde, que é outra coisa
+inteiramente. Prefira as funções `*_prestigio*`.
+
+- [`tse_para_siops()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_siops.md)
+  : Prestígio ocupacional SIOPS da ocupação declarada ao TSE
+- [`tse_para_siops08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_siops08.md)
+  : SIOPS-08 da ocupação declarada ao TSE
+- [`isco88_para_siops()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_siops.md)
+  : Prestigio ocupacional de Treiman (SIOPS) a partir do ISCO-88
+- [`cbo2002_para_siops()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_siops.md)
+  : Prestigio ocupacional SIOPS a partir da CBO-2002
+- [`cbo2002_para_siops08()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_siops08.md)
+  : Prestigio ancorado na ISCO-08 a partir da CBO-2002
+- [`cbo94_para_siops()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_siops.md)
+  : Prestigio ocupacional de Treiman a partir da CBO-94
+
+## O pacote
+
+A visão geral, com as duas portas de entrada e a política de
+proveniência.
+
+- [`ocupacoesBR`](https://moraespeixoto.github.io/ocupacoesBR/reference/ocupacoesBR-package.md)
+  [`ocupacoesBR-package`](https://moraespeixoto.github.io/ocupacoesBR/reference/ocupacoesBR-package.md)
+  : ocupacoesBR: da ocupação brasileira a medidas padronizadas de
+  posição social
+
+# Articles
+
+### Por onde começar
+
+- [Comece aqui: da ocupação declarada à posição
+  social](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md):
+
+  O percurso inteiro em uma sessão, com códigos reais do TSE, e a tabela
+  que mostra onde cada medida responde e onde ela se abstém.
+
+- [Com o tidyverse: o percurso inteiro dentro do
+  mutate()](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md):
+
+  As funções do pacote são vetorizadas puras, então cada tradução é uma
+  coluna nova, e todas cabem no mesmo
+  [`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html) de um
+  pipeline em dplyr.
+
+- [Os percursos, e onde cada um se
+  interrompe](https://moraespeixoto.github.io/ocupacoesBR/articles/percursos.md):
+
+  Os quatro caminhos de tradução do pacote, desenhados e percorridos em
+  código, com o ponto exato em que cada um deixa de saber a resposta.
+
+### Escolher e validar a medida
+
+- [As classificações: história, alcance e
+  limites](https://moraespeixoto.github.io/ocupacoesBR/articles/classificacoes.md):
+
+  As quatro classificações de ocupação por onde o dado entra no pacote —
+  a ISCO, a CBO, a classificação domiciliar do IBGE e o cadastro do TSE.
+  De onde cada uma veio, para que foi feita, e o que ela não pode
+  responder.
+
+- [Qual régua responde à sua
+  pergunta](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md):
+
+- [A medida se sustenta? Validação contra um critério
+  externo](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md):
+
+- [Provas de robustez: como o pacote se põe à
+  prova](https://moraespeixoto.github.io/ocupacoesBR/articles/robustez.md):
+
+  Nove provas que a suíte de testes executa a cada mudança, explicadas
+  uma a uma — o que poderia dar errado, como se testa, o que o gráfico
+  mostra e o que significaria se a prova falhasse.
+
+### A eleição em curso
+
+- [A safra de 2026, na
+  régua](https://moraespeixoto.github.io/ocupacoesBR/articles/safra-2026.md):
+
+  O que o pacote já sabe sobre a eleição em curso, o que ele não pode
+  saber ainda, e por que a safra aberta pede leitura diferente.
+
+### Publicações e créditos
+
+- [Antecedentes: de onde vem este
+  pacote](https://moraespeixoto.github.io/ocupacoesBR/articles/antecedentes.md):
+
+  A linhagem intelectual em que o pacote se inscreve, o que já existia
+  antes dele, e a delimitação honesta do que aqui é contribuição e do
+  que é reimplementação de coisa alheia.
+
+- [Publicações e como
+  citar](https://moraespeixoto.github.io/ocupacoesBR/articles/publicacoes.md):
+
+  O artigo de método, os trabalhos que usam o pacote como instrumento de
+  medida, e as fontes das réguas — que pedem citação própria.
