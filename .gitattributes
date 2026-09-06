@@ -1,0 +1,16 @@
+# As fontes de inst/extdata/fontes/ nao sao codigo: sao a evidencia que o
+# pacote declara ter usado, e inst/extdata/PROVENIENCIA.yml guarda o sha256 de
+# cada uma. O teste `as fontes ainda sao as que geraram os dados (sha256)`, em
+# tests/testthat/test-fonte.R, reconfere esses hashes a cada R CMD check.
+#
+# O que o hash mede sao os bytes. Sem a marca abaixo, o Git do Windows (que vem
+# com core.autocrlf=true) converte LF em CRLF ao dar checkout, e os onze
+# arquivos com final de linha LF chegam ao runner com outros bytes — e outro
+# sha256. Foi exatamente o que reprovou o windows-latest do R-CMD-check, com os
+# oito arquivos que ja vinham em CRLF passando e todos os de LF falhando.
+#
+# `-text` desliga a conversao nas duas direcoes: nada e normalizado ao commitar
+# e nada e reescrito ao dar checkout, em qualquer plataforma. O diff continua
+# legivel; so os bytes ficam intocados, que e o unico jeito de um hash de
+# proveniencia querer dizer alguma coisa.
+inst/extdata/fontes/** -text
