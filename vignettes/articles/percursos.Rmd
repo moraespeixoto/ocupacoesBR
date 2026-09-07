@@ -29,8 +29,14 @@ table(isco88_isco08$n_alternativas > 1)
 ```
 
 São `r sum(isco88_isco08$n_alternativas > 1)` códigos ambíguos em
-`r nrow(isco88_isco08)`. A função devolve, por padrão, apenas o destino
-escolhido:
+`r nrow(isco88_isco08)`. A escolha entre os destinos não é do pacote: a sintaxe
+do ISMF guarda as alternativas na parte decimal do código e manda truncá-la
+quando não há informação adicional. O pacote trunca, como manda, e guarda a
+contagem. Isso importa para ler o erro que resulta: como o destino escolhido é
+sempre o mesmo para um dado código de origem, o desvio é **sistemático**, não
+aleatório — ele não se cancela ao agregar.
+
+A função devolve, por padrão, apenas o destino escolhido:
 
 ```{r ponte-simples}
 isco88_para_isco08("1229")
@@ -79,16 +85,84 @@ sum(!is.na(suppressWarnings(cbo2002_para_isco(fora))))
 sum(!is.na(cbo2002_para_isco(fora, escada = TRUE)))
 ```
 
-Quarenta códigos que a tradução direta não resolve, e a escada resolve trinta e
-três. Os sete restantes continuam `NA`, porque nem o prefixo de dois dígitos
-está na tábua. O preço dos trinta e três é a perda de resolução, e ele fica
-registrado: `crosswalk_cbo2002()` devolve a coluna `nivel_usado`, que diz em que
-degrau cada tradução foi obtida.
+Quarenta entradas — `r length(unique(fora))` códigos distintos — que a tradução
+direta não resolve, e a escada resolve trinta e três. O que resta `NA` é um
+código só, repetido:
+
+```{r escada-resto}
+unique(fora[is.na(cbo2002_para_isco(fora, escada = TRUE))])
+```
+
+E a razão não é que o prefixo falte na tábua. A família `1423` **está** lá:
+
+```{r escada-familia}
+suppressWarnings(cbo2002_para_isco("1423"))
+```
+
+A escada exige que as ocupações compartilhem um ancestral **na ISCO**, e as da
+família 1423 se espalham por 1233, 1234, 1239 e 2419 — não há prefixo comum
+acima do primeiro dígito. A consulta por família não exige isso: ela devolve a
+moda. São duas regras diferentes para a mesma família, e a escada é a mais
+conservadora das duas.
+
+```{r escada-assimetria}
+fam <- cbo2002_familia_isco88$familia
+por_familia <- suppressWarnings(cbo2002_para_isco(fam))
+por_escada  <- suppressWarnings(cbo2002_para_isco(paste0(fam, "99"), escada = TRUE))
+fam[!is.na(por_familia) & is.na(por_escada)]
+```
+
+Nessas famílias, entrar com quatro dígitos devolve um ISCO e entrar com seis e
+`escada = TRUE` devolve `NA`. Não é defeito: é a escada recusando o que a moda
+aceita. Mas quem alterna entre as duas entradas precisa saber que elas não
+respondem a mesma coisa.
+
+O preço dos trinta e três é a perda de resolução, e ele fica registrado:
+`crosswalk_cbo2002()` devolve a coluna `nivel_usado`, que diz em que degrau cada
+tradução foi obtida.
 
 ```{r nivel-usado}
 cw <- crosswalk_cbo2002(fora, escada = TRUE)
 table(cw$nivel_usado, useNA = "ifany")
 ```
+
+## A tradução que não tem tábua
+
+Os três percursos acima partem de classificações que alguém publicou: a OIT
+publica a ponte, o Ministério do Trabalho publica a tábua da CBO, o IBGE publica
+a da COD. A tradução do cadastro do TSE para a ISCO-88 não tem documento
+externo nenhum. Ela é **autoral** — é a única do pacote — e por isso é a que
+mais merece ser auditada por quem usa.
+
+O que ela custa não é opinião, é medida. Os códigos do TSE com ISCO caem num
+número de destinos muito menor que o seu próprio:
+
+```{r autoral-perda}
+cw <- tse_isco[!is.na(tse_isco$isco88), ]
+c(codigos_tse = nrow(cw),
+  isco88_distintos = length(unique(cw$isco88)),
+  valores_de_isei = length(unique(isco88_para_isei(cw$isco88))))
+```
+
+Duzentos e cinquenta e oito códigos chegam a vinte e nove valores distintos de
+ISEI. A compressão não é uniforme: ela depende de em quantos dígitos a tradução
+foi possível.
+
+```{r autoral-nivel}
+table(cw$estrato, cw$nivel)
+```
+
+É aqui que está o ponto que nenhuma outra página do site diz. O refinamento a
+quatro dígitos é **seletivo por estrato**: doze dos oitenta e oito códigos da
+classe alta chegam lá, e **nenhum** dos cento e um das classes populares. O erro
+de medida que a tradução introduz não é ruído — é heterocedástico e
+correlacionado com a posição social que se quer medir.
+
+A consequência prática é estreita e vale dizer inteira: comparações **dentro**
+das classes populares apoiam-se em escores mais agregados do que comparações
+dentro da classe alta, e uma diferença pequena no fundo da distribuição é menos
+confiável que a mesma diferença no topo. Não é razão para não usar a medida; é
+razão para não ler diferenças finas onde a tradução foi grossa.
 
 ## A quebra de 2002 no cadastro do TSE
 

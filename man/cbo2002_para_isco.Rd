@@ -82,6 +82,17 @@ para impedir: o grande grupo 9 da CBO e reparacao e manutencao, o da ISCO e
 ocupacoes elementares. As 283 ocupacoes sem rota — em peso o bloco de
 diretores 12xx e as forcas armadas — nao tem correspondencia oficial
 nenhuma, e continuam \code{NA}.
+
+\strong{A escada e a consulta por familia aplicam regras diferentes.} Entrar com
+quatro digitos consulta \code{cbo2002_familia_isco88}, que traz a MODA das
+ocupacoes da familia. Entrar com seis e \code{escada = TRUE} exige ancestral comum
+na ISCO, e devolve \code{NA} quando ele nao existe acima do primeiro digito. Em
+oito familias as duas respostas divergem — \code{cbo2002_para_isco("1423")} da
+\code{"2419"}, e \code{cbo2002_para_isco("142399", escada = TRUE)} da \code{NA} —, porque as
+ocupacoes de 1423 se espalham por 1233, 1234, 1239 e 2419. A escada e a mais
+conservadora das duas, e a divergencia e deliberada; quem alterna entre as
+duas entradas precisa saber que elas nao respondem a mesma pergunta.
+\code{tests/testthat/test-cbo.R} trava a lista das oito.
 }
 
 \section{Familias empatadas}{

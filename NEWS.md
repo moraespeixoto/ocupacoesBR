@@ -3,6 +3,54 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## A etapa autoral do pacote entra no site
+
+A tradução do cadastro do TSE para a ISCO-88 é a única do pacote sem documento
+externo que a confirme — a OIT publica a ponte, o MTE publica a tábua da CBO, o
+IBGE publica a da COD, e esta é autoral. Era também a única que `vignette(
+"percursos")` não percorria, embora `R/crosswalk.R` já registrasse, **num
+comentário de código**, que "o erro de medida resultante não é ruído: é
+heterocedástico e correlacionado com o estrato".
+
+A vinheta ganha uma seção que mede isso em vez de afirmá-lo. Os 258 códigos do
+TSE com ISCO chegam a 42 valores distintos de ISCO-88 e **29 de ISEI**, e a
+compressão não é uniforme: o refinamento a quatro dígitos alcança 12 dos 88
+códigos da classe alta e **nenhum** dos 101 das classes populares.
+
+A consequência prática está dita com o alcance que ela tem, e não maior:
+comparações dentro das classes populares apoiam-se em escores mais agregados que
+as feitas dentro da classe alta, e diferenças finas no fundo da distribuição
+merecem menos confiança que as mesmas diferenças no topo. Não é razão para não
+usar a medida — é razão para não ler fino onde a tradução foi grossa.
+
+## A escada da CBO: os números e a causa estavam errados
+
+A vinheta dizia: "Quarenta códigos que a tradução direta não resolve, e a escada
+resolve trinta e três. Os sete restantes continuam `NA`, porque nem o prefixo de
+dois dígitos está na tábua."
+
+São quarenta **entradas**, mas dezesseis códigos distintos; os sete `NA` são um
+código só, `142399`, repetido. E a razão é outra: a família `1423` **está** na
+tábua, e `cbo2002_para_isco("1423")` devolve `"2419"`. O que falta é ancestral
+comum na ISCO — as ocupações de 1423 se espalham por 1233, 1234, 1239 e 2419.
+
+Corrigir isso expôs uma consequência que não estava declarada em lugar nenhum:
+**a escada e a consulta por família aplicam regras diferentes à mesma família**.
+Quatro dígitos consultam a moda; seis dígitos com `escada = TRUE` exigem
+ancestral comum. Em **oito** famílias as duas divergem, e a escada é a mais
+conservadora. A divergência é deliberada, mas quem alterna entre as duas
+entradas precisa saber que elas não respondem a mesma pergunta. Passa a estar em
+`?cbo2002_para_isco`, na vinheta, e travada em `test-cbo.R` — inclusive quais
+são as oito.
+
+## A ponte diz agora qual destino escolhe
+
+`?isco88_para_isco08` já explicava que a sintaxe do ISMF guarda as alternativas
+na parte decimal e manda truncá-la; a vinheta falava em "destino escolhido" sem
+dizer por quem nem como. Passa a dizer, e a tirar a consequência: como o destino
+é sempre o mesmo para um dado código de origem, o desvio é **sistemático** e não
+se cancela ao agregar.
+
 ## Mudança de comportamento: o ano na posição errada agora falha
 
 `tse_para_isei(cod, ano)` aceita o ano na **segunda** posição. Em

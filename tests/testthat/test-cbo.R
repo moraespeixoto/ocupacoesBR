@@ -149,3 +149,24 @@ test_that("NA entra e NA sai", {
   expect_true(is.na(cbo2002_para_isco(NA)))
   expect_true(is.na(cbo94_para_isco(NA)))
 })
+
+test_that("a escada e a consulta por familia divergem em oito familias, e isso e declarado", {
+  # A vinheta `percursos` afirmava que os NA que sobram da escada continuam NA
+  # "porque nem o prefixo de dois digitos esta na tabua". Nao e a razao: a
+  # familia 1423 ESTA na tabua. O que falta e ancestral comum na ISCO, porque as
+  # ocupacoes dela caem em 1233, 1234, 1239 e 2419.
+  expect_equal(suppressWarnings(cbo2002_para_isco("1423")), "2419")
+  expect_true(is.na(suppressWarnings(cbo2002_para_isco("142399", escada = TRUE))))
+
+  fam <- cbo2002_familia_isco88$familia
+  por_familia <- suppressWarnings(cbo2002_para_isco(fam))
+  por_escada  <- suppressWarnings(
+    cbo2002_para_isco(paste0(fam, "99"), escada = TRUE))
+  divergem <- fam[!is.na(por_familia) & is.na(por_escada)]
+
+  # Se esta lista mudar, a tabua se moveu e a secao "A escada hierarquica" de
+  # ?cbo2002_para_isco e a vinheta `percursos` precisam ser reexaminadas: as
+  # duas afirmam OITO, e afirmam quais.
+  expect_equal(sort(divergem),
+               c("1423", "2531", "3123", "3227", "5101", "5199", "7612", "8421"))
+})
