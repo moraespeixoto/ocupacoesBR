@@ -484,7 +484,9 @@
 #' exige um segundo piso, de 200 declarações de bens, porque mediana apoiada em
 #' poucas declarações é ruidosa: sem ele a correlação com o ISEI cai de 0,681
 #' para cerca de 0,63, não porque a medida piore, mas porque o critério externo
-#' fica instável.
+#' fica instável. Este 0,63 é o único número desta página que não se recalcula a
+#' partir do pacote — as medianas abaixo do piso são `NA` aqui —, e sai de
+#' `data-raw/05_gera_validacao.R`.
 #'
 #' **O segundo piso zera a mediana; não descarta a linha**, e a diferença
 #' importa. Até 29/07/2026 ele descartava a linha inteira, o que amputava do
@@ -516,10 +518,12 @@
 #' @section As correlações que este conjunto sustenta:
 #' Contra a escolaridade, sobre as 207 ocupações com ISEI: r = 0,765 (Spearman
 #' 0,816). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
-#' têm mediana: r = 0,681 (Spearman 0,695). No nível do **indivíduo** a
-#' correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,681
-#' é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
-#' quase nada dentro de cada uma.
+#' têm mediana: r = 0,681 (Spearman 0,695), ambas **não ponderadas** — cada
+#' ocupação conta uma, que é o certo para aferir uma régua de ocupações. No nível
+#' da **candidatura** a correlação com patrimônio é de apenas 0,207, e o
+#' contraste é o resultado, não um defeito. A comparação estritamente
+#' equivalente, na mesma unidade e com o mesmo peso, é com a correlação
+#' ecológica de 0,748; veja [tse_dispersao_patrimonio].
 #' @section O patrimônio de 2026 não entra, e por quê:
 #' A safra de 2026 contribui para `n`, `pct_superior` e `pct_mulher`, e **se
 #' abstém de `n_com_bens` e da mediana de patrimônio**. A razão é de unidade,
@@ -574,12 +578,15 @@
 #'
 #' @section O contraste que a tabela existe para sustentar:
 #' No nível da **ocupação**, o ISEI correlaciona-se a 0,681 com o log da
-#' mediana de patrimônio (veja [tse_validacao]). No nível do **indivíduo**,
+#' mediana de patrimônio (veja [tse_validacao]). No nível da **candidatura**,
 #' a 0,207. A queda não é defeito de medida: é a definição operacional do que
-#' uma escala de posição ocupacional faz, que é explicar a variação *entre*
-#' ocupações e quase nada *dentro* de cada uma. A coluna `sd_log` mostra o
-#' fenômeno diretamente — o desvio padrão do log do patrimônio dentro de um
-#' mesmo nível de status é da ordem de 1,7, isto é, uma ordem de grandeza.
+#' uma escala de posição ocupacional faz. E o "dentro" é exato, não aproximado:
+#' o ISEI é constante na ocupação, logo explica *zero* da variância
+#' intraocupacional. O que se mede é o quanto fica *entre* níveis de status —
+#' eta² = 0,077, contra r² = 0,043 da relação linear. A coluna `sd_log` mostra o
+#' fenômeno diretamente: o desvio padrão do log do patrimônio dentro de um mesmo
+#' nível de status é de cerca de 1,7, ou seja, um fator de cinco a seis por
+#' desvio padrão — dois desvios já são trinta vezes.
 #' A consequência prática está em [tse_para_isei()]: **não use o ISEI como
 #' proxy de renda ou de patrimônio individual.**
 #'

@@ -46,6 +46,23 @@ quais 28 são majoritariamente femininos):
 menos.} E não é que essas ocupações tenham menos escolaridade — têm mais:
 29,9\% de superior contra 24,1\%, com ISEI médio de 46,0 contra 49,0.
 
+\strong{O sinal é robusto; o \code{p} não.} A especificação acima pondera por número de
+candidaturas, o que muda a população-alvo de códigos para candidaturas — é
+escolha defensável, mas o erro-padrão de \code{lm} ponderado não a descreve, e o
+ISEI é atributo determinístico do código, não estimativa com variância
+inversa a \code{n}. Trocando a especificação: com erro-padrão robusto (HC3) o
+coeficiente fica em −6,2 com p = 0,14; sem ponderação, −5,3 com p = 0,012;
+com \code{pct_mulher} contínuo em vez da dicotomia, −0,09 por ponto percentual com
+p = 0,08. O sinal e a ordem de grandeza sobrevivem a todas; o \verb{p = 0,043} é da
+primeira. Use o intervalo de especificações, não o \code{p} pontual.
+
+\strong{E "viés" pede uma premissa que convém explicitar.} O ISEI pondera
+escolaridade \emph{e} renda, e ocupações femininas rendem menos com credencial
+igual: a escala registra isso fielmente. Chamar de viés supõe que status
+\emph{deveria} seguir a credencial. Se o que se quer medir é credencial, é viés; se
+é retorno, é fidelidade. A recomendação abaixo vale nos dois casos, porque a
+ISCO-08 reestima o retorno sobre uma população que inclui mulheres.
+
 O caso emblemático é a enfermagem, que a ISCO-88 põe em \code{2230} com \strong{ISEI
 43} — abaixo dos escriturários (\code{4100}, ISEI 45), apesar de ser profissão
 universitária. A âncora da ISCO-08 corrige boa parte disso: o mesmo posto

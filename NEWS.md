@@ -3,6 +3,69 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## A variância "dentro" da ocupação é zero, não "quase nada"
+
+`vignette("validacao")` e `?tse_dispersao_patrimonio` diziam que uma medida de
+posição ocupacional "explica a variância entre ocupações e quase nada da
+variância dentro de cada uma". O ISEI é **constante** dentro da ocupação: ele
+explica exatamente zero, por construção, e "quase nada" sugere que se mediu algo
+que não é mensurável.
+
+O que se pode medir, e diz mais, é quanto da variância individual do log do
+patrimônio fica **entre** níveis de status — o teto de qualquer função do ISEI.
+A vinheta passa a calculá-lo dos somatórios de `tse_dispersao_patrimonio`:
+**eta² = 0,077**, contra r² = 0,043 que a relação linear aproveita.
+
+E o contraste 0,681 × 0,207 ganha a ressalva que faltava: os dois números
+diferem em mais coisas que o nível de agregação — um é sobre a mediana e não
+ponderado, o outro sobre a média do log e ponderado por candidatura. A
+comparação limpa, na mesma unidade e com o mesmo peso, é a correlação
+**ecológica** de **0,748** contra 0,207, agora publicada ao lado.
+
+Três correções menores no mesmo bloco: a unidade passa a ser chamada de
+candidatura, não indivíduo, nos quatro lugares que ainda usavam o nome que
+`?tse_dispersao_patrimonio` declara ter abandonado; "não use ISEI como proxy de
+renda individual" passa a dizer patrimônio, que é o que foi testado, com a renda
+por extensão; e `sd_log ≈ 1,7` deixa de ser "uma ordem de grandeza" — `exp(1,7)`
+é 5,5, um fator de cinco a seis por desvio padrão, e são dois desvios que dão
+trinta vezes. As correlações de `?tse_validacao` passam a declarar que são não
+ponderadas, e o 0,63 do piso a dizer que sai de `data-raw/`, sendo o único
+número daquela página que o pacote não recalcula.
+
+## Gênero: o mesmo recorte da ajuda, e o intervalo de especificações
+
+`vignette("validacao")` comparava médias de ISEI por gênero sobre os 207 códigos
+com ISEI, enquanto `?tse_para_isei` usa os 168 com `n > 500`. Os dois números
+divergiam sem que a vinheta dissesse por quê (46,1 × 47,6 lá, 46,0 × 49,0 aqui).
+A vinheta passa a usar o recorte da ajuda, a imprimir `n`, e a remeter à
+regressão em vez de deixar uma diferença de médias sem controle carregar o
+argumento.
+
+`?tse_para_isei` passa a publicar o **intervalo de especificações** em vez do `p`
+pontual. Verificados: ponderada −6,17 (ep 3,03; p = 0,043); com erro-padrão
+robusto HC3, ep 4,19 e **p = 0,14**; sem ponderação, −5,34 e p = 0,012; com
+`pct_mulher` contínuo, −0,09 por ponto percentual e p = 0,08. O sinal e a ordem
+de grandeza sobrevivem a todas — o `p` não, e é o sinal que sustenta a
+advertência.
+
+A mesma seção passa a explicitar a premissa que "viés" carrega: o ISEI pondera
+escolaridade *e* renda, e ocupações femininas rendem menos com credencial igual.
+A escala registra isso fielmente. É viés se o que se quer medir é credencial, e
+fidelidade se é retorno — a recomendação vale nos dois casos.
+
+## A assimetria de ausência é de uma classe só
+
+`vignette("qual-regua")` dizia que "cerca de 15% das mulheres declaram posição
+fora da PEA, contra pouco mais de 1% dos homens". Confere — mas só para a classe
+`"Fora da PEA por posição"` (códigos 581 e 931). A outra residual, `"Inativo com
+trajetória"`, fica em torno de 4% nos **dois** sexos: quem somar as duas dilui
+justamente o padrão que importa. A classe passa a ser nomeada.
+
+No mesmo parágrafo, "a vantagem feminina em status é, em boa parte, artefato
+disso" era uma afirmação quantitativa sem cálculo. Passa a dizer que parte pode
+vir daí, que a vinheta não mede quanto, e que o ponto é a comparação não ser
+entre iguais.
+
 ## "Igualando média e desvio, a correlação some" — ela não pode somer
 
 `vignette("validacao")` justificava a leitura da relocação sobre a diferença

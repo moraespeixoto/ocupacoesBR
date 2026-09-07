@@ -93,11 +93,19 @@ Isso **não** é falha de cobertura: é a resposta correta. O erro é tratar ess
 casos como zero, ou tirá-los da conta sem dizer.
 
 E há uma armadilha específica: o padrão de ausência é **fortemente
-generificado**. Entre as candidaturas ao TSE, cerca de 15% das mulheres declaram
-posição fora da PEA, contra pouco mais de 1% dos homens. Uma média de ISEI por
-gênero, com `na.rm = TRUE`, compara duas subpopulações truncadas de formas
-diferentes — e a "vantagem feminina em status" que aparece é, em boa parte,
-artefato disso.
+generificado**. Entre as candidaturas ao TSE, cerca de 15% das mulheres caem na
+classe `"Fora da PEA por posição"` — os códigos 581 e 931 —, contra pouco mais
+de 1% dos homens.
+
+Vale nomear a classe, porque a assimetria é dela e só dela: a outra residual,
+`"Inativo com trajetória"`, fica em torno de 4% nos **dois** sexos. Quem somar as
+duas dilui justamente o padrão que importa aqui.
+
+Uma média de ISEI por gênero, com `na.rm = TRUE`, compara então duas
+subpopulações truncadas de formas diferentes, e parte da "vantagem feminina em
+status" que aparece pode vir daí. Quanto exatamente, esta vinheta não mede — o
+ponto é que a comparação não é entre iguais, e que a cobertura tem de ser
+relatada ao lado da média.
 
 Quem for comparar médias por grupo **precisa reportar a cobertura junto**:
 
@@ -108,7 +116,8 @@ tapply(isei, genero, function(x) c(media = mean(x, na.rm = TRUE),
 ```
 
 `isei_retrospectivo()` recupera parte disso carregando a ocupação anterior da
-própria pessoa — a cobertura feminina sobe de 52,9% para 58,7%. Não resolve;
+própria pessoa — a cobertura feminina sobe cerca de seis pontos (os valores
+exatos estão em `?isei_retrospectivo`). Não resolve;
 reduz.
 
 ## 3. A régua categórica cobre onde a contínua não chega
