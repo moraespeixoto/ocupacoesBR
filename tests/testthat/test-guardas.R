@@ -280,3 +280,17 @@ test_that("a guarda de valor nao estorva o uso legitimo", {
   # e o ano, no lugar dele, funciona
   expect_length(tse_para_classe(c(298, 298), ano = c(2000, 2020)), 2L)
 })
+
+test_that("checa_cobertura devolve TRUE invisivel, ou falha — nunca FALSE", {
+  # `vignette("comece-aqui")` dizia que a funcao "devolve TRUE ou FALSE". Nao
+  # devolve FALSE nunca: ou o vetor tem codigo valido e ela volta TRUE
+  # invisivelmente, ou nao tem e ela para. E deliberado — cobertura zero quase
+  # nunca e achado sobre a populacao, e quase sempre e a coluna errada; um FALSE
+  # seguiria adiante no pipeline.
+  r <- withVisible(checa_cobertura("111", silencioso = TRUE))
+  expect_true(r$value)
+  expect_false(r$visible)
+
+  expect_error(checa_cobertura(character(0), silencioso = TRUE), "vazio")
+  expect_error(checa_cobertura(NULL, silencioso = TRUE), "NULL")
+})

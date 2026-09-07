@@ -3,6 +3,47 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## A primeira página deixa de descrever uma tabela que não é a impressa
+
+`vignette("comece-aqui")` dizia "as quatro primeiras linhas" e "as três
+últimas", mas a ordem de `cods` punha o servidor público em quinto e o
+comerciante — que recebe ISCO, ISEI e EGP — em sexto. A prosa descrevia uma
+tabela diferente da que o chunk imprimia, na página que o leitor abre primeiro.
+Os códigos foram reordenados, e o comerciante passa a ser nomeado.
+
+Outras três correções na mesma página:
+
+* **O EGP não se define pela supervisão.** O texto dizia que "o EGP distingue
+  quem supervisiona de quem não supervisiona". O eixo primário é a **posição no
+  emprego**; a supervisão é o segundo. O dicionário do TSE traz a primeira, e é
+  a segunda que falta — como `vignette("qual-regua")` e `?isco88_para_egp` já
+  diziam.
+
+* **`checa_cobertura()` nunca devolve `FALSE`.** Devolve `TRUE` invisivelmente
+  ou **falha com erro**. É deliberado: cobertura zero quase nunca é achado sobre
+  a população e quase sempre é a coluna errada; um `FALSE` seguiria adiante no
+  pipeline, o erro para.
+
+* **A COD não está em todo Censo.** É a PNAD Contínua desde 2012 e os Censos de
+  2010 e 2022. O Censo de 2000 e a PNAD anual (2002–2015) usam a
+  CBO-Domiciliar, para a qual o pacote **não tem porta** — e entrar com esse
+  dado pela CBO-2002 traduz códigos que não são os mesmos. A ausência passa a
+  estar dita.
+
+## A recusa da CBO-94 é convenção de interface, não impossibilidade
+
+`isco08_para_isei_br(cbo94_para_isco08("2-11.20"))` devolve 72 numa linha: o que
+o pacote retirou na 0.5.1 foi o **atalho**, não o caminho. A vinheta passa a
+mostrar o encadeamento e a dizer o que ele garante — quem escreve as duas etapas
+fez a escolha conscientemente.
+
+E diz o que a razão **não** é. Não é adequação temporal em geral: o ISEI-88 foi
+estimado sobre dados de 1968 a 1982 e o pacote o aplica a candidaturas de 2026
+sem objeção. A âncora ISCO-88 é escolha por consistência interna da série
+eleitoral, não por contemporaneidade. O critério corta num sentido só, e é
+melhor dizer isso que deixar o leitor supor uma regra geral de data que o pacote
+não segue.
+
 ## O que cada porta tem para o EGP, dito porta a porta
 
 `?cbo94_para_egp` afirmava: "Ao contrário do TSE, a RAIS **tem** essas variáveis

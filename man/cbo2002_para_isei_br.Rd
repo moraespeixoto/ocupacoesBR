@@ -38,7 +38,10 @@ dos codigos de origem. A ressalva e a mesma de \code{\link[=cbo2002_para_isei08]
 
 Vale ainda lembrar a data. O ISEI-BR e uma regua estimada em 2025 e que a
 propria documentacao declara nao formar serie. Foi esse o argumento que
-retirou a porta pela CBO-94 na versao 0.5.1. Ele nao se aplica aqui com a
+retirou a porta pela CBO-94 na versao 0.5.1 — e o que se retirou ali foi o
+ATALHO, nao o caminho: \code{isco08_para_isei_br(cbo94_para_isco08(x))} continua
+funcionando, e quem escreve as duas etapas fez a escolha conscientemente, que
+e o que a recusa pretende garantir. O argumento nao se aplica aqui com a
 mesma forca — a CBO-2002 esta em uso hoje —, mas se aplica ao inicio de uma
 serie de RAIS que comece em 2003.
 }
