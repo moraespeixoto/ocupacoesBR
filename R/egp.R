@@ -121,6 +121,11 @@ isco88_para_egp <- function(isco, conta_propria = NULL,
   if (length(n_classes) != 1L || !isTRUE(n_classes %in% c(11, 7, 5, 3)))
     stop("`n_classes` deve ser um \u00fanico valor: 11, 7, 5 ou 3.", call. = FALSE)
   n <- length(isco)
+  # A guarda de valor vem ANTES do aviso: quem passou o ano na posicao de
+  # `conta_propria` nao precisa ouvir que o EGP saiu incompleto — precisa saber
+  # que a chamada esta errada. Avisar primeiro e falhar depois deixa no console
+  # um aviso que descreve um calculo que nunca aconteceu.
+  .guarda_binaria(conta_propria, "conta_propria")
   # O aviso diz exatamente o que falta. Com `conta_propria` informada — e
   # tse_para_egp() a informa a partir da marca `conta_propria` — IVb deixa de ser
   # vazia, e repetir "IVa e IVb ficam VAZIAS" seria mentir na direcao oposta.

@@ -28,6 +28,35 @@
     msg, class = c(paste0("ocupacoesBR_", classe), "ocupacoesBR_warning")))
 }
 
+#' Recusa um vetor binario com valores que nao sao 0/1
+#'
+#' `tse_para_isei(cod, ano)` aceita o ano na SEGUNDA posicao. Em
+#' `tse_para_classe` a segunda e `superior`, e em `tse_para_egp` e
+#' `conta_propria`. Quem escreve `tse_para_classe(cod, ano_vec)` por analogia
+#' nao recebia erro nenhum: `as.logical(2000)` e TRUE, entao o ano virava a
+#' marca LIGADA em toda linha, e a coluna saia errada calada. Era o unico lugar
+#' do pacote onde um engano de chamada produzia numero plausivel em silencio.
+#'
+#' A guarda e de VALOR, nao de posicao: reordenar os argumentos quebraria
+#' chamadas posicionais legitimas e o contrato ja documentado. O unico codigo
+#' que passa a falhar e o que ja estava errado.
+#' @noRd
+.guarda_binaria <- function(x, nome) {
+  if (is.null(x) || !is.numeric(x)) return(invisible(NULL))
+  v <- x[!is.na(x)]
+  if (!length(v) || all(v %in% c(0, 1))) return(invisible(NULL))
+  u <- sort(unique(v))
+  parece_ano <- all(u >= 1900 & u <= 2100 & u == trunc(u))
+  stop("`", nome, "` deve ser l\u00f3gico (ou 0/1); recebeu ",
+       paste(utils::head(u, 3), collapse = ", "),
+       if (length(u) > 3) ", ..." else "", ".",
+       if (parece_ano)
+         paste0(" Isso parece ser o ano. Ele existe, mas em outra posi\u00e7",
+                "\u00e3o: passe-o nomeado, `ano = `.")
+       else "",
+       call. = FALSE)
+}
+
 #' Recusa uma tabela onde se espera uma coluna
 #'
 #' `as.character()` de um `data.frame` faz *deparse por coluna*, de modo que um

@@ -247,3 +247,36 @@ test_that("a CBO-2002 nao tem codigo com zero a esquerda, e a CBO-94 tem", {
   z <- cbo94_isco88$cbo94[substr(cbo94_isco88$cbo94, 1, 1) == "0"][1:3]
   expect_equal(cbo94_para_isco(as.integer(z)), cbo94_para_isco(z))
 })
+
+test_that("o ano na posicao de `superior` ou `conta_propria` falha, e nao passa calado", {
+  # `tse_para_isei(cod, ano)` aceita o ano na SEGUNDA posicao; em
+  # `tse_para_classe` a segunda e `superior`, e em `tse_para_egp` e
+  # `conta_propria`. Ate 07/09/2026 `as.logical(2000)` era TRUE e o ano virava a
+  # marca ligada em toda linha — o unico engano de chamada do pacote que
+  # produzia numero plausivel em silencio. A vinheta `comece-aqui` chegava a
+  # dizer que bastava trocar o nome da funcao "e o comportamento e o mesmo".
+  expect_error(tse_para_classe(c(298, 298), c(2000, 2020)), "ano")
+  expect_error(tse_para_egp(c(111, 169), c(2000, 2020)), "ano")
+
+  # a mensagem tem de ensinar a saida, nao so recusar
+  expect_error(tse_para_classe(c(298, 298), c(2000, 2020)), "ano = ", fixed = TRUE)
+
+  # sem cara de ano, recusa do mesmo jeito, mas sem sugerir o que nao cabe
+  e <- tryCatch(tse_para_classe(c(291, 291), c(3, 7)), error = function(e) e)
+  expect_s3_class(e, "error")
+  expect_false(grepl("ano", conditionMessage(e)))
+})
+
+test_that("a guarda de valor nao estorva o uso legitimo", {
+  # 0/1, logico e NA continuam valendo: a guarda e de VALOR, e o unico codigo
+  # que passa a falhar e o que ja estava errado.
+  expect_identical(tse_para_classe(c(291, 291), superior = c(1, 0)),
+                   tse_para_classe(c(291, 291), superior = c(TRUE, FALSE)))
+  expect_identical(tse_para_egp(169, conta_propria = 0, avisar = FALSE),
+                   tse_para_egp(169, conta_propria = FALSE, avisar = FALSE))
+  # `superior = NA` segue sem virar "medio ou menos"
+  expect_equal(tse_para_classe(c(291, 291), superior = c(NA, 1))[1],
+               tse_para_classe(291))
+  # e o ano, no lugar dele, funciona
+  expect_length(tse_para_classe(c(298, 298), ano = c(2000, 2020)), 2L)
+})

@@ -3,6 +3,37 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## Mudança de comportamento: o ano na posição errada agora falha
+
+`tse_para_isei(cod, ano)` aceita o ano na **segunda** posição. Em
+`tse_para_classe()` a segunda é `superior`, e em `tse_para_egp()` é
+`conta_propria`. Quem escrevesse `tse_para_classe(cod, ano_vec)` por analogia
+não recebia erro nenhum: `as.logical(2000)` é `TRUE`, então o ano virava a marca
+**ligada em toda linha**, e a coluna saía errada em silêncio. Era o único engano
+de chamada do pacote que produzia número plausível sem aviso — e
+`vignette("comece-aqui")` chegava a dizer que bastava trocar o nome da função
+"e o comportamento é o mesmo", o que só vale com `ano` nomeado.
+
+A correção é uma guarda de **valor**, não de posição: `superior` e
+`conta_propria` passam a recusar numérico fora de `{0, 1}`, e a mensagem diz
+onde o ano cabe. Reordenar os argumentos quebraria chamadas posicionais
+legítimas e o contrato já documentado; o único código que passa a falhar é o que
+já estava errado.
+
+```r
+tse_para_classe(c(298, 298), c(2000, 2020))
+#> Erro: `superior` deve ser lógico (ou 0/1); recebeu 2000, 2020.
+#>   Isso parece ser o ano. Ele existe, mas em outra posição: passe-o
+#>   nomeado, `ano = `.
+```
+
+A sugestão do ano só aparece quando os valores têm cara de ano; fora disso a
+recusa é a mesma, sem palpite. `0`, `1`, lógico e `NA` seguem valendo, e
+`superior = NA` continua sem virar "médio ou menos".
+
+A guarda roda **antes** do aviso de EGP incompleto. Avisar primeiro e falhar
+depois deixava no console um aviso descrevendo um cálculo que nunca aconteceu.
+
 ## Os números da ajuda passam a ser conferidos contra as tabelas
 
 A regra do projeto — nenhum valor entra em `.Rd`, NEWS ou vinheta sem ter saído

@@ -50,6 +50,13 @@ Não há loop nem tradução código a código, e o banco não muda de tamanho: 
 `tse_para_isei` por `tse_para_prestigio`, `tse_para_egp`, `tse_para_classe` ou
 `tse_para_estrato` e o comportamento é o mesmo.
 
+**Passe o `ano` sempre nomeado**, como nos exemplos acima. Ele é o segundo
+argumento de `tse_para_isei()`, mas não de todas: em `tse_para_classe()` o
+segundo é `superior`, e em `tse_para_egp()` é `conta_propria`. Escrever
+`tse_para_classe(cod, ano_vec)` por analogia entrega o ano onde se espera uma
+marca binária — o pacote agora recusa isso com erro, mas até 09/2026 ele o lia
+como "sim" em toda linha e devolvia a coluna errada em silêncio.
+
 O `ano` também é uma coluna, e é ele que resolve a quebra de cadastro de 2002.
 A última linha do exemplo mostra por quê: em 1998 o código 214 era delegado de
 polícia, e só a partir de 2002 passou a ser escultor e pintor. Com `ano`, o

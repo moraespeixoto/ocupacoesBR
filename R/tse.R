@@ -183,6 +183,7 @@ tse_para_classe <- function(cod, superior = NULL, ano = NULL) {
   if (!is.logical(superior) && !is.numeric(superior))
     stop("`superior` deve ser l\u00f3gico (ou 0/1); recebido: ",
          class(superior)[1], ".", call. = FALSE)
+  .guarda_binaria(superior, "superior")
   superior <- as.logical(superior)
   pub <- !is.na(cl) & cl == "V\u00ednculo p\u00fablico n\u00e3o especificado"
   # `superior = NA` NAO vira "medio ou menos": imputar a metade baixa a quem nao
