@@ -72,3 +72,28 @@ test_that("NA entra e NA sai", {
   expect_true(is.na(isco88_para_egp(NA_character_, avisar = FALSE)))
   expect_true(is.na(tse_para_egp(0, avisar = FALSE)))
 })
+
+test_that("sem supervisao nenhuma porta produz V, e sem posicao nao produz IVa nem IVb", {
+  # A ajuda de cbo94_para_egp afirmava que "a RAIS TEM essas variaveis no
+  # vinculo". Nao tem: e registro de vinculo empregaticio, toda linha e um
+  # empregado. E a de cod_para_egp e a vinheta `qual-regua` diziam que com a
+  # PNAD "o esquema funciona por inteiro" — ela separa IVa de IVb, mas nao traz
+  # a supervisao que define V. Este teste guarda o que de fato sai por cada
+  # porta quando as variaveis nao sao passadas, que e o caso da RAIS sempre.
+  so_ocupacao <- function(x) unique(stats::na.omit(x))
+
+  cbo <- so_ocupacao(cbo2002_para_egp(cbo2002_isco88$cbo2002, avisar = FALSE))
+  cod <- so_ocupacao(cod_para_egp(cod_isco08$cod, avisar = FALSE))
+  expect_false(any(grepl("^V:",   cbo)))
+  expect_false(any(grepl("^IVa:", cbo)))
+  expect_false(any(grepl("^V:",   cod)))
+  expect_false(any(grepl("^IVa:", cod)))
+
+  # a marca que o TSE carrega recupera IVc, e e `conta_propria`, nao `proprietario`
+  expect_gt(sum(tse_isco$conta_propria, na.rm = TRUE),
+            sum(tse_isco$proprietario,  na.rm = TRUE))
+  tse <- so_ocupacao(tse_para_egp(tse_isco$cod_tse, avisar = FALSE))
+  expect_true(any(grepl("^IVc:", tse)))
+  # mas nem pelo TSE se separa IVa, que exige subordinados
+  expect_false(any(grepl("^IVa:", tse)))
+})

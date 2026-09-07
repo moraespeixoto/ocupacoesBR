@@ -273,10 +273,16 @@ cbo2002_para_siops <- function(cbo, empate = c("na", "moda"), escada = FALSE) {
 
 #' Classe EGP a partir da CBO-2002
 #'
-#' Ao contrario do dado do TSE, o microdado que traz CBO costuma trazer tambem
-#' posicao na ocupacao e supervisao — a RAIS e o eSocial identificam vinculo, e
-#' varias pesquisas perguntam quantas pessoas o respondente chefia. Quando esses
-#' campos existirem, passe-os: o EGP so sai completo com eles.
+#' Depende da fonte, e a diferenca importa. A RAIS, o CAGED e o eSocial sao
+#' registros de VINCULO EMPREGATICIO: toda linha e um empregado. Nao ha conta
+#' propria nem empregador como observacao, e nao existe campo com o numero de
+#' subordinados. Por essas portas `conta_propria` e FALSE por construcao, e o
+#' EGP sai sem IVa, IVb e V — nao por omissao de quem chama, mas porque a fonte
+#' nao descreve quem esta fora do assalariamento. Ler a distribuicao resultante
+#' como se fosse a estrutura de classes do pais e o erro a evitar aqui.
+#'
+#' Em pesquisa domiciliar que codifique em CBO, os dois campos podem existir;
+#' quando existirem, passe-os.
 #'
 #' @inheritParams cbo2002_para_isco
 #' @inheritParams isco88_para_egp
@@ -506,8 +512,9 @@ cbo94_para_isco08 <- function(cbo94, com_ambiguidade = FALSE) {
 #' Classe EGP a partir da CBO-94
 #'
 #' Leia [isco88_para_egp()] antes de usar: sem posicao no emprego e supervisao,
-#' o esquema sai degradado. Ao contrario do TSE, a RAIS TEM essas variaveis no
-#' vinculo — vale passa-las.
+#' o esquema sai degradado. A RAIS **nao** tem essas variaveis: e um registro de
+#' vinculo empregaticio, em que toda linha e um empregado. Por essa porta o EGP
+#' sai sem IVa, IVb e V por construcao. Veja [cbo2002_para_egp()].
 #'
 #' @inheritParams cbo94_para_isco
 #' @inheritParams isco88_para_egp

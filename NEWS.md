@@ -3,6 +3,35 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## O que cada porta tem para o EGP, dito porta a porta
+
+`?cbo94_para_egp` afirmava: "Ao contrário do TSE, a RAIS **tem** essas variáveis
+no vínculo — vale passá-las." Não tem. A RAIS, o CAGED e o eSocial são registros
+de **vínculo empregatício**: toda linha é um empregado. Não há conta própria nem
+empregador como observação, e não existe campo com o número de subordinados. Por
+essas portas `conta_propria` é `FALSE` por construção e o EGP sai sem IVa, IVb e
+V — não por omissão de quem chama, mas porque a fonte não descreve quem está
+fora do assalariamento. Ler a distribuição resultante como estrutura de classes
+do país é o erro que a ajuda agora nomeia.
+
+Na direção oposta, `?cod_para_egp` e `vignette("qual-regua")` diziam que com a
+PNAD Contínua "o esquema funciona por inteiro". Ela vai mais longe que as outras
+— tem posição na ocupação e número de empregados, e com isso **separa IVa de
+IVb**, que é justamente o que fica indeterminado pela porta do TSE. Mas falta a
+supervisão exercida sobre assalariados, que é o que define V. Nenhuma das quatro
+portas do pacote a tem, como `vignette("robustez")` já dizia corretamente — as
+três páginas agora concordam entre si.
+
+## A marca que recupera a pequena burguesia é `conta_propria`, não `proprietario`
+
+`vignette("qual-regua")` explicava que a pequena burguesia aparece "porque dez
+códigos nomeiam o proprietário no próprio rótulo e o pacote usa essa marca". São
+duas marcas distintas desde 07/2026, e o EGP usa a outra: `conta_propria`, que
+tem **doze** códigos, contra dez de `proprietario`. A diferença é exatamente o
+agricultor e o pescador, que trabalham por conta própria — o `SEMPL = 2` que o
+esquema exige para chegar a IVc — sem pertencerem à classe proprietária. Os dois
+números passam a sair de um chunk.
+
 ## A reedição do cadastro é de 2002; os códigos voltam depois
 
 Três páginas diziam que o código 214 "a partir de 2002 é escultor e pintor". A

@@ -145,9 +145,18 @@ tse_para_egp(c(111, 169, 601))
 ```
 
 O aviso diz o que falta. Repare no que ele **não** diz mais: a pequena burguesia
-aparece, porque dez códigos nomeiam o proprietário no próprio rótulo e o pacote
-usa essa marca. O que continua indeterminado é a divisão entre IVa (com
-empregados) e IVb (sem).
+aparece, porque o dicionário do TSE marca quem trabalha por conta própria, e o
+pacote usa essa marca.
+
+```{r marca-conta-propria}
+c(conta_propria = sum(tse_isco$conta_propria, na.rm = TRUE),
+  proprietario  = sum(tse_isco$proprietario,  na.rm = TRUE))
+```
+
+São marcas distintas, e é a primeira que o EGP usa. O agricultor e o pescador
+trabalham por conta própria — o `SEMPL = 2` que o esquema exige para chegar a
+IVc — sem pertencerem à classe proprietária. O que continua indeterminado é a
+divisão entre IVa (com empregados) e IVb (sem).
 
 **Para publicar, colapse:**
 
@@ -158,8 +167,11 @@ table(tse_para_egp(tse_isco$cod_tse, n_classes = 5, avisar = FALSE),
 
 Em cinco classes, IVa e IVb se fundem em IVab e a indeterminação desaparece.
 
-Com dado que **tem** as variáveis — a PNAD Contínua tem —, o esquema funciona
-por inteiro: veja `cod_para_egp()`.
+A PNAD Contínua vai mais longe: ela tem posição na ocupação e número de
+empregados, o que **separa IVa de IVb** — a distinção que aqui ficou
+indeterminada. Mas nem ela fecha o esquema: falta a supervisão exercida sobre
+assalariados, que é o que define V. Nenhuma das quatro portas do pacote a tem.
+Veja `cod_para_egp()`.
 
 ## 6. Série longa: o cadastro do TSE mudou embaixo do dado
 

@@ -35,8 +35,9 @@ Vetor de texto (ou inteiro, se \code{rotulo = FALSE}).
 }
 \description{
 Leia \code{\link[=isco88_para_egp]{isco88_para_egp()}} antes de usar: sem posicao no emprego e supervisao,
-o esquema sai degradado. Ao contrario do TSE, a RAIS TEM essas variaveis no
-vinculo — vale passa-las.
+o esquema sai degradado. A RAIS \strong{nao} tem essas variaveis: e um registro de
+vinculo empregaticio, em que toda linha e um empregado. Por essa porta o EGP
+sai sem IVa, IVb e V por construcao. Veja \code{\link[=cbo2002_para_egp]{cbo2002_para_egp()}}.
 }
 \examples{
 cbo94_para_egp("2-11.20", avisar = FALSE)
