@@ -2,8 +2,11 @@
 # 09_gera_isei_br.R — a regua de status ocupacional estimada em dado brasileiro
 # ----------------------------------------------------------------------------
 # O ISEI que o pacote carrega e importado. Ganzeboom, De Graaf e Treiman (1992)
-# escalonaram a ISCO sobre dado de dezesseis paises, nenhum deles o Brasil, e
-# Ganzeboom (2010) repetiu o procedimento para a ISCO-08. A vinheta de validacao
+# escalonaram a ISCO sobre 31 conjuntos de dados de dezesseis paises, levantados
+# entre 1968 e 1982 — o Brasil entre eles, com a PNAD de 1973 e a de 1982, que
+# deram 15.439 dos 73.901 homens (20,9%, atras so dos EUA). Ganzeboom (2010)
+# repetiu o procedimento para a ISCO-08, sobre o ISSP de 2002-2007. O que nao
+# existe e um angulo estimado so no Brasil, e com dado deste seculo. A vinheta de validacao
 # mostrava que a medida ORDENA bem as ocupacoes no universo eleitoral, e dizia
 # em seguida que nao mostrava que os escores estao CALIBRADOS para o Brasil.
 # Calibra-los era, nas palavras da propria vinheta, a melhoria de maior valor

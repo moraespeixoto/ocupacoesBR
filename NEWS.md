@@ -1,3 +1,70 @@
+# ocupacoesBR 0.7.1
+
+Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
+o próprio pacote já contradizia. Esta versão começa a saldá-las.
+
+## O Brasil estava no ISEI-88, e a justificativa do ISEI-BR dizia que não
+
+A documentação afirmava, em quatro lugares, que Ganzeboom, De Graaf e Treiman
+(1992) escalonaram a ISCO sobre "dezesseis países, nenhum deles o Brasil" — e
+que o ISEI-BR respondia a como o Brasil ordena as ocupações "em vez da média de
+dezesseis países ricos". As duas metades são falsas, e o artigo original
+desmente as duas.
+
+O Apêndice A de Ganzeboom, De Graaf e Treiman (1992), sob o título *31 Data
+Sets Used to Construct the ISEI Scale*, lista **a PNAD de 1973 (BRA73, 6.697
+casos) e a de 1982 (BRA82, 8.742)**. São 15.439 dos 73.901 homens da amostra de
+estimação: **20,9%, a segunda maior contribuição nacional, atrás só da
+norte-americana**. E os dezesseis países não são ricos — o artigo descreve a
+amostra como indo "de países severamente subdesenvolvidos (Índia) ao mais
+desenvolvido (Estados Unidos), e de regimes socialistas do Leste Europeu
+(Hungria) a estados sul-americanos autocráticos (Brasil)".
+
+A justificativa do ISEI-BR não desaba com a correção; ela fica verificável, que
+é o que não era. O Brasil entrou no ISEI-88 com dado de 1973 e 1982, comprimido
+junto com outros quinze países num **único** escalonamento. O que não existia é
+um ângulo estimado só aqui, e com dado deste século. É isso que a régua nova
+faz, e é isso que a documentação passa a dizer — em `?isco08_isei_br`,
+`?tse_para_isei_br`, `reguas$pergunta` e no cabeçalho de
+`data-raw/09_gera_isei_br.R`.
+
+O erro não era de cálculo, e por isso nenhum teste o pegaria: era um fato
+bibliográfico, a única classe de afirmação do pacote que nada confere.
+
+## Valle Silva é da tradição de Duncan, e Ganzeboom o usou para aferir o ISEI
+
+A aba de antecedentes dizia que *Posição social das ocupações* (IBGE, 1974) era
+"trabalho contemporâneo da própria tradição de Duncan, e não derivado dela".
+Não é o que o próprio texto de 1974 diz: Duncan (1961) é a referência nº 14 da
+bibliografia, o procedimento do SEI é descrito em detalhe, e a escala brasileira
+é aferida contra as de Blishen e Bogue.
+
+A recíproca é o achado que valia a checagem: quando Ganzeboom, De Graaf e
+Treiman construíram o ISEI, foi **a escala de Valle Silva** que serviu de termo
+de comparação brasileiro, e ela está na bibliografia deles. A linhagem brasileira
+não foi paralela à internacional — foi o parâmetro contra o qual a internacional
+se mediu aqui. A aba passa a dizer isso.
+
+## Autorias que estavam fundidas numa só
+
+`vignette("antecedentes")` atribuía a Ganzeboom, De Graaf e Treiman a tradução
+da ISCO em ISEI, prestígio e EGP. São três autorias distintas: o ISEI é deles
+(1992), o prestígio é de Treiman (1977), o esquema de classes é de Erikson,
+Goldthorpe e Portocarero (1979). O que Ganzeboom e Treiman (1996) fizeram foi
+**mapear** as três sobre a ISCO-88. Pela mesma razão, Harry Ganzeboom passa a
+ser "um dos três autores do procedimento de 1992", e o cartão do EGP na home
+deixa de dizer "sintaxes originais" — as sintaxes são a operacionalização do
+ISMF, não o texto de Erikson e Goldthorpe, que codificaram sobre classificações
+nacionais.
+
+## Correções menores na home
+
+O cartão do ISEI dizia "10 – 90"; o intervalo do ISEI-88 é **16 a 90**, e sai de
+`reguas`, não da digitação. O cartão do EGP dizia que o TSE não pergunta a
+posição na ocupação — o pacote a preenche pelo dicionário; o que falta, e gera o
+aviso, é o número de subordinados. E a chamada de `qual-regua` não conta mais os
+erros ("os sete"), porque a vinheta tem nove seções e o número envelhece calado.
+
 # ocupacoesBR 0.7.0
 
 O pacote fica legível por quem lê máquina, e a regra que ele mais repete vira

@@ -73,7 +73,7 @@ reguas <- data.frame(
   pergunta = c(
     "quanto uma posição converte educação em renda",
     "a mesma do ISEI-88, para juntar o dado eleitoral a fontes que já usam ISCO-08, e para análise de gênero",
-    "como o mercado de trabalho brasileiro, e não a média de dezesseis países ricos, ordena as ocupações",
+    "como o mercado de trabalho brasileiro de hoje ordena as ocupações, em vez de um escalonamento único de dezesseis países com dado brasileiro de 1973 e 1982",
     "o quanto uma ocupação é socialmente estimada",
     "a mesma do prestígio-88, sobre a ISCO-08",
     "a relação de emprego: quem contrata, quem é contratado",

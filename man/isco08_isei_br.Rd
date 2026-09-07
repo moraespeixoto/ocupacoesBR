@@ -34,10 +34,17 @@ isco08_isei_br
 }
 \description{
 O ISEI que o pacote carregava era importado: Ganzeboom, De Graaf e Treiman
-(1992) escalonaram a ISCO sobre dado de dezesseis países, nenhum deles o
-Brasil. Esta tabela é o mesmo procedimento refeito do zero sobre a PNAD
-Contínua de 2025. Ela fecha a lacuna que \code{vignette("validacao")} declarava
-em aberto.
+(1992) escalonaram a ISCO sobre 31 conjuntos de dados de dezesseis países,
+levantados entre 1968 e 1982. O Brasil está entre eles, e não de passagem: a
+PNAD de 1973 e a de 1982 deram 15.439 dos 73.901 homens da amostra — 20,9\%,
+a segunda maior contribuição nacional, atrás só da norte-americana.
+}
+\details{
+O que a régua importada não faz é deixar o Brasil ter ângulo próprio. Os
+dezesseis países entram num único escalonamento, e o dado brasileiro que o
+alimenta é de 1973 e 1982. Esta tabela é o mesmo procedimento refeito do
+zero sobre a PNAD Contínua de 2025, com um ângulo estimado só aqui. Ela
+fecha a lacuna que \code{vignette("validacao")} declarava em aberto.
 }
 \section{Método}{
 
