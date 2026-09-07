@@ -3,6 +3,39 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## A reedição do cadastro é de 2002; os códigos voltam depois
+
+Três páginas diziam que o código 214 "a partir de 2002 é escultor e pintor". A
+reedição do cadastro é de 2002 — fato documental —, mas nenhum dos sete códigos
+reutilizados reaparece naquele ano: são 2004, 2006 e 2008. O 214 só volta, como
+escultor, em **2006**, e há um intervalo em que aquele número não é declarado
+por ninguém.
+
+A distinção não é preciosismo: é `primeiro_ano_novo`, e não 2002, que o corte
+usa (`ano < primeiro_ano_novo`). Uma candidatura de 2004 com o código 214 volta
+`NA` — comportamento certo, que a prosa antiga não previa. Pior: a aba de
+classificações imprimia a coluna `primeiro_ano_novo` logo abaixo de afirmar o
+contrário. `vignette("percursos")` passa a imprimir também `tse_vigencia(214)`, e
+`test-rotulos.R` trava a concordância entre as duas tabelas.
+
+## Não há ano seguro para começar a série
+
+`vignette("qual-regua")` recomendava "começar a série em 2004, ou declarar a
+descontinuidade", sem dizer por que 2004. O dado não apoia a escolha: de 2002
+para 2004 nada se extingue, mas de 2004 para 2006 três códigos somem e treze
+trocam de rótulo, e dois reutilizados só reaparecem em 2006 e 2008. A
+recomendação passa a ser a que se sustenta — declarar a descontinuidade e passar
+o `ano`, que resolve os reutilizados código a código —, com os `tse_diff_cadastro()`
+impressos para o leitor conferir.
+
+No mesmo parágrafo, as contagens da troca de inventário (13 extintos, 122
+criados) passam a sair de um chunk em vez da digitação. As duas participações
+são o único par de números daquela vinheta que o pacote não recalcula sozinho —
+`tse_ocupacao_rotulos` traz `n` por vigência, não por ano —, e agora dizem de
+onde vêm: `data-raw/11_confere_retrospectivo.R`, que ganhou o bloco que as
+calcula. Recalculadas na microbase, são 12,4% (confere) e **33,1%**; a vinheta
+dizia 33,2%.
+
 ## A etapa autoral do pacote entra no site
 
 A tradução do cadastro do TSE para a ISCO-88 é a única do pacote sem documento

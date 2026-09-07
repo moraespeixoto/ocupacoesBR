@@ -60,9 +60,9 @@ pipeline não sai do dplyr. O artigo [Com o tidyverse](articles/tidyverse.html)
 percorre um pipeline inteiro assim.
 
 O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de 2002: em
-1998 o código 214 era delegado de polícia; a partir de 2002 passou a ser
-escultor e pintor. Sem o ano, aquela linha receberia calada o escore de
-escultor. Com ele, o pacote devolve `NA` e avisa.
+1998 o código 214 era delegado de polícia, e hoje é escultor e pintor. Sem o
+ano, aquela linha receberia calada o escore de escultor. Com ele, o pacote
+devolve `NA` e avisa.
 
 </div>
 <div class="ocb-terminal">
@@ -151,9 +151,9 @@ dados |>
 <div class="ocb-grid-4">
 
 <div class="ocb-card-escuro">
-<span class="ocb-tag">10 – 90</span>
+<span class="ocb-tag">16 – 90</span>
 <h3>ISEI</h3>
-<p>Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a literatura internacional usa como padrão. Vem em três estimações: as âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote estima na PNAD Contínua e que não substitui as outras.</p>
+<p>Índice socioeconômico de Ganzeboom, De Graaf e Treiman. Contínuo, somável, o padrão da pesquisa comparada de estratificação. Vem em três estimações: as âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote estima na PNAD Contínua e que não substitui as outras.</p>
 </div>
 
 <div class="ocb-card-escuro">
@@ -165,7 +165,7 @@ dados |>
 <div class="ocb-card-escuro">
 <span class="ocb-tag">11 · 7 · 5 · 3 classes</span>
 <h3>EGP</h3>
-<p>Erikson-Goldthorpe-Portocarero, portado das sintaxes originais. Exige posição na ocupação, que o TSE não pergunta: o pacote avisa.</p>
+<p>Erikson-Goldthorpe-Portocarero, portado das sintaxes do ISMF — o mapeamento de Ganzeboom e Treiman sobre a ISCO-88. Exige posição no emprego, que o pacote preenche pelo dicionário, e número de subordinados, que o TSE não pergunta: o pacote avisa.</p>
 </div>
 
 <div class="ocb-card-escuro ocb-card-teal">
@@ -208,7 +208,7 @@ dados |>
 <a class="ocb-card-artigo" href="articles/qual-regua.html">
 <span class="ocb-etiqueta">Escolher a medida</span>
 <h3>Qual régua responde à sua pergunta</h3>
-<p>Quatro medidas, nenhuma intercambiável, e os sete erros que as pessoas cometem, na ordem em que os cometem.</p>
+<p>Quatro medidas, nenhuma intercambiável, e os erros que as pessoas cometem, na ordem em que os cometem.</p>
 </a>
 
 <a class="ocb-card-artigo" href="articles/validacao.html">
@@ -219,8 +219,8 @@ dados |>
 
 <a class="ocb-card-artigo" href="articles/percursos.html">
 <span class="ocb-etiqueta">Percursos</span>
-<h3>Um roteiro para cada fonte de dado</h3>
-<p>Candidaturas, RAIS, PNAD: o que chamar, em que ordem, e o que verificar antes de analisar.</p>
+<h3>Onde cada tradução se interrompe</h3>
+<p>Os pontos de ruptura dos percursos: a ambiguidade da ponte, o empate, a agregação e o resíduo.</p>
 </a>
 
 <a class="ocb-card-artigo" href="articles/safra-2026.html">

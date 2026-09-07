@@ -185,12 +185,38 @@ inventário — códigos que sumiram e códigos que nasceram:
 table(tse_diff_cadastro(2000, 2002)$mudanca)
 ```
 
-Comparando os períodos inteiros, são 13 códigos extintos (12,4% das candidaturas
-de 1998–2000) e 122 criados (33,2% das de 2002 em diante), entre eles
-`COMERCIANTE` e `EMPRESÁRIO`. Uma série que atravesse 2002 mede "Proprietários e
-empregadores" com dois vocabulários incomensuráveis.
+Comparando os períodos inteiros, o cadastro perde e ganha códigos:
 
-O caminho honesto é começar a série em 2004, ou declarar a descontinuidade.
+```{r inventario}
+r <- tse_ocupacao_rotulos
+extintos <- setdiff(r$cod_tse[r$ate <= 2000], r$cod_tse[r$ate > 2000])
+criados  <- setdiff(r$cod_tse[r$de  >= 2002], r$cod_tse[r$de  <  2002])
+c(extintos = length(extintos), criados = length(criados))
+```
+
+São 12,4% das candidaturas de 1998–2000 nos treze extintos, e 33,1% das de 2002
+em diante nos cento e vinte e dois criados — entre eles `COMERCIANTE` e
+`EMPRESÁRIO`. Estas duas participações são o único par de números desta vinheta
+que o pacote não recalcula sozinho: `tse_ocupacao_rotulos` traz `n` por
+vigência, não por ano, e por isso elas saem da microbase, em
+`data-raw/11_confere_retrospectivo.R`. Uma série que atravesse 2002 mede
+"Proprietários e empregadores" com dois vocabulários incomensuráveis.
+
+Não há um ano seguro para começar depois disso. A troca de inventário não se
+esgota em 2002:
+
+```{r inventario-depois}
+for (p in list(c(2002, 2004), c(2004, 2006), c(2006, 2008))) {
+  cat(p[1], "->", p[2], ": ")
+  print(table(tse_diff_cadastro(p[1], p[2])$mudanca))
+}
+```
+
+De 2002 para 2004 nada se extingue, mas de 2004 para 2006 três códigos somem e
+treze trocam de rótulo — e dois dos sete reutilizados só reaparecem em 2006 e
+2008. O caminho honesto não é escolher um ano de início: é **declarar a
+descontinuidade** e passar o `ano`, que é o que resolve os reutilizados
+código a código.
 
 ## 7. Não misture ISEI-88 e ISEI-08 na mesma série
 

@@ -73,3 +73,21 @@ for (g in c("Homem", "Mulher")) {
 q <- ocupacoesBR::tse_quebra_2002
 cat("tendencia geral descontada em delta_vs_tendencia: ",
     unique(round(q$delta_pp - q$delta_vs_tendencia, 1))[1], " pp\n", sep = "")
+
+# ---------------------------------------------------------------------------
+# A troca de inventario de 2002, em participacao de candidaturas
+# ---------------------------------------------------------------------------
+# As CONTAGENS (13 extintos, 122 criados) saem de `tse_ocupacao_rotulos` e a
+# vinheta `qual-regua` as calcula num chunk. As PARTICIPACOES nao: a tabela traz
+# `n` por vigencia, nao por ano, e por isso elas exigem a microbase. Este bloco
+# e a fonte declarada delas. Ate 07/09/2026 a vinheta dizia 33,2%; sao 33,1%.
+r <- ocupacoesBR::tse_ocupacao_rotulos
+extintos <- setdiff(r$cod_tse[r$ate <= 2000], r$cod_tse[r$ate > 2000])
+criados  <- setdiff(r$cod_tse[r$de  >= 2002], r$cod_tse[r$de  <  2002])
+cod <- sprintf("%03d", as.integer(as.character(d$cod_ocup)))
+cat("codigos extintos: ", length(extintos), " | criados: ", length(criados),
+    "\n", sep = "")
+cat("candidaturas de 1998-2000 em codigo extinto: ",
+    round(mean(cod[d$ano <= 2000] %in% extintos) * 100, 1), "%\n", sep = "")
+cat("candidaturas de 2002+ em codigo criado: ",
+    round(mean(cod[d$ano >= 2002] %in% criados) * 100, 1), "%\n", sep = "")

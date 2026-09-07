@@ -141,3 +141,27 @@ test_that("tse_para_rotulo respeita o ano", {
   expect_match(tse_para_rotulo(215), "ARTISTA")       # sem ano: o mais recente
   expect_true(is.na(tse_para_rotulo(215, 2004)))      # fora de vigência
 })
+
+test_that("nenhum codigo reutilizado reaparece em 2002, e a vigencia concorda com a quebra", {
+  # A prosa do site dizia, em tres paginas, que o 214 "a partir de 2002 e
+  # escultor". Nao e: o cadastro foi reeditado em 2002, mas os sete reutilizados
+  # so reaparecem com o rotulo novo em 2004, 2006 ou 2008 — e e esse ano, e nao
+  # 2002, que o corte `ano < primeiro_ano_novo` usa. Uma candidatura de 2004 com
+  # o codigo 214 tem de voltar NA.
+  q <- tse_quebra_2002[tse_quebra_2002$tipo == "reutilizado", ]
+  expect_gt(nrow(q), 0)
+  expect_false(any(q$primeiro_ano_novo == 2002))
+  expect_true(all(q$primeiro_ano_novo > 2002))
+
+  # a vigencia e a quebra tem de contar a mesma historia
+  for (k in q$cod_tse) {
+    v <- tse_vigencia(k)
+    expect_equal(v$de[nrow(v)],
+                 q$primeiro_ano_novo[q$cod_tse == k],
+                 info = k)
+  }
+
+  # e o corte de fato anula o ano intermediario
+  expect_true(is.na(suppressWarnings(tse_para_isei("214", ano = 2004L))))
+  expect_false(is.na(suppressWarnings(tse_para_isei("214", ano = 2026L))))
+})

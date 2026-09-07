@@ -59,9 +59,12 @@ como "sim" em toda linha e devolvia a coluna errada em silêncio.
 
 O `ano` também é uma coluna, e é ele que resolve a quebra de cadastro de 2002.
 A última linha do exemplo mostra por quê: em 1998 o código 214 era delegado de
-polícia, e só a partir de 2002 passou a ser escultor e pintor. Com `ano`, o
-pacote devolve `NA` e avisa; sem ele, aquela linha receberia calada o escore de
-escultor.
+polícia, e hoje é escultor e pintor. Com `ano`, o pacote devolve `NA` e avisa;
+sem ele, aquela linha receberia calada o escore de escultor.
+
+O cadastro foi reeditado em 2002, mas o 214 só reaparece com o rótulo novo em
+2006 — e é essa segunda data que o corte usa. Os detalhes estão em
+[Os percursos](percursos.html).
 
 O resto deste artigo é sobre o que essa coluna nova significa.
 

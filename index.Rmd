@@ -78,9 +78,9 @@ pipeline não sai do dplyr. O artigo [Com o tidyverse](articles/tidyverse.html)
 percorre um pipeline inteiro assim.
 
 O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de 2002: em
-1998 o código 214 era delegado de polícia; a partir de 2002 passou a ser
-escultor e pintor. Sem o ano, aquela linha receberia calada o escore de
-escultor. Com ele, o pacote devolve `NA` e avisa.
+1998 o código 214 era delegado de polícia, e hoje é escultor e pintor. Sem o
+ano, aquela linha receberia calada o escore de escultor. Com ele, o pacote
+devolve `NA` e avisa.
 
 </div>
 <div class="ocb-terminal">

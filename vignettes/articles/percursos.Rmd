@@ -167,13 +167,31 @@ razão para não ler diferenças finas onde a tradução foi grossa.
 ## A quebra de 2002 no cadastro do TSE
 
 O TSE reformou o cadastro de ocupações entre a eleição de 2000 e a de 2002, e a
-reforma reaproveitou números. O código 214 era delegado de polícia até 2000; a
-partir de 2002 é escultor e pintor.
+reforma reaproveitou números. O código 214 era delegado de polícia até 2000 e
+hoje é escultor e pintor.
+
+Convém separar duas datas que é fácil confundir. A **reedição do cadastro** é de
+2002: é o fato documental. Mas o ano em que cada código reaparece com o rótulo
+novo é outro, e é o que o dado mostra:
 
 ```{r quebra}
 tse_quebra_2002[tse_quebra_2002$tipo == "reutilizado",
-                c("cod_tse", "rotulo_ate_2000", "rotulo_apos_2002")]
+                c("cod_tse", "rotulo_ate_2000", "rotulo_apos_2002",
+                  "primeiro_ano_novo")]
 ```
+
+Nenhum deles reaparece em 2002: são 2004, 2006 e 2008. O 214 só volta, como
+escultor, em 2006 — há um intervalo em que o código simplesmente não é
+declarado.
+
+```{r vigencia-214}
+tse_vigencia(214)
+```
+
+É `primeiro_ano_novo`, e não 2002, que o corte usa: o pacote anula o escore onde
+`ano < primeiro_ano_novo`. Uma candidatura de 2004 com o código 214 volta `NA`,
+e é o comportamento certo — em 2004 aquele número não nomeava nem uma coisa nem
+outra.
 
 Por isso todas as funções da porta do TSE aceitam `ano`:
 
