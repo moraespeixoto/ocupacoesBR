@@ -3,6 +3,58 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## O nível de habilidade 2 da ISCO-88 não vai ao pós-secundário
+
+A aba de classificações definia o nível de habilidade 2 como indo "do secundário
+inferior ao pós-secundário não terciário", num parágrafo sobre a ruptura de
+1988. Essa é a definição da **ISCO-08**, ancorada na ISCED de 1997.
+
+Conferido na fonte primária — ILO (1990), pp. 2-3: na ISCO-88 o segundo nível é
+"ISCED categories 2 and 3, comprising the first and second stages of secondary
+education". O pós-secundário não terciário (ISCED-97 nível 4) só entra com a
+reancoragem de 2008. O texto passa a dar as quatro correspondências da ISCED-76,
+e a dizer que a ISCO-08 reancorou na de 1997 — precisamente porque a confusão é
+fácil, e o pacote está ancorado na de 1988.
+
+## A CBO tem dois tamanhos, e o site usava os dois sem avisar
+
+A edição de 2002 traz 2.422 ocupações em 596 famílias; o domínio vigente, do
+Novo CAGED, traz **2.777 em 626** — e é contra ele que as taxas de cobertura do
+pacote são calculadas. As duas cifras conviviam em páginas diferentes sem
+explicação. Agora convivem com ela, e as do domínio saem de um chunk que lê o
+próprio arquivo de fontes.
+
+## A coluna `qualidade` resume duas etapas, e a segunda tem precedência
+
+`crosswalk_tse()` marca `"ambígua"` a partir da ponte ISCO-88 → ISCO-08, e essa
+marca **sobrepõe** a informação sobre o quanto a tradução TSE → ISCO-88 foi
+agregada. O resultado é que códigos traduzidos exatamente, a quatro dígitos,
+aparecem como `"ambígua"` — e a ambiguidade deles é da ponte, irrelevante para
+quem usa o ISEI-88, que é a régua recomendada. O comportamento não muda; passa a
+estar dito, com a remissão a `tse_isco$nivel` para quem quiser só a agregação.
+
+## Outras três da mesma aba
+
+* **"Toda medida deste pacote está publicada sobre a ISCO"** — toda medida
+  **importada**. Classe, estrato e componente da classe alta ancoram no cadastro
+  do TSE, e o ISEI-BR é estimado sobre a COD; a coluna `ancora` de `reguas` diz
+  qual é qual.
+
+* **"Toda função de tradução deste pacote aceita `ano`"** — só as da porta do
+  TSE, porque a quebra é do cadastro eleitoral. Verificado nas assinaturas:
+  dezesseis funções aceitam, nenhuma das outras portas aceita. A mesma frase
+  estava em `vignette("robustez")`, e `test-guia-agente.R` passa a travar as
+  duas direções.
+
+* **O instrumento da CBO-2002.** O texto citava a "Resolução CONCLA nº 5 de
+  setembro de 2002", que não consegui corroborar em fonte nenhuma. O instrumento
+  documentado é a **Portaria MTE nº 397, de 9 de outubro de 2002**, que aprova a
+  CBO-2002 para uso em todo o território nacional. Trocado pelo verificável.
+
+E em `vignette("qual-regua")`, "as três não têm sequer o mesmo denominador" —
+palavra sem referente — passa a dizer o que de fato difere: população e ano de
+estimação.
+
 ## A variância "dentro" da ocupação é zero, não "quase nada"
 
 `vignette("validacao")` e `?tse_dispersao_patrimonio` diziam que uma medida de

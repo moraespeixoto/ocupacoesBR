@@ -331,7 +331,7 @@ par(op)
 **O que significa.** Cinco dos sete saltam muito, e no sentido que a troca de
 rótulo prevê: o `214` sai de DELEGADO DE POLICIA, com quase 90% de ensino
 superior, e chega a ESCULTOR E PINTOR, com quase nenhum; o `211` faz o mesmo
-percurso de PROCURADOR a ESTIVADOR. É por isso que toda função de tradução
+percurso de PROCURADOR a ESTIVADOR. É por isso que toda função de tradução da porta do TSE
 aceita `ano`: `tse_para_isei(214, ano = 1998)` e `tse_para_isei(214, ano = 2010)`
 devolvem coisas diferentes, e devem.
 

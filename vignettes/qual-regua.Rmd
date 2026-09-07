@@ -267,7 +267,7 @@ cuidado que o escalonamento de 1992, estimado só sobre homens, subestimava (vej
 
 Desde a versão 0.5.0 há uma terceira régua, `tse_para_isei_br()`, estimada na
 PNAD Contínua em vez de importada. O aviso vale para ela igualmente, e com uma
-razão a mais: as três não têm sequer o mesmo denominador. A brasileira é de um
+razão a mais: as três não foram estimadas na mesma população nem no mesmo ano. A brasileira é de um
 ano só, 2025, e serve para perguntar como o mercado de trabalho **brasileiro**
 ordena as ocupações. Para comparação internacional, ou para qualquer série
 longa, ela não serve.

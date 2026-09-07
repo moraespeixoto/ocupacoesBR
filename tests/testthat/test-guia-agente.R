@@ -69,3 +69,20 @@ test_that("os numeros de ISEI e prestigio citados batem com as tabelas", {
   expect_equal(c(mag$isei88, mag$siops88), c(90, 76))
   expect_equal(c(enf$isei88, enf$siops88), c(43, 54))
 })
+
+test_that("so a porta do TSE aceita `ano`, e todas as traducoes dela aceitam", {
+  # A aba de classificacoes e a vinheta robustez diziam que "toda funcao de
+  # traducao deste pacote aceita ano". So as do TSE aceitam — a quebra e do
+  # cadastro eleitoral. Este teste guarda a afirmacao corrigida nas duas
+  # direcoes, de modo que uma porta nova sem `ano` reprove.
+  ex <- getNamespaceExports("ocupacoesBR")
+  tem_ano <- function(f) "ano" %in% names(formals(get(f, envir = asNamespace("ocupacoesBR"))))
+
+  traducoes_tse <- grep("^tse_para_", ex, value = TRUE)
+  expect_gt(length(traducoes_tse), 10)
+  for (f in traducoes_tse) expect_true(tem_ano(f), info = f)
+
+  outras_portas <- grep("^(cbo2002|cbo94|cod|isco88|isco08)_para_", ex, value = TRUE)
+  expect_gt(length(outras_portas), 10)
+  for (f in outras_portas) expect_false(tem_ano(f), info = f)
+})
