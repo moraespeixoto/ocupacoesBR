@@ -3,6 +3,34 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## Os números da ajuda passam a ser conferidos contra as tabelas
+
+A regra do projeto — nenhum valor entra em `.Rd`, NEWS ou vinheta sem ter saído
+de execução própria — cobre o momento em que o número é escrito. Não cobre o
+depois: um valor correto no dia em que foi digitado continua na página de ajuda
+quando a tabela de onde ele veio muda.
+
+Foi assim que `?tse_codigos_autorrotulo` seguiu afirmando que a dispersão de
+patrimônio é "de 80 vezes (p90/p10) entre os que declaram empresário, mas de 47
+entre os advogados e 54 entre os comerciantes". São os valores da agregação que
+somava cada bem duas vezes, corrigida em 09/2026. Os certos são **76, 48 e 55**,
+e `?tse_para_componente_alta` já os lia da tabela desde aquela correção — este
+parágrafo é que tinha ficado para trás.
+
+Corrigido, o argumento fica mais forte do que era: o comerciante (55) é
+autorrótulo e cai **entre** o advogado ancorado (48) e o empresário (76). A
+dispersão bruta realmente não separa os dois grupos, que é o que o parágrafo
+sempre quis dizer.
+
+`tests/testthat/test-numeros-doc.R` é a trava geral. Ele não guarda os valores:
+recomputa das tabelas e confere contra o texto da ajuda, de modo que o que
+reprova é a **divergência** entre os dois. Cobre por ora a dispersão por
+autorrótulo, os quantis do 257, a regressão de gênero de `?tse_para_isei` (n,
+coeficiente e as duas médias) e a parcela mediada de `?isco08_isei_br`. Um dos
+blocos trava também a ordem advogado < comerciante < empresário, porque é dela
+que o parágrafo depende: se ela inverter, o texto passa a afirmar o contrário do
+que o dado mostra, sem que número nenhum fique errado.
+
 ## O Brasil estava no ISEI-88, e a justificativa do ISEI-BR dizia que não
 
 A documentação afirmava, em quatro lugares, que Ganzeboom, De Graaf e Treiman
