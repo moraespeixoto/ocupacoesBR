@@ -31,6 +31,37 @@ faz, e é isso que a documentação passa a dizer — em `?isco08_isei_br`,
 O erro não era de cálculo, e por isso nenhum teste o pegaria: era um fato
 bibliográfico, a única classe de afirmação do pacote que nada confere.
 
+## A enfermagem não foi promovida pela ISCO-08
+
+Quatro páginas do site — `qual-regua`, `validacao`, a aba de classificações e
+`?tse_para_isei08` — explicavam o salto de 26 pontos do enfermeiro dizendo que
+"a ISCO-08 promoveu a enfermagem a profissão de nível superior (`2221`),
+separando-a dos técnicos (`3221`)". O mecanismo é falso, e o pacote já sabia
+disso em dois lugares: `R/tse.R` e o `NEWS.md` da 0.6.0 dizem, corretamente, que
+a ISCO-88 põe a enfermagem em `2230` **apesar de** ser profissão universitária.
+
+A ISCO-88 já a situava no grande grupo 2, e já a separava da enfermagem técnica
+(`3231`). O que ela fazia era pontuá-la em 43, abaixo dos escriturários (45). O
+que muda de uma âncora para a outra é a **escala**: o ISEI-08, reestimado por
+Ganzeboom sobre o ISSP de 2002-2007 e cobrindo os dois sexos, a põe em 68,7. A
+recomendação de ancorar na ISCO-08 para análise de gênero continua valendo — o
+que muda é a razão dela, que é de escore e não de alocação.
+
+Dois efeitos colaterais da versão antiga também saem. O primeiro é que `2221` é
+**médico** na ISCO-88 e enfermeiro na ISCO-08: o texto citava um código de quatro
+dígitos sem dizer de qual classificação, num pacote cuja tese é que código não
+sobrevive à troca de versão. Os códigos passam a vir com a âncora nomeada. O
+segundo é que o destino que o pacote de fato atribui ao 113 é o agregado `2220`,
+não `2221`.
+
+A aba de classificações precisava de um exemplo de promoção 3 → 2 na fronteira
+entre profissionais e técnicos, e a enfermagem não serve. Passa a usar os dois
+casos reais, que são os mesmos do artigo de método: a fisioterapia (`3226` →
+`2264`) e a nutrição (`3223` → `2265`).
+
+`tests/testthat/test-isco08-tse.R` ganhou dois blocos que travam os fatos que
+desmentem a versão antiga, para que ela não volte por cópia.
+
 ## Valle Silva é da tradição de Duncan, e Ganzeboom o usou para aferir o ISEI
 
 A aba de antecedentes dizia que *Posição social das ocupações* (IBGE, 1974) era

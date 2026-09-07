@@ -77,9 +77,12 @@ na suíte.
 
 O segundo limite é a **fronteira entre os grandes grupos 2 e 3** — profissionais
 e técnicos. Ela foi desenhada quando muitas ocupações hoje universitárias ainda
-não o eram, e a revisão de 2008 promoveu parte delas. O caso da enfermagem é o
-mais visível, e a documentação do pacote recomenda ancorar na ISCO-08 para
-análise de gênero por causa dele.
+não o eram, e a revisão de 2008 promoveu parte delas: a fisioterapia passou de
+`3226` a `2264`, e a nutrição de `3223` a `2265`, ambas de técnicas a
+profissionais. A enfermagem **não** é caso de promoção — a ISCO-88 já a punha no
+grande grupo 2 —, e mesmo assim é por causa dela que a documentação recomenda
+ancorar na ISCO-08 para análise de gênero: ali o que se corrige é o escore, não
+a alocação.
 
 ## A CBO, e a ruptura de 2002
 

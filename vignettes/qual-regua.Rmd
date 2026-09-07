@@ -202,17 +202,21 @@ data.frame(
   isei08 = round(tse_para_isei08(c("111", "113", "411")), 1))
 ```
 
-O médico fica onde estava; o enfermeiro sobe 26 pontos, porque a ISCO-08
-promoveu a enfermagem a profissão de nível superior (`2221`), separando-a dos
-técnicos (`3221`); o vendedor cai 13, porque a revisão reavaliou o grupo `52`
-inteiro. Não é erro de nenhuma das duas réguas: são recortes diferentes. Numa
+O médico fica onde estava; o enfermeiro sobe 26 pontos — e não por ter mudado
+de lugar na classificação. A ISCO-88 já o punha entre os profissionais de nível
+superior (`2230` na ISCO-88), e já o separava da enfermagem técnica (`3231` na
+ISCO-88). O que ela fazia era pontuá-lo em 43, **abaixo dos escriturários**, que
+recebem 45. O que mudou foi a escala: o ISEI-08, reestimado por Ganzeboom sobre
+o ISSP de 2002-2007, cobre homens e mulheres e o põe em 68,7. O vendedor cai 13
+pelo mesmo mecanismo, em sentido contrário, com a reorganização do subgrupo `52`
+por cima. Não é erro de nenhuma das duas réguas: são recortes diferentes. Numa
 série que troque de âncora no meio, os dois deslocamentos aparecem como
 mobilidade que não houve.
 
 **Fique na ISCO-88** para comparar candidaturas entre si — é onde o pacote está
 ancorado. Use a ISCO-08 para juntar o dado eleitoral a fontes que já a usam, e
-para análise de gênero, onde a revisão de 2008 corrigiu a subvalorização das
-ocupações de cuidado (veja `vignette("validacao")`).
+para análise de gênero, onde o ISEI-08 reavalia para cima as ocupações de
+cuidado que o escalonamento de 1992, estimado só sobre homens, subestimava (veja `vignette("validacao")`).
 
 Desde a versão 0.5.0 há uma terceira régua, `tse_para_isei_br()`, estimada na
 PNAD Contínua em vez de importada. O aviso vale para ela igualmente, e com uma

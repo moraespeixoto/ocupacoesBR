@@ -117,3 +117,34 @@ test_that("as outras portas de entrada ficaram intactas", {
   # simétrica que a promoção precisa da marca de proprietário para acontecer.
   expect_equal(isco08_para_isco88(c("6130", "1311")), c("6130", "1221"))
 })
+
+test_that("a enfermagem ja era grupo 2 na ISCO-88: o que muda e a escala", {
+  # Ate a auditoria de 07/09/2026 quatro paginas do site diziam que o salto de
+  # 26 pontos do enfermeiro vinha de a ISCO-08 te-lo "promovido a profissao de
+  # nivel superior, separando-o dos tecnicos". Nao vinha: a ISCO-88 ja o punha
+  # em 2230, grande grupo 2, e ja o separava da enfermagem tecnica (3231). O
+  # salto e reestimacao da escala. Este teste trava os dois fatos que desmentem
+  # a versao antiga, para que ela nao volte por copia.
+  expect_equal(tse_para_isco("113"), "2230")
+  expect_equal(substr(tse_para_isco("113"), 1, 1), "2")   # profissionais, ja em 1988
+  expect_equal(substr("3231", 1, 1), "3")                 # a tecnica, separada, no 3
+  expect_lt(isco88_medidas$isei88[isco88_medidas$isco88 == "3231"],
+            isco88_medidas$isei88[isco88_medidas$isco88 == "2230"])
+
+  # e o escore de 1992 punha a profissao universitaria abaixo dos escriturarios
+  expect_lt(isco88_medidas$isei88[isco88_medidas$isco88 == "2230"],
+            isco88_medidas$isei88[isco88_medidas$isco88 == "4000"])
+
+  # o salto existe e e da escala; o destino que o pacote usa e o agregado 2220
+  expect_equal(tse_para_isco08("113"), "2220")
+  expect_gt(tse_para_isei08("113") - tse_para_isei("113"), 20)
+})
+
+test_that("os casos de promocao 3 -> 2 de fato sao a fisioterapia e a nutricao", {
+  # Sao estes os exemplos que o artigo de metodo usa, e que a aba de
+  # classificacoes passou a usar no lugar da enfermagem.
+  expect_equal(isco88_para_isco08("3226"), "2264")
+  expect_equal(isco88_para_isco08("3223"), "2265")
+  expect_equal(substr(c("3226", "3223"), 1, 1), c("3", "3"))
+  expect_equal(substr(c("2264", "2265"), 1, 1), c("2", "2"))
+})

@@ -121,8 +121,11 @@ v$pct_superior[v$cod_tse == "113"]
 ```
 
 O ISEI-88 põe a enfermagem **abaixo** do escriturário, apesar de quase 60% de
-ensino superior. A revisão de 2008 da OIT corrigiu isso, e o ISEI-08 a promove
-em mais de vinte pontos.
+ensino superior. Não é a classificação que erra: a ISCO-88 já situa a enfermagem
+no grande grupo dos profissionais. É o escore de 1992 que a subestima, porque
+mede a conversão de escolaridade em renda observada entre homens, em dado de
+1968 a 1982. A reestimação do ISEI-08, sobre o ISSP de 2002-2007 e cobrindo os
+dois sexos, a promove em mais de vinte pontos.
 
 Isso não é peculiaridade brasileira, mas pesa mais aqui: o país tem um vale de
 ocupações femininas de alta escolaridade e baixa remuneração — enfermagem,
