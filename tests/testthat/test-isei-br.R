@@ -91,3 +91,31 @@ test_that("concorda com a ancora internacional sem ser copia dela", {
   # e discorda o bastante para valer a pena existir
   expect_gt(mean(abs(f$isei_br[ok] - i[ok])), 3)
 })
+
+test_that("a lista de quem sobe e desce nao depende do criterio usado", {
+  # `vignette("validacao")` le a relocacao sobre a diferenca PADRONIZADA, e ate
+  # 07/09/2026 justificava isso dizendo que assim "a correlacao com o ponto de
+  # partida some". Ela nao some: para dois vetores padronizados com correlacao
+  # r, cor(z1 - z2, z2) = -sqrt((1 - r)/2), que e aritmetica e nunca e zero.
+  # O que de fato autoriza a leitura e esta concordancia com o residuo da
+  # regressao, que E ortogonal ao ponto de partida por construcao. Se ela
+  # deixar de valer, a secao precisa ser reescrita.
+  v <- tse_validacao
+  v$rotulo  <- tse_para_rotulo(v$cod_tse)
+  v$isei    <- suppressWarnings(tse_para_isei(v$cod_tse))
+  v$isei08  <- suppressWarnings(tse_para_isei08(v$cod_tse))
+  v$isei_br <- suppressWarnings(tse_para_isei_br(v$cod_tse))
+  w <- v[stats::complete.cases(
+    v[, c("isei", "isei08", "isei_br", "pct_superior", "mediana_patrimonio")]), ]
+
+  z <- function(x) (x - mean(x)) / sd(x)
+  d <- z(w$isei_br) - z(w$isei08)
+  resid <- stats::residuals(stats::lm(isei_br ~ isei08, data = w))
+
+  expect_identical(head(w$rotulo[order(-d)], 6), head(w$rotulo[order(-resid)], 6))
+  expect_setequal(head(w$rotulo[order(d)], 6), head(w$rotulo[order(resid)], 6))
+
+  # e a identidade, para que ninguem volte a ler o residual como "artefato que sobrou"
+  r <- stats::cor(w$isei_br, w$isei08)
+  expect_equal(stats::cor(d, w$isei08), -sqrt((1 - r) / 2), tolerance = 1e-12)
+})

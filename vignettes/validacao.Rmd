@@ -205,14 +205,33 @@ mostra o tamanho do problema é esta:
 
 ```{r artefato}
 z <- function(x) (x - mean(x)) / sd(x)
-c(bruta       = cor(w$isei_br - w$isei08, w$isei08),
-  padronizada = cor(z(w$isei_br) - z(w$isei08), w$isei08))
+r <- cor(w$isei_br, w$isei08)
+c(bruta         = cor(w$isei_br - w$isei08, w$isei08),
+  padronizada   = cor(z(w$isei_br) - z(w$isei08), w$isei08),
+  forcada_por_r = -sqrt((1 - r) / 2))
 ```
 
-A diferença **bruta** correlaciona-se a −0,85 com o próprio ISEI-08 — ler nela
-uma relocação substantiva é ler, em boa parte, de onde a ocupação partiu.
-Igualando média e desvio, a correlação some. Então a leitura tem de ser feita
-sobre a diferença padronizada:
+A diferença **bruta** correlaciona-se a cerca de −0,84 com o próprio ISEI-08 —
+ler nela uma relocação substantiva é ler, em boa parte, de onde a ocupação
+partiu. Padronizar remove esse artefato, e é sobre a diferença padronizada que a
+leitura tem de ser feita.
+
+Repare, porém, na terceira linha, porque ela impede uma leitura errada da
+segunda. A correlação padronizada **não some** — nem poderia. Para dois vetores
+padronizados com correlação `r`, vale a identidade
+
+`cor(z1 - z2, z2) = -sqrt((1 - r) / 2)`
+
+e com `r` = `r round(cor(w$isei_br, w$isei08), 3)` ela dá exatamente o valor
+observado — não aproximadamente: até a última casa que o computador guarda. Não é uma medida: é aritmética, e é sempre negativa — regressão à
+média. Seria errado, portanto, ler o `r round(cor(z(w$isei_br) - z(w$isei08), w$isei08), 3)`
+residual como "o tanto de artefato que sobrou", ou esperar que ele fosse zero
+caso a diferença fosse puramente substantiva. Com escalas iguais e esta
+correlação, ele seria esse número de qualquer jeito.
+
+O que a padronização resolve é o artefato de **escala**, que era grande. O que
+ela não pode fazer é produzir uma medida ortogonal ao ponto de partida — e é por
+isso que a leitura abaixo vem acompanhada de uma conferência.
 
 ```{r sobe-desce}
 w$d <- z(w$isei_br) - z(w$isei08)
@@ -228,11 +247,29 @@ o diretor de empresas e o médico — e é justamente isso que a comparação br
 escondia, porque ocupações de topo não têm para onde subir numa escala
 comprimida.
 
-As que mais descem são as profissões artísticas, o clero e as liberais da saúde:
-escultor, artista plástico, sacerdote, cantor, veterinário, farmacêutico.
+As que mais descem são as profissões artísticas, o clero e o ensino de arte:
+escultor, artista plástico, sacerdote, cantor, músico, professor de formação
+profissional. Veterinário e farmacêutico vêm logo atrás, em sétimo e oitavo.
 Credencial alta, remuneração modesta. É a mesma anomalia do cuidado vista pelo
 outro lado: a régua importada mede sobretudo credencial, e no Brasil credencial e
 remuneração andam mais separadas do que ela supõe.
+
+A conferência prometida acima. O resíduo de uma regressão do ISEI-BR sobre o
+ISEI-08 é ortogonal ao ponto de partida **por construção** — não por sorte —, e
+por isso é o critério que não pode ser acusado de artefato:
+
+```{r sobe-desce-residuo}
+w$resid <- residuals(lm(isei_br ~ isei08, data = w))
+c(sobem_iguais  = identical(head(w$rotulo[order(-w$d)], 6),
+                            head(w$rotulo[order(-w$resid)], 6)),
+  descem_mesmas = setequal(head(w$rotulo[order(w$d)], 6),
+                           head(w$rotulo[order(w$resid)], 6)))
+```
+
+As seis que sobem são as mesmas, na mesma ordem; as seis que descem são as
+mesmas, com o clero trocando de posição dentro do grupo. A leitura substantiva
+não depende de qual dos dois critérios se use, e é isso — não a correlação
+residual — que autoriza lê-la.
 
 ## O que esta vinheta não prova
 

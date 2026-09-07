@@ -3,6 +3,49 @@
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que
 o próprio pacote já contradizia. Esta versão começa a saldá-las.
 
+## "Igualando média e desvio, a correlação some" — ela não pode somer
+
+`vignette("validacao")` justificava a leitura da relocação sobre a diferença
+padronizada assim: a diferença bruta correlaciona-se a −0,85 com o ISEI-08, e
+"igualando média e desvio, a correlação some". `vignette("robustez")` dizia o
+mesmo em forma de teste: "se a diferença fosse substantiva, essa correlação
+seria perto de zero".
+
+Ela não some, e a hipótese está invertida. Para dois vetores padronizados com
+correlação `r`, vale a identidade
+
+```
+cor(z1 - z2, z2) = -sqrt((1 - r) / 2)
+```
+
+Com `r` = 0,940, isso dá −0,173 — que é exatamente o valor observado, até a
+última casa que o computador guarda. É aritmética, não medida, e é sempre
+negativa: regressão à média. Com escalas idênticas e esta correlação, o residual
+seria −0,17 **ainda que a diferença fosse inteiramente substantiva**. O chunk
+passa a imprimir a identidade ao lado do valor observado, o que mostra o ponto
+melhor do que qualquer parágrafo. (De passagem: naquela unidade a correlação
+bruta é −0,84, não −0,85 — o −0,85 vem de `?isco08_isei_br`, calculado noutra.)
+
+**A conclusão prática sobrevive inteira**, e é isso que importa: padronizar
+remove o artefato de escala, que é grande, e sem padronizar a lista de quem sobe
+e desce é em boa parte a lista de quem estava embaixo. O que muda é a
+justificativa — e o que passa a sustentá-la é uma conferência, não uma
+correlação: o resíduo de uma regressão do ISEI-BR sobre o ISEI-08 é ortogonal ao
+ponto de partida **por construção**, e devolve as mesmas seis ocupações em cada
+ponta (idênticas e na mesma ordem entre as que sobem; as mesmas seis, com o
+clero mudando de lugar, entre as que descem). A leitura substantiva não depende
+do critério, e é isso que a autoriza.
+
+`test-isei-br.R` trava as duas coisas: a concordância entre os critérios e a
+identidade, para que ninguém volte a ler o residual como "o artefato que sobrou".
+
+## A prosa nomeava duas ocupações que a tabela não imprimia
+
+No mesmo trecho, o texto dizia que entre as seis que mais descem estão
+"veterinário e farmacêutico". Estão em **sétimo e oitavo**; a tabela imprime
+músico e professor de formação profissional. Corrigido, com os dois citados na
+posição que ocupam.
+
 ## A primeira página deixa de descrever uma tabela que não é a impressa
 
 `vignette("comece-aqui")` dizia "as quatro primeiras linhas" e "as três
