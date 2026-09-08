@@ -61,12 +61,15 @@ microdado de patrimônio.
 No nível da **ocupação**, o ISEI correlaciona-se a 0,681 com o log da
 mediana de patrimônio (veja
 [tse_validacao](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_validacao.md)).
-No nível do **indivíduo**, a 0,207. A queda não é defeito de medida: é a
-definição operacional do que uma escala de posição ocupacional faz, que
-é explicar a variação *entre* ocupações e quase nada *dentro* de cada
-uma. A coluna `sd_log` mostra o fenômeno diretamente — o desvio padrão
-do log do patrimônio dentro de um mesmo nível de status é da ordem de
-1,7, isto é, uma ordem de grandeza. A consequência prática está em
+No nível da **candidatura**, a 0,207. A queda não é defeito de medida: é
+a definição operacional do que uma escala de posição ocupacional faz. E
+o "dentro" é exato, não aproximado: o ISEI é constante na ocupação, logo
+explica *zero* da variância intraocupacional. O que se mede é o quanto
+fica *entre* níveis de status — eta² = 0,077, contra r² = 0,043 da
+relação linear. A coluna `sd_log` mostra o fenômeno diretamente: o
+desvio padrão do log do patrimônio dentro de um mesmo nível de status é
+de cerca de 1,7, ou seja, um fator de cinco a seis por desvio padrão —
+dois desvios já são trinta vezes. A consequência prática está em
 [`tse_para_isei()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md):
 **não use o ISEI como proxy de renda ou de patrimônio individual.**
 

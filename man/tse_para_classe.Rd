@@ -71,6 +71,28 @@ disponível onde Erikson e Goldthorpe a puseram: em
 partição em estratos.
 }
 
+\section{Não há equivalente pela COD, e o motivo é do esquema}{
+
+\code{cod_para_classe()} não existe, e não é omissão. Quatro das categorias deste
+esquema — "Vínculo público não especificado", "Fora da PEA por posição",
+"Inativo com trajetória" e "Não informado" — são \strong{rubricas do formulário do
+TSE}, e não posições da ISCO. Elas existem porque o cadastro do Tribunal
+oferece à pessoa rótulos que \emph{substituem} a ocupação em vez de a nomear. A
+PNAD Contínua e o Censo não têm nada disso: lá, vínculo e ocupação são
+perguntas separadas, e quem é servidor público \strong{também} declara a
+ocupação. Traduzir o esquema para a COD exigiria inventar do lado da
+população categorias que só existem por causa de um formulário.
+
+A consequência prática é direta: \strong{este esquema não atravessa para a
+população}, e quem precisa comparar composição de classe entre as duas
+fontes não tem régua pronta. O caminho é comparar pelo ISEI, que é
+literalmente o mesmo construto dos dois lados, ou construir uma régua
+própria declarando as categorias que só existem de um lado. O tamanho do
+problema está medido em \link{tse_universo} e o artigo \emph{Comparar duas fontes}
+desenvolve as alternativas:
+\url{https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html}
+}
+
 \examples{
 tse_para_classe(c(111, 169, 291))
 tse_para_classe(c(291, 291), superior = c(TRUE, FALSE))

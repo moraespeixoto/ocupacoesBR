@@ -108,8 +108,9 @@ pelo grande grupo:\tabular{llllllllll}{
 
 Quase quatro em dez estão no dígito 2, professores sobretudo. Uma comparação
 de composição entre as duas fontes que não trate disso compara um universo
-que exclui servidores com outro que os inclui. O artigo
-\code{vignette("comparar-fontes", package = "ocupacoesBR")} mede a consequência.
+que exclui servidores com outro que os inclui. O artigo \emph{Comparar duas
+fontes}, no site do pacote, mede a consequência:
+\url{https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html}
 
 Esta coluna \strong{não conserta o construto}, só o denominador: no TSE o vínculo
 público é uma \emph{escolha} de rótulo, feita por quem podia ter escrito
@@ -137,7 +138,8 @@ Nenhuma das duas respostas é o erro da outra; são construtos diferentes.
 \section{As quatro colunas não se somam a 100}{
 
 \code{pct_conta_propria}, \code{pct_setor_publico} e \code{pct_militar} são mutuamente
-exclusivas — \code{V4012} vale 2, 4 ou {5, 6}, nunca duas — e a soma das três
+exclusivas — \code{V4012} vale 2, 4, 5 ou 6, e nunca duas ao mesmo tempo — e a
+soma das três
 nunca passa de 100. O que sobra é empregado do setor privado, trabalhador
 doméstico e trabalhador familiar auxiliar. \code{pct_empregador} \strong{não} entra
 nessa soma: é subconjunto de \code{pct_conta_propria}.

@@ -185,6 +185,9 @@ diretamente é legítimo e recomendado.
 - [`tse_validacao`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_validacao.md)
   : Critério externo para aferir a medida: patrimônio e escolaridade por
   ocupação
+- [`tse_universo`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_universo.md)
+  : O universo das candidaturas: quem o formulário deixa de fora, ano a
+  ano
 - [`tse_dispersao_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
   : Dispersão do patrimônio dentro de cada nível de status
 - [`tse_autorrotulo_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_autorrotulo_patrimonio.md)
@@ -208,6 +211,9 @@ diretamente é legítimo e recomendado.
   : Correspondência da CBO-94 com a ISCO-88
 - [`cod_isco08`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_isco08.md)
   : Correspondência da COD do IBGE com a ISCO-08
+- [`cod_populacao_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_populacao_br.md)
+  : A população brasileira pelos endereços da ISCO-88, por piso de
+  elegibilidade
 - [`isco_posicao_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco_posicao_br.md)
   : Posição na ocupação por código ISCO-88, medida na PNAD Contínua
 - [`isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md)

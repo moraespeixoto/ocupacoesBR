@@ -1,8 +1,8 @@
 # Posição na ocupação por código ISCO-88, medida na PNAD Contínua
 
 A distribuição brasileira de posição no emprego — conta própria,
-empregador, número de empregados — para cada código ISCO-88, apurada nos
-microdados da PNAD Contínua de 2025.
+empregador, número de empregados, setor público, posição militar — para
+cada código ISCO-88, apurada nos microdados da PNAD Contínua de 2025.
 
 ## Uso
 
@@ -42,11 +42,25 @@ isco_posicao_br
   separa a ISCO 12 da 13. `NA` onde há menos de 25 empregadores na
   célula.
 
+- pct_setor_publico:
+
+  % empregada do setor público, inclusive empresas de economia mista
+  (`V4012 == 4`). É a coluna que torna comparável, do lado da população,
+  o vínculo público que o formulário do TSE oferece como rótulo — veja a
+  seção "O vínculo público".
+
+- pct_militar:
+
+  % cuja **posição** declarada é militar (`V4012 == 2`). Leia a seção
+  "Militar é duas coisas" antes de usar: esta coluna não é o grande
+  grupo 0 da ISCO-88, e a diferença é o assunto.
+
 - grupo:
 
   o grande grupo de dois dígitos.
 
-- n_pessoas_grupo, pct_conta_propria_grupo, pct_empregador_grupo:
+- n_pessoas_grupo, pct_conta_propria_grupo, pct_empregador_grupo,
+  pct_setor_publico_grupo, pct_militar_grupo:
 
   o mesmo, apurado no grupo de dois dígitos. Cada linha carrega a sua
   própria estimativa e a do grupo, para que quem cair numa célula fina
@@ -104,6 +118,61 @@ própria sem pertencer à classe proprietária.
 
 Como candidatos são selecionados por patrimônio, tomar estas proporções
 como piso — e não como estimativa central — é a leitura conservadora.
+
+## O vínculo público
+
+O cadastro de ocupações do TSE oferece à pessoa quatro rótulos que
+**substituem** a ocupação em vez de a nomear —
+`291 OCUPANTE DE CARGO EM COMISSÃO` e
+`296`/`297`/`298 SERVIDOR PÚBLICO FEDERAL/ESTADUAL/MUNICIPAL`. Nenhum
+tem ISCO, e corretamente: não designam ocupação. Na PNAD Contínua as
+mesmas pessoas **têm** ocupação declarada, porque vínculo e ocupação são
+duas perguntas separadas. Medido nos quatro trimestres de 2025, o setor
+público é 11,7% dos ocupados com endereço na ISCO-88, e se distribui
+assim pelo grande grupo:
+
+|                    |     |      |      |      |      |     |     |     |     |
+|--------------------|-----|------|------|------|------|-----|-----|-----|-----|
+| dígito             | 1   | 2    | 3    | 4    | 5    | 6   | 7   | 8   | 9   |
+| % do setor público | 4,0 | 37,9 | 18,7 | 14,2 | 12,1 | 0,1 | 1,1 | 3,6 | 8,3 |
+
+Quase quatro em dez estão no dígito 2, professores sobretudo. Uma
+comparação de composição entre as duas fontes que não trate disso
+compara um universo que exclui servidores com outro que os inclui. O
+artigo *Comparar duas fontes*, no site do pacote, mede a consequência:
+<https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html>
+
+Esta coluna **não conserta o construto**, só o denominador: no TSE o
+vínculo público é uma *escolha* de rótulo, feita por quem podia ter
+escrito "professor"; aqui é a posição de quem *também* declarou a
+ocupação.
+
+## Militar é duas coisas, e elas discordam
+
+O dicionário do IBGE define `V4012 == 2` como "militar do exército, da
+marinha, da aeronáutica, **da polícia militar ou do corpo de bombeiros
+militar**". Não é o grande grupo 0 da ISCO-88. Medido aqui: entre quem
+declara essa posição, 39,9% cai no grande grupo 0 pelo código de
+ocupação e 60,1% cai no 5, o dos serviços protetivos. **A pergunta sobre
+posição e a pergunta sobre ocupação discordam sobre quem é militar no
+Brasil**, e a discordância é a mesma que a COD registra ao alocar a
+polícia militar e o bombeiro militar ao grande grupo 0 — adaptação que
+[`cod_para_isco()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isco.md)
+desfaz, devolvendo 5162 e 5161.
+
+A consequência prática: `pct_militar` não é o tamanho das forças armadas
+(0,81% dos ocupados inclui o policiamento militar), e não deve ser
+somada nem comparada com a parcela do grande grupo 0 como se fossem a
+mesma coisa. Nenhuma das duas respostas é o erro da outra; são
+construtos diferentes.
+
+## As quatro colunas não se somam a 100
+
+`pct_conta_propria`, `pct_setor_publico` e `pct_militar` são mutuamente
+exclusivas — `V4012` vale 2, 4 ou 5, 6, nunca duas — e a soma das três
+nunca passa de 100. O que sobra é empregado do setor privado,
+trabalhador doméstico e trabalhador familiar auxiliar. `pct_empregador`
+**não** entra nessa soma: é subconjunto de `pct_conta_propria`.
 
 ## A tabela atravessa a ponte reversa
 

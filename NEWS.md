@@ -1,3 +1,118 @@
+# ocupacoesBR 0.8.0
+
+O índice de referência promete, na porta do IBGE, que "é por aqui que se compara
+candidatura com população". Era a promessa mais forte do pacote e a única que
+ele não mostrava cumprindo — nem mostrava onde ela falha. Esta versão dá ao
+pacote os dois lados da comparação e a página que ensina a fazê-la.
+
+O que motivou: em setembro de 2026 uma comparação entre candidaturas do TSE e
+população da PNAD Contínua foi auditada e reprovada. A tradução estava certa e
+os testes passaram. O erro estava numa decisão de medida que o site não
+desaconselhava em lugar nenhum, porque em lugar nenhum tratava do assunto — ler
+o primeiro dígito da ISCO-88 dos dois lados. O que reprovou a régua: os
+rótulos de vínculo público do formulário do TSE saem da base classificável e os
+mesmos trabalhadores, na PNAD Contínua, ficam dentro dela. O tamanho do viés —
+3,4 pontos na classe profissional sobre uma base de 12,3 — foi medido naquela
+auditoria, fora deste repositório, e é citado aqui como motivo e não como
+número do pacote; o que este pacote mede está nas tabelas abaixo.
+
+## `tse_universo`: de que é feito o resíduo das candidaturas
+
+Sete rubricas, por ano e por sexo, somando 100 dentro de cada recorte.
+`checa_cobertura()` já dizia *quanto* de um vetor recebe escore; esta tabela diz
+*de que é feito* o que não recebe, e mostra que a resposta muda.
+
+Duas leituras que uma taxa de cobertura única esconde. A não declaração vai a
+zero a partir de 2006, o que indica campo obrigatório, e a recusa de nomear
+assume o lugar dela: a rubrica `999` sai de 13,5% em 1998 e chega a 21,9% em
+2024. E a diferença de cobertura entre os sexos está quase toda numa linha — de
+2004 em diante, `Fora da força de trabalho` é 1,2% das candidaturas de homens e
+14,6% das de mulheres. A vinheta `qual-regua` já afirmava isso em prosa; agora
+há tabela.
+
+## `cod_populacao_br`: o denominador
+
+A distribuição da população pelos endereços da ISCO-88, por piso etário de
+elegibilidade (18, 21, 30 e 35 anos, os da Constituição) e por sexo, com a
+parcela não ocupada como **linha da tabela** e não como ausência dela.
+
+É decisão de escopo, tomada pelo autor com a tabela medida à vista. O pacote é
+um tradutor e uma distribuição populacional é outro tipo de objeto; o precedente
+existe nos dois sentidos (`isco_posicao_br` já deriva da população,
+`tse_validacao` já deriva das candidaturas) e sem ela nenhum número sobre a
+população seria reproduzível por quem lê. Custa 28 KB, sem indivíduo e sem
+identificador.
+
+O par que ela permite calcular, e que é o eixo do artigo novo: medida sobre o
+mesmo universo, a cobertura do ISEI é de **61,8% na população** de 18 anos ou
+mais e de **62,0% nas candidaturas** de 2024. As duas fontes perdem quase a
+mesma fração de gente por motivos que não têm nada em comum — a população porque
+38,0% dos adultos não estão ocupados, o Tribunal porque um em cada cinco
+candidatos marca uma rubrica que não nomeia ocupação. Uma taxa de cobertura
+parecida não é sinal de que os dois lados são comparáveis.
+
+Ao contrário das tábuas de conversão, esta tabela **envelhece**, e a ajuda diz
+isso na primeira linha: é estimativa de amostra com peso, da PNAD Contínua de
+2025, e não um censo.
+
+## `isco_posicao_br` ganha o setor público e a posição militar
+
+`pct_setor_publico` (`V4012 == 4`) é a variável que faltava para medir a maior
+assimetria entre as duas fontes. Medido: o setor público é 11,7% dos ocupados
+com endereço na ISCO-88, e 37,9% dele está no grande grupo 2, professores
+sobretudo — a classe que carrega o argumento em quase toda análise de
+recrutamento.
+
+`pct_militar` (`V4012 == 2`) sai da mesma passada e **exige aviso**, que está na
+ajuda. O dicionário do IBGE define essa posição como militar do exército, da
+marinha, da aeronáutica, da polícia militar **ou** do corpo de bombeiros
+militar. Medido: entre quem a declara, 39,9% cai no grande grupo 0 pelo código
+de ocupação e 60,1% cai no 5. A pergunta sobre posição e a pergunta sobre
+ocupação discordam sobre quem é militar no Brasil, e nenhuma das duas é o erro
+da outra.
+
+## O artigo: *Comparar duas fontes*
+
+Oito decisões — a porta, a revisão da ISCO, o ano, a régua, o universo, o
+resíduo, a agregação e a ponte —, cada uma com o mesmo bloco de quatro partes: a
+decisão, o que ela permite, **quem ela exclui** (nomeado, e com o tamanho) e
+como medir esse tamanho no seu dado. Fecha com o que o pacote não faz, uma folha
+de decisão de uma página, e um exemplo trabalhado que roda só com dados do
+pacote.
+
+Três coisas que a página mede e que não estavam ditas em lugar nenhum:
+
+* **A média não denuncia a fusão.** No grande grupo 1, o ISEI médio dos dois
+  lados difere em só 2,8 pontos, mas 25,4% das candidaturas estão no topo da
+  escala contra 6,9% da população. Mesmo rótulo, duas populações, e quem
+  comparar médias não vê. A lição generaliza: compare distribuições dentro da
+  categoria agregada, não centros.
+* **7,5% dos códigos da ISCO-88 trocam de grande grupo ao virar ISCO-08**, e o
+  maior fluxo isolado são onze códigos que sobem do grupo 3 para o 2 —
+  professores de ensino fundamental e pré-escolar, sobretudo. No Brasil isso é
+  grande, e não aparece em nenhuma taxa de cobertura.
+* **O primeiro dígito não é uma escala.** O enfermeiro está no grande grupo 2 e
+  tem ISEI-88 43; o escriturário está no grupo 4 e tem 51.
+
+## Ajuda cruzada
+
+`?cod_para_isco` ganha a explicação da adaptação da polícia militar, com
+exemplo, e a remissão ao artigo. `?tse_para_classe` ganha a seção que diz por
+que `cod_para_classe()` não existe: quatro das categorias do esquema são
+rubricas do formulário do TSE, não posições da ISCO, e o esquema **não atravessa
+para a população**. Quem precisa comparar composição de classe entre as duas
+fontes não tem régua pronta, e agora isso está dito onde a pessoa vai olhar.
+
+## Uma decisão registrada como decisão, e não como pendência
+
+O plano previa uma função `checa_comparabilidade()`, que receberia dois vetores
+de portas diferentes e julgaria se a comparação se sustenta. Ela **não foi
+escrita**, e o motivo é bom: as quatro `checa_cobertura_*` existentes valem por
+serem triviais de entender, e um juízo de comparabilidade depende de um critério
+que depende da pergunta — que é justamente o que o artigo ensina o leitor a
+decidir. Uma função ali viraria carimbo de aprovação sobre uma decisão que ela
+não pode tomar. Fica registrado que foi avaliada e descartada.
+
 # ocupacoesBR 0.7.1
 
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que

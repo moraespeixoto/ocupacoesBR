@@ -52,6 +52,8 @@ navbar:
         href: articles/qual-regua.html
       - text: A medida se sustenta? Validação contra um critério externo
         href: articles/validacao.html
+      - text: "Comparar duas fontes: o que entra, o que sai, e quem fica de fora"
+        href: articles/comparar-fontes.html
       - text: A safra de 2026, na régua
         href: articles/safra-2026.html
     reference:
@@ -76,6 +78,7 @@ articles:
   - matches("^articles/classificacoes$")
   - matches("^qual-regua$")
   - matches("^validacao$")
+  - matches("^articles/comparar-fontes$")
   - matches("^articles/robustez$")
 - title: A eleição em curso
   contents:

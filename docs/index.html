@@ -32,7 +32,7 @@
 
     <a class="navbar-brand me-2" href="index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -52,6 +52,7 @@
 <li><a class="dropdown-item" href="articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul>
 </li>
@@ -115,7 +116,7 @@ Uma linha, e o banco ganha uma coluna
 </h2>
 <p>Você passa a coluna inteira de códigos e recebe a coluna traduzida, alinhada linha a linha. Não há loop nem tradução código a código, e o banco não muda de tamanho.</p>
 <p>Cada régua é uma função, e cada função é uma coluna nova. Como todas são vetorizadas puras, elas cabem no mesmo <code><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate()</a></code>, em qualquer ordem, e o pipeline não sai do dplyr. O artigo <a href="articles/tidyverse.html">Com o tidyverse</a> percorre um pipeline inteiro assim.</p>
-<p>O <code>ano</code> também é uma coluna, e é o que resolve a quebra de cadastro de 2002: em 1998 o código 214 era delegado de polícia; a partir de 2002 passou a ser escultor e pintor. Sem o ano, aquela linha receberia calada o escore de escultor. Com ele, o pacote devolve <code>NA</code> e avisa.</p>
+<p>O <code>ano</code> também é uma coluna, e é o que resolve a quebra de cadastro de 2002: em 1998 o código 214 era delegado de polícia, e hoje é escultor e pintor. Sem o ano, aquela linha receberia calada o escore de escultor. Com ele, o pacote devolve <code>NA</code> e avisa.</p>
 </div>
 <div class="ocb-terminal">
 <div class="ocb-terminal-barra">
@@ -207,12 +208,12 @@ O pacote entrega todas com a mesma facilidade. Escolher é com você.
 </h2>
 <div class="ocb-grid-4">
 <div class="ocb-card-escuro">
-<span class="ocb-tag">10 – 90</span>
+<span class="ocb-tag">16 – 90</span>
 <h3>
 ISEI
 </h3>
 <p>
-Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a literatura internacional usa como padrão. Vem em três estimações: as âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote estima na PNAD Contínua e que não substitui as outras.
+Índice socioeconômico de Ganzeboom, De Graaf e Treiman. Contínuo, somável, o padrão da pesquisa comparada de estratificação. Vem em três estimações: as âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote estima na PNAD Contínua e que não substitui as outras.
 </p>
 </div>
 <div class="ocb-card-escuro">
@@ -230,7 +231,7 @@ Escala de prestígio ocupacional comparativa. Mede reputação, não recurso; as
 EGP
 </h3>
 <p>
-Erikson-Goldthorpe-Portocarero, portado das sintaxes originais. Exige posição na ocupação, que o TSE não pergunta: o pacote avisa.
+Erikson-Goldthorpe-Portocarero, portado das sintaxes do ISMF — o mapeamento de Ganzeboom e Treiman sobre a ISCO-88. Exige posição no emprego, que o pacote preenche pelo dicionário, e número de subordinados, que o TSE não pergunta: o pacote avisa.
 </p>
 </div>
 <div class="ocb-card-escuro ocb-card-teal">
@@ -277,7 +278,7 @@ O percurso inteiro dentro de um mutate(): uma coluna por régua, across(), a jun
 Qual régua responde à sua pergunta
 </h3>
 <p>
-Quatro medidas, nenhuma intercambiável, e os sete erros que as pessoas cometem, na ordem em que os cometem.
+Quatro medidas, nenhuma intercambiável, e os erros que as pessoas cometem, na ordem em que os cometem.
 </p>
 <p></p></a>
 <a class="ocb-card-artigo" href="articles/validacao.html"> <span class="ocb-etiqueta">Validar</span>
@@ -290,10 +291,10 @@ Patrimônio declarado e escolaridade como critério externo, que não entram na 
 <p></p></a>
 <a class="ocb-card-artigo" href="articles/percursos.html"> <span class="ocb-etiqueta">Percursos</span>
 <h3>
-Um roteiro para cada fonte de dado
+Onde cada tradução se interrompe
 </h3>
 <p>
-Candidaturas, RAIS, PNAD: o que chamar, em que ordem, e o que verificar antes de analisar.
+Os pontos de ruptura dos percursos: a ambiguidade da ponte, o empate, a agregação e o resíduo.
 </p>
 <p></p></a>
 <a class="ocb-card-artigo" href="articles/safra-2026.html"> <span class="ocb-etiqueta">A eleição em curso</span>

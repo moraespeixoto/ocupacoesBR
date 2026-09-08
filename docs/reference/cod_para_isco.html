@@ -9,7 +9,7 @@ para o EGP a partir da PNAD Continua e do Censo."><meta property="og:image" cont
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -27,6 +27,7 @@ para o EGP a partir da PNAD Continua e do Censo."><meta property="og:image" cont
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos"><li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
@@ -75,11 +76,34 @@ para o EGP a partir da PNAD Continua e do Censo.</p>
     <h2 id="valor">Valor<a class="anchor" aria-label="anchor" href="#valor"></a></h2>
     <p>Vetor de texto com o ISCO-88.</p>
     </div>
+    <div class="section level2">
+    <h2 id="detalhes">Detalhes<a class="anchor" aria-label="anchor" href="#detalhes"></a></h2>
+    <p>E tambem o ponto em que a adaptacao brasileira da COD se desfaz sem que voce
+peca: o IBGE aloca a policia militar e o corpo de bombeiros militar ao
+grande grupo 0, o das forcas armadas, e esta funcao os devolve a 5162 e
+5161, que e onde os codigos 145, 232, 233 e 258 do cadastro do TSE tambem
+aterrissam. Quem ler o primeiro digito da COD em vez de traduzir poe o
+policial militar da populacao num grande grupo e o candidato policial
+militar em outro. O exemplo abaixo mostra os dois caminhos.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="veja-tamb-m">Veja também<a class="anchor" aria-label="anchor" href="#veja-tamb-m"></a></h2>
+    <div class="dont-index"><p>O artigo <em>Comparar duas fontes</em>, no site do pacote, que trata das
+oito decisoes de uma comparacao entre candidaturas e populacao e explica
+esta adaptacao em detalhe:
+<a href="https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html">https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html</a></p></div>
+    </div>
 
     <div class="section level2">
     <h2 id="ref-examples">Exemplos<a class="anchor" aria-label="anchor" href="#ref-examples"></a></h2>
     <div class="sourceCode"><pre class="sourceCode r"><code><span class="r-in"><span><span class="fu">cod_para_isco</span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"0411"</span><span class="op">)</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> [1] "2221" "5162"</span>
+<span class="r-in"><span></span></span>
+<span class="r-in"><span><span class="co"># a adaptacao da COD, desfeita: 0411 e policia militar</span></span></span>
+<span class="r-in"><span><span class="fu"><a href="cod_para_isco08.html">cod_para_isco08</a></span><span class="op">(</span><span class="st">"0411"</span><span class="op">)</span>   <span class="co"># 5412, servico protetivo na ISCO-08</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5412"</span>
+<span class="r-in"><span><span class="fu">cod_para_isco</span><span class="op">(</span><span class="st">"0411"</span><span class="op">)</span>     <span class="co"># 5162, o mesmo destino dos codigos do TSE</span></span></span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> [1] "5162"</span>
 </code></pre></div>
     </div>
   </main><aside class="col-md-3"><nav id="toc" aria-label="Índice"><h2>Nesta página</h2>

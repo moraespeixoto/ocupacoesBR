@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -47,6 +47,7 @@
 <li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul>
 </li>
@@ -145,23 +146,46 @@ ocupações brasileiras mede o que promete medir.</p>
 <div class="section level2">
 <h2 id="o-contraste-que-é-o-verdadeiro-resultado">O contraste que é o verdadeiro resultado<a class="anchor" aria-label="anchor" href="#o-contraste-que-%C3%A9-o-verdadeiro-resultado"></a>
 </h2>
-<p>No nível do <strong>indivíduo</strong>, a correlação entre ISEI e
+<p>No nível da <strong>candidatura</strong>, a correlação entre ISEI e
 patrimônio é de apenas 0,207. No nível da <strong>ocupação</strong>, é
 0,681. Essa diferença não é defeito: é a definição do que o ISEI é.</p>
-<p>Uma medida de posição ocupacional explica a variância
-<strong>entre</strong> ocupações e quase nada da variância
-<strong>dentro</strong> de cada uma. Advogados variam enormemente em
-patrimônio entre si, e o ISEI não tem nada a dizer sobre isso — nem
-deveria.</p>
-<p>A consequência é direta: <strong>não use ISEI como proxy de renda
-individual.</strong> Ele responde “que posição esta ocupação ocupa na
-estrutura”, não “quanto esta pessoa tem”.</p>
+<p>Convém dizer com precisão o que ela é, porque “explica quase nada da
+variância dentro de cada ocupação” fica aquém do fato. O ISEI é
+<strong>constante</strong> dentro da ocupação: ele explica exatamente
+zero da variância intraocupacional, por construção, e não haveria como
+medir outra coisa. O que se pode medir, e é mais informativo, é quanto
+da variância individual do log do patrimônio fica <strong>entre</strong>
+níveis de status — o teto de qualquer função do ISEI:</p>
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">tse_dispersao_patrimonio</span></span>
+<span><span class="va">N</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">n</span><span class="op">)</span>; <span class="va">mu</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">soma_log</span><span class="op">)</span> <span class="op">/</span> <span class="va">N</span></span>
+<span><span class="va">eta2</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">n</span> <span class="op">*</span> <span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">media_log</span> <span class="op">-</span> <span class="va">mu</span><span class="op">)</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span> <span class="op">/</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">soma_log2</span><span class="op">)</span> <span class="op">-</span> <span class="va">N</span> <span class="op">*</span> <span class="va">mu</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>eta2 <span class="op">=</span> <span class="va">eta2</span>, r2_linear <span class="op">=</span> <span class="va">r_individual</span><span class="op">^</span><span class="fl">2</span><span class="op">)</span></span>
+<span><span class="co">#&gt;       eta2  r2_linear </span></span>
+<span><span class="co">#&gt; 0.07685978 0.04300105</span></span></code></pre></div>
+<p>Sete por cento e meio, contra 4,3% que a relação linear aproveita.
+Advogados variam enormemente em patrimônio entre si, e o ISEI não tem
+nada a dizer sobre isso — nem deveria.</p>
+<p>Uma ressalva sobre o contraste 0,681 × 0,207, para que ele não prove
+demais: os dois números diferem em mais coisas que o nível de agregação
+— um é sobre a mediana e não é ponderado, o outro é sobre a média do log
+e é ponderado por candidatura. A comparação limpa é com a correlação
+<strong>ecológica</strong> na mesma unidade e com o mesmo peso:</p>
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">stats</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/stats/cov.wt.html" class="external-link">cov.wt</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/cbind.html" class="external-link">cbind</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">isei88</span>, <span class="va">d</span><span class="op">$</span><span class="va">media_log</span><span class="op">)</span>, wt <span class="op">=</span> <span class="va">d</span><span class="op">$</span><span class="va">n</span>, cor <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">$</span><span class="va">cor</span><span class="op">[</span><span class="fl">1</span>, <span class="fl">2</span><span class="op">]</span></span>
+<span><span class="co">#&gt; [1] 0.7480057</span></span></code></pre></div>
+<p>0.748 contra 0,207: é essa a inflação ecológica, medida sem misturar
+outras diferenças.</p>
+<p>A consequência é direta: <strong>não use ISEI como proxy de
+patrimônio individual</strong> — nem, por extensão, de renda. Ele
+responde “que posição esta ocupação ocupa na estrutura”, não “quanto
+esta pessoa tem”.</p>
 </div>
 <div class="section level2">
 <h2 id="onde-a-medida-não-é-monótona">Onde a medida não é monótona<a class="anchor" aria-label="anchor" href="#onde-a-medida-n%C3%A3o-%C3%A9-mon%C3%B3tona"></a>
 </h2>
 <p>A correlação alta esconde inversões locais que importam:</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">alvo</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"169"</span>, <span class="st">"257"</span>, <span class="st">"111"</span>, <span class="st">"265"</span>, <span class="st">"113"</span>, <span class="st">"601"</span><span class="op">)</span></span>
 <span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">vb</span><span class="op">[</span><span class="va">vb</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">alvo</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rotulo"</span>, <span class="st">"isei"</span>, <span class="st">"pct_superior"</span>,</span>
 <span>                                <span class="st">"mediana_patrimonio"</span><span class="op">)</span><span class="op">]</span></span>
@@ -184,7 +208,7 @@ ao separar a classe alta em proprietária e credenciada.</p>
 <div class="section level2">
 <h2 id="a-anomalia-do-cuidado">A anomalia do cuidado<a class="anchor" aria-label="anchor" href="#a-anomalia-do-cuidado"></a>
 </h2>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  regua <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"ISEI-88"</span>, <span class="st">"ISEI-08"</span><span class="op">)</span>,</span>
 <span>  enfermagem <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="st">"113"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="../reference/tse_para_isei08.html">tse_para_isei08</a></span><span class="op">(</span><span class="st">"113"</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -195,24 +219,41 @@ ao separar a classe alta em proprietária e credenciada.</p>
 <span><span class="va">v</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">[</span><span class="va">v</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op">==</span> <span class="st">"113"</span><span class="op">]</span></span>
 <span><span class="co">#&gt; [1] 59.6</span></span></code></pre></div>
 <p>O ISEI-88 põe a enfermagem <strong>abaixo</strong> do escriturário,
-apesar de quase 60% de ensino superior. A revisão de 2008 da OIT
-corrigiu isso, e o ISEI-08 a promove em mais de vinte pontos.</p>
+apesar de quase 60% de ensino superior. Não é a classificação que erra:
+a ISCO-88 já situa a enfermagem no grande grupo dos profissionais. É o
+escore de 1992 que a subestima, porque mede a conversão de escolaridade
+em renda observada entre homens, em dado de 1968 a 1982. A reestimação
+do ISEI-08, sobre o ISSP de 2002-2007 e cobrindo os dois sexos, a
+promove em mais de vinte pontos.</p>
 <p>Isso não é peculiaridade brasileira, mas pesa mais aqui: o país tem
 um vale de ocupações femininas de alta escolaridade e baixa remuneração
 — enfermagem, docência, assistência social. <strong>Para análise de
 gênero, prefira a ISCO-08.</strong></p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">fem</span> <span class="op">&lt;-</span> <span class="va">v</span><span class="op">$</span><span class="va">pct_mulher</span> <span class="op">&gt;</span> <span class="fl">50</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>feminina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">isei</span><span class="op">[</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span>, masculina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">isei</span><span class="op">[</span><span class="op">!</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="co"># o mesmo recorte de ?tse_para_isei: codigos com mais de 500 candidaturas, onde</span></span>
+<span><span class="co"># a proporcao de mulheres e estimada com precisao suficiente para dicotomizar</span></span>
+<span><span class="va">g</span> <span class="op">&lt;-</span> <span class="va">v</span><span class="op">[</span><span class="va">v</span><span class="op">$</span><span class="va">n</span> <span class="op">&gt;</span> <span class="fl">500</span>, <span class="op">]</span></span>
+<span><span class="va">fem</span> <span class="op">&lt;-</span> <span class="va">g</span><span class="op">$</span><span class="va">pct_mulher</span> <span class="op">&gt;</span> <span class="fl">50</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>codigos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">g</span><span class="op">)</span>, femininos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">fem</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;   codigos femininos </span></span>
+<span><span class="co">#&gt;       168        28</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>feminina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">isei</span><span class="op">[</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span>, masculina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">isei</span><span class="op">[</span><span class="op">!</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  feminina masculina </span></span>
-<span><span class="co">#&gt;      46.1      47.6</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>feminina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">[</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span>,</span>
-<span>        masculina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">[</span><span class="op">!</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
+<span><span class="co">#&gt;        46        49</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>feminina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">[</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span>,</span>
+<span>        masculina <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">g</span><span class="op">$</span><span class="va">pct_superior</span><span class="op">[</span><span class="op">!</span><span class="va">fem</span><span class="op">]</span><span class="op">)</span><span class="op">)</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt;  feminina masculina </span></span>
-<span><span class="co">#&gt;      32.1      23.8</span></span></code></pre></div>
+<span><span class="co">#&gt;      29.9      24.1</span></span></code></pre></div>
 <p>Ocupações majoritariamente femininas têm <strong>mais</strong>
-escolaridade e <strong>menos</strong> ISEI. A régua importada carrega
-esse viés, e declará-lo é parte de usá-la bem.</p>
+escolaridade e <strong>menos</strong> ISEI. São 28 códigos contra 140, e
+a diferença de status é de três pontos — pequena em si, e o que a torna
+interpretável é a regressão de <code><a href="../reference/tse_para_isei.html">?tse_para_isei</a></code>, que a estima
+controlando pela escolaridade: −6,2 pontos de ISEI, com o sinal robusto
+a toda especificação que tentamos. O <code>p</code> não é: com
+erro-padrão robusto ele vai a 0,14, e sem ponderação a 0,012. É o sinal
+que sustenta a advertência, não o nível de significância.</p>
+<p>A régua importada carrega esse viés, e declará-lo é parte de usá-la
+bem.</p>
 </div>
 <div class="section level2">
 <h2 id="a-régua-estimada-no-brasil-contra-o-mesmo-critério">A régua estimada no Brasil, contra o mesmo critério<a class="anchor" aria-label="anchor" href="#a-r%C3%A9gua-estimada-no-brasil-contra-o-mesmo-crit%C3%A9rio"></a>
@@ -221,7 +262,7 @@ esse viés, e declará-lo é parte de usá-la bem.</p>
 <code><a href="../reference/tse_para_isei_br.html">tse_para_isei_br()</a></code> traz a régua estimada na PNAD Contínua,
 pelo mesmo procedimento de 1992, e ela pode ser submetida ao mesmo
 critério.</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">v</span><span class="op">$</span><span class="va">isei08</span>  <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tse_para_isei08.html">tse_para_isei08</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">)</span></span>
 <span><span class="va">v</span><span class="op">$</span><span class="va">isei_br</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tse_para_isei_br.html">tse_para_isei_br</a></span><span class="op">(</span><span class="va">v</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">)</span></span>
 <span></span>
@@ -255,7 +296,7 @@ ocupacional e escolaridade ocupacional descolam mais do que descolam nos
 países onde a régua importada foi calibrada. A régua importada ordena os
 candidatos pela escolaridade das suas ocupações; a brasileira os ordena
 pelo que essas ocupações pagam aqui.</p>
-<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="va">w</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">abs</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span> <span class="op">-</span> <span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span><span class="op">)</span>, <span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/graphics/plot.default.html" class="external-link">plot</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei08</span>, <span class="va">w</span><span class="op">$</span><span class="va">isei_br</span>, pch <span class="op">=</span> <span class="fl">19</span>, col <span class="op">=</span> <span class="st">"#00000055"</span>,</span>
 <span>     xlab <span class="op">=</span> <span class="st">"ISEI-08 (importado)"</span>, ylab <span class="op">=</span> <span class="st">"ISEI-BR (PNAD Contínua)"</span>,</span>
@@ -270,24 +311,41 @@ pelo que essas ocupações pagam aqui.</p>
 não têm a mesma dispersão: o ISEI-BR sai de um min–max sobre as células
 de estimação, e o seu desvio padrão nestas ocupações é bem menor que o
 do ISEI-08.</p>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>isei08 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span>, isei_br <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;   isei08  isei_br </span></span>
 <span><span class="co">#&gt; 21.35294 14.49087</span></span></code></pre></div>
 <p>Numa escala mais estreita, o topo cai e a base sobe por construção. A
 conta que mostra o tamanho do problema é esta:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>bruta       <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span> <span class="op">-</span> <span class="va">w</span><span class="op">$</span><span class="va">isei08</span>, <span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span>,</span>
-<span>  padronizada <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="fu">z</span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span><span class="op">)</span> <span class="op">-</span> <span class="fu">z</span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span>, <span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="co">#&gt;       bruta padronizada </span></span>
-<span><span class="co">#&gt;  -0.8425687  -0.1731228</span></span></code></pre></div>
-<p>A diferença <strong>bruta</strong> correlaciona-se a −0,85 com o
-próprio ISEI-08 — ler nela uma relocação substantiva é ler, em boa
-parte, de onde a ocupação partiu. Igualando média e desvio, a correlação
-some. Então a leitura tem de ser feita sobre a diferença
-padronizada:</p>
-<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<span><span class="va">r</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span>, <span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>bruta         <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span> <span class="op">-</span> <span class="va">w</span><span class="op">$</span><span class="va">isei08</span>, <span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span>,</span>
+<span>  padronizada   <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/cor.html" class="external-link">cor</a></span><span class="op">(</span><span class="fu">z</span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span><span class="op">)</span> <span class="op">-</span> <span class="fu">z</span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span>, <span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span>,</span>
+<span>  forcada_por_r <span class="op">=</span> <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/MathFun.html" class="external-link">sqrt</a></span><span class="op">(</span><span class="op">(</span><span class="fl">1</span> <span class="op">-</span> <span class="va">r</span><span class="op">)</span> <span class="op">/</span> <span class="fl">2</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;         bruta   padronizada forcada_por_r </span></span>
+<span><span class="co">#&gt;    -0.8425687    -0.1731228    -0.1731228</span></span></code></pre></div>
+<p>A diferença <strong>bruta</strong> correlaciona-se a cerca de −0,84
+com o próprio ISEI-08 — ler nela uma relocação substantiva é ler, em boa
+parte, de onde a ocupação partiu. Padronizar remove esse artefato, e é
+sobre a diferença padronizada que a leitura tem de ser feita.</p>
+<p>Repare, porém, na terceira linha, porque ela impede uma leitura
+errada da segunda. A correlação padronizada <strong>não some</strong> —
+nem poderia. Para dois vetores padronizados com correlação
+<code>r</code>, vale a identidade</p>
+<p><code>cor(z1 - z2, z2) = -sqrt((1 - r) / 2)</code></p>
+<p>e com <code>r</code> = 0.94 ela dá exatamente o valor observado — não
+aproximadamente: até a última casa que o computador guarda. Não é uma
+medida: é aritmética, e é sempre negativa — regressão à média. Seria
+errado, portanto, ler o -0.173 residual como “o tanto de artefato que
+sobrou”, ou esperar que ele fosse zero caso a diferença fosse puramente
+substantiva. Com escalas iguais e esta correlação, ele seria esse número
+de qualquer jeito.</p>
+<p>O que a padronização resolve é o artefato de <strong>escala</strong>,
+que era grande. O que ela não pode fazer é produzir uma medida ortogonal
+ao ponto de partida — e é por isso que a leitura abaixo vem acompanhada
+de uma conferência.</p>
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">w</span><span class="op">$</span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu">z</span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei_br</span><span class="op">)</span> <span class="op">-</span> <span class="fu">z</span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">isei08</span><span class="op">)</span></span>
 <span><span class="va">sobem</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">w</span><span class="op">$</span><span class="va">d</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rotulo"</span>, <span class="st">"isei08"</span>, <span class="st">"isei_br"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span></span>
 <span><span class="va">descem</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">w</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">d</span><span class="op">)</span>,  <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"rotulo"</span>, <span class="st">"isei08"</span>, <span class="st">"isei_br"</span><span class="op">)</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span></span>
@@ -311,12 +369,29 @@ tabela e que no Brasil pagam acima do que o escore internacional sugere.
 Ao lado deles aparecem o diretor de empresas e o médico — e é justamente
 isso que a comparação bruta escondia, porque ocupações de topo não têm
 para onde subir numa escala comprimida.</p>
-<p>As que mais descem são as profissões artísticas, o clero e as
-liberais da saúde: escultor, artista plástico, sacerdote, cantor,
-veterinário, farmacêutico. Credencial alta, remuneração modesta. É a
+<p>As que mais descem são as profissões artísticas, o clero e o ensino
+de arte: escultor, artista plástico, sacerdote, cantor, músico,
+professor de formação profissional. Veterinário e farmacêutico vêm logo
+atrás, em sétimo e oitavo. Credencial alta, remuneração modesta. É a
 mesma anomalia do cuidado vista pelo outro lado: a régua importada mede
 sobretudo credencial, e no Brasil credencial e remuneração andam mais
 separadas do que ela supõe.</p>
+<p>A conferência prometida acima. O resíduo de uma regressão do ISEI-BR
+sobre o ISEI-08 é ortogonal ao ponto de partida <strong>por
+construção</strong> — não por sorte —, e por isso é o critério que não
+pode ser acusado de artefato:</p>
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">w</span><span class="op">$</span><span class="va">resid</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/residuals.html" class="external-link">residuals</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/stats/lm.html" class="external-link">lm</a></span><span class="op">(</span><span class="va">isei_br</span> <span class="op">~</span> <span class="va">isei08</span>, data <span class="op">=</span> <span class="va">w</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>sobem_iguais  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/identical.html" class="external-link">identical</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">rotulo</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">w</span><span class="op">$</span><span class="va">d</span><span class="op">)</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>                            <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">rotulo</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="op">-</span><span class="va">w</span><span class="op">$</span><span class="va">resid</span><span class="op">)</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span>,</span>
+<span>  descem_mesmas <span class="op">=</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setequal</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">rotulo</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">d</span><span class="op">)</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span>,</span>
+<span>                           <span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">rotulo</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/order.html" class="external-link">order</a></span><span class="op">(</span><span class="va">w</span><span class="op">$</span><span class="va">resid</span><span class="op">)</span><span class="op">]</span>, <span class="fl">6</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt;  sobem_iguais descem_mesmas </span></span>
+<span><span class="co">#&gt;          TRUE          TRUE</span></span></code></pre></div>
+<p>As seis que sobem são as mesmas, na mesma ordem; as seis que descem
+são as mesmas, com o clero trocando de posição dentro do grupo. A
+leitura substantiva não depende de qual dos dois critérios se use, e é
+isso — não a correlação residual — que autoriza lê-la.</p>
 </div>
 <div class="section level2">
 <h2 id="o-que-esta-vinheta-não-prova">O que esta vinheta não prova<a class="anchor" aria-label="anchor" href="#o-que-esta-vinheta-n%C3%A3o-prova"></a>

@@ -13,7 +13,7 @@ análise com e sem eles, em uma linha."><meta property="og:image" content="https
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -31,6 +31,7 @@ análise com e sem eles, em uma linha."><meta property="og:image" content="https
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos"><li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
@@ -84,9 +85,15 @@ Não é uma afirmação sobre a honestidade de quem declara, e sim sobre a
 existência de uma trava externa.</p>
 <p>Este critério é conceitual porque <strong>o dado não o produz sozinho</strong>. A
 dispersão de patrimônio dentro do código, por exemplo, não separa os dois
-grupos: é de 80 vezes (p90/p10) entre os que declaram empresário, mas de 47
-entre os advogados e 54 entre os comerciantes. Patrimônio é disperso em toda
-parte. O que distingue não é a dispersão bruta, é a ausência da trava.</p>
+grupos: é de 76 vezes (p90/p10) entre os que declaram empresário e de 55
+entre os comerciantes, que são autorrótulos, mas de 48 entre os advogados,
+que não é — e o comerciante fica <strong>entre</strong> os outros dois. Patrimônio é
+disperso em toda parte. O que distingue não é a dispersão bruta, é a
+ausência da trava.</p>
+<p>Estes três números saem de <a href="tse_autorrotulo_patrimonio.html">tse_autorrotulo_patrimonio</a> e são conferidos
+contra ela em <code>tests/testthat/test-numeros-doc.R</code>. A versão anterior dizia
+80, 47 e 54: eram os valores da agregação que somava cada bem duas vezes,
+corrigida em 09/2026, e sobreviveram por estarem digitados.</p>
     </div>
     <div class="section level2">
     <h2 id="como-usar">Como usar<a class="anchor" aria-label="anchor" href="#como-usar"></a></h2>

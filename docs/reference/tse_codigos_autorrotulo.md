@@ -25,10 +25,18 @@ e sim sobre a existência de uma trava externa.
 
 Este critério é conceitual porque **o dado não o produz sozinho**. A
 dispersão de patrimônio dentro do código, por exemplo, não separa os
-dois grupos: é de 80 vezes (p90/p10) entre os que declaram empresário,
-mas de 47 entre os advogados e 54 entre os comerciantes. Patrimônio é
-disperso em toda parte. O que distingue não é a dispersão bruta, é a
-ausência da trava.
+dois grupos: é de 76 vezes (p90/p10) entre os que declaram empresário e
+de 55 entre os comerciantes, que são autorrótulos, mas de 48 entre os
+advogados, que não é — e o comerciante fica **entre** os outros dois.
+Patrimônio é disperso em toda parte. O que distingue não é a dispersão
+bruta, é a ausência da trava.
+
+Estes três números saem de
+[tse_autorrotulo_patrimonio](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_autorrotulo_patrimonio.md)
+e são conferidos contra ela em `tests/testthat/test-numeros-doc.R`. A
+versão anterior dizia 80, 47 e 54: eram os valores da agregação que
+somava cada bem duas vezes, corrigida em 09/2026, e sobreviveram por
+estarem digitados.
 
 ## Como usar
 

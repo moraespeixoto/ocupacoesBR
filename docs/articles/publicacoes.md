@@ -115,7 +115,7 @@ citation("ocupacoesBR")
 #> O pacote:
 #> 
 #>   Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em
-#>   Classificacoes Padronizadas_. R package version 0.7.0,
+#>   Classificacoes Padronizadas_. R package version 0.8.0,
 #>   <https://github.com/moraespeixoto/ocupacoesBR>.
 #> 
 #> O artigo de metodo, onde as decisoes sao justificadas:

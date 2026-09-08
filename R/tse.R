@@ -177,6 +177,26 @@ tse_para_siops <- function(cod, ano = NULL) {
 #' `tse_para_egp(n_classes = 11)`. O que não se justifica é transportá-la para a
 #' partição em estratos.
 #'
+#' @section Não há equivalente pela COD, e o motivo é do esquema:
+#' `cod_para_classe()` não existe, e não é omissão. Quatro das categorias deste
+#' esquema — "Vínculo público não especificado", "Fora da PEA por posição",
+#' "Inativo com trajetória" e "Não informado" — são **rubricas do formulário do
+#' TSE**, e não posições da ISCO. Elas existem porque o cadastro do Tribunal
+#' oferece à pessoa rótulos que *substituem* a ocupação em vez de a nomear. A
+#' PNAD Contínua e o Censo não têm nada disso: lá, vínculo e ocupação são
+#' perguntas separadas, e quem é servidor público **também** declara a
+#' ocupação. Traduzir o esquema para a COD exigiria inventar do lado da
+#' população categorias que só existem por causa de um formulário.
+#'
+#' A consequência prática é direta: **este esquema não atravessa para a
+#' população**, e quem precisa comparar composição de classe entre as duas
+#' fontes não tem régua pronta. O caminho é comparar pelo ISEI, que é
+#' literalmente o mesmo construto dos dois lados, ou construir uma régua
+#' própria declarando as categorias que só existem de um lado. O tamanho do
+#' problema está medido em [tse_universo] e o artigo *Comparar duas fontes*
+#' desenvolve as alternativas:
+#' <https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html>
+#'
 #' @inheritParams tse_para_isco
 #' @param superior Vetor lógico opcional, do mesmo comprimento de `cod`,
 #'   indicando ensino superior completo. Quando fornecido, a categoria residual

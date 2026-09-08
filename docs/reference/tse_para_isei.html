@@ -9,7 +9,7 @@ status) de Ganzeboom, De Graaf e Treiman, ancorado na ISCO-88."><meta property="
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -27,6 +27,7 @@ status) de Ganzeboom, De Graaf e Treiman, ancorado na ISCO-88."><meta property="
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos"><li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
@@ -104,6 +105,21 @@ quais 28 são majoritariamente femininos):</p>
 <p><strong>A credencial constante, um código feminino recebe 6,2 pontos de ISEI a
 menos.</strong> E não é que essas ocupações tenham menos escolaridade — têm mais:
 29,9% de superior contra 24,1%, com ISEI médio de 46,0 contra 49,0.</p>
+<p><strong>O sinal é robusto; o <code>p</code> não.</strong> A especificação acima pondera por número de
+candidaturas, o que muda a população-alvo de códigos para candidaturas — é
+escolha defensável, mas o erro-padrão de <code>lm</code> ponderado não a descreve, e o
+ISEI é atributo determinístico do código, não estimativa com variância
+inversa a <code>n</code>. Trocando a especificação: com erro-padrão robusto (HC3) o
+coeficiente fica em −6,2 com p = 0,14; sem ponderação, −5,3 com p = 0,012;
+com <code>pct_mulher</code> contínuo em vez da dicotomia, −0,09 por ponto percentual com
+p = 0,08. O sinal e a ordem de grandeza sobrevivem a todas; o <code>p = 0,043</code> é da
+primeira. Use o intervalo de especificações, não o <code>p</code> pontual.</p>
+<p><strong>E "viés" pede uma premissa que convém explicitar.</strong> O ISEI pondera
+escolaridade <em>e</em> renda, e ocupações femininas rendem menos com credencial
+igual: a escala registra isso fielmente. Chamar de viés supõe que status
+<em>deveria</em> seguir a credencial. Se o que se quer medir é credencial, é viés; se
+é retorno, é fidelidade. A recomendação abaixo vale nos dois casos, porque a
+ISCO-08 reestima o retorno sobre uma população que inclui mulheres.</p>
 <p>O caso emblemático é a enfermagem, que a ISCO-88 põe em <code>2230</code> com <strong>ISEI
 43</strong> — abaixo dos escriturários (<code>4100</code>, ISEI 45), apesar de ser profissão
 universitária. A âncora da ISCO-08 corrige boa parte disso: o mesmo posto

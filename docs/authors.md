@@ -10,14 +10,14 @@ Fonte:
 [`inst/CITATION`](https://github.com/moraespeixoto/ocupacoesBR/blob/HEAD/inst/CITATION)
 
 Peixoto V (2026). *ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em
-Classificacoes Padronizadas*. R package version 0.7.0,
+Classificacoes Padronizadas*. R package version 0.8.0,
 <https://github.com/moraespeixoto/ocupacoesBR>.
 
     @Manual{,
       title = {ocupacoesBR: Traduz a Ocupacao Declarada ao TSE em Classificacoes Padronizadas},
       author = {Vitor Peixoto},
       year = {2026},
-      note = {R package version 0.7.0},
+      note = {R package version 0.8.0},
       url = {https://github.com/moraespeixoto/ocupacoesBR},
     }
 

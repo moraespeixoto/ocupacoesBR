@@ -261,8 +261,15 @@ diferença como “esta ocupação subiu” produz uma lista que é, em boa
 parte, a lista de quem estava embaixo — porque numa escala mais estreita
 o topo cai e a base sobe por construção.
 
-**Como se testa.** Correlacionando a diferença com o ponto de partida.
-Se a diferença fosse substantiva, essa correlação seria perto de zero.
+**Como se testa.** Correlacionando a diferença com o ponto de partida,
+antes e depois de igualar as escalas. Uma ressalva antes do resultado,
+porque ela muda a leitura: depois de padronizar, essa correlação **não
+vai a zero**, e não deveria. Para dois vetores padronizados com
+correlação `r`, ela é forçada a valer `-sqrt((1 - r) / 2)` — aritmética,
+não medida, e sempre negativa. O que a padronização corrige é o artefato
+de escala, que é grande; o que sobra depois não é “o artefato restante”.
+[`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
+mostra a identidade lado a lado com o valor observado.
 
 ``` r
 z <- function(x) (x - mean(x)) / sd(x)
@@ -312,9 +319,18 @@ par(op)
 **O que significa.** À esquerda, a reta desce com força: a “queda” de
 uma ocupação prevê-se em boa parte pelo lugar de onde ela partiu, e o
 efeito é ainda maior na unidade em que a régua é de fato usada, o código
-do TSE. À direita, depois de igualar média e desvio, quase não há
-inclinação — o que sobra ali é a discordância de verdade entre a régua
-brasileira e a importada.
+do TSE. À direita, depois de igualar média e desvio, a inclinação é uma
+fração da anterior — e a que resta é a que a identidade acima obriga,
+não discordância a interpretar.
+
+A prova, portanto, é sobre a **escala**, e é aí que ela é conclusiva:
+sem padronizar, a lista de quem sobe e desce é em boa parte a lista de
+quem estava embaixo. Para saber se a lista padronizada é substantiva, o
+critério é outro, e está em
+[`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md):
+o resíduo de uma regressão do ISEI-BR sobre o ISEI-08, ortogonal ao
+ponto de partida por construção. Ele devolve as mesmas seis ocupações em
+cada ponta.
 
 **Esta prova nasceu de um erro publicado.** Até a versão 0.5.1 a
 documentação trazia uma lista de “quem sobe e quem desce” lida sobre a
@@ -383,8 +399,9 @@ par(op)
 troca de rótulo prevê: o `214` sai de DELEGADO DE POLICIA, com quase 90%
 de ensino superior, e chega a ESCULTOR E PINTOR, com quase nenhum; o
 `211` faz o mesmo percurso de PROCURADOR a ESTIVADOR. É por isso que
-toda função de tradução aceita `ano`: `tse_para_isei(214, ano = 1998)` e
-`tse_para_isei(214, ano = 2010)` devolvem coisas diferentes, e devem.
+toda função de tradução da porta do TSE aceita `ano`:
+`tse_para_isei(214, ano = 1998)` e `tse_para_isei(214, ano = 2010)`
+devolvem coisas diferentes, e devem.
 
 Dois deles — o `215` e o `521` — quase não se movem nesta variável, e
 vale dizer por quê em vez de esconder. A escolaridade é **uma**

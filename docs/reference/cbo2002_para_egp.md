@@ -1,10 +1,13 @@
 # Classe EGP a partir da CBO-2002
 
-Ao contrario do dado do TSE, o microdado que traz CBO costuma trazer
-tambem posicao na ocupacao e supervisao — a RAIS e o eSocial identificam
-vinculo, e varias pesquisas perguntam quantas pessoas o respondente
-chefia. Quando esses campos existirem, passe-os: o EGP so sai completo
-com eles.
+Depende da fonte, e a diferenca importa. A RAIS, o CAGED e o eSocial sao
+registros de VINCULO EMPREGATICIO: toda linha e um empregado. Nao ha
+conta propria nem empregador como observacao, e nao existe campo com o
+numero de subordinados. Por essas portas `conta_propria` e FALSE por
+construcao, e o EGP sai sem IVa, IVb e V — nao por omissao de quem
+chama, mas porque a fonte nao descreve quem esta fora do assalariamento.
+Ler a distribuicao resultante como se fosse a estrutura de classes do
+pais e o erro a evitar aqui.
 
 ## Uso
 
@@ -70,6 +73,11 @@ cbo2002_para_egp(
 ## Valor
 
 Vetor de texto (ou inteiro, se `rotulo = FALSE`).
+
+## Detalhes
+
+Em pesquisa domiciliar que codifique em CBO, os dois campos podem
+existir; quando existirem, passe-os.
 
 ## Exemplos
 

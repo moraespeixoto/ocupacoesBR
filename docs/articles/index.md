@@ -38,6 +38,13 @@
 - [A medida se sustenta? Validação contra um critério
   externo](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md):
 
+- [Comparar duas fontes: o que entra, o que sai, e quem fica de
+  fora](https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.md):
+
+  Oito decisões que você toma ao comparar candidaturas com população —
+  cada uma com o grupo que ela apaga, o tamanho do apagamento, e a linha
+  de código que mede esse tamanho no seu dado.
+
 - [Provas de robustez: como o pacote se põe à
   prova](https://moraespeixoto.github.io/ocupacoesBR/articles/robustez.md):
 

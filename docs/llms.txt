@@ -37,9 +37,9 @@ tidyverse](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md)
 percorre um pipeline inteiro assim.
 
 O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de
-2002: em 1998 o código 214 era delegado de polícia; a partir de 2002
-passou a ser escultor e pintor. Sem o ano, aquela linha receberia calada
-o escore de escultor. Com ele, o pacote devolve `NA` e avisa.
+2002: em 1998 o código 214 era delegado de polícia, e hoje é escultor e
+pintor. Sem o ano, aquela linha receberia calada o escore de escultor.
+Com ele, o pacote devolve `NA` e avisa.
 
 R
 
@@ -114,14 +114,14 @@ Quatro réguas, que não são intercambiáveis
 
 ## O pacote entrega todas com a mesma facilidade. Escolher é com você.
 
-10 – 90
+16 – 90
 
 ### ISEI
 
-Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a
-literatura internacional usa como padrão. Vem em três estimações: as
-âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote
-estima na PNAD Contínua e que não substitui as outras.
+Índice socioeconômico de Ganzeboom, De Graaf e Treiman. Contínuo,
+somável, o padrão da pesquisa comparada de estratificação. Vem em três
+estimações: as âncoras de 1988 e de 2008, importadas, e a brasileira,
+que o pacote estima na PNAD Contínua e que não substitui as outras.
 
 Treiman, 1977
 
@@ -134,8 +134,10 @@ recurso; as duas se separam em ocupações inteiras.
 
 ### EGP
 
-Erikson-Goldthorpe-Portocarero, portado das sintaxes originais. Exige
-posição na ocupação, que o TSE não pergunta: o pacote avisa.
+Erikson-Goldthorpe-Portocarero, portado das sintaxes do ISMF — o
+mapeamento de Ganzeboom e Treiman sobre a ISCO-88. Exige posição no
+emprego, que o pacote preenche pelo dicionário, e número de
+subordinados, que o TSE não pergunta: o pacote avisa.
 
 esquema do pacote
 
@@ -173,7 +175,7 @@ medida](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
 
 ### Qual régua responde à sua pergunta
 
-Quatro medidas, nenhuma intercambiável, e os sete erros que as pessoas
+Quatro medidas, nenhuma intercambiável, e os erros que as pessoas
 cometem, na ordem em que os cometem.
 
 [Validar](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
@@ -185,10 +187,10 @@ entram na construção da medida.
 
 [Percursos](https://moraespeixoto.github.io/ocupacoesBR/articles/percursos.md)
 
-### Um roteiro para cada fonte de dado
+### Onde cada tradução se interrompe
 
-Candidaturas, RAIS, PNAD: o que chamar, em que ordem, e o que verificar
-antes de analisar.
+Os pontos de ruptura dos percursos: a ambiguidade da ponte, o empate, a
+agregação e o resíduo.
 
 [A eleição em
 curso](https://moraespeixoto.github.io/ocupacoesBR/articles/safra-2026.md)
@@ -469,6 +471,9 @@ diretamente é legítimo e recomendado.
 - [`tse_validacao`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_validacao.md)
   : Critério externo para aferir a medida: patrimônio e escolaridade por
   ocupação
+- [`tse_universo`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_universo.md)
+  : O universo das candidaturas: quem o formulário deixa de fora, ano a
+  ano
 - [`tse_dispersao_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
   : Dispersão do patrimônio dentro de cada nível de status
 - [`tse_autorrotulo_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_autorrotulo_patrimonio.md)
@@ -492,6 +497,9 @@ diretamente é legítimo e recomendado.
   : Correspondência da CBO-94 com a ISCO-88
 - [`cod_isco08`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_isco08.md)
   : Correspondência da COD do IBGE com a ISCO-08
+- [`cod_populacao_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_populacao_br.md)
+  : A população brasileira pelos endereços da ISCO-88, por piso de
+  elegibilidade
 - [`isco_posicao_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco_posicao_br.md)
   : Posição na ocupação por código ISCO-88, medida na PNAD Contínua
 - [`isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md)
@@ -566,6 +574,13 @@ proveniência.
 
 - [A medida se sustenta? Validação contra um critério
   externo](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md):
+
+- [Comparar duas fontes: o que entra, o que sai, e quem fica de
+  fora](https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.md):
+
+  Oito decisões que você toma ao comparar candidaturas com população —
+  cada uma com o grupo que ela apaga, o tamanho do apagamento, e a linha
+  de código que mede esse tamanho no seu dado.
 
 - [Provas de robustez: como o pacote se põe à
   prova](https://moraespeixoto.github.io/ocupacoesBR/articles/robustez.md):

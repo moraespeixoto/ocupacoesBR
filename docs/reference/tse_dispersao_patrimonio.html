@@ -11,7 +11,7 @@ quantifica o que uma escala de posição ocupacional não explica."><meta proper
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -29,6 +29,7 @@ quantifica o que uma escala de posição ocupacional não explica."><meta proper
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos"><li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
@@ -112,12 +113,15 @@ distribuir microdado de patrimônio.</p>
 
 
 <p>No nível da <strong>ocupação</strong>, o ISEI correlaciona-se a 0,681 com o log da
-mediana de patrimônio (veja <a href="tse_validacao.html">tse_validacao</a>). No nível do <strong>indivíduo</strong>,
+mediana de patrimônio (veja <a href="tse_validacao.html">tse_validacao</a>). No nível da <strong>candidatura</strong>,
 a 0,207. A queda não é defeito de medida: é a definição operacional do que
-uma escala de posição ocupacional faz, que é explicar a variação <em>entre</em>
-ocupações e quase nada <em>dentro</em> de cada uma. A coluna <code>sd_log</code> mostra o
-fenômeno diretamente — o desvio padrão do log do patrimônio dentro de um
-mesmo nível de status é da ordem de 1,7, isto é, uma ordem de grandeza.
+uma escala de posição ocupacional faz. E o "dentro" é exato, não aproximado:
+o ISEI é constante na ocupação, logo explica <em>zero</em> da variância
+intraocupacional. O que se mede é o quanto fica <em>entre</em> níveis de status —
+eta² = 0,077, contra r² = 0,043 da relação linear. A coluna <code>sd_log</code> mostra o
+fenômeno diretamente: o desvio padrão do log do patrimônio dentro de um mesmo
+nível de status é de cerca de 1,7, ou seja, um fator de cinco a seis por
+desvio padrão — dois desvios já são trinta vezes.
 A consequência prática está em <code><a href="tse_para_isei.html">tse_para_isei()</a></code>: <strong>não use o ISEI como
 proxy de renda ou de patrimônio individual.</strong></p>
     </div>

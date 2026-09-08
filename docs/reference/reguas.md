@@ -123,9 +123,10 @@ reguas[reguas$tipo == "continua", c("medida", "ancora", "funcao_tse")]
 # Antes de publicar EGP a partir do TSE, leia isto:
 cat(strwrap(reguas$quando_nao_usar[reguas$medida == "EGP"], 72), sep = "\n")
 #> não publique onze classes a partir do TSE: sem número de subordinados,
-#> IVa e IVb não se separam; colapse em 5 ou 3 para publicar; pela CBO e
-#> pela COD o esquema sai degradado; com dado que tem as variáveis, como a
-#> PNAD, funciona por inteiro
+#> IVa e IVb não se separam; colapse em 5 ou 3 para publicar; pela RAIS e
+#> pelo eSocial, que só registram empregados, IVa, IVb e V saem vazias por
+#> construção; a PNAD separa IVa de IVb, mas nem ela tem a supervisão que
+#> define V
 
 # Qual régua responde a uma pergunta sobre relação de emprego?
 reguas[grep("emprego", reguas$pergunta), c("medida", "funcao_tse")]

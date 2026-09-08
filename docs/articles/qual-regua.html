@@ -27,7 +27,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Alternar de navegação">
@@ -47,6 +47,7 @@
 <li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul>
 </li>
@@ -193,11 +194,19 @@ O erro é tratar esses casos como zero, ou tirá-los da conta sem
 dizer.</p>
 <p>E há uma armadilha específica: o padrão de ausência é
 <strong>fortemente generificado</strong>. Entre as candidaturas ao TSE,
-cerca de 15% das mulheres declaram posição fora da PEA, contra pouco
-mais de 1% dos homens. Uma média de ISEI por gênero, com
-<code>na.rm = TRUE</code>, compara duas subpopulações truncadas de
-formas diferentes — e a “vantagem feminina em status” que aparece é, em
-boa parte, artefato disso.</p>
+cerca de 15% das mulheres caem na classe
+<code>"Fora da PEA por posição"</code> — os códigos 581 e 931 —, contra
+pouco mais de 1% dos homens.</p>
+<p>Vale nomear a classe, porque a assimetria é dela e só dela: a outra
+residual, <code>"Inativo com trajetória"</code>, fica em torno de 4% nos
+<strong>dois</strong> sexos. Quem somar as duas dilui justamente o
+padrão que importa aqui.</p>
+<p>Uma média de ISEI por gênero, com <code>na.rm = TRUE</code>, compara
+então duas subpopulações truncadas de formas diferentes, e parte da
+“vantagem feminina em status” que aparece pode vir daí. Quanto
+exatamente, esta vinheta não mede — o ponto é que a comparação não é
+entre iguais, e que a cobertura tem de ser relatada ao lado da
+média.</p>
 <p>Quem for comparar médias por grupo <strong>precisa reportar a
 cobertura junto</strong>:</p>
 <div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
@@ -205,8 +214,9 @@ cobertura junto</strong>:</p>
 <span><span class="fu"><a href="https://rdrr.io/r/base/tapply.html" class="external-link">tapply</a></span><span class="op">(</span><span class="va">isei</span>, <span class="va">genero</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>media <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
 <span>                                   cobertura <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="op">!</span><span class="fu"><a href="https://rdrr.io/r/base/NA.html" class="external-link">is.na</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span></code></pre></div>
 <p><code><a href="../reference/isei_retrospectivo.html">isei_retrospectivo()</a></code> recupera parte disso carregando a
-ocupação anterior da própria pessoa — a cobertura feminina sobe de 52,9%
-para 58,7%. Não resolve; reduz.</p>
+ocupação anterior da própria pessoa — a cobertura feminina sobe cerca de
+seis pontos (os valores exatos estão em
+<code><a href="../reference/isei_retrospectivo.html">?isei_retrospectivo</a></code>). Não resolve; reduz.</p>
 </div>
 <div class="section level2">
 <h2 id="a-régua-categórica-cobre-onde-a-contínua-não-chega">3. A régua categórica cobre onde a contínua não chega<a class="anchor" aria-label="anchor" href="#a-r%C3%A9gua-categ%C3%B3rica-cobre-onde-a-cont%C3%ADnua-n%C3%A3o-chega"></a>
@@ -257,11 +267,20 @@ subordinados. O TSE não pergunta o segundo:</p>
 <span><span class="co">#&gt; [2] "IVb: conta própria sem empregados"       </span></span>
 <span><span class="co">#&gt; [3] "IVc: proprietário rural"</span></span></code></pre></div>
 <p>O aviso diz o que falta. Repare no que ele <strong>não</strong> diz
-mais: a pequena burguesia aparece, porque dez códigos nomeiam o
-proprietário no próprio rótulo e o pacote usa essa marca. O que continua
-indeterminado é a divisão entre IVa (com empregados) e IVb (sem).</p>
-<p><strong>Para publicar, colapse:</strong></p>
+mais: a pequena burguesia aparece, porque o dicionário do TSE marca quem
+trabalha por conta própria, e o pacote usa essa marca.</p>
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>conta_propria <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tse_isco</span><span class="op">$</span><span class="va">conta_propria</span>, na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span>,</span>
+<span>  proprietario  <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/sum.html" class="external-link">sum</a></span><span class="op">(</span><span class="va">tse_isco</span><span class="op">$</span><span class="va">proprietario</span>,  na.rm <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; conta_propria  proprietario </span></span>
+<span><span class="co">#&gt;            12            10</span></span></code></pre></div>
+<p>São marcas distintas, e é a primeira que o EGP usa. O agricultor e o
+pescador trabalham por conta própria — o <code>SEMPL = 2</code> que o
+esquema exige para chegar a IVc — sem pertencerem à classe proprietária.
+O que continua indeterminado é a divisão entre IVa (com empregados) e
+IVb (sem).</p>
+<p><strong>Para publicar, colapse:</strong></p>
+<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/tse_para_egp.html">tse_para_egp</a></span><span class="op">(</span><span class="va">tse_isco</span><span class="op">$</span><span class="va">cod_tse</span>, n_classes <span class="op">=</span> <span class="fl">5</span>, avisar <span class="op">=</span> <span class="cn">FALSE</span><span class="op">)</span>,</span>
 <span>      useNA <span class="op">=</span> <span class="st">"no"</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
@@ -273,15 +292,18 @@ indeterminado é a divisão entre IVa (com empregados) e IVb (sem).</p>
 <span><span class="co">#&gt;                                   28</span></span></code></pre></div>
 <p>Em cinco classes, IVa e IVb se fundem em IVab e a indeterminação
 desaparece.</p>
-<p>Com dado que <strong>tem</strong> as variáveis — a PNAD Contínua tem
-—, o esquema funciona por inteiro: veja <code><a href="../reference/cod_para_egp.html">cod_para_egp()</a></code>.</p>
+<p>A PNAD Contínua vai mais longe: ela tem posição na ocupação e número
+de empregados, o que <strong>separa IVa de IVb</strong> — a distinção
+que aqui ficou indeterminada. Mas nem ela fecha o esquema: falta a
+supervisão exercida sobre assalariados, que é o que define V. Nenhuma
+das quatro portas do pacote a tem. Veja <code><a href="../reference/cod_para_egp.html">cod_para_egp()</a></code>.</p>
 </div>
 <div class="section level2">
 <h2 id="série-longa-o-cadastro-do-tse-mudou-embaixo-do-dado">6. Série longa: o cadastro do TSE mudou embaixo do dado<a class="anchor" aria-label="anchor" href="#s%C3%A9rie-longa-o-cadastro-do-tse-mudou-embaixo-do-dado"></a>
 </h2>
 <p>Entre 2000 e 2002 o TSE reeditou a tabela de ocupações. Sete códigos
 passaram a designar <strong>outra</strong> ocupação:</p>
-<div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">q</span> <span class="op">&lt;-</span> <span class="va">tse_quebra_2002</span><span class="op">[</span><span class="va">tse_quebra_2002</span><span class="op">$</span><span class="va">tipo</span> <span class="op">==</span> <span class="st">"reutilizado"</span>, <span class="op">]</span></span>
 <span><span class="va">q</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cod_tse"</span>, <span class="st">"rotulo_ate_2000"</span>, <span class="st">"rotulo_apos_2002"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;    cod_tse                                               rotulo_ate_2000</span></span>
@@ -303,7 +325,7 @@ passaram a designar <strong>outra</strong> ocupação:</p>
 <p>Traduzir uma candidatura de 1998 pelo dicionário atual classifica um
 ocupante de cargo de direção como artista plástico. Passe o ano e o
 problema se resolve:</p>
-<div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/tse_para_classe.html">tse_para_classe</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"215"</span>, <span class="st">"215"</span><span class="op">)</span>, ano <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2020</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; Warning: 1 candidatura(s) usam código(s) que o TSE REUTILIZOU depois (215): naquele ano designavam outra ocupação, e voltam NA.</span></span>
 <span><span class="co">#&gt; Veja ?tse_vigencia.</span></span>
@@ -311,23 +333,56 @@ problema se resolve:</p>
 <p><strong>E o problema maior nem é esse.</strong> Mais frequente que a
 reutilização é a troca de inventário — códigos que sumiram e códigos que
 nasceram:</p>
-<div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/tse_diff_cadastro.html">tse_diff_cadastro</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2002</span><span class="op">)</span><span class="op">$</span><span class="va">mudanca</span><span class="op">)</span></span>
 <span><span class="co">#&gt; </span></span>
 <span><span class="co">#&gt;  criado extinto  rotulo </span></span>
 <span><span class="co">#&gt;      69      21      36</span></span></code></pre></div>
-<p>Comparando os períodos inteiros, são 13 códigos extintos (12,4% das
-candidaturas de 1998–2000) e 122 criados (33,2% das de 2002 em diante),
-entre eles <code>COMERCIANTE</code> e <code>EMPRESÁRIO</code>. Uma série
-que atravesse 2002 mede “Proprietários e empregadores” com dois
-vocabulários incomensuráveis.</p>
-<p>O caminho honesto é começar a série em 2004, ou declarar a
-descontinuidade.</p>
+<p>Comparando os períodos inteiros, o cadastro perde e ganha
+códigos:</p>
+<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">r</span> <span class="op">&lt;-</span> <span class="va">tse_ocupacao_rotulos</span></span>
+<span><span class="va">extintos</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">[</span><span class="va">r</span><span class="op">$</span><span class="va">ate</span> <span class="op">&lt;=</span> <span class="fl">2000</span><span class="op">]</span>, <span class="va">r</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">[</span><span class="va">r</span><span class="op">$</span><span class="va">ate</span> <span class="op">&gt;</span> <span class="fl">2000</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="va">criados</span>  <span class="op">&lt;-</span> <span class="fu"><a href="https://generics.r-lib.org/reference/setops.html" class="external-link">setdiff</a></span><span class="op">(</span><span class="va">r</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">[</span><span class="va">r</span><span class="op">$</span><span class="va">de</span>  <span class="op">&gt;=</span> <span class="fl">2002</span><span class="op">]</span>, <span class="va">r</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">[</span><span class="va">r</span><span class="op">$</span><span class="va">de</span>  <span class="op">&lt;</span>  <span class="fl">2002</span><span class="op">]</span><span class="op">)</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span>extintos <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">extintos</span><span class="op">)</span>, criados <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html" class="external-link">length</a></span><span class="op">(</span><span class="va">criados</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; extintos  criados </span></span>
+<span><span class="co">#&gt;       13      122</span></span></code></pre></div>
+<p>São 12,4% das candidaturas de 1998–2000 nos treze extintos, e 33,1%
+das de 2002 em diante nos cento e vinte e dois criados — entre eles
+<code>COMERCIANTE</code> e <code>EMPRESÁRIO</code>. Estas duas
+participações são o único par de números desta vinheta que o pacote não
+recalcula sozinho: <code>tse_ocupacao_rotulos</code> traz <code>n</code>
+por vigência, não por ano, e por isso elas saem da microbase, em
+<code>data-raw/11_confere_retrospectivo.R</code>. Uma série que
+atravesse 2002 mede “Proprietários e empregadores” com dois vocabulários
+incomensuráveis.</p>
+<p>Não há um ano seguro para começar depois disso. A troca de inventário
+não se esgota em 2002:</p>
+<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="kw">for</span> <span class="op">(</span><span class="va">p</span> <span class="kw">in</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html" class="external-link">list</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2002</span>, <span class="fl">2004</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2004</span>, <span class="fl">2006</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2006</span>, <span class="fl">2008</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> <span class="op">{</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="st">"-&gt;"</span>, <span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span>, <span class="st">": "</span><span class="op">)</span></span>
+<span>  <span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/table.html" class="external-link">table</a></span><span class="op">(</span><span class="fu"><a href="../reference/tse_diff_cadastro.html">tse_diff_cadastro</a></span><span class="op">(</span><span class="va">p</span><span class="op">[</span><span class="fl">1</span><span class="op">]</span>, <span class="va">p</span><span class="op">[</span><span class="fl">2</span><span class="op">]</span><span class="op">)</span><span class="op">$</span><span class="va">mudanca</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="op">}</span></span>
+<span><span class="co">#&gt; 2002 -&gt; 2004 : </span></span>
+<span><span class="co">#&gt; criado </span></span>
+<span><span class="co">#&gt;     20 </span></span>
+<span><span class="co">#&gt; 2004 -&gt; 2006 : </span></span>
+<span><span class="co">#&gt;  criado extinto  rotulo </span></span>
+<span><span class="co">#&gt;      34       3      13 </span></span>
+<span><span class="co">#&gt; 2006 -&gt; 2008 : </span></span>
+<span><span class="co">#&gt; criado </span></span>
+<span><span class="co">#&gt;      6</span></span></code></pre></div>
+<p>De 2002 para 2004 nada se extingue, mas de 2004 para 2006 três
+códigos somem e treze trocam de rótulo — e dois dos sete reutilizados só
+reaparecem em 2006 e 2008. O caminho honesto não é escolher um ano de
+início: é <strong>declarar a descontinuidade</strong> e passar o
+<code>ano</code>, que é o que resolve os reutilizados código a
+código.</p>
 </div>
 <div class="section level2">
 <h2 id="não-misture-isei-88-e-isei-08-na-mesma-série">7. Não misture ISEI-88 e ISEI-08 na mesma série<a class="anchor" aria-label="anchor" href="#n%C3%A3o-misture-isei-88-e-isei-08-na-mesma-s%C3%A9rie"></a>
 </h2>
-<div class="sourceCode" id="cb14"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  cod    <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"111"</span>, <span class="st">"113"</span>, <span class="st">"411"</span><span class="op">)</span>,</span>
 <span>  rotulo <span class="op">=</span> <span class="fu"><a href="../reference/tse_para_rotulo.html">tse_para_rotulo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"111"</span>, <span class="st">"113"</span>, <span class="st">"411"</span><span class="op">)</span><span class="op">)</span>,</span>
@@ -337,32 +392,39 @@ descontinuidade.</p>
 <span><span class="co">#&gt; 1 111                                      MÉDICO     88   88.7</span></span>
 <span><span class="co">#&gt; 2 113                                  ENFERMEIRO     43   68.7</span></span>
 <span><span class="co">#&gt; 3 411 VENDEDOR DE COMÉRCIO VAREJISTA E ATACADISTA     43   29.7</span></span></code></pre></div>
-<p>O médico fica onde estava; o enfermeiro sobe 26 pontos, porque a
-ISCO-08 promoveu a enfermagem a profissão de nível superior
-(<code>2221</code>), separando-a dos técnicos (<code>3221</code>); o
-vendedor cai 13, porque a revisão reavaliou o grupo <code>52</code>
-inteiro. Não é erro de nenhuma das duas réguas: são recortes diferentes.
-Numa série que troque de âncora no meio, os dois deslocamentos aparecem
-como mobilidade que não houve.</p>
+<p>O médico fica onde estava; o enfermeiro sobe 26 pontos — e não por
+ter mudado de lugar na classificação. A ISCO-88 já o punha entre os
+profissionais de nível superior (<code>2230</code> na ISCO-88), e já o
+separava da enfermagem técnica (<code>3231</code> na ISCO-88). O que ela
+fazia era pontuá-lo em 43, <strong>abaixo dos escriturários</strong>,
+que recebem 45. O que mudou foi a escala: o ISEI-08, reestimado por
+Ganzeboom sobre o ISSP de 2002-2007, cobre homens e mulheres e o põe em
+68,7. O vendedor cai 13 pelo mesmo mecanismo, em sentido contrário, com
+a reorganização do subgrupo <code>52</code> por cima. Não é erro de
+nenhuma das duas réguas: são recortes diferentes. Numa série que troque
+de âncora no meio, os dois deslocamentos aparecem como mobilidade que
+não houve.</p>
 <p><strong>Fique na ISCO-88</strong> para comparar candidaturas entre si
 — é onde o pacote está ancorado. Use a ISCO-08 para juntar o dado
-eleitoral a fontes que já a usam, e para análise de gênero, onde a
-revisão de 2008 corrigiu a subvalorização das ocupações de cuidado (veja
+eleitoral a fontes que já a usam, e para análise de gênero, onde o
+ISEI-08 reavalia para cima as ocupações de cuidado que o escalonamento
+de 1992, estimado só sobre homens, subestimava (veja
 <code><a href="../articles/validacao.html">vignette("validacao")</a></code>).</p>
 <p>Desde a versão 0.5.0 há uma terceira régua,
 <code><a href="../reference/tse_para_isei_br.html">tse_para_isei_br()</a></code>, estimada na PNAD Contínua em vez de
 importada. O aviso vale para ela igualmente, e com uma razão a mais: as
-três não têm sequer o mesmo denominador. A brasileira é de um ano só,
-2025, e serve para perguntar como o mercado de trabalho
-<strong>brasileiro</strong> ordena as ocupações. Para comparação
-internacional, ou para qualquer série longa, ela não serve.</p>
+três não foram estimadas na mesma população nem no mesmo ano. A
+brasileira é de um ano só, 2025, e serve para perguntar como o mercado
+de trabalho <strong>brasileiro</strong> ordena as ocupações. Para
+comparação internacional, ou para qualquer série longa, ela não
+serve.</p>
 </div>
 <div class="section level2">
 <h2 id="verifique-antes-não-depois">8. Verifique antes, não depois<a class="anchor" aria-label="anchor" href="#verifique-antes-n%C3%A3o-depois"></a>
 </h2>
 <p>As duas travas são <strong>opt-in</strong> e ficam fora do caminho
 feliz. Chame-as:</p>
-<div class="sourceCode" id="cb15"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/checa_cobertura.html">checa_cobertura</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">111</span>, <span class="fl">169</span>, <span class="fl">257</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; cobertura ok: 3 códigos observados, todos no dicionário.</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/invisible.html" class="external-link">invisible</a></span><span class="op">(</span><span class="fu"><a href="../reference/checa_periodo.html">checa_periodo</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"215"</span>, <span class="st">"111"</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">2000</span>, <span class="fl">2020</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
@@ -380,7 +442,7 @@ num rótulo residual sem ninguém perceber.</p>
 <p>Um ISEI de 68 sai impresso do mesmo jeito venha de onde vier. Mas
 “advogado” pressupõe inscrição na OAB, e “empresário” não pressupõe
 registro nenhum:</p>
-<div class="sourceCode" id="cb16"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/crosswalk_tse.html">crosswalk_tse</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"131"</span>, <span class="st">"257"</span><span class="op">)</span><span class="op">)</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cod_tse"</span>, <span class="st">"rotulo"</span>, <span class="st">"isei88"</span>, <span class="st">"componente_alta"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;   cod_tse     rotulo isei88   componente_alta</span></span>
 <span><span class="co">#&gt; 1     131   ADVOGADO     85  Alta credenciada</span></span>
@@ -390,7 +452,7 @@ tipografia — mas não com a mesma procedência. Para chegar a 85, é
 preciso estar inscrito na OAB; para chegar a 68, basta escrever
 “empresário” no formulário.</p>
 <p>E o que esse 68 cobre:</p>
-<div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">p</span> <span class="op">&lt;-</span> <span class="va">tse_autorrotulo_patrimonio</span></span>
 <span><span class="va">p</span><span class="op">[</span><span class="va">p</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op">==</span> <span class="st">"257"</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"cargo"</span>, <span class="st">"n"</span>, <span class="st">"p10"</span>, <span class="st">"mediana"</span>, <span class="st">"p90"</span><span class="op">)</span><span class="op">]</span></span>
 <span><span class="co">#&gt;                 cargo      n    p10 mediana      p90</span></span>
@@ -405,7 +467,7 @@ preciso estar inscrito na OAB; para chegar a 68, basta escrever
 <p>Entre os que se declaram empresário, o patrimônio mediano vai de R$
 185 mil (candidatos a vereador) a R$ 4,7 milhões (candidatos a senador),
 e dentro do código os extremos distam dezenas de vezes:</p>
-<div class="sourceCode" id="cb18"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb21"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">todos</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">[</span><span class="va">p</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op">==</span> <span class="st">"257"</span> <span class="op">&amp;</span> <span class="va">p</span><span class="op">$</span><span class="va">cargo</span> <span class="op">==</span> <span class="st">"TODOS"</span>, <span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">todos</span><span class="op">$</span><span class="va">p90</span> <span class="op">/</span> <span class="va">todos</span><span class="op">$</span><span class="va">p10</span>, <span class="fl">1</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] 75.6</span></span></code></pre></div>
@@ -417,7 +479,7 @@ outro número não resolveria.</p>
 existe nos dois — quem disputa posto mais alto é mais rico —, mas a
 distância entre os extremos é bem menor onde o rótulo pressupõe registro
 externo:</p>
-<div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb22"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">a</span> <span class="op">&lt;-</span> <span class="va">p</span><span class="op">[</span><span class="va">p</span><span class="op">$</span><span class="va">cod_tse</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"131"</span>, <span class="st">"257"</span><span class="op">)</span> <span class="op">&amp;</span> <span class="va">p</span><span class="op">$</span><span class="va">cargo</span> <span class="op">==</span> <span class="st">"TODOS"</span>, <span class="op">]</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span><span class="va">a</span><span class="op">[</span><span class="st">"rotulo"</span><span class="op">]</span>, razao_p90_p10 <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/Round.html" class="external-link">round</a></span><span class="op">(</span><span class="va">a</span><span class="op">$</span><span class="va">p90</span> <span class="op">/</span> <span class="va">a</span><span class="op">$</span><span class="va">p10</span>, <span class="fl">1</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt;        rotulo razao_p90_p10</span></span>
@@ -426,7 +488,7 @@ externo:</p>
 <p>Isso não invalida o código; torna-o menos confiável que os ancorados,
 de um jeito que a tabela não mostra. A saída é sensibilidade, não
 conserto:</p>
-<div class="sourceCode" id="cb20"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb23"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">d</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span>cod <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"131"</span>, <span class="st">"257"</span>, <span class="st">"111"</span>, <span class="st">"265"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="va">d</span><span class="op">$</span><span class="va">isei</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/tse_para_isei.html">tse_para_isei</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">cod</span><span class="op">)</span></span>
 <span><span class="va">d</span><span class="op">$</span><span class="va">isei_ancorado</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html" class="external-link">ifelse</a></span><span class="op">(</span><span class="va">d</span><span class="op">$</span><span class="va">cod</span> <span class="op"><a href="https://rdrr.io/r/base/match.html" class="external-link">%in%</a></span> <span class="va">tse_codigos_autorrotulo</span>, <span class="cn">NA</span>, <span class="va">d</span><span class="op">$</span><span class="va">isei</span><span class="op">)</span></span>

@@ -77,8 +77,8 @@ Medida sobre a população de 18 anos ou mais, a cobertura do ISEI é de
 \strong{62,0\%}. Os números quase coincidem e as razões não têm nada em comum: a
 população perde quem não está ocupado, o Tribunal perde quem marcou uma
 rubrica que não nomeia ocupação. Trocar o denominador sem dizer troca o
-resultado sem avisar — é o assunto de
-\code{vignette("comparar-fontes", package = "ocupacoesBR")}.
+resultado sem avisar. É o assunto do artigo \emph{Comparar duas fontes}, no site
+do pacote: \url{https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html}
 }
 
 \section{A chave passou pela ponte reversa}{

@@ -3,8 +3,10 @@
 Leia
 [`isco88_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_egp.md)
 antes de usar: sem posicao no emprego e supervisao, o esquema sai
-degradado. Ao contrario do TSE, a RAIS TEM essas variaveis no vinculo —
-vale passa-las.
+degradado. A RAIS **nao** tem essas variaveis: e um registro de vinculo
+empregaticio, em que toda linha e um empregado. Por essa porta o EGP sai
+sem IVa, IVb e V por construcao. Veja
+[`cbo2002_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_egp.md).
 
 ## Uso
 

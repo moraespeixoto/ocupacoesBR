@@ -827,8 +827,9 @@
 #'
 #' Quase quatro em dez estão no dígito 2, professores sobretudo. Uma comparação
 #' de composição entre as duas fontes que não trate disso compara um universo
-#' que exclui servidores com outro que os inclui. O artigo
-#' `vignette("comparar-fontes", package = "ocupacoesBR")` mede a consequência.
+#' que exclui servidores com outro que os inclui. O artigo *Comparar duas
+#' fontes*, no site do pacote, mede a consequência:
+#' <https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html>
 #'
 #' Esta coluna **não conserta o construto**, só o denominador: no TSE o vínculo
 #' público é uma *escolha* de rótulo, feita por quem podia ter escrito
@@ -852,7 +853,8 @@
 #'
 #' @section As quatro colunas não se somam a 100:
 #' `pct_conta_propria`, `pct_setor_publico` e `pct_militar` são mutuamente
-#' exclusivas — `V4012` vale 2, 4 ou {5, 6}, nunca duas — e a soma das três
+#' exclusivas — `V4012` vale 2, 4, 5 ou 6, e nunca duas ao mesmo tempo — e a
+#' soma das três
 #' nunca passa de 100. O que sobra é empregado do setor privado, trabalhador
 #' doméstico e trabalhador familiar auxiliar. `pct_empregador` **não** entra
 #' nessa soma: é subconjunto de `pct_conta_propria`.
@@ -942,8 +944,8 @@
 #' **62,0%**. Os números quase coincidem e as razões não têm nada em comum: a
 #' população perde quem não está ocupado, o Tribunal perde quem marcou uma
 #' rubrica que não nomeia ocupação. Trocar o denominador sem dizer troca o
-#' resultado sem avisar — é o assunto de
-#' `vignette("comparar-fontes", package = "ocupacoesBR")`.
+#' resultado sem avisar. É o assunto do artigo *Comparar duas fontes*, no site
+#' do pacote: <https://moraespeixoto.github.io/ocupacoesBR/articles/comparar-fontes.html>
 #'
 #' @section A chave passou pela ponte reversa:
 #' A PNAD classifica por COD, e a chave desta tabela é a ISCO-88: o script

@@ -64,18 +64,48 @@ escolaridade](validacao_files/figure-html/unnamed-chunk-3-1.png)
 
 ## O contraste que é o verdadeiro resultado
 
-No nível do **indivíduo**, a correlação entre ISEI e patrimônio é de
+No nível da **candidatura**, a correlação entre ISEI e patrimônio é de
 apenas 0,207. No nível da **ocupação**, é 0,681. Essa diferença não é
 defeito: é a definição do que o ISEI é.
 
-Uma medida de posição ocupacional explica a variância **entre**
-ocupações e quase nada da variância **dentro** de cada uma. Advogados
-variam enormemente em patrimônio entre si, e o ISEI não tem nada a dizer
-sobre isso — nem deveria.
+Convém dizer com precisão o que ela é, porque “explica quase nada da
+variância dentro de cada ocupação” fica aquém do fato. O ISEI é
+**constante** dentro da ocupação: ele explica exatamente zero da
+variância intraocupacional, por construção, e não haveria como medir
+outra coisa. O que se pode medir, e é mais informativo, é quanto da
+variância individual do log do patrimônio fica **entre** níveis de
+status — o teto de qualquer função do ISEI:
 
-A consequência é direta: **não use ISEI como proxy de renda
-individual.** Ele responde “que posição esta ocupação ocupa na
-estrutura”, não “quanto esta pessoa tem”.
+``` r
+d <- tse_dispersao_patrimonio
+N <- sum(d$n); mu <- sum(d$soma_log) / N
+eta2 <- sum(d$n * (d$media_log - mu)^2) / (sum(d$soma_log2) - N * mu^2)
+c(eta2 = eta2, r2_linear = r_individual^2)
+#>       eta2  r2_linear 
+#> 0.07685978 0.04300105
+```
+
+Sete por cento e meio, contra 4,3% que a relação linear aproveita.
+Advogados variam enormemente em patrimônio entre si, e o ISEI não tem
+nada a dizer sobre isso — nem deveria.
+
+Uma ressalva sobre o contraste 0,681 × 0,207, para que ele não prove
+demais: os dois números diferem em mais coisas que o nível de agregação
+— um é sobre a mediana e não é ponderado, o outro é sobre a média do log
+e é ponderado por candidatura. A comparação limpa é com a correlação
+**ecológica** na mesma unidade e com o mesmo peso:
+
+``` r
+stats::cov.wt(cbind(d$isei88, d$media_log), wt = d$n, cor = TRUE)$cor[1, 2]
+#> [1] 0.7480057
+```
+
+0.748 contra 0,207: é essa a inflação ecológica, medida sem misturar
+outras diferenças.
+
+A consequência é direta: **não use ISEI como proxy de patrimônio
+individual** — nem, por extensão, de renda. Ele responde “que posição
+esta ocupação ocupa na estrutura”, não “quanto esta pessoa tem”.
 
 ## Onde a medida não é monótona
 
@@ -120,8 +150,12 @@ v$pct_superior[v$cod_tse == "113"]
 ```
 
 O ISEI-88 põe a enfermagem **abaixo** do escriturário, apesar de quase
-60% de ensino superior. A revisão de 2008 da OIT corrigiu isso, e o
-ISEI-08 a promove em mais de vinte pontos.
+60% de ensino superior. Não é a classificação que erra: a ISCO-88 já
+situa a enfermagem no grande grupo dos profissionais. É o escore de 1992
+que a subestima, porque mede a conversão de escolaridade em renda
+observada entre homens, em dado de 1968 a 1982. A reestimação do
+ISEI-08, sobre o ISSP de 2002-2007 e cobrindo os dois sexos, a promove
+em mais de vinte pontos.
 
 Isso não é peculiaridade brasileira, mas pesa mais aqui: o país tem um
 vale de ocupações femininas de alta escolaridade e baixa remuneração —
@@ -129,19 +163,33 @@ enfermagem, docência, assistência social. **Para análise de gênero,
 prefira a ISCO-08.**
 
 ``` r
-fem <- v$pct_mulher > 50
-round(c(feminina = mean(v$isei[fem]), masculina = mean(v$isei[!fem])), 1)
+# o mesmo recorte de ?tse_para_isei: codigos com mais de 500 candidaturas, onde
+# a proporcao de mulheres e estimada com precisao suficiente para dicotomizar
+g <- v[v$n > 500, ]
+fem <- g$pct_mulher > 50
+c(codigos = nrow(g), femininos = sum(fem))
+#>   codigos femininos 
+#>       168        28
+round(c(feminina = mean(g$isei[fem]), masculina = mean(g$isei[!fem])), 1)
 #>  feminina masculina 
-#>      46.1      47.6
-round(c(feminina = mean(v$pct_superior[fem]),
-        masculina = mean(v$pct_superior[!fem])), 1)
+#>        46        49
+round(c(feminina = mean(g$pct_superior[fem]),
+        masculina = mean(g$pct_superior[!fem])), 1)
 #>  feminina masculina 
-#>      32.1      23.8
+#>      29.9      24.1
 ```
 
 Ocupações majoritariamente femininas têm **mais** escolaridade e
-**menos** ISEI. A régua importada carrega esse viés, e declará-lo é
-parte de usá-la bem.
+**menos** ISEI. São 28 códigos contra 140, e a diferença de status é de
+três pontos — pequena em si, e o que a torna interpretável é a regressão
+de
+[`?tse_para_isei`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md),
+que a estima controlando pela escolaridade: −6,2 pontos de ISEI, com o
+sinal robusto a toda especificação que tentamos. O `p` não é: com
+erro-padrão robusto ele vai a 0,14, e sem ponderação a 0,012. É o sinal
+que sustenta a advertência, não o nível de significância.
+
+A régua importada carrega esse viés, e declará-lo é parte de usá-la bem.
 
 ## A régua estimada no Brasil, contra o mesmo critério
 
@@ -218,16 +266,37 @@ conta que mostra o tamanho do problema é esta:
 
 ``` r
 z <- function(x) (x - mean(x)) / sd(x)
-c(bruta       = cor(w$isei_br - w$isei08, w$isei08),
-  padronizada = cor(z(w$isei_br) - z(w$isei08), w$isei08))
-#>       bruta padronizada 
-#>  -0.8425687  -0.1731228
+r <- cor(w$isei_br, w$isei08)
+c(bruta         = cor(w$isei_br - w$isei08, w$isei08),
+  padronizada   = cor(z(w$isei_br) - z(w$isei08), w$isei08),
+  forcada_por_r = -sqrt((1 - r) / 2))
+#>         bruta   padronizada forcada_por_r 
+#>    -0.8425687    -0.1731228    -0.1731228
 ```
 
-A diferença **bruta** correlaciona-se a −0,85 com o próprio ISEI-08 —
-ler nela uma relocação substantiva é ler, em boa parte, de onde a
-ocupação partiu. Igualando média e desvio, a correlação some. Então a
-leitura tem de ser feita sobre a diferença padronizada:
+A diferença **bruta** correlaciona-se a cerca de −0,84 com o próprio
+ISEI-08 — ler nela uma relocação substantiva é ler, em boa parte, de
+onde a ocupação partiu. Padronizar remove esse artefato, e é sobre a
+diferença padronizada que a leitura tem de ser feita.
+
+Repare, porém, na terceira linha, porque ela impede uma leitura errada
+da segunda. A correlação padronizada **não some** — nem poderia. Para
+dois vetores padronizados com correlação `r`, vale a identidade
+
+`cor(z1 - z2, z2) = -sqrt((1 - r) / 2)`
+
+e com `r` = 0.94 ela dá exatamente o valor observado — não
+aproximadamente: até a última casa que o computador guarda. Não é uma
+medida: é aritmética, e é sempre negativa — regressão à média. Seria
+errado, portanto, ler o -0.173 residual como “o tanto de artefato que
+sobrou”, ou esperar que ele fosse zero caso a diferença fosse puramente
+substantiva. Com escalas iguais e esta correlação, ele seria esse número
+de qualquer jeito.
+
+O que a padronização resolve é o artefato de **escala**, que era grande.
+O que ela não pode fazer é produzir uma medida ortogonal ao ponto de
+partida — e é por isso que a leitura abaixo vem acompanhada de uma
+conferência.
 
 ``` r
 w$d <- z(w$isei_br) - z(w$isei08)
@@ -256,12 +325,33 @@ deles aparecem o diretor de empresas e o médico — e é justamente isso
 que a comparação bruta escondia, porque ocupações de topo não têm para
 onde subir numa escala comprimida.
 
-As que mais descem são as profissões artísticas, o clero e as liberais
-da saúde: escultor, artista plástico, sacerdote, cantor, veterinário,
-farmacêutico. Credencial alta, remuneração modesta. É a mesma anomalia
-do cuidado vista pelo outro lado: a régua importada mede sobretudo
-credencial, e no Brasil credencial e remuneração andam mais separadas do
-que ela supõe.
+As que mais descem são as profissões artísticas, o clero e o ensino de
+arte: escultor, artista plástico, sacerdote, cantor, músico, professor
+de formação profissional. Veterinário e farmacêutico vêm logo atrás, em
+sétimo e oitavo. Credencial alta, remuneração modesta. É a mesma
+anomalia do cuidado vista pelo outro lado: a régua importada mede
+sobretudo credencial, e no Brasil credencial e remuneração andam mais
+separadas do que ela supõe.
+
+A conferência prometida acima. O resíduo de uma regressão do ISEI-BR
+sobre o ISEI-08 é ortogonal ao ponto de partida **por construção** — não
+por sorte —, e por isso é o critério que não pode ser acusado de
+artefato:
+
+``` r
+w$resid <- residuals(lm(isei_br ~ isei08, data = w))
+c(sobem_iguais  = identical(head(w$rotulo[order(-w$d)], 6),
+                            head(w$rotulo[order(-w$resid)], 6)),
+  descem_mesmas = setequal(head(w$rotulo[order(w$d)], 6),
+                           head(w$rotulo[order(w$resid)], 6)))
+#>  sobem_iguais descem_mesmas 
+#>          TRUE          TRUE
+```
+
+As seis que sobem são as mesmas, na mesma ordem; as seis que descem são
+as mesmas, com o clero trocando de posição dentro do grupo. A leitura
+substantiva não depende de qual dos dois critérios se use, e é isso —
+não a correlação residual — que autoriza lê-la.
 
 ## O que esta vinheta não prova
 
