@@ -207,6 +207,7 @@ reference:
   - tse_ocupacao_rotulos
   - tse_quebra_2002
   - tse_validacao
+  - tse_universo
   - tse_dispersao_patrimonio
   - tse_autorrotulo_patrimonio
   - isco88_medidas
@@ -218,6 +219,7 @@ reference:
   - cbo2002_escada
   - cbo94_isco88
   - cod_isco08
+  - cod_populacao_br
   - isco_posicao_br
   - isco08_isei_br
 

@@ -59,6 +59,37 @@ test_that("isco_posicao_br mede o que diz medir", {
   expect_gt(p$pct_conta_propria[p$isco88 == "6150"], 75)
 })
 
+test_that("as colunas de vinculo publico e de posicao militar sao coerentes", {
+  p <- ocupacoesBR::isco_posicao_br
+  novas <- c("pct_setor_publico", "pct_militar",
+             "pct_setor_publico_grupo", "pct_militar_grupo")
+  expect_true(all(novas %in% names(p)))
+  for (k in novas) expect_true(all(p[[k]] >= 0 & p[[k]] <= 100))
+
+  # V4012 vale 2, 4 ou {5,6}, nunca duas: as tres marcas sao disjuntas e a
+  # soma nunca passa de 100. `pct_empregador` NAO entra — e subconjunto de
+  # `pct_conta_propria` — e some-la contaria o empregador duas vezes.
+  expect_true(all(p$pct_conta_propria + p$pct_setor_publico +
+                    p$pct_militar <= 100 + 1e-9))
+  expect_true(all(p$pct_empregador <= p$pct_conta_propria))
+  expect_true(all(p$pct_conta_propria_grupo + p$pct_setor_publico_grupo +
+                    p$pct_militar_grupo <= 100 + 1e-9))
+
+  # o que a coluna existe para dizer: o vinculo publico e concentrado onde a
+  # comparacao entre fontes mais dói — a docencia — e e ausente na agropecuaria
+  g <- function(x) unique(p$pct_setor_publico_grupo[p$grupo == x])
+  expect_gt(g("23"), 60)   # docentes (67,5% em 2025)
+  expect_lt(g("61"), 3)    # agricolas qualificados (0,2%)
+
+  # a armadilha documentada em ?isco_posicao_br: `pct_militar` NAO e o grande
+  # grupo 0. Se fosse, nenhum codigo do grupo 51/52 teria posicao militar.
+  # (5162 e policia; 71,6% dela declara POSICAO militar em 2025)
+  expect_gt(p$pct_militar[p$isco88 == "5162"], 50)
+  expect_gt(p$pct_militar[p$isco88 == "5161"], 50)
+  # e o 0110 e integralmente militar por posicao, o que fecha o outro lado
+  expect_equal(p$pct_militar[p$isco88 == "0110"], 100)
+})
+
 test_that("tse_codigos_autorrotulo e usavel e coerente", {
   a <- ocupacoesBR::tse_codigos_autorrotulo
   expect_type(a, "character")

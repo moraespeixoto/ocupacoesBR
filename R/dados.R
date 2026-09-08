@@ -742,8 +742,8 @@
 #' Posição na ocupação por código ISCO-88, medida na PNAD Contínua
 #'
 #' A distribuição brasileira de posição no emprego — conta própria, empregador,
-#' número de empregados — para cada código ISCO-88, apurada nos microdados da
-#' PNAD Contínua de 2025.
+#' número de empregados, setor público, posição militar — para cada código
+#' ISCO-88, apurada nos microdados da PNAD Contínua de 2025.
 #'
 #' @format `data.frame` com 319 linhas:
 #' \describe{
@@ -757,8 +757,16 @@
 #'   \item{pct_emp_11mais}{entre os empregadores, % com 11 ou mais empregados —
 #'     o limiar que separa a ISCO 12 da 13. `NA` onde há menos de 25
 #'     empregadores na célula.}
+#'   \item{pct_setor_publico}{% empregada do setor público, inclusive empresas
+#'     de economia mista (`V4012 == 4`). É a coluna que torna comparável, do
+#'     lado da população, o vínculo público que o formulário do TSE oferece
+#'     como rótulo — veja a seção "O vínculo público".}
+#'   \item{pct_militar}{% cuja **posição** declarada é militar (`V4012 == 2`).
+#'     Leia a seção "Militar é duas coisas" antes de usar: esta coluna não é o
+#'     grande grupo 0 da ISCO-88, e a diferença é o assunto.}
 #'   \item{grupo}{o grande grupo de dois dígitos.}
-#'   \item{n_pessoas_grupo, pct_conta_propria_grupo, pct_empregador_grupo}{o
+#'   \item{n_pessoas_grupo, pct_conta_propria_grupo, pct_empregador_grupo,
+#'     pct_setor_publico_grupo, pct_militar_grupo}{o
 #'     mesmo, apurado no grupo de dois dígitos. Cada linha carrega a sua própria
 #'     estimativa e a do grupo, para que quem cair numa célula fina possa recuar
 #'     um nível sem refazer a conta — e veja, lado a lado, com que `n` cada uma
@@ -803,6 +811,52 @@
 #' Como candidatos são selecionados por patrimônio, tomar estas proporções
 #' como piso — e não como estimativa central — é a leitura conservadora.
 #'
+#' @section O vínculo público:
+#' O cadastro de ocupações do TSE oferece à pessoa quatro rótulos que
+#' **substituem** a ocupação em vez de a nomear — `291 OCUPANTE DE CARGO EM
+#' COMISSÃO` e `296`/`297`/`298 SERVIDOR PÚBLICO FEDERAL/ESTADUAL/MUNICIPAL`.
+#' Nenhum tem ISCO, e corretamente: não designam ocupação. Na PNAD Contínua as
+#' mesmas pessoas **têm** ocupação declarada, porque vínculo e ocupação são
+#' duas perguntas separadas. Medido nos quatro trimestres de 2025, o setor
+#' público é 11,7% dos ocupados com endereço na ISCO-88, e se distribui assim
+#' pelo grande grupo:
+#'
+#' | dígito | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 |
+#' |---|---|---|---|---|---|---|---|---|---|
+#' | % do setor público | 4,0 | 37,9 | 18,7 | 14,2 | 12,1 | 0,1 | 1,1 | 3,6 | 8,3 |
+#'
+#' Quase quatro em dez estão no dígito 2, professores sobretudo. Uma comparação
+#' de composição entre as duas fontes que não trate disso compara um universo
+#' que exclui servidores com outro que os inclui. O artigo
+#' `vignette("comparar-fontes", package = "ocupacoesBR")` mede a consequência.
+#'
+#' Esta coluna **não conserta o construto**, só o denominador: no TSE o vínculo
+#' público é uma *escolha* de rótulo, feita por quem podia ter escrito
+#' "professor"; aqui é a posição de quem *também* declarou a ocupação.
+#'
+#' @section Militar é duas coisas, e elas discordam:
+#' O dicionário do IBGE define `V4012 == 2` como "militar do exército, da
+#' marinha, da aeronáutica, **da polícia militar ou do corpo de bombeiros
+#' militar**". Não é o grande grupo 0 da ISCO-88. Medido aqui: entre quem
+#' declara essa posição, 39,9% cai no grande grupo 0 pelo código de ocupação e
+#' 60,1% cai no 5, o dos serviços protetivos. **A pergunta sobre posição e a
+#' pergunta sobre ocupação discordam sobre quem é militar no Brasil**, e a
+#' discordância é a mesma que a COD registra ao alocar a polícia militar e o
+#' bombeiro militar ao grande grupo 0 — adaptação que [cod_para_isco()] desfaz,
+#' devolvendo 5162 e 5161.
+#'
+#' A consequência prática: `pct_militar` não é o tamanho das forças armadas
+#' (0,81% dos ocupados inclui o policiamento militar), e não deve ser somada
+#' nem comparada com a parcela do grande grupo 0 como se fossem a mesma coisa.
+#' Nenhuma das duas respostas é o erro da outra; são construtos diferentes.
+#'
+#' @section As quatro colunas não se somam a 100:
+#' `pct_conta_propria`, `pct_setor_publico` e `pct_militar` são mutuamente
+#' exclusivas — `V4012` vale 2, 4 ou {5, 6}, nunca duas — e a soma das três
+#' nunca passa de 100. O que sobra é empregado do setor privado, trabalhador
+#' doméstico e trabalhador familiar auxiliar. `pct_empregador` **não** entra
+#' nessa soma: é subconjunto de `pct_conta_propria`.
+#'
 #' @section A tabela atravessa a ponte reversa:
 #' A PNAD classifica por COD, e a chave desta tabela é a ISCO-88, de modo que
 #' `data-raw/07_gera_posicao.R` percorre COD -> ISCO-08 -> ISCO-88. O segundo
@@ -829,6 +883,172 @@
 #' head(p[order(-p$pct_conta_propria),
 #'        c("isco88", "n_obs", "pct_conta_propria", "pct_empregador")], 5)
 "isco_posicao_br"
+
+#' A população brasileira pelos endereços da ISCO-88, por piso de elegibilidade
+#'
+#' O denominador. A distribuição da população brasileira de 18 anos ou mais
+#' pelos códigos ISCO-88, a partir da COD da PNAD Contínua, com a parcela que
+#' **não está ocupada** como linha da própria tabela — e não como ausência
+#' dela. É o outro lado de [tse_universo], na mesma forma, para que comparar
+#' candidatura com população seja uma junção de duas linhas.
+#'
+#' @format `data.frame` com 3.811 linhas:
+#' \describe{
+#'   \item{piso}{o piso etário de elegibilidade: 18, 21, 30 ou 35 anos.
+#'     **São pisos, não faixas** — cada um é a população inteira daquela idade
+#'     em diante, e por isso se sobrepõem.}
+#'   \item{sexo}{`"Homem"`, `"Mulher"` ou `"Todos"`.}
+#'   \item{isco88}{código ISCO-88 de quatro dígitos. `NA` nas duas linhas que
+#'     não são ocupação.}
+#'   \item{situacao}{`"Ocupado"`, `"Não ocupado"` ou
+#'     `"Ocupado sem endereço na ISCO-88"` (0,01% — a COD cobre quase tudo).}
+#'   \item{pop}{pessoas estimadas, com o peso da PNAD Contínua.}
+#'   \item{n_pessoas}{pessoas distintas na amostra, atrás da estimativa. É a
+#'     coluna de precisão, e **704 das 3.811 linhas têm menos de 30**.}
+#'   \item{pct}{percentual dentro de `(piso, sexo)`. Somam 100 por construção.}
+#' }
+#'
+#' @section É estimativa de amostra com peso, e é de 2025:
+#' Isto não é um censo. Cada `pop` é uma estimativa da PNAD Contínua dos
+#' **quatro trimestres de 2025**, com o peso `V1028` dividido pelo número de
+#' trimestres, e carrega o erro amostral que `n_pessoas` deixa medir. Ao
+#' contrário das tábuas de conversão do pacote, que não envelhecem, **esta
+#' tabela envelhece**: uma distribuição de 2025 lida daqui a alguns anos
+#' descreve um país que mudou. Declare o ano ao usá-la.
+#'
+#' O pacote não faz desenho amostral. Se você precisa de erro-padrão, de
+#' intervalo de confiança ou de subpopulação, o caminho é o microdado com
+#' \pkg{survey} — esta tabela dá o ponto, não a incerteza.
+#'
+#' @section O piso é a decisão que mais move o denominador:
+#' Os quatro pisos são os do art. 14 §3º da Constituição: 18 anos para
+#' vereador, 21 para prefeito e deputado, 30 para governador, 35 para senador
+#' e presidente. A parcela que não está ocupada muda com o piso, e não pouco:
+#'
+#' | piso | homens | mulheres | todos |
+#' |---|---|---|---|
+#' | 18 anos | 27,0% | 48,1% | 38,0% |
+#' | 21 anos | 26,0% | 47,7% | 37,3% |
+#' | 30 anos | 27,8% | 49,9% | 39,4% |
+#' | 35 anos | 30,3% | 52,3% | 42,0% |
+#'
+#' Quem compara candidatos ao Senado com "a população" sem escolher o piso
+#' erra o denominador em quatro pontos, e a diferença entre os sexos é de mais
+#' de vinte.
+#'
+#' @section As duas fontes perdem quase a mesma gente, por motivos opostos:
+#' Medida sobre a população de 18 anos ou mais, a cobertura do ISEI é de
+#' **61,8%**; medida sobre as candidaturas de 2024, [tse_universo] registra
+#' **62,0%**. Os números quase coincidem e as razões não têm nada em comum: a
+#' população perde quem não está ocupado, o Tribunal perde quem marcou uma
+#' rubrica que não nomeia ocupação. Trocar o denominador sem dizer troca o
+#' resultado sem avisar — é o assunto de
+#' `vignette("comparar-fontes", package = "ocupacoesBR")`.
+#'
+#' @section A chave passou pela ponte reversa:
+#' A PNAD classifica por COD, e a chave desta tabela é a ISCO-88: o script
+#' percorre COD -> ISCO-08 -> ISCO-88, e o segundo passo é a ponte que
+#' [isco08_para_isco88()] documenta como voltando ao ponto de partida em
+#' apenas 69% dos códigos. Quem descer ao código de quatro dígitos deve saber
+#' disso, e olhar `n_pessoas` antes de ler a célula.
+#'
+#' @source Microdados da PNAD Contínua trimestral, IBGE, quatro trimestres de
+#'   2025. Gerada por `data-raw/07b_gera_populacao.R`. Os microdados **não**
+#'   viajam com o pacote (212 MB por trimestre); o que entra é esta tabela
+#'   agregada, sem indivíduo e sem identificador.
+#'   <https://ftp.ibge.gov.br/Trabalho_e_Rendimento/Pesquisa_Nacional_por_Amostra_de_Domicilios_continua/Trimestral/Microdados/>
+#' @examples
+#' # O universo, declarado: quem está ocupado e quem não está.
+#' p <- cod_populacao_br
+#' aggregate(pct ~ situacao, p[p$piso == 18 & p$sexo == "Todos", ], sum)
+#'
+#' # A composição da população ocupada pelo grande grupo, no piso de vereador.
+#' o <- p[p$piso == 18 & p$sexo == "Todos" & p$situacao == "Ocupado", ]
+#' round(tapply(o$pop, substr(o$isco88, 1, 1), sum) / sum(o$pop) * 100, 1)
+#'
+#' # A célula que só existe porque a tabela guarda quatro dígitos: a polícia
+#' # militar, que a COD aloca ao grande grupo 0 e cod_para_isco() devolve ao 5.
+#' p[p$isco88 %in% c("5161", "5162") & p$piso == 18, ]
+"cod_populacao_br"
+
+#' O universo das candidaturas: quem o formulário deixa de fora, ano a ano
+#'
+#' A decomposição do resíduo das candidaturas brasileiras, por safra e por
+#' sexo. [checa_cobertura()] diz *quanto* de um vetor recebe escore; esta
+#' tabela diz *de que é feito* o que não recebe — e mostra que a resposta muda
+#' com o tempo e com o sexo de quem se candidata.
+#'
+#' @format `data.frame` com 315 linhas:
+#' \describe{
+#'   \item{ano}{a safra eleitoral, de 1998 a 2026.}
+#'   \item{sexo}{`"Homem"`, `"Mulher"` ou `"Todos"`. A linha `"Todos"` existe
+#'     para que quem não se interessa por sexo não tenha de somar nada — e
+#'     porque a soma correta não é óbvia quando o sexo falta em alguma safra.}
+#'   \item{rubrica}{a categoria do universo. Sete valores, na ordem em que a
+#'     tabela os apresenta: `"Com escore"`, `"Ocupação sem escore"`,
+#'     `"Vínculo público"`, `"Fora da força de trabalho"`,
+#'     `"Inativo com trajetória"`, `"Outros (999)"` e `"Não informada"`.}
+#'   \item{n}{candidaturas na célula.}
+#'   \item{pct}{percentual dentro de `(ano, sexo)`. Somam 100 por construção.}
+#' }
+#'
+#' @section As sete rubricas não são a mesma coisa:
+#' Descartá-las juntas como "sem escore" trata como ruído o que é, em quase
+#' todos os casos, informação:
+#'
+#' - **Com escore** — o código traduz a um ISCO-88 com ISEI, com `ano =`
+#'   passado. É a base classificável.
+#' - **Ocupação sem escore** — o rótulo nomeia uma ocupação e o escore não
+#'   existe. O caso é `295 MEMBRO DAS FORÇAS ARMADAS`: o ISCO-88 `0110` não
+#'   tem ISEI, e `NA` é a resposta certa.
+#' - **Vínculo público** — `291 OCUPANTE DE CARGO EM COMISSÃO` e
+#'   `296`/`297`/`298 SERVIDOR PÚBLICO FEDERAL/ESTADUAL/MUNICIPAL`. A pessoa
+#'   **tem** ocupação e escolheu não a declarar. É a rubrica que quebra a
+#'   comparação com a população, onde as mesmas pessoas declaram ocupação —
+#'   veja `pct_setor_publico` em [isco_posicao_br].
+#' - **Fora da força de trabalho** — `581 DONA DE CASA` e `931 ESTUDANTE,
+#'   BOLSISTA, ESTAGIÁRIO E ASSEMELHADOS`. Posição declarada, não omissão.
+#' - **Inativo com trajetória** — aposentado, pensionista, militar reformado,
+#'   capitalista de ativos financeiros. Há ocupação passada, e
+#'   [isei_retrospectivo()] recupera parte dela.
+#' - **Outros (999)** — recusa de nomear. É a única rubrica que é ausência
+#'   pura de informação, e é a que mais cresce.
+#' - **Não informada** — códigos `-4`, `0` e `949`, ausência de registro.
+#'
+#' @section O buraco cresce, e não é o mesmo buraco:
+#' Duas leituras que a tabela permite e que uma taxa de cobertura única
+#' esconde. A primeira: **a não declaração vai a zero a partir de 2006**, o
+#' que indica preenchimento obrigatório do campo — e a recusa de nomear
+#' assume o lugar dela. A rubrica `999` sai de 13,5% em 1998 e chega a 21,9%
+#' em 2024. A cobertura de 2024 (62,0%) é mais baixa que a de 2006 (73,2%)
+#' **sem que a tradução tenha piorado**: o que mudou foi o que se declara.
+#'
+#' A segunda: **a diferença de cobertura entre os sexos está quase toda numa
+#' linha.** De 2004 em diante, `Fora da força de trabalho` é 1,2% das
+#' candidaturas de homens e 14,6% das de mulheres. Descartar o resíduo apaga
+#' mulheres em proporção muito maior, e isso inverte o sinal de proporções de
+#' classe calculadas sobre a base cheia.
+#'
+#' @section O escore sai do pacote, com o ano:
+#' A rubrica `Com escore` é definida por `tse_para_isei(cod, ano = ano)`, e o
+#' `ano` não é decorativo: sem ele, os sete códigos reaproveitados depois de
+#' 2002 receberiam o escore da ocupação errada, e a tabela mediria a cobertura
+#' de um erro. Veja [tse_quebra_2002] e [checa_periodo()].
+#'
+#' @source Microdados de candidaturas do Tribunal Superior Eleitoral, 1998 a
+#'   2026, pela microbase descrita em `data-raw/05a_microbase_2026.R`. Gerada
+#'   por `data-raw/13_gera_universo.R`. Os microdados **não** viajam com o
+#'   pacote; o que entra é esta tabela agregada, sem indivíduo e sem
+#'   identificador.
+#' @examples
+#' # A cobertura do escore, por safra — e o que a substitui quando ela cai.
+#' u <- tse_universo
+#' u[u$sexo == "Todos" & u$rubrica %in% c("Com escore", "Outros (999)"),
+#'   c("ano", "rubrica", "pct")]
+#'
+#' # A linha que explica a diferença de cobertura entre os sexos.
+#' u[u$ano == 2024 & u$rubrica == "Fora da força de trabalho", ]
+"tse_universo"
 
 #' ISEI-BR: status ocupacional estimado na PNAD Contínua
 #'

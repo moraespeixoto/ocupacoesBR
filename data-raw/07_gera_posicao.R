@@ -42,6 +42,22 @@
 #    do ano completo foi PRECISAO nas celulas finas (codigos de 4 digitos com
 #    n >= 100 pessoas passaram de 197 para 258), nao correcao de vies.
 #
+# 3. AS DUAS COLUNAS ACRESCENTADAS EM 08/09/2026, e o aviso que uma delas
+#    exige. `pct_setor_publico` sai de V4012 == 4 (empregado do setor publico,
+#    inclusive economia mista) e existe porque e a variavel que falta para
+#    medir a maior assimetria entre o TSE e a PNAD Continua: o formulario do
+#    Tribunal oferece quatro rotulos de vinculo publico que SUBSTITUEM a
+#    ocupacao, e a PNAD Continua pergunta as duas coisas em separado.
+#
+#    `pct_militar` sai de V4012 == 2 e custa a mesma passada, mas nao mede o
+#    que o nome sugere. O dicionario do IBGE define V4012 = 2 como "militar do
+#    exercito, da marinha, da aeronautica, DA POLICIA MILITAR OU DO CORPO DE
+#    BOMBEIROS MILITAR". Nao e o grande grupo 0 da ISCO-88: a pergunta sobre
+#    POSICAO e a pergunta sobre OCUPACAO discordam sobre quem e militar no
+#    Brasil, e a discordancia e a mesma que a COD registra ao alocar a policia
+#    militar ao grande grupo 0. O script mede a discordancia e a imprime ao
+#    fim, para que `?isco_posicao_br` a documente com numero apurado.
+#
 # Rodar: Rscript data-raw/07_gera_posicao.R
 # ============================================================================
 
@@ -71,11 +87,15 @@ o[, p   := peso / length(arq)]        # media do ano civil (ver decisao 1)
 o[, cp  := V4012 %in% c("5", "6")]    # conta propria + empregador = SEMPL 2
 o[, emp := V4012 == "5"]              # empregador
 o[, g11 := V4016 %in% c("3", "4")]    # 11+ empregados: o limiar da ISCO 12
+o[, pub := V4012 == "4"]              # empregado do setor publico (economia mista inclusa)
+o[, mil := V4012 == "2"]              # militar E policia/bombeiro militar — ver decisao 3
 
 resume <- function(x, chave) {
   x[, .(n_obs = .N, n_pessoas = uniqueN(pessoa),
         pct_conta_propria = round(100 * sum(p[cp])  / sum(p), 1),
         pct_empregador    = round(100 * sum(p[emp]) / sum(p), 1),
+        pct_setor_publico = round(100 * sum(p[pub]) / sum(p), 1),
+        pct_militar       = round(100 * sum(p[mil]) / sum(p), 1),
         # so afirmado onde ha empregadores suficientes para a proporcao valer
         pct_emp_11mais    = if (sum(emp) >= 25)
           round(100 * sum(p[emp & g11]) / sum(p[emp]), 1) else NA_real_),
@@ -95,10 +115,14 @@ isco_posicao_br <- data.frame(
   pct_conta_propria        = t4$pct_conta_propria,
   pct_empregador           = t4$pct_empregador,
   pct_emp_11mais           = t4$pct_emp_11mais,
+  pct_setor_publico        = t4$pct_setor_publico,
+  pct_militar              = t4$pct_militar,
   grupo                    = t2$chave[i],
   n_pessoas_grupo          = t2$n_pessoas[i],
   pct_conta_propria_grupo  = t2$pct_conta_propria[i],
   pct_empregador_grupo     = t2$pct_empregador[i],
+  pct_setor_publico_grupo  = t2$pct_setor_publico[i],
+  pct_militar_grupo        = t2$pct_militar[i],
   stringsAsFactors = FALSE)
 
 stopifnot(
@@ -109,10 +133,36 @@ stopifnot(
       isco_posicao_br$pct_conta_propria <= 100),
   # o que a tabela existe para dizer: a 61 e conta propria, a 92 nao
   isco_posicao_br$pct_conta_propria_grupo[isco_posicao_br$grupo == "61"][1] > 60,
-  isco_posicao_br$pct_conta_propria_grupo[isco_posicao_br$grupo == "92"][1] < 25
+  isco_posicao_br$pct_conta_propria_grupo[isco_posicao_br$grupo == "92"][1] < 25,
+  # as quatro marcas de posicao sao MUTUAMENTE EXCLUSIVAS no dicionario do
+  # IBGE — V4012 vale 2, 4 ou {5,6}, nunca duas —, e por isso a soma das tres
+  # colunas disjuntas nunca passa de 100. `pct_empregador` NAO entra na soma:
+  # ela e subconjunto de `pct_conta_propria` (V4012 == 5 esta dentro de {5,6}),
+  # e some-la seria contar o empregador duas vezes.
+  all(isco_posicao_br$pct_conta_propria + isco_posicao_br$pct_setor_publico +
+      isco_posicao_br$pct_militar <= 100 + 1e-9),
+  all(isco_posicao_br$pct_empregador <= isco_posicao_br$pct_conta_propria),
+  all(isco_posicao_br$pct_setor_publico >= 0 &
+      isco_posicao_br$pct_setor_publico <= 100),
+  all(isco_posicao_br$pct_militar >= 0 & isco_posicao_br$pct_militar <= 100)
 )
+
+# ---- a discordancia da decisao 3, medida e nao suposta ---------------------
+# Entre quem declara POSICAO militar (V4012 == 2), onde o codigo de OCUPACAO
+# o coloca? Se as duas perguntas concordassem, tudo cairia no grande grupo 0.
+disc <- o[mil == TRUE, .(pct = 100 * sum(p) / sum(o$p[o$mil])),
+          by = .(g1 = substr(isco88, 1, 1))][order(-pct)]
+pub_g1 <- o[pub == TRUE, .(pct = round(100 * sum(p) / sum(o$p[o$pub]), 1)),
+            by = .(g1 = substr(isco88, 1, 1))][order(g1)]
 
 usethis::use_data(isco_posicao_br, overwrite = TRUE)
 message(sprintf("posicao: %d codigos ISCO-88 | %d com n_pessoas >= 100 | %d trimestres",
                 nrow(isco_posicao_br), sum(isco_posicao_br$n_pessoas >= 100),
                 length(arq)))
+message("setor publico: ", round(100 * sum(o$p[o$pub]) / sum(o$p), 1),
+        "% dos ocupados | militar (V4012 == 2): ",
+        round(100 * sum(o$p[o$mil]) / sum(o$p), 2), "%")
+message("onde a OCUPACAO poe quem declara POSICAO militar:")
+print(disc[, .(grande_grupo = g1, pct = round(pct, 1))])
+message("distribuicao do setor publico pelo grande grupo da ISCO-88:")
+print(pub_g1)
