@@ -23,63 +23,24 @@ licençaMIT cadastro TSE1998–2026 idiomapt-BR
 ![Do código bruto de ocupação às ocupações
 classificadas](banner_ocupacoes.jpg)
 
-O uso normal
+O mapa das traduções
 
-## Uma linha, e o banco ganha uma coluna
+## Cada seta tem fonte declarada
 
-Você passa a coluna inteira de códigos e recebe a coluna traduzida,
-alinhada linha a linha. Não há loop nem tradução código a código, e o
-banco não muda de tamanho.
+As tábuas de conversão derivam das sintaxes publicadas do *International
+Stratification and Mobility File*, de Ganzeboom e Treiman, e da tábua
+oficial do Ministério do Trabalho. São geradas por script a partir dos
+arquivos originais, nunca transcritas à mão.
 
-Cada régua é uma função, e cada função é uma coluna nova. Como todas são
-vetorizadas puras, elas cabem no mesmo
-[`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html), em
-qualquer ordem, e o pipeline não sai do dplyr. O artigo [Com o
-tidyverse](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md)
-percorre um pipeline inteiro assim.
+A do TSE para a ISCO-88 é a única autoral. É por isso que ela carrega os
+rótulos e a régua de qualidade: é a parte que ninguém pode conferir
+contra um documento oficial.
 
-O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de
-2002: em 1998 o código 214 era delegado de polícia, e hoje é escultor e
-pintor. Sem o ano, aquela linha receberia calada o escore de escultor.
-Com ele, o pacote devolve `NA` e avisa.
+[Ver as tabelas na referência
+→](https://moraespeixoto.github.io/ocupacoesBR/reference/index.html#as-tabelas)
 
-R
-
-``` r
-
-library(dplyr)
-library(ocupacoesBR)
-
-dados |>
-  mutate(
-    isco  = tse_para_isco(CD_OCUPACAO, ano = ANO_ELEICAO),
-    isei  = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO),
-    prest = tse_para_prestigio(CD_OCUPACAO, ano = ANO_ELEICAO),
-    egp   = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO,
-                         avisar = FALSE),
-    classe = tse_para_classe(CD_OCUPACAO, ano = ANO_ELEICAO)
-  ) |>
-  select(-DS_CARGO) |>
-  glimpse()
-#> Warning: There were 5 warnings in `mutate()`.
-#> The first warning was:
-#> ℹ In argument: `isco = tse_para_isco(CD_OCUPACAO, ano =
-#>   ANO_ELEICAO)`.
-#> Caused by warning:
-#> ! 1 candidatura(s) usam código(s) que o TSE REUTILIZOU depois (214): naquele ano designavam outra ocupação, e voltam NA.
-#> Veja ?tse_vigencia.
-#> ℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining
-#>   warnings.
-#> Rows: 5
-#> Columns: 7
-#> $ ANO_ELEICAO <int> 2026, 2026, 2026, 2026, 1998
-#> $ CD_OCUPACAO <chr> "131", "601", "298", "999", "214"
-#> $ isco        <chr> "2421", "6100", NA, NA, NA
-#> $ isei        <dbl> 85, 23, NA, NA, NA
-#> $ prest       <dbl> 73, 38, NA, NA, NA
-#> $ egp         <chr> "I: dirigentes e profissionais superiore…
-#> $ classe      <chr> "Profissionais de nível superior", "Trab…
-```
+![As traduções que o pacote faz, e as que não
+faz](reference/figures/rede_crosswalks.png)
 
 Quatro portas de entrada
 
@@ -203,24 +164,63 @@ curso](https://moraespeixoto.github.io/ocupacoesBR/articles/safra-2026.md)
 Nenhum código novo: os 210 códigos declarados em 2026 são subconjunto
 dos 275 que o pacote já cobria.
 
-O mapa das traduções
+O uso normal
 
-## Cada seta tem fonte declarada
+## Uma linha, e o banco ganha uma coluna
 
-As tábuas de conversão derivam das sintaxes publicadas do *International
-Stratification and Mobility File*, de Ganzeboom e Treiman, e da tábua
-oficial do Ministério do Trabalho. São geradas por script a partir dos
-arquivos originais, nunca transcritas à mão.
+Você passa a coluna inteira de códigos e recebe a coluna traduzida,
+alinhada linha a linha. Não há loop nem tradução código a código, e o
+banco não muda de tamanho.
 
-A do TSE para a ISCO-88 é a única autoral. É por isso que ela carrega os
-rótulos e a régua de qualidade: é a parte que ninguém pode conferir
-contra um documento oficial.
+Cada régua é uma função, e cada função é uma coluna nova. Como todas são
+vetorizadas puras, elas cabem no mesmo
+[`mutate()`](https://dplyr.tidyverse.org/reference/mutate.html), em
+qualquer ordem, e o pipeline não sai do dplyr. O artigo [Com o
+tidyverse](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md)
+percorre um pipeline inteiro assim.
 
-[Ver as tabelas na referência
-→](https://moraespeixoto.github.io/ocupacoesBR/reference/index.html#as-tabelas)
+O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de
+2002: em 1998 o código 214 era delegado de polícia, e hoje é escultor e
+pintor. Sem o ano, aquela linha receberia calada o escore de escultor.
+Com ele, o pacote devolve `NA` e avisa.
 
-![As traduções que o pacote faz, e as que não
-faz](reference/figures/rede_crosswalks.png)
+R
+
+``` r
+
+library(dplyr)
+library(ocupacoesBR)
+
+dados |>
+  mutate(
+    isco  = tse_para_isco(CD_OCUPACAO, ano = ANO_ELEICAO),
+    isei  = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO),
+    prest = tse_para_prestigio(CD_OCUPACAO, ano = ANO_ELEICAO),
+    egp   = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO,
+                         avisar = FALSE),
+    classe = tse_para_classe(CD_OCUPACAO, ano = ANO_ELEICAO)
+  ) |>
+  select(-DS_CARGO) |>
+  glimpse()
+#> Warning: There were 5 warnings in `mutate()`.
+#> The first warning was:
+#> ℹ In argument: `isco = tse_para_isco(CD_OCUPACAO, ano =
+#>   ANO_ELEICAO)`.
+#> Caused by warning:
+#> ! 1 candidatura(s) usam código(s) que o TSE REUTILIZOU depois (214): naquele ano designavam outra ocupação, e voltam NA.
+#> Veja ?tse_vigencia.
+#> ℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining
+#>   warnings.
+#> Rows: 5
+#> Columns: 7
+#> $ ANO_ELEICAO <int> 2026, 2026, 2026, 2026, 1998
+#> $ CD_OCUPACAO <chr> "131", "601", "298", "999", "214"
+#> $ isco        <chr> "2421", "6100", NA, NA, NA
+#> $ isei        <dbl> 85, 23, NA, NA, NA
+#> $ prest       <dbl> 73, 38, NA, NA, NA
+#> $ egp         <chr> "I: dirigentes e profissionais superiore…
+#> $ classe      <chr> "Profissionais de nível superior", "Trab…
+```
 
 Publicações
 
