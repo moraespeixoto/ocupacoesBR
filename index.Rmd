@@ -61,48 +61,27 @@ remotes::install_github("moraespeixoto/ocupacoesBR")
 </div>
 </div>
 
-<div class="ocb-wrap ocb-secao ocb-duas-colunas">
+<div class="ocb-wrap ocb-secao ocb-mapa">
 <div>
 
-<span class="ocb-kicker ocb-kicker-laranja">O uso normal</span>
+<span class="ocb-kicker">O mapa das traduções</span>
 
-<h2>Uma linha, e o banco ganha uma coluna</h2>
+<h2>Cada seta tem fonte declarada</h2>
 
-Você passa a coluna inteira de códigos e recebe a coluna traduzida, alinhada
-linha a linha. Não há loop nem tradução código a código, e o banco não muda de
-tamanho.
+As tábuas de conversão derivam das sintaxes publicadas do *International
+Stratification and Mobility File*, de Ganzeboom e Treiman, e da tábua oficial do
+Ministério do Trabalho. São geradas por script a partir dos arquivos originais,
+nunca transcritas à mão.
 
-Cada régua é uma função, e cada função é uma coluna nova. Como todas são
-vetorizadas puras, elas cabem no mesmo `mutate()`, em qualquer ordem, e o
-pipeline não sai do dplyr. O artigo [Com o tidyverse](articles/tidyverse.html)
-percorre um pipeline inteiro assim.
+A do TSE para a ISCO-88 é a única autoral. É por isso que ela carrega os rótulos
+e a régua de qualidade: é a parte que ninguém pode conferir contra um documento
+oficial.
 
-O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de 2002: em
-1998 o código 214 era delegado de polícia, e hoje é escultor e pintor. Sem o
-ano, aquela linha receberia calada o escore de escultor. Com ele, o pacote
-devolve `NA` e avisa.
+<a class="ocb-link-forte" href="reference/index.html#as-tabelas">Ver as tabelas na referência →</a>
 
 </div>
-<div class="ocb-terminal">
-<div class="ocb-terminal-barra"><span class="ocb-ponto ocb-ponto-l"></span><span class="ocb-ponto ocb-ponto-a"></span><span class="ocb-ponto ocb-ponto-v"></span><span class="ocb-terminal-nome">R</span></div>
-
-```{r uso-normal, message = FALSE}
-library(dplyr)
-library(ocupacoesBR)
-
-dados |>
-  mutate(
-    isco  = tse_para_isco(CD_OCUPACAO, ano = ANO_ELEICAO),
-    isei  = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO),
-    prest = tse_para_prestigio(CD_OCUPACAO, ano = ANO_ELEICAO),
-    egp   = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO,
-                         avisar = FALSE),
-    classe = tse_para_classe(CD_OCUPACAO, ano = ANO_ELEICAO)
-  ) |>
-  select(-DS_CARGO) |>
-  glimpse()
-```
-
+<div class="ocb-moldura">
+<img src="reference/figures/rede_crosswalks.png" alt="As traduções que o pacote faz, e as que não faz" />
 </div>
 </div>
 
@@ -233,27 +212,48 @@ dados |>
 </div>
 </div>
 
-<div class="ocb-wrap ocb-secao ocb-mapa">
+<div class="ocb-wrap ocb-secao ocb-duas-colunas">
 <div>
 
-<span class="ocb-kicker">O mapa das traduções</span>
+<span class="ocb-kicker ocb-kicker-laranja">O uso normal</span>
 
-<h2>Cada seta tem fonte declarada</h2>
+<h2>Uma linha, e o banco ganha uma coluna</h2>
 
-As tábuas de conversão derivam das sintaxes publicadas do *International
-Stratification and Mobility File*, de Ganzeboom e Treiman, e da tábua oficial do
-Ministério do Trabalho. São geradas por script a partir dos arquivos originais,
-nunca transcritas à mão.
+Você passa a coluna inteira de códigos e recebe a coluna traduzida, alinhada
+linha a linha. Não há loop nem tradução código a código, e o banco não muda de
+tamanho.
 
-A do TSE para a ISCO-88 é a única autoral. É por isso que ela carrega os rótulos
-e a régua de qualidade: é a parte que ninguém pode conferir contra um documento
-oficial.
+Cada régua é uma função, e cada função é uma coluna nova. Como todas são
+vetorizadas puras, elas cabem no mesmo `mutate()`, em qualquer ordem, e o
+pipeline não sai do dplyr. O artigo [Com o tidyverse](articles/tidyverse.html)
+percorre um pipeline inteiro assim.
 
-<a class="ocb-link-forte" href="reference/index.html#as-tabelas">Ver as tabelas na referência →</a>
+O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de 2002: em
+1998 o código 214 era delegado de polícia, e hoje é escultor e pintor. Sem o
+ano, aquela linha receberia calada o escore de escultor. Com ele, o pacote
+devolve `NA` e avisa.
 
 </div>
-<div class="ocb-moldura">
-<img src="reference/figures/rede_crosswalks.png" alt="As traduções que o pacote faz, e as que não faz" />
+<div class="ocb-terminal">
+<div class="ocb-terminal-barra"><span class="ocb-ponto ocb-ponto-l"></span><span class="ocb-ponto ocb-ponto-a"></span><span class="ocb-ponto ocb-ponto-v"></span><span class="ocb-terminal-nome">R</span></div>
+
+```{r uso-normal, message = FALSE}
+library(dplyr)
+library(ocupacoesBR)
+
+dados |>
+  mutate(
+    isco  = tse_para_isco(CD_OCUPACAO, ano = ANO_ELEICAO),
+    isei  = tse_para_isei(CD_OCUPACAO, ano = ANO_ELEICAO),
+    prest = tse_para_prestigio(CD_OCUPACAO, ano = ANO_ELEICAO),
+    egp   = tse_para_egp(CD_OCUPACAO, ano = ANO_ELEICAO,
+                         avisar = FALSE),
+    classe = tse_para_classe(CD_OCUPACAO, ano = ANO_ELEICAO)
+  ) |>
+  select(-DS_CARGO) |>
+  glimpse()
+```
+
 </div>
 </div>
 
