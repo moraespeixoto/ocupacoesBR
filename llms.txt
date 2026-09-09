@@ -20,8 +20,7 @@ usar?](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
 [![R-CMD-check](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml)
 licençaMIT cadastro TSE1998–2026 idiomapt-BR
 
-![Do código bruto de ocupação às ocupações
-classificadas](banner_ocupacoes.jpg)
+![Do código bruto de ocupação às ocupações classificadas](logo.png)
 
 O mapa das traduções
 
