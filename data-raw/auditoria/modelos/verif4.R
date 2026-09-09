@@ -1,4 +1,4 @@
-e <- new.env(); load("/home/nerd/novissimos_dados_tse/resultados_eleicoes_98_24.Rda", envir=e)
+e <- new.env(); load("/dados/novissimos_dados_tse/resultados_eleicoes_98_24.Rda", envir=e)
 d <- get(ls(e)[1], envir=e)
 cat("objeto:", ls(e)[1], "| linhas:", nrow(d), "\n")
 cn <- names(d)[grepl("OCUPACAO|ANO_ELEICAO", names(d), ignore.case=TRUE)]

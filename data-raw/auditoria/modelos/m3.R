@@ -1,5 +1,5 @@
 suppressMessages(library(ocupacoesBR))
-G <- "/home/nerd/ocupacoesBR/data-raw/fontes/ganzeboom"
+G <- "/dados/ocupacoesBR/data-raw/fontes/ganzeboom"
 le <- function(f, nm){
   l <- readLines(file.path(G,f), warn=FALSE, encoding="UTF-8")
   m <- regmatches(l, regexec("^\\s*recode\\s+@\\w+\\s*\\(\\s*([0-9]+)\\s*=\\s*([0-9.]+)\\s*\\)", l))

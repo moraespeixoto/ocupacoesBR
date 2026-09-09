@@ -19,14 +19,14 @@
 # coeficiente, porque `sd_log` mostra a dispersão DENTRO de cada nível de
 # status — que é o fenômeno que o artigo discute, e que a correlação só resume.
 #
-# FONTE: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds (mesma de
+# FONTE: /dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds (mesma de
 #   `05_gera_validacao.R`). Não versionada. Ajuste OCUPACOESBR_MICROBASE.
 #
 # Rodar: Rscript data-raw/08_gera_dispersao.R
 # ============================================================================
 
 MICRO <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE",
-                                "~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
+                                "/dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
 if (!file.exists(MICRO))
   stop("microbase não encontrada em:\n  ", MICRO,
        "\nAponte OCUPACOESBR_MICROBASE para o arquivo.", call. = FALSE)

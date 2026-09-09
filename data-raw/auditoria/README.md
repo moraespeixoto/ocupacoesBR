@@ -14,7 +14,7 @@ Este diretório está dentro de `data-raw/`, logo fora do tarball
 | `vig.rds` | 334 vigências `(cod, de, ate, rotulo)` do cadastro do TSE, 1998–2024 | **é o entregável do B1**, já computado |
 | `oc.rds` | 164 ocupações com `n`, `isei`, `med_patrim`, `pct_sup` | **é o dataset `tse_validacao` do B3**, já computado |
 
-Ambos derivam de `/home/nerd/novissimos_dados_tse/resultados_eleicoes_98_24.Rda`
+Ambos derivam de `/dados/novissimos_dados_tse/resultados_eleicoes_98_24.Rda`
 (397 MB) e de `DADOS/raw/microdados_classe_v2.rds` (51 MB), que não estão em git.
 São agregados — nenhum caso individual, nada identificável.
 

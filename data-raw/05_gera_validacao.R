@@ -13,7 +13,7 @@
 # uma medida de posição ocupacional é definida. Não há microdado aqui: 220
 # linhas, nada identificável.
 #
-# FONTE: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds, produzida por
+# FONTE: /dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds, produzida por
 #   `05a_microbase_2026.R`: as candidaturas de 1998 a 2024 do
 #   `microdados_classe_v3.rds` (classe_recrutamento_politico), mais a safra de
 #   2026 anexada. A v2 somava cada bem duas vezes; a troca e de 09/2026 e o
@@ -30,7 +30,7 @@
 # ============================================================================
 
 MICRO <- Sys.getenv("OCUPACOESBR_MICROBASE",
-                    "~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds")
+                    "/dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds")
 MICRO <- path.expand(MICRO)
 # O piso vale para as DUAS contagens, e a segunda é a que importa: a mediana de
 # patrimônio precisa de observações COM patrimônio, não de candidaturas. Sem o

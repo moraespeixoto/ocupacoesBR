@@ -1,5 +1,5 @@
 suppressMessages(library(ocupacoesBR))
-G <- "/home/nerd/ocupacoesBR/data-raw/fontes/ganzeboom"
+G <- "/dados/ocupacoesBR/data-raw/fontes/ganzeboom"
 l <- readLines(file.path(G,"isco0888.sps"), warn=FALSE, encoding="UTF-8")
 m <- regmatches(l, gregexpr("\\(\\s*-?([0-9]+)\\s*=\\s*([0-9]+)(\\.[0-9]+)?\\s*\\)", l))
 pares <- unlist(m)

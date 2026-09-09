@@ -10,7 +10,7 @@ doc/
 Meta/
 figure/
 
-# microdados da PNAD: ficam FORA do repositorio, em /home/nerd/dados_pnad.
+# microdados da PNAD: ficam FORA do repositorio, em /dados/dados_pnad.
 # Estas linhas sao um cinto de seguranca caso alguem mude o caminho.
 pnad*/
 *PNADC*

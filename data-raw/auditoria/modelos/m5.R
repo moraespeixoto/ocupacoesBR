@@ -1,6 +1,6 @@
 suppressMessages(library(ocupacoesBR))
 env <- new.env()
-old <- setwd("/home/nerd/ocupacoesBR/data-raw/fontes")
+old <- setwd("/dados/ocupacoesBR/data-raw/fontes")
 suppressMessages(sys.source("R/classe_ocupacao.R", envir=env))
 setwd(old)
 M <- ocupacoesBR::isco88_medidas

@@ -21,7 +21,7 @@
 # preciso estar inscrito na OAB. O contraste entre os dois regimes é o que a
 # documentação afirma, e agora ele se recalcula.
 #
-# FONTE: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds (mesma de
+# FONTE: /dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds (mesma de
 #   `05_gera_validacao.R` e `08_gera_dispersao.R`). Não versionada.
 #   Ajuste OCUPACOESBR_MICROBASE.
 #
@@ -29,7 +29,7 @@
 # ============================================================================
 
 MICRO <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE",
-                                "~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
+                                "/dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
 if (!file.exists(MICRO))
   stop("microbase nao encontrada em:\n  ", MICRO,
        "\nAponte OCUPACOESBR_MICROBASE para o arquivo.", call. = FALSE)

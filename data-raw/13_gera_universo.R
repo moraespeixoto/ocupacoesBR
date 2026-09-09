@@ -24,7 +24,7 @@
 # mostrar o que a vinheta `qual-regua` hoje so afirma em prosa.
 #
 # FONTE: a mesma microbase de `05_gera_validacao.R`,
-#   ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds (env
+#   /dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds (env
 #   OCUPACOESBR_MICROBASE). NAO versionada. O que entra no pacote e esta
 #   tabela agregada: sem individuo, sem identificador.
 #
@@ -46,7 +46,7 @@
 # ============================================================================
 
 MICRO <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE",
-                                "~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
+                                "/dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
 if (!file.exists(MICRO))
   stop("microbase nao encontrada em:\n  ", MICRO,
        "\nAponte OCUPACOESBR_MICROBASE para o arquivo.", call. = FALSE)

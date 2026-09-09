@@ -66,7 +66,7 @@
 #   ~/classe_recrutamento_politico/DADOS/raw/microdados_classe_v3.rds (1998-2024)
 #   ~/novissimos_dados_tse/bancos/candidaturas/candidaturas_2026.rds
 #
-# SAÍDA: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds
+# SAÍDA: /dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds
 #   Nome próprio, e fora da árvore do `vices_do_brasil`, para não colidir com
 #   a microbase que aquele projeto gera para o artigo dele.
 #
@@ -78,7 +78,7 @@ MICRO_V2 <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE_V2",
 SAFRA    <- path.expand(Sys.getenv("OCUPACOESBR_SAFRA_2026",
                         "~/novissimos_dados_tse/bancos/candidaturas/candidaturas_2026.rds"))
 SAIDA    <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE",
-                        "~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
+                        "/dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
 
 for (f in c(MICRO_V2, SAFRA))
   if (!file.exists(f)) stop("não encontrado:\n  ", f, call. = FALSE)

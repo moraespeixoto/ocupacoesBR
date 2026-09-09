@@ -10,12 +10,12 @@
 # encontrou defasados. Mesma logica de `09b_sensibilidade_isei_br.R`: o numero
 # que a prosa afirma tem de ter um lugar de onde sair.
 #
-# FONTE: ~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds
+# FONTE: /dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds
 # Rodar: Rscript data-raw/11_confere_retrospectivo.R
 # ============================================================================
 
 MICRO <- path.expand(Sys.getenv("OCUPACOESBR_MICROBASE",
-                                "~/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
+                                "/dados/dados_ocupacoesBR/microbase_validacao_1998_2026.rds"))
 if (!file.exists(MICRO))
   stop("microbase nao encontrada em:\n  ", MICRO, call. = FALSE)
 
