@@ -199,6 +199,12 @@ body > .container:not(.template-home) main table {
 .ocb-btn-nu { padding: 12px 6px; }
 
 .ocb-badges { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+/* O markdown embrulha o conteudo do bloco num <p>, de modo que os badges nao
+   sao filhos diretos de .ocb-badges: o align-items acima nao os alcancava, e
+   cada um se alinhava pela linha de base do texto. Como o badge do Actions e
+   uma imagem e os outros sao spans, a imagem ficava fora de eixo. A correcao e
+   fazer do proprio <p> o flex container. */
+.ocb-badges p { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; margin: 0; }
 .ocb-badge {
   display: inline-flex; font-size: 12px; font-weight: 600;
   border-radius: 4px; overflow: hidden;
@@ -207,12 +213,18 @@ body > .container:not(.template-home) main table {
 .ocb-badge-k { background: var(--ocb-sup); color: var(--ocb-texto); padding: 3px 8px; }
 .ocb-badge-v { background: #1E8A99; color: #FFFFFF; padding: 3px 8px; }
 .ocb-badge-v.ocb-verde { background: #2E9E5B; }
+/* O mapa e denso e o site o exibe com cerca de 620px. Quem quiser conferir uma
+   seta abre o arquivo em tamanho cheio; a lupa no cursor e o unico aviso de que
+   da para fazer isso. */
+.ocb-moldura a { display: block; cursor: zoom-in; }
+
 .ocb-badge-img { display: inline-flex; }
-.ocb-badge-img img { height: 22px; display: block; }
+/* 25px e a altura que os badges proprios tomam do seu proprio texto. */
+.ocb-badge-img img { height: 25px; display: block; }
 
 .ocb-hero-arte { display: flex; justify-content: center; align-items: center; }
 .ocb-hero-arte img {
-  width: 100%; max-width: 620px; height: auto;
+  width: 100%; max-width: 420px; height: auto;
   /* A arte do hero e o proprio logo do pacote (man/figures/logo.png): um
      hexagono regular de 600x600 com fundo TRANSPARENTE. Por isso aqui nao ha
      cartao -- nem cor de fundo, nem border-radius, nem sombra retangular, que

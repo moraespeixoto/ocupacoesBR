@@ -81,7 +81,7 @@ oficial.
 
 </div>
 <div class="ocb-moldura">
-<img src="reference/figures/rede_crosswalks.png" alt="As traduções que o pacote faz, e as que não faz" />
+<a href="reference/figures/rede_crosswalks.png" title="Abrir o mapa em tamanho cheio"><img src="reference/figures/rede_crosswalks.png" alt="As traduções que o pacote faz, e as que não faz" /></a>
 </div>
 </div>
 
