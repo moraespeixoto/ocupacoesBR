@@ -61,9 +61,9 @@ número de candidaturas, o que muda a população-alvo de códigos para
 candidaturas — é escolha defensável, mas o erro-padrão de `lm` ponderado
 não a descreve, e o ISEI é atributo determinístico do código, não
 estimativa com variância inversa a `n`. Trocando a especificação: com
-erro-padrão robusto (HC3) o coeficiente fica em −6,2 com p = 0,14; sem
-ponderação, −5,3 com p = 0,012; com `pct_mulher` contínuo em vez da
-dicotomia, −0,09 por ponto percentual com p = 0,08. O sinal e a ordem de
+erro-padrão robusto (HC3) o coeficiente fica em -6,2 com p = 0,14; sem
+ponderação, -5,3 com p = 0,012; com `pct_mulher` contínuo em vez da
+dicotomia, -0,09 por ponto percentual com p = 0,08. O sinal e a ordem de
 grandeza sobrevivem a todas; o `p = 0,043` é da primeira. Use o
 intervalo de especificações, não o `p` pontual.
 
