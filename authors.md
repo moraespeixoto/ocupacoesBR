@@ -3,6 +3,7 @@
 ## Authors
 
 - **Vitor Peixoto**. Author, maintainer.
+  [](https://orcid.org/0000-0001-6618-3311)
 
 ## Citation
 

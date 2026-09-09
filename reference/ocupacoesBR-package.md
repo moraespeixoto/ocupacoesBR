@@ -56,8 +56,10 @@ Useful links:
 
 ## Author
 
-**Maintainer**: Vitor Peixoto <vpeixoto@uenf.br>
+**Maintainer**: Vitor Peixoto <moraespeixoto@gmail.com>
+([ORCID](https://orcid.org/0000-0001-6618-3311))
 
 Authors:
 
-- Vitor Peixoto <vpeixoto@uenf.br>
+- Vitor Peixoto <moraespeixoto@gmail.com>
+  ([ORCID](https://orcid.org/0000-0001-6618-3311))
