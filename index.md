@@ -38,8 +38,8 @@ contra um documento oficial.
 [Ver as tabelas na referência
 →](https://moraespeixoto.github.io/ocupacoesBR/reference/index.html#as-tabelas)
 
-![As traduções que o pacote faz, e as que não
-faz](reference/figures/rede_crosswalks.png)
+[![As traduções que o pacote faz, e as que não
+faz](reference/figures/rede_crosswalks.png)](https://moraespeixoto.github.io/ocupacoesBR/reference/figures/rede_crosswalks.png "Abrir o mapa em tamanho cheio")
 
 Quatro portas de entrada
 
