@@ -71,6 +71,16 @@ declara `Language: pt-BR`, como a política do CRAN pede para pacote que não é
 em inglês, e o aviso deixou de ocorrer. Declarar a língua era a correção certa;
 capitalizar "Ao", "Em" e "Da" teria produzido um título agramatical.
 
+## O e-mail do mantenedor
+
+O campo `Authors@R` traz `moraespeixoto@gmail.com`, um endereço pessoal, e não
+o institucional do autor. A escolha é deliberada e tem uma razão só: é o
+endereço que sobrevive a uma mudança de vínculo. O canal por onde o CRAN cobra
+o mantenedor precisa continuar respondendo daqui a dez anos, e um endereço de
+universidade morre com o vínculo — o pacote ficaria sem canal e seria
+arquivado por silêncio. O ORCID do autor entra no mesmo campo e liga o pacote
+ao registro público, que é onde a filiação institucional é verificável.
+
 ## Materiais de terceiros
 
 O pacote redistribui, em `inst/extdata/fontes/`, as sintaxes SPSS publicadas do

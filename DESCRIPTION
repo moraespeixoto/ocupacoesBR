@@ -2,7 +2,8 @@ Package: ocupacoesBR
 Title: Traduz a Ocupação Declarada ao TSE em Classificações Padronizadas
 Version: 0.8.0
 Authors@R:
-    person("Vitor", "Peixoto", , "vpeixoto@uenf.br", role = c("aut", "cre"))
+    person("Vitor", "Peixoto", , "moraespeixoto@gmail.com", role = c("aut", "cre"),
+           comment = c(ORCID = "0000-0001-6618-3311"))
 Description: Traduz a ocupação registrada em fontes brasileiras para a Classificação
     Internacional Uniforme de Ocupações (ISCO-88 e ISCO-08) e, a partir dela,
     para medidas padronizadas de posição social: o índice socioeconômico ISEI, o

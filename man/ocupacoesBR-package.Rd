@@ -53,11 +53,11 @@ Useful links:
 
 }
 \author{
-\strong{Maintainer}: Vitor Peixoto \email{vpeixoto@uenf.br}
+\strong{Maintainer}: Vitor Peixoto \email{moraespeixoto@gmail.com} (\href{https://orcid.org/0000-0001-6618-3311}{ORCID})
 
 Authors:
 \itemize{
-  \item Vitor Peixoto \email{vpeixoto@uenf.br}
+  \item Vitor Peixoto \email{moraespeixoto@gmail.com} (\href{https://orcid.org/0000-0001-6618-3311}{ORCID})
 }
 
 }
