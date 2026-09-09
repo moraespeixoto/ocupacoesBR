@@ -25,6 +25,14 @@ PLANO*.md
 GRAPHIFY.md
 /auditoria.html
 /graphify.html
+# O site construido. Ele NAO e versionado aqui desde 09/09/2026: o workflow
+# pkgdown reconstroi o site no runner (Rscript data-raw/constroi_site.R) e
+# publica em gh-pages, que e de onde o GitHub Pages serve. Versionar docs/ em
+# main criava uma segunda copia que ninguem lia -- metade dos arquivos do
+# repositorio e 71% do peso -- e enterrava o trabalho de verdade no diff.
+# O site continua versionado: em gh-pages.
+docs/
+
 # Added by code-review-graph
 .code-review-graph/
 

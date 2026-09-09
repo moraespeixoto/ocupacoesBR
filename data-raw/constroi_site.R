@@ -18,6 +18,16 @@
 # por esquecimento.
 #
 # Rodar: Rscript data-raw/constroi_site.R
+#
+# QUEM PUBLICA, desde 09/09/2026: nao e este script rodado na sua maquina. O
+# workflow pkgdown roda ESTE MESMO script no runner a cada push em main e
+# publica o docs/ que ele gera no branch gh-pages, que e de onde o GitHub Pages
+# serve o site. O docs/ da sua maquina nao e mais versionado (esta no
+# .gitignore) e nao sai daqui.
+#
+# Rodar localmente continua valendo para uma coisa: CONFERIR o site antes de
+# empurrar, abrindo docs/index.html. Se o que voce ve local estiver certo, o que
+# o runner publica sera igual -- ele parte do mesmo script e do mesmo commit.
 # ============================================================================
 
 # os .md da raiz que SAO do pacote e devem virar pagina

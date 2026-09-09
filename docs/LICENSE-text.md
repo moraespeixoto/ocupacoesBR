@@ -1,4 +1,0 @@
-# Licença
-
-    YEAR: 2026
-    COPYRIGHT HOLDER: Vitor de Moraes Peixoto

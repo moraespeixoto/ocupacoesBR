@@ -1,9 +1,12 @@
 # Reconstroi e publica o site do pacote a cada push em main.
 #
-# Ele so entra em acao depois que o repositorio for aberto e o GitHub Pages
-# apontar para o branch gh-pages. Enquanto o site for servido de main/docs, o
-# build local (Rscript data-raw/constroi_site.R) e quem publica, e este
-# workflow fica como rede de seguranca.
+# Desde 09/09/2026 ele E quem publica: o repositorio foi aberto, o GitHub Pages
+# aponta para gh-pages, e o docs/ deixou de ser versionado em main. O build
+# local (Rscript data-raw/constroi_site.R) serve para conferir o site antes de
+# empurrar, nao para publica-lo.
+#
+# Note que o passo abaixo reconstroi o site do zero com o mesmo script -- ele
+# nao copia um docs/ commitado, que nao existe mais.
 on:
   push:
     branches: [main]
