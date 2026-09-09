@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
 <li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul>
 </li>
@@ -128,12 +129,23 @@ Vale para qualquer uma das funções — troque <code>tse_para_isei</code>
 por <code>tse_para_prestigio</code>, <code>tse_para_egp</code>,
 <code>tse_para_classe</code> ou <code>tse_para_estrato</code> e o
 comportamento é o mesmo.</p>
+<p><strong>Passe o <code>ano</code> sempre nomeado</strong>, como nos
+exemplos acima. Ele é o segundo argumento de
+<code><a href="../reference/tse_para_isei.html">tse_para_isei()</a></code>, mas não de todas: em
+<code><a href="../reference/tse_para_classe.html">tse_para_classe()</a></code> o segundo é <code>superior</code>, e em
+<code><a href="../reference/tse_para_egp.html">tse_para_egp()</a></code> é <code>conta_propria</code>. Escrever
+<code>tse_para_classe(cod, ano_vec)</code> por analogia entrega o ano
+onde se espera uma marca binária — o pacote agora recusa isso com erro,
+mas até 09/2026 ele o lia como “sim” em toda linha e devolvia a coluna
+errada em silêncio.</p>
 <p>O <code>ano</code> também é uma coluna, e é ele que resolve a quebra
 de cadastro de 2002. A última linha do exemplo mostra por quê: em 1998 o
-código 214 era delegado de polícia, e só a partir de 2002 passou a ser
-escultor e pintor. Com <code>ano</code>, o pacote devolve
-<code>NA</code> e avisa; sem ele, aquela linha receberia calada o escore
-de escultor.</p>
+código 214 era delegado de polícia, e hoje é escultor e pintor. Com
+<code>ano</code>, o pacote devolve <code>NA</code> e avisa; sem ele,
+aquela linha receberia calada o escore de escultor.</p>
+<p>O cadastro foi reeditado em 2002, mas o 214 só reaparece com o rótulo
+novo em 2006 — e é essa segunda data que o corte usa. Os detalhes estão
+em <a href="percursos.html">Os percursos</a>.</p>
 <p>O resto deste artigo é sobre o que essa coluna nova significa.</p>
 </div>
 <div class="section level2">
@@ -152,7 +164,7 @@ as medidas.</p>
 <p>Oito das ocupações mais declaradas nas candidaturas brasileiras,
 passando por todas as portas de uma vez:</p>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">cods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"601"</span>, <span class="st">"131"</span>, <span class="st">"257"</span>, <span class="st">"278"</span>, <span class="st">"298"</span>, <span class="st">"169"</span>, <span class="st">"581"</span>, <span class="st">"923"</span><span class="op">)</span></span>
+<code class="sourceCode R"><span><span class="va">cods</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"601"</span>, <span class="st">"131"</span>, <span class="st">"257"</span>, <span class="st">"278"</span>, <span class="st">"169"</span>, <span class="st">"298"</span>, <span class="st">"581"</span>, <span class="st">"923"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
 <span>  cod     <span class="op">=</span> <span class="va">cods</span>,</span>
@@ -171,8 +183,8 @@ passando por todas as portas de uma vez:</p>
 <span><span class="co">#&gt; 2 131                             ADVOGADO 2421   85     73</span></span>
 <span><span class="co">#&gt; 3 257                           EMPRESARIO 1200   68     60</span></span>
 <span><span class="co">#&gt; 4 278                             VEREADOR 1100   70     67</span></span>
-<span><span class="co">#&gt; 5 298           SERVIDOR PÚBLICO MUNICIPAL &lt;NA&gt;   NA     NA</span></span>
-<span><span class="co">#&gt; 6 169                          COMERCIANTE 1300   51     50</span></span>
+<span><span class="co">#&gt; 5 169                          COMERCIANTE 1300   51     50</span></span>
+<span><span class="co">#&gt; 6 298           SERVIDOR PÚBLICO MUNICIPAL &lt;NA&gt;   NA     NA</span></span>
 <span><span class="co">#&gt; 7 581                         DONA DE CASA &lt;NA&gt;   NA     NA</span></span>
 <span><span class="co">#&gt; 8 923 APOSENTADO (EXCETO SERVIDOR PUBLICO) &lt;NA&gt;   NA     NA</span></span>
 <span><span class="co">#&gt;                                        egp                           classe</span></span>
@@ -180,23 +192,25 @@ passando por todas as portas de uma vez:</p>
 <span><span class="co">#&gt; 2 I: dirigentes e profissionais superiores  Profissionais de nível superior</span></span>
 <span><span class="co">#&gt; 3 I: dirigentes e profissionais superiores     Proprietários e empregadores</span></span>
 <span><span class="co">#&gt; 4 I: dirigentes e profissionais superiores           Dirigentes e políticos</span></span>
-<span><span class="co">#&gt; 5                                     &lt;NA&gt; Vínculo público não especificado</span></span>
-<span><span class="co">#&gt; 6        IVb: conta própria sem empregados     Proprietários e empregadores</span></span>
+<span><span class="co">#&gt; 5        IVb: conta própria sem empregados     Proprietários e empregadores</span></span>
+<span><span class="co">#&gt; 6                                     &lt;NA&gt; Vínculo público não especificado</span></span>
 <span><span class="co">#&gt; 7                                     &lt;NA&gt;          Fora da PEA por posição</span></span>
 <span><span class="co">#&gt; 8                                     &lt;NA&gt;           Inativo com trajetória</span></span></code></pre></div>
-<p>O aviso que apareceu junto não é ruído: o EGP distingue quem
-supervisiona de quem não supervisiona, e o cadastro do TSE não registra
-isso. O pacote calcula assim mesmo, mas diz o que ficou indeterminado.
-Nenhuma função deste pacote devolve um número em silêncio quando sabe
-que ele está incompleto.</p>
+<p>O aviso que apareceu junto não é ruído. O EGP não se define pela
+ocupação sozinha: ele precisa da <strong>posição no emprego</strong> —
+quem é empregador, quem trabalha por conta própria, quem é empregado — e
+do <strong>número de subordinados</strong>. O dicionário do TSE traz a
+primeira; a segunda o cadastro não registra. O pacote calcula assim
+mesmo, mas diz o que ficou indeterminado. Nenhuma função deste pacote
+devolve um número em silêncio quando sabe que ele está incompleto.</p>
 <p>Vale demorar nesta tabela, porque ela contém quase tudo o que é
 preciso saber antes de usar o pacote.</p>
-<p>As quatro primeiras linhas se comportam como se espera: agricultor,
-advogado, empresário e vereador recebem um ISCO, um ISEI, um prestígio,
-uma classe do EGP e uma classe do esquema eleitoral. As três últimas
-não. Servidor público municipal, dona de casa e aposentado saem com
-<code>NA</code> no ISEI, no prestígio e no EGP, e mesmo assim recebem
-uma classe.</p>
+<p>As cinco primeiras linhas se comportam como se espera: agricultor,
+advogado, empresário, vereador e comerciante recebem um ISCO, um ISEI,
+um prestígio, uma classe do EGP e uma classe do esquema eleitoral. As
+três últimas não. Servidor público municipal, dona de casa e aposentado
+saem com <code>NA</code> no ISEI, no prestígio e no EGP, e mesmo assim
+recebem uma classe.</p>
 <p>Isso não é falha de cobertura. É o desenho da medida. “Servidor
 público municipal” não nomeia ocupação alguma: nomeia um vínculo. Dentro
 dele há o médico da rede e o gari, e não existe escore honesto que sirva
@@ -221,7 +235,11 @@ ISEI. Jogá-las fora não é um detalhe metodológico.</p>
 <p>O TSE é a porta principal, mas não é a única. O pacote também traduz
 a Classificação Brasileira de Ocupações, que é o que a RAIS, o CAGED e o
 eSocial usam, e a classificação de ocupações do IBGE, que é o que está
-na PNAD Contínua e no Censo.</p>
+na PNAD Contínua desde 2012 e nos Censos de 2010 e 2022.</p>
+<p>Uma fonte comum fica <strong>fora</strong>: o Censo de 2000 e a PNAD
+anual, de 2002 a 2015, usam a CBO-Domiciliar, que não é nem a CBO-2002
+nem a COD. O pacote não tem porta para ela, e entrar com esse dado pela
+CBO-2002 traduz códigos que não são os mesmos.</p>
 <div class="float">
 <img src="figuras/quatro_portas.svg" alt="As quatro portas e onde cada uma chega"><div class="figcaption">As quatro portas e onde cada uma chega</div>
 </div>
@@ -253,17 +271,28 @@ declarada de todas. Ela sai como <code>NA</code> por construção.</p>
 <strong>medidas</strong>: não existem <code>cbo94_para_isei08()</code>,
 <code>cbo94_para_prestigio08()</code> nem
 <code>cbo94_para_isei_br()</code>. A tradução de código existe, e
-<code><a href="../reference/cbo94_para_isco08.html">cbo94_para_isco08()</a></code> a faz. O que o pacote recusa é pendurar
-naquele caminho um escore ancorado na ISCO-08, e a razão é a data: a
-CBO-94 é microdado anterior a 2003, e as medidas de 2008 e de 2025 pedem
-uma população que aquele dado não descreve. A recusa é decisão do
-pacote, não limitação da tábua, e está marcada no diagrama acima em vez
-de escondida.</p>
+<code><a href="../reference/cbo94_para_isco08.html">cbo94_para_isco08()</a></code> a faz.</p>
+<p>O que falta é o atalho, não o caminho — e vale ser exato sobre isso,
+porque a diferença é de interface, não de possibilidade:</p>
+<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="../reference/isco08_para_isei_br.html">isco08_para_isei_br</a></span><span class="op">(</span><span class="fu"><a href="../reference/cbo94_para_isco08.html">cbo94_para_isco08</a></span><span class="op">(</span><span class="st">"2-11.20"</span><span class="op">)</span><span class="op">)</span></span>
+<span><span class="co">#&gt; [1] 72</span></span></code></pre></div>
+<p>O pacote não oferece a porta direta porque a CBO-94 é microdado
+anterior a 2003, e não quer que se chegue a um escore de 2008 ou de 2025
+sem ter escrito as duas etapas. Quem as escrever fez a escolha
+conscientemente, que é tudo o que a recusa pretende garantir.</p>
+<p>Convém dizer o que essa razão <strong>não</strong> é. Ela não é
+adequação temporal em geral: o ISEI-88 foi estimado sobre dados de 1968
+a 1982 e o pacote o aplica a candidaturas de 2026 sem objeção. A âncora
+ISCO-88 é a escolha do pacote por consistência interna da série
+eleitoral, não por ser contemporânea do dado. O critério corta num
+sentido só, e é honesto dizer isso em vez de deixar o leitor concluir
+que há uma regra geral de data que o pacote segue.</p>
 </div>
 <div class="section level3">
 <h3 id="pelo-ibge">Pelo IBGE<a class="anchor" aria-label="anchor" href="#pelo-ibge"></a>
 </h3>
-<div class="sourceCode" id="cb8"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="fu"><a href="../reference/cod_para_isco08.html">cod_para_isco08</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"6111"</span><span class="op">)</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "2211" "6111"</span></span>
 <span><span class="fu"><a href="../reference/cod_para_isei08.html">cod_para_isei08</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"2211"</span>, <span class="st">"6111"</span><span class="op">)</span><span class="op">)</span></span>
@@ -282,14 +311,17 @@ Leia <code><a href="../reference/isco08_isei_br.html">?isco08_isei_br</a></code>
 </h2>
 <p>Antes de qualquer análise, verifique quanto do seu vetor a régua
 alcança:</p>
-<div class="sourceCode" id="cb9"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">cods_2026</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">tse_ocupacao_rotulos</span><span class="op">$</span><span class="va">cod_tse</span><span class="op">[</span><span class="va">tse_ocupacao_rotulos</span><span class="op">$</span><span class="va">ate</span> <span class="op">==</span> <span class="fl">2026</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="fu"><a href="../reference/checa_cobertura.html">checa_cobertura</a></span><span class="op">(</span><span class="va">cods_2026</span><span class="op">)</span></span>
 <span><span class="co">#&gt; cobertura ok: 210 códigos observados, todos no dicionário.</span></span></code></pre></div>
-<p>A função devolve <code>TRUE</code> ou <code>FALSE</code> e imprime o
-diagnóstico. Se a cobertura estiver baixa, o problema quase sempre está
-no formato do código — zeros à esquerda perdidos numa leitura de CSV, ou
-um fator convertido para inteiro.</p>
+<p>A função devolve <code>TRUE</code> invisivelmente e imprime o
+diagnóstico; quando não há código válido nenhum, ela <strong>falha com
+erro</strong> em vez de devolver <code>FALSE</code>. É deliberado:
+cobertura zero quase nunca é um achado sobre a população, e quase sempre
+é a coluna errada ou o formato errado — zeros à esquerda perdidos numa
+leitura de CSV, ou um fator convertido para inteiro. Um
+<code>FALSE</code> seguiria adiante no pipeline; o erro para.</p>
 </div>
 <div class="section level2">
 <h2 id="onde-continuar">Onde continuar<a class="anchor" aria-label="anchor" href="#onde-continuar"></a>

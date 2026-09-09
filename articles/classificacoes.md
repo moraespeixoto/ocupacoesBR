@@ -37,15 +37,28 @@ instrumentos, materiais, tipo de bem ou serviço). O primeiro dígito
 resulta principalmente do primeiro critério.
 
 O nível de habilidade não é abstrato: a OIT o ancorou na Classificação
-Internacional Normalizada da Educação. O nível 4 corresponde ao primeiro
-grau universitário; o 3, ao terciário curto; o 2, do secundário inferior
-ao pós-secundário não terciário; o 1, ao primário. Sobre essa âncora, o
-grande grupo 2 recebe o nível 4, o grupo 3 o nível 3, os grupos 4 a 8 o
-nível 2, e o grupo 9 o nível 1.
+Internacional Normalizada da Educação — na versão de 1976, que é a
+vigente quando a ISCO-88 foi desenhada. O nível 4 corresponde ao grau
+universitário ou à pós-graduação (categorias 6 e 7); o 3, ao terciário
+que não leva a diploma universitário (categoria 5); o 2, ao secundário,
+primeiro e segundo estágios (categorias 2 e 3); o 1, ao primário
+(categoria 1).
 
-**Por que importa.** É o eixo. Toda medida deste pacote — ISEI,
-prestígio, EGP — está publicada sobre a ISCO, e não sobre classificação
-nacional alguma. Sem passar por ela, não há régua.
+A ISCO-08 reancorou os mesmos quatro níveis na ISCED de 1997, e aí o
+nível 2 passou a incluir também o pós-secundário não terciário. É uma
+diferença fácil de citar trocada, e ela importa: o pacote está ancorado
+na de 1988. Sobre essa âncora, o grande grupo 2 recebe o nível 4, o
+grupo 3 o nível 3, os grupos 4 a 8 o nível 2, e o grupo 9 o nível 1.
+
+**Por que importa.** É o eixo. Toda medida **importada** deste pacote —
+ISEI, prestígio, EGP — está publicada sobre a ISCO, e não sobre
+classificação nacional alguma. Sem passar por ela, não há régua
+importada.
+
+As que o pacote produz são outra coisa, e não passam por aí: classe,
+estrato e componente da classe alta ancoram no próprio cadastro do TSE,
+e o ISEI-BR é estimado sobre a COD. A coluna `ancora` de `reguas` diz
+qual é qual.
 
 ``` r
 
@@ -72,8 +85,11 @@ ter teste próprio na suíte.
 O segundo limite é a **fronteira entre os grandes grupos 2 e 3** —
 profissionais e técnicos. Ela foi desenhada quando muitas ocupações hoje
 universitárias ainda não o eram, e a revisão de 2008 promoveu parte
-delas. O caso da enfermagem é o mais visível, e a documentação do pacote
-recomenda ancorar na ISCO-08 para análise de gênero por causa dele.
+delas: a fisioterapia passou de `3226` a `2264`, e a nutrição de `3223`
+a `2265`, ambas de técnicas a profissionais. A enfermagem **não** é caso
+de promoção — a ISCO-88 já a punha no grande grupo 2 —, e mesmo assim é
+por causa dela que a documentação recomenda ancorar na ISCO-08 para
+análise de gênero: ali o que se corrige é o escore, não a alocação.
 
 ## A CBO, e a ruptura de 2002
 
@@ -88,8 +104,8 @@ base e 2.355 ocupações. O princípio classificatório era o **cargo**, ou
 posto de trabalho, agregado por analogia de tarefas — pergunta diferente
 da que a ISCO-88 faz, que agrupa por nível de habilidade.
 
-A **CBO-2002**, aprovada pela Resolução CONCLA nº 5 de setembro de 2002,
-mudou o princípio: passou a seis dígitos, substituiu o cargo pela
+A **CBO-2002**, aprovada pela Portaria MTE nº 397, de 9 de outubro de
+2002, mudou o princípio: passou a seis dígitos, substituiu o cargo pela
 **família ocupacional** e adotou os dez grandes grupos da ISCO-88 com o
 critério de agregação por nível de competência. A construção mobilizou
 cerca de sete mil trabalhadores em mil e oitocentas reuniões-dia, pelo
@@ -102,13 +118,28 @@ por ela.
 
 ``` r
 
-# Os dois números abaixo são o que o pacote COBRE, e não o tamanho da CBO: ela
-# tem 2.422 ocupações em 596 famílias, e a tábua oficial do MTE só cobre as que
-# existem também na CBO-94. Veja ?cbo2002_para_isco.
+# Os dois números abaixo são o que o pacote COBRE, e não o tamanho da CBO: a
+# tábua oficial do MTE só cobre as ocupações que existem também na CBO-94.
+# Veja ?cbo2002_para_isco.
 c(`códigos com correspondência oficial` = nrow(cbo2002_isco88),
   `famílias com correspondência` = nrow(cbo2002_familia_isco88))
 #> códigos com correspondência oficial        famílias com correspondência 
 #>                                1387                                 436
+```
+
+O tamanho da CBO depende de qual edição se conta, e o site usava os dois
+números sem dizer. A edição de 2002 traz 2.422 ocupações em 596
+famílias; o domínio vigente, o do Novo CAGED — que é contra o qual as
+taxas de cobertura deste pacote são calculadas —, é maior:
+
+``` r
+
+dom <- readLines(system.file("extdata", "fontes", "cbo2002_dominio.txt",
+                             package = "ocupacoesBR"), warn = FALSE)
+dom <- setdiff(trimws(dom[nzchar(trimws(dom))]), "999999")  # tira o sentinela
+c(ocupacoes = length(dom), familias = length(unique(substr(dom, 1, 4))))
+#> ocupacoes  familias 
+#>      2777       626
 ```
 
 ### Dois limites, e o segundo é uma ausência
@@ -235,10 +266,11 @@ c(`códigos no dicionário do pacote (1998–2026)` = nrow(tse_isco),
 ### Quatro limites, em ordem de gravidade
 
 **1. A escala.** A versão vigente do cadastro traz 257 códigos, contra
-2.422 ocupações da CBO-2002. São instrumentos de ordens de grandeza
-distintas, e isso sozinho impede tratar o código do TSE como equivalente
-ao da classificação nacional. Uma tradução do TSE é, em boa parte,
-**agregada** — e é por isso que
+2.777 ocupações no domínio vigente da CBO-2002 (2.422 na edição de
+2002). São instrumentos de ordens de grandeza distintas, e isso sozinho
+impede tratar o código do TSE como equivalente ao da classificação
+nacional. Uma tradução do TSE é, em boa parte, **agregada** — e é por
+isso que
 [`crosswalk_tse()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_tse.md)
 traz a coluna `qualidade`:
 
@@ -249,6 +281,15 @@ table(crosswalk_tse()$qualidade, useNA = "ifany")
 #> agregada  ambígua    exata     <NA> 
 #>      195       52       11       17
 ```
+
+Um cuidado ao ler essa coluna: ela resume **duas** etapas distintas, e a
+segunda tem precedência. `"ambígua"` é decidido pela ponte ISCO-88 →
+ISCO-08 (mais de um destino na tábua da OIT), e sobrepõe a informação
+sobre o quanto a tradução TSE → ISCO-88 foi agregada. Por isso há
+códigos traduzidos exatamente, a quatro dígitos, que aparecem como
+`"ambígua"` — e a ambiguidade deles é da ponte, que é irrelevante para
+quem usa o ISEI-88, a régua que o pacote recomenda. Para ler só a
+agregação, use a coluna `nivel` de `tse_isco`.
 
 **2. Não é autodocumentado.** O leiaute que acompanha os arquivos de
 candidaturas descreve os campos de código e descrição da ocupação mas —
@@ -302,7 +343,8 @@ plástico**, e um procurador como **estivador**. É o pior tipo de
 descontinuidade: produz valor errado, em silêncio, com aparência de
 normalidade — sem gerar `NA` nem código desconhecido.
 
-É por isso que **toda função de tradução deste pacote aceita `ano`**:
+É por isso que **toda função de tradução da porta do TSE aceita `ano`**
+— as das outras portas não, porque a quebra é do cadastro eleitoral:
 
 ``` r
 

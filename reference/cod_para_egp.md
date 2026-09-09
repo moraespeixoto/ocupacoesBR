@@ -1,8 +1,8 @@
 # Classe EGP a partir da COD
 
-Ao contrario do TSE, a PNAD Continua **tem** posicao na ocupacao e
-numero de empregados. Passe-os: e a diferenca entre um EGP completo e um
-degradado.
+A PNAD Continua tem posicao na ocupacao (V4012) e o numero de empregados
+do empregador, o que recupera a pequena burguesia e **separa IVa de
+IVb** — a distincao que pela porta do TSE fica indeterminada. Passe-os.
 
 ## Usage
 
@@ -49,6 +49,13 @@ cod_para_egp(
 ## Value
 
 Vetor de texto (ou inteiro, se `rotulo = FALSE`).
+
+## Details
+
+O que ela nao tem e a supervisao exercida sobre assalariados, que e o
+que define V (supervisores manuais) e governa as promocoes entre I e II.
+Por essa porta o EGP fica mais completo que pelas outras, mas nao
+completo.
 
 ## Examples
 

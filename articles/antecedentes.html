@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
 <li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul>
 </li>
@@ -106,10 +107,16 @@ atento, o que este pacote contribui do que ele apenas embala.</p>
 com o índice internacional. Ela é anterior. <strong>Nelson do Valle
 Silva</strong> derivou do Censo de 1970 a primeira escala socioeconômica
 nacional das ocupações brasileiras, em <em>Posição social das
-ocupações</em> (IBGE, 1974) — trabalho contemporâneo da própria tradição
-de Duncan, e não derivado dela. Os estratos ocupacionais de
-<strong>Pastore e Valle Silva</strong> circulam na pesquisa brasileira
-até hoje.</p>
+ocupações</em> (IBGE, 1974) — construída no Brasil pelo mesmo princípio
+de Duncan, cujo índice de 1961 o texto discute em detalhe e cita, e
+aferida contra as escalas de Blishen e Bogue. Os estratos ocupacionais
+de <strong>Pastore e Valle Silva</strong> circulam na pesquisa
+brasileira até hoje.</p>
+<p>A dívida não corre só num sentido. Quando Ganzeboom, De Graaf e
+Treiman construíram o ISEI, dezoito anos depois, foi a escala de Valle
+Silva que serviu de termo de comparação brasileiro para aferir o índice
+internacional — ela está na bibliografia deles. E o dado brasileiro que
+alimentou aquela estimação foi a PNAD de 1973 e a de 1982.</p>
 <p>Sobre essa base construiu-se uma sociologia da estratificação
 brasileira com instrumento próprio: <strong>Carlos Hasenbalg</strong> e
 Valle Silva sobre estrutura social e desigualdade racial; <strong>Carlos
@@ -132,9 +139,12 @@ empírica. <em>Sociedade e Estado</em>, 30(3), 673–703. <a href="https://doi.o
 <h2 id="o-que-já-estava-resolvido-e-que-aqui-é-reimplementação">O que já estava resolvido, e que aqui é reimplementação<a class="anchor" aria-label="anchor" href="#o-que-j%C3%A1-estava-resolvido-e-que-aqui-%C3%A9-reimplementa%C3%A7%C3%A3o"></a>
 </h2>
 <p>A tradução da ISCO em ISEI, prestígio e EGP <strong>não é
-contribuição deste pacote</strong>. Ela é de Ganzeboom, De Graaf e
-Treiman, publicada em sintaxes SPSS que o pacote lê, converte por script
-e redistribui com atribuição.</p>
+contribuição deste pacote</strong>. Nem é de uma autoria só: o ISEI é de
+Ganzeboom, De Graaf e Treiman (1992); a escala de prestígio é de Treiman
+(1977); o esquema de classes é de Erikson, Goldthorpe e Portocarero
+(1979). O que Ganzeboom e Treiman (1996) fizeram foi mapear as três
+sobre a ISCO-88, em sintaxes SPSS que o pacote lê, converte por script e
+redistribui com atribuição.</p>
 <p>Existem, além disso, outros pacotes de R que fazem essa mesma
 tradução: <a href="https://cimentadaj.github.io/DIGCLASS/" class="external-link"><code>DIGCLASS</code></a>
 (Cimentada), <a href="https://cran.r-project.org/package=ISCO08ConveRsions" class="external-link"><code>ISCO08ConveRsions</code></a>,
@@ -157,10 +167,10 @@ pacotes acima cobre.</p>
 </h2>
 <p>Reestimar o índice socioeconômico em dado nacional, em vez de
 importar os escores, tem precedente recente e próximo. <strong>Sofia
-Jaime e Harry Ganzeboom</strong> — o próprio autor do procedimento de
-1992 — publicaram em 2025 o <strong>ARSEI</strong>, um índice argentino
-construído pelo mesmo escalonamento ótimo de efeito indireto, aplicado
-tanto ao classificador nacional quanto à ISCO-08.</p>
+Jaime e Harry Ganzeboom</strong> — um dos três autores do procedimento
+de 1992 — publicaram em 2025 o <strong>ARSEI</strong>, um índice
+argentino construído pelo mesmo escalonamento ótimo de efeito indireto,
+aplicado tanto ao classificador nacional quanto à ISCO-08.</p>
 <p>E o resultado deles vai na direção contrária ao daqui: encontraram o
 índice internacional superando as duas versões locais, e leram isso como
 apoio à tese de Treiman de que a hierarquia ocupacional é

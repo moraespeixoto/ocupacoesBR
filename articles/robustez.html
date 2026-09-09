@@ -31,7 +31,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,7 @@
 <li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul>
 </li>
@@ -314,8 +315,15 @@ outra e ler a diferença como “esta ocupação subiu” produz uma lista que
 é, em boa parte, a lista de quem estava embaixo — porque numa escala
 mais estreita o topo cai e a base sobe por construção.</p>
 <p><strong>Como se testa.</strong> Correlacionando a diferença com o
-ponto de partida. Se a diferença fosse substantiva, essa correlação
-seria perto de zero.</p>
+ponto de partida, antes e depois de igualar as escalas. Uma ressalva
+antes do resultado, porque ela muda a leitura: depois de padronizar,
+essa correlação <strong>não vai a zero</strong>, e não deveria. Para
+dois vetores padronizados com correlação <code>r</code>, ela é forçada a
+valer <code>-sqrt((1 - r) / 2)</code> — aritmética, não medida, e sempre
+negativa. O que a padronização corrige é o artefato de escala, que é
+grande; o que sobra depois não é “o artefato restante”.
+<code><a href="../articles/validacao.html">vignette("validacao")</a></code> mostra a identidade lado a lado com o
+valor observado.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span><span class="va">z</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="op">(</span><span class="va">x</span> <span class="op">-</span> <span class="fu"><a href="https://rdrr.io/r/base/mean.html" class="external-link">mean</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span><span class="op">)</span> <span class="op">/</span> <span class="fu"><a href="https://rdrr.io/r/stats/sd.html" class="external-link">sd</a></span><span class="op">(</span><span class="va">x</span><span class="op">)</span></span>
 <span></span>
@@ -357,9 +365,16 @@ seria perto de zero.</p>
 <p><strong>O que significa.</strong> À esquerda, a reta desce com força:
 a “queda” de uma ocupação prevê-se em boa parte pelo lugar de onde ela
 partiu, e o efeito é ainda maior na unidade em que a régua é de fato
-usada, o código do TSE. À direita, depois de igualar média e desvio,
-quase não há inclinação — o que sobra ali é a discordância de verdade
-entre a régua brasileira e a importada.</p>
+usada, o código do TSE. À direita, depois de igualar média e desvio, a
+inclinação é uma fração da anterior — e a que resta é a que a identidade
+acima obriga, não discordância a interpretar.</p>
+<p>A prova, portanto, é sobre a <strong>escala</strong>, e é aí que ela
+é conclusiva: sem padronizar, a lista de quem sobe e desce é em boa
+parte a lista de quem estava embaixo. Para saber se a lista padronizada
+é substantiva, o critério é outro, e está em
+<code><a href="../articles/validacao.html">vignette("validacao")</a></code>: o resíduo de uma regressão do
+ISEI-BR sobre o ISEI-08, ortogonal ao ponto de partida por construção.
+Ele devolve as mesmas seis ocupações em cada ponta.</p>
 <p><strong>Esta prova nasceu de um erro publicado.</strong> Até a versão
 0.5.1 a documentação trazia uma lista de “quem sobe e quem desce” lida
 sobre a diferença bruta. Com as escalas igualadas, a lista muda: entram
@@ -419,8 +434,9 @@ do que a tendência geral do período, que sobe para todo mundo.</p>
 sentido que a troca de rótulo prevê: o <code>214</code> sai de DELEGADO
 DE POLICIA, com quase 90% de ensino superior, e chega a ESCULTOR E
 PINTOR, com quase nenhum; o <code>211</code> faz o mesmo percurso de
-PROCURADOR a ESTIVADOR. É por isso que toda função de tradução aceita
-<code>ano</code>: <code>tse_para_isei(214, ano = 1998)</code> e
+PROCURADOR a ESTIVADOR. É por isso que toda função de tradução da porta
+do TSE aceita <code>ano</code>:
+<code>tse_para_isei(214, ano = 1998)</code> e
 <code>tse_para_isei(214, ano = 2010)</code> devolvem coisas diferentes,
 e devem.</p>
 <p>Dois deles — o <code>215</code> e o <code>521</code> — quase não se

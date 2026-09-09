@@ -48,8 +48,8 @@ metodo estimado aqui, sobre 655.787 observacoes de 339.181 pessoas.
 Ele **nao substitui** o ISEI-08. Comparacao internacional continua
 exigindo a ancora internacional, e uma serie nao pode trocar de regua no
 meio. O ISEI-BR responde a outra pergunta: como o mercado de trabalho
-brasileiro, e nao a media de dezesseis paises ricos, ordena as
-ocupacoes.
+brasileiro de hoje, e nao um escalonamento unico de dezesseis paises com
+dado brasileiro de 1973 e 1982, ordena as ocupacoes.
 
 Duas coisas precisam ser ditas por quem usa. A primeira e que a mediacao
 nao e completa: no Brasil a ocupacao explica cerca de 58% do efeito da

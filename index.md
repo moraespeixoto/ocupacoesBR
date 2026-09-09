@@ -38,9 +38,9 @@ tidyverse](https://moraespeixoto.github.io/ocupacoesBR/articles/tidyverse.md)
 percorre um pipeline inteiro assim.
 
 O `ano` também é uma coluna, e é o que resolve a quebra de cadastro de
-2002: em 1998 o código 214 era delegado de polícia; a partir de 2002
-passou a ser escultor e pintor. Sem o ano, aquela linha receberia calada
-o escore de escultor. Com ele, o pacote devolve `NA` e avisa.
+2002: em 1998 o código 214 era delegado de polícia, e hoje é escultor e
+pintor. Sem o ano, aquela linha receberia calada o escore de escultor.
+Com ele, o pacote devolve `NA` e avisa.
 
 R
 
@@ -116,14 +116,14 @@ Quatro réguas, que não são intercambiáveis
 
 ## O pacote entrega todas com a mesma facilidade. Escolher é com você.
 
-10 – 90
+16 – 90
 
 ### ISEI
 
-Índice socioeconômico de Ganzeboom. Contínuo, somável, o que a
-literatura internacional usa como padrão. Vem em três estimações: as
-âncoras de 1988 e de 2008, importadas, e a brasileira, que o pacote
-estima na PNAD Contínua e que não substitui as outras.
+Índice socioeconômico de Ganzeboom, De Graaf e Treiman. Contínuo,
+somável, o padrão da pesquisa comparada de estratificação. Vem em três
+estimações: as âncoras de 1988 e de 2008, importadas, e a brasileira,
+que o pacote estima na PNAD Contínua e que não substitui as outras.
 
 Treiman, 1977
 
@@ -136,8 +136,10 @@ recurso; as duas se separam em ocupações inteiras.
 
 ### EGP
 
-Erikson-Goldthorpe-Portocarero, portado das sintaxes originais. Exige
-posição na ocupação, que o TSE não pergunta: o pacote avisa.
+Erikson-Goldthorpe-Portocarero, portado das sintaxes do ISMF — o
+mapeamento de Ganzeboom e Treiman sobre a ISCO-88. Exige posição no
+emprego, que o pacote preenche pelo dicionário, e número de
+subordinados, que o TSE não pergunta: o pacote avisa.
 
 esquema do pacote
 
@@ -175,7 +177,7 @@ medida](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
 
 ### Qual régua responde à sua pergunta
 
-Quatro medidas, nenhuma intercambiável, e os sete erros que as pessoas
+Quatro medidas, nenhuma intercambiável, e os erros que as pessoas
 cometem, na ordem em que os cometem.
 
 [Validar](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
@@ -187,10 +189,10 @@ entram na construção da medida.
 
 [Percursos](https://moraespeixoto.github.io/ocupacoesBR/articles/percursos.md)
 
-### Um roteiro para cada fonte de dado
+### Onde cada tradução se interrompe
 
-Candidaturas, RAIS, PNAD: o que chamar, em que ordem, e o que verificar
-antes de analisar.
+Os pontos de ruptura dos percursos: a ambiguidade da ponte, o empate, a
+agregação e o resíduo.
 
 [A eleição em
 curso](https://moraespeixoto.github.io/ocupacoesBR/articles/safra-2026.md)

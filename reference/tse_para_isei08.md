@@ -41,12 +41,13 @@ Esses coeficientes valem para a ponte **corrigida** por
 `.corrige_isco08_tse()`; sem ela, seriam 1,212 e -9,80, e foram esses os
 que esta seção publicou até a auditoria de 05/09/2026. Mas alguns
 deslocamentos individuais são grandes **e reais**: o enfermeiro (código
-113) sobe 26 pontos, de 43 para 68,7, porque a ISCO-08 promoveu a
-enfermagem a profissão de nível superior (2221), separando-a dos
-técnicos (3221); o vendedor e o comerciário (411, 170) caem 13, de 43
-para 29,7, porque a revisão reavaliou o grupo 52 inteiro. Uma série que
-troque de âncora no meio mede essas duas coisas como se fossem
-mobilidade.
+113) sobe 26 pontos, de 43 para 68,7 — não por reclassificação, já que a
+ISCO-88 o punha em 2230, no grande grupo dos profissionais, e o pacote o
+leva ao agregado 2220 da ISCO-08, mas porque o ISEI-08 foi reestimado
+sobre o ISSP de 2002-2007, com os dois sexos, e reavalia as ocupações de
+cuidado; o vendedor e o comerciário (411, 170) caem 13, de 43 para 29,7,
+porque a revisão reavaliou o grupo 52 inteiro. Uma série que troque de
+âncora no meio mede essas duas coisas como se fossem mobilidade.
 
 ## Examples
 

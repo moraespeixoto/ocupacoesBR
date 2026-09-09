@@ -1,5 +1,665 @@
 # Changelog
 
+## ocupacoesBR 0.8.0
+
+O índice de referência promete, na porta do IBGE, que “é por aqui que se
+compara candidatura com população”. Era a promessa mais forte do pacote
+e a única que ele não mostrava cumprindo — nem mostrava onde ela falha.
+Esta versão dá ao pacote os dois lados da comparação e a página que
+ensina a fazê-la.
+
+O que motivou: em setembro de 2026 uma comparação entre candidaturas do
+TSE e população da PNAD Contínua foi auditada e reprovada. A tradução
+estava certa e os testes passaram. O erro estava numa decisão de medida
+que o site não desaconselhava em lugar nenhum, porque em lugar nenhum
+tratava do assunto — ler o primeiro dígito da ISCO-88 dos dois lados. O
+que reprovou a régua: os rótulos de vínculo público do formulário do TSE
+saem da base classificável e os mesmos trabalhadores, na PNAD Contínua,
+ficam dentro dela. O tamanho do viés — 3,4 pontos na classe profissional
+sobre uma base de 12,3 — foi medido naquela auditoria, fora deste
+repositório, e é citado aqui como motivo e não como número do pacote; o
+que este pacote mede está nas tabelas abaixo.
+
+### `tse_universo`: de que é feito o resíduo das candidaturas
+
+Sete rubricas, por ano e por sexo, somando 100 dentro de cada recorte.
+[`checa_cobertura()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura.md)
+já dizia *quanto* de um vetor recebe escore; esta tabela diz *de que é
+feito* o que não recebe, e mostra que a resposta muda.
+
+Duas leituras que uma taxa de cobertura única esconde. A não declaração
+vai a zero a partir de 2006, o que indica campo obrigatório, e a recusa
+de nomear assume o lugar dela: a rubrica `999` sai de 13,5% em 1998 e
+chega a 21,9% em 2024. E a diferença de cobertura entre os sexos está
+quase toda numa linha — de 2004 em diante, `Fora da força de trabalho` é
+1,2% das candidaturas de homens e 14,6% das de mulheres. A vinheta
+`qual-regua` já afirmava isso em prosa; agora há tabela.
+
+### `cod_populacao_br`: o denominador
+
+A distribuição da população pelos endereços da ISCO-88, por piso etário
+de elegibilidade (18, 21, 30 e 35 anos, os da Constituição) e por sexo,
+com a parcela não ocupada como **linha da tabela** e não como ausência
+dela.
+
+É decisão de escopo, tomada pelo autor com a tabela medida à vista. O
+pacote é um tradutor e uma distribuição populacional é outro tipo de
+objeto; o precedente existe nos dois sentidos (`isco_posicao_br` já
+deriva da população, `tse_validacao` já deriva das candidaturas) e sem
+ela nenhum número sobre a população seria reproduzível por quem lê.
+Custa 28 KB, sem indivíduo e sem identificador.
+
+O par que ela permite calcular, e que é o eixo do artigo novo: medida
+sobre o mesmo universo, a cobertura do ISEI é de **61,8% na população**
+de 18 anos ou mais e de **62,0% nas candidaturas** de 2024. As duas
+fontes perdem quase a mesma fração de gente por motivos que não têm nada
+em comum — a população porque 38,0% dos adultos não estão ocupados, o
+Tribunal porque um em cada cinco candidatos marca uma rubrica que não
+nomeia ocupação. Uma taxa de cobertura parecida não é sinal de que os
+dois lados são comparáveis.
+
+Ao contrário das tábuas de conversão, esta tabela **envelhece**, e a
+ajuda diz isso na primeira linha: é estimativa de amostra com peso, da
+PNAD Contínua de 2025, e não um censo.
+
+### `isco_posicao_br` ganha o setor público e a posição militar
+
+`pct_setor_publico` (`V4012 == 4`) é a variável que faltava para medir a
+maior assimetria entre as duas fontes. Medido: o setor público é 11,7%
+dos ocupados com endereço na ISCO-88, e 37,9% dele está no grande grupo
+2, professores sobretudo — a classe que carrega o argumento em quase
+toda análise de recrutamento.
+
+`pct_militar` (`V4012 == 2`) sai da mesma passada e **exige aviso**, que
+está na ajuda. O dicionário do IBGE define essa posição como militar do
+exército, da marinha, da aeronáutica, da polícia militar **ou** do corpo
+de bombeiros militar. Medido: entre quem a declara, 39,9% cai no grande
+grupo 0 pelo código de ocupação e 60,1% cai no 5. A pergunta sobre
+posição e a pergunta sobre ocupação discordam sobre quem é militar no
+Brasil, e nenhuma das duas é o erro da outra.
+
+### O artigo: *Comparar duas fontes*
+
+Oito decisões — a porta, a revisão da ISCO, o ano, a régua, o universo,
+o resíduo, a agregação e a ponte —, cada uma com o mesmo bloco de quatro
+partes: a decisão, o que ela permite, **quem ela exclui** (nomeado, e
+com o tamanho) e como medir esse tamanho no seu dado. Fecha com o que o
+pacote não faz, uma folha de decisão de uma página, e um exemplo
+trabalhado que roda só com dados do pacote.
+
+Três coisas que a página mede e que não estavam ditas em lugar nenhum:
+
+- **A média não denuncia a fusão.** No grande grupo 1, o ISEI médio dos
+  dois lados difere em só 2,8 pontos, mas 25,4% das candidaturas estão
+  no topo da escala contra 6,9% da população. Mesmo rótulo, duas
+  populações, e quem comparar médias não vê. A lição generaliza: compare
+  distribuições dentro da categoria agregada, não centros.
+- **7,5% dos códigos da ISCO-88 trocam de grande grupo ao virar
+  ISCO-08**, e o maior fluxo isolado são onze códigos que sobem do grupo
+  3 para o 2 — professores de ensino fundamental e pré-escolar,
+  sobretudo. No Brasil isso é grande, e não aparece em nenhuma taxa de
+  cobertura.
+- **O primeiro dígito não é uma escala.** O enfermeiro está no grande
+  grupo 2 e tem ISEI-88 43; o escriturário está no grupo 4 e tem 51.
+
+### Ajuda cruzada
+
+[`?cod_para_isco`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_isco.md)
+ganha a explicação da adaptação da polícia militar, com exemplo, e a
+remissão ao artigo.
+[`?tse_para_classe`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.md)
+ganha a seção que diz por que `cod_para_classe()` não existe: quatro das
+categorias do esquema são rubricas do formulário do TSE, não posições da
+ISCO, e o esquema **não atravessa para a população**. Quem precisa
+comparar composição de classe entre as duas fontes não tem régua pronta,
+e agora isso está dito onde a pessoa vai olhar.
+
+### Uma decisão registrada como decisão, e não como pendência
+
+O plano previa uma função `checa_comparabilidade()`, que receberia dois
+vetores de portas diferentes e julgaria se a comparação se sustenta. Ela
+**não foi escrita**, e o motivo é bom: as quatro `checa_cobertura_*`
+existentes valem por serem triviais de entender, e um juízo de
+comparabilidade depende de um critério que depende da pergunta — que é
+justamente o que o artigo ensina o leitor a decidir. Uma função ali
+viraria carimbo de aprovação sobre uma decisão que ela não pode tomar.
+Fica registrado que foi avaliada e descartada.
+
+## ocupacoesBR 0.7.1
+
+Uma auditoria de conteúdo do site, em quatro frentes, encontrou
+afirmações que o próprio pacote já contradizia. Esta versão começa a
+saldá-las.
+
+### O nível de habilidade 2 da ISCO-88 não vai ao pós-secundário
+
+A aba de classificações definia o nível de habilidade 2 como indo “do
+secundário inferior ao pós-secundário não terciário”, num parágrafo
+sobre a ruptura de 1988. Essa é a definição da **ISCO-08**, ancorada na
+ISCED de 1997.
+
+Conferido na fonte primária — ILO (1990), pp. 2-3: na ISCO-88 o segundo
+nível é “ISCED categories 2 and 3, comprising the first and second
+stages of secondary education”. O pós-secundário não terciário (ISCED-97
+nível 4) só entra com a reancoragem de 2008. O texto passa a dar as
+quatro correspondências da ISCED-76, e a dizer que a ISCO-08 reancorou
+na de 1997 — precisamente porque a confusão é fácil, e o pacote está
+ancorado na de 1988.
+
+### A CBO tem dois tamanhos, e o site usava os dois sem avisar
+
+A edição de 2002 traz 2.422 ocupações em 596 famílias; o domínio
+vigente, do Novo CAGED, traz **2.777 em 626** — e é contra ele que as
+taxas de cobertura do pacote são calculadas. As duas cifras conviviam em
+páginas diferentes sem explicação. Agora convivem com ela, e as do
+domínio saem de um chunk que lê o próprio arquivo de fontes.
+
+### A coluna `qualidade` resume duas etapas, e a segunda tem precedência
+
+[`crosswalk_tse()`](https://moraespeixoto.github.io/ocupacoesBR/reference/crosswalk_tse.md)
+marca `"ambígua"` a partir da ponte ISCO-88 → ISCO-08, e essa marca
+**sobrepõe** a informação sobre o quanto a tradução TSE → ISCO-88 foi
+agregada. O resultado é que códigos traduzidos exatamente, a quatro
+dígitos, aparecem como `"ambígua"` — e a ambiguidade deles é da ponte,
+irrelevante para quem usa o ISEI-88, que é a régua recomendada. O
+comportamento não muda; passa a estar dito, com a remissão a
+`tse_isco$nivel` para quem quiser só a agregação.
+
+### Outras três da mesma aba
+
+- **“Toda medida deste pacote está publicada sobre a ISCO”** — toda
+  medida **importada**. Classe, estrato e componente da classe alta
+  ancoram no cadastro do TSE, e o ISEI-BR é estimado sobre a COD; a
+  coluna `ancora` de `reguas` diz qual é qual.
+
+- **“Toda função de tradução deste pacote aceita `ano`”** — só as da
+  porta do TSE, porque a quebra é do cadastro eleitoral. Verificado nas
+  assinaturas: dezesseis funções aceitam, nenhuma das outras portas
+  aceita. A mesma frase estava em `vignette("robustez")`, e
+  `test-guia-agente.R` passa a travar as duas direções.
+
+- **O instrumento da CBO-2002.** O texto citava a “Resolução CONCLA nº 5
+  de setembro de 2002”, que não consegui corroborar em fonte nenhuma. O
+  instrumento documentado é a **Portaria MTE nº 397, de 9 de outubro de
+  2002**, que aprova a CBO-2002 para uso em todo o território nacional.
+  Trocado pelo verificável.
+
+E em
+[`vignette("qual-regua")`](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md),
+“as três não têm sequer o mesmo denominador” — palavra sem referente —
+passa a dizer o que de fato difere: população e ano de estimação.
+
+### A variância “dentro” da ocupação é zero, não “quase nada”
+
+[`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
+e
+[`?tse_dispersao_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
+diziam que uma medida de posição ocupacional “explica a variância entre
+ocupações e quase nada da variância dentro de cada uma”. O ISEI é
+**constante** dentro da ocupação: ele explica exatamente zero, por
+construção, e “quase nada” sugere que se mediu algo que não é
+mensurável.
+
+O que se pode medir, e diz mais, é quanto da variância individual do log
+do patrimônio fica **entre** níveis de status — o teto de qualquer
+função do ISEI. A vinheta passa a calculá-lo dos somatórios de
+`tse_dispersao_patrimonio`: **eta² = 0,077**, contra r² = 0,043 que a
+relação linear aproveita.
+
+E o contraste 0,681 × 0,207 ganha a ressalva que faltava: os dois
+números diferem em mais coisas que o nível de agregação — um é sobre a
+mediana e não ponderado, o outro sobre a média do log e ponderado por
+candidatura. A comparação limpa, na mesma unidade e com o mesmo peso, é
+a correlação **ecológica** de **0,748** contra 0,207, agora publicada ao
+lado.
+
+Três correções menores no mesmo bloco: a unidade passa a ser chamada de
+candidatura, não indivíduo, nos quatro lugares que ainda usavam o nome
+que
+[`?tse_dispersao_patrimonio`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_dispersao_patrimonio.md)
+declara ter abandonado; “não use ISEI como proxy de renda individual”
+passa a dizer patrimônio, que é o que foi testado, com a renda por
+extensão; e `sd_log ≈ 1,7` deixa de ser “uma ordem de grandeza” —
+`exp(1,7)` é 5,5, um fator de cinco a seis por desvio padrão, e são dois
+desvios que dão trinta vezes. As correlações de
+[`?tse_validacao`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_validacao.md)
+passam a declarar que são não ponderadas, e o 0,63 do piso a dizer que
+sai de `data-raw/`, sendo o único número daquela página que o pacote não
+recalcula.
+
+### Gênero: o mesmo recorte da ajuda, e o intervalo de especificações
+
+[`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
+comparava médias de ISEI por gênero sobre os 207 códigos com ISEI,
+enquanto
+[`?tse_para_isei`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md)
+usa os 168 com `n > 500`. Os dois números divergiam sem que a vinheta
+dissesse por quê (46,1 × 47,6 lá, 46,0 × 49,0 aqui). A vinheta passa a
+usar o recorte da ajuda, a imprimir `n`, e a remeter à regressão em vez
+de deixar uma diferença de médias sem controle carregar o argumento.
+
+[`?tse_para_isei`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md)
+passa a publicar o **intervalo de especificações** em vez do `p`
+pontual. Verificados: ponderada −6,17 (ep 3,03; p = 0,043); com
+erro-padrão robusto HC3, ep 4,19 e **p = 0,14**; sem ponderação, −5,34 e
+p = 0,012; com `pct_mulher` contínuo, −0,09 por ponto percentual e p =
+0,08. O sinal e a ordem de grandeza sobrevivem a todas — o `p` não, e é
+o sinal que sustenta a advertência.
+
+A mesma seção passa a explicitar a premissa que “viés” carrega: o ISEI
+pondera escolaridade *e* renda, e ocupações femininas rendem menos com
+credencial igual. A escala registra isso fielmente. É viés se o que se
+quer medir é credencial, e fidelidade se é retorno — a recomendação vale
+nos dois casos.
+
+### A assimetria de ausência é de uma classe só
+
+[`vignette("qual-regua")`](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+dizia que “cerca de 15% das mulheres declaram posição fora da PEA,
+contra pouco mais de 1% dos homens”. Confere — mas só para a classe
+`"Fora da PEA por posição"` (códigos 581 e 931). A outra residual,
+`"Inativo com trajetória"`, fica em torno de 4% nos **dois** sexos: quem
+somar as duas dilui justamente o padrão que importa. A classe passa a
+ser nomeada.
+
+No mesmo parágrafo, “a vantagem feminina em status é, em boa parte,
+artefato disso” era uma afirmação quantitativa sem cálculo. Passa a
+dizer que parte pode vir daí, que a vinheta não mede quanto, e que o
+ponto é a comparação não ser entre iguais.
+
+### “Igualando média e desvio, a correlação some” — ela não pode somer
+
+[`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)
+justificava a leitura da relocação sobre a diferença padronizada assim:
+a diferença bruta correlaciona-se a −0,85 com o ISEI-08, e “igualando
+média e desvio, a correlação some”. `vignette("robustez")` dizia o mesmo
+em forma de teste: “se a diferença fosse substantiva, essa correlação
+seria perto de zero”.
+
+Ela não some, e a hipótese está invertida. Para dois vetores
+padronizados com correlação `r`, vale a identidade
+
+    cor(z1 - z2, z2) = -sqrt((1 - r) / 2)
+
+Com `r` = 0,940, isso dá −0,173 — que é exatamente o valor observado,
+até a última casa que o computador guarda. É aritmética, não medida, e é
+sempre negativa: regressão à média. Com escalas idênticas e esta
+correlação, o residual seria −0,17 **ainda que a diferença fosse
+inteiramente substantiva**. O chunk passa a imprimir a identidade ao
+lado do valor observado, o que mostra o ponto melhor do que qualquer
+parágrafo. (De passagem: naquela unidade a correlação bruta é −0,84, não
+−0,85 — o −0,85 vem de
+[`?isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md),
+calculado noutra.)
+
+**A conclusão prática sobrevive inteira**, e é isso que importa:
+padronizar remove o artefato de escala, que é grande, e sem padronizar a
+lista de quem sobe e desce é em boa parte a lista de quem estava
+embaixo. O que muda é a justificativa — e o que passa a sustentá-la é
+uma conferência, não uma correlação: o resíduo de uma regressão do
+ISEI-BR sobre o ISEI-08 é ortogonal ao ponto de partida **por
+construção**, e devolve as mesmas seis ocupações em cada ponta
+(idênticas e na mesma ordem entre as que sobem; as mesmas seis, com o
+clero mudando de lugar, entre as que descem). A leitura substantiva não
+depende do critério, e é isso que a autoriza.
+
+`test-isei-br.R` trava as duas coisas: a concordância entre os critérios
+e a identidade, para que ninguém volte a ler o residual como “o artefato
+que sobrou”.
+
+### A prosa nomeava duas ocupações que a tabela não imprimia
+
+No mesmo trecho, o texto dizia que entre as seis que mais descem estão
+“veterinário e farmacêutico”. Estão em **sétimo e oitavo**; a tabela
+imprime músico e professor de formação profissional. Corrigido, com os
+dois citados na posição que ocupam.
+
+### A primeira página deixa de descrever uma tabela que não é a impressa
+
+`vignette("comece-aqui")` dizia “as quatro primeiras linhas” e “as três
+últimas”, mas a ordem de `cods` punha o servidor público em quinto e o
+comerciante — que recebe ISCO, ISEI e EGP — em sexto. A prosa descrevia
+uma tabela diferente da que o chunk imprimia, na página que o leitor
+abre primeiro. Os códigos foram reordenados, e o comerciante passa a ser
+nomeado.
+
+Outras três correções na mesma página:
+
+- **O EGP não se define pela supervisão.** O texto dizia que “o EGP
+  distingue quem supervisiona de quem não supervisiona”. O eixo primário
+  é a **posição no emprego**; a supervisão é o segundo. O dicionário do
+  TSE traz a primeira, e é a segunda que falta — como
+  [`vignette("qual-regua")`](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+  e
+  [`?isco88_para_egp`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_egp.md)
+  já diziam.
+
+- **[`checa_cobertura()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura.md)
+  nunca devolve `FALSE`.** Devolve `TRUE` invisivelmente ou **falha com
+  erro**. É deliberado: cobertura zero quase nunca é achado sobre a
+  população e quase sempre é a coluna errada; um `FALSE` seguiria
+  adiante no pipeline, o erro para.
+
+- **A COD não está em todo Censo.** É a PNAD Contínua desde 2012 e os
+  Censos de 2010 e 2022. O Censo de 2000 e a PNAD anual (2002–2015) usam
+  a CBO-Domiciliar, para a qual o pacote **não tem porta** — e entrar
+  com esse dado pela CBO-2002 traduz códigos que não são os mesmos. A
+  ausência passa a estar dita.
+
+### A recusa da CBO-94 é convenção de interface, não impossibilidade
+
+`isco08_para_isei_br(cbo94_para_isco08("2-11.20"))` devolve 72 numa
+linha: o que o pacote retirou na 0.5.1 foi o **atalho**, não o caminho.
+A vinheta passa a mostrar o encadeamento e a dizer o que ele garante —
+quem escreve as duas etapas fez a escolha conscientemente.
+
+E diz o que a razão **não** é. Não é adequação temporal em geral: o
+ISEI-88 foi estimado sobre dados de 1968 a 1982 e o pacote o aplica a
+candidaturas de 2026 sem objeção. A âncora ISCO-88 é escolha por
+consistência interna da série eleitoral, não por contemporaneidade. O
+critério corta num sentido só, e é melhor dizer isso que deixar o leitor
+supor uma regra geral de data que o pacote não segue.
+
+### O que cada porta tem para o EGP, dito porta a porta
+
+[`?cbo94_para_egp`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo94_para_egp.md)
+afirmava: “Ao contrário do TSE, a RAIS **tem** essas variáveis no
+vínculo — vale passá-las.” Não tem. A RAIS, o CAGED e o eSocial são
+registros de **vínculo empregatício**: toda linha é um empregado. Não há
+conta própria nem empregador como observação, e não existe campo com o
+número de subordinados. Por essas portas `conta_propria` é `FALSE` por
+construção e o EGP sai sem IVa, IVb e V — não por omissão de quem chama,
+mas porque a fonte não descreve quem está fora do assalariamento. Ler a
+distribuição resultante como estrutura de classes do país é o erro que a
+ajuda agora nomeia.
+
+Na direção oposta,
+[`?cod_para_egp`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_egp.md)
+e
+[`vignette("qual-regua")`](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+diziam que com a PNAD Contínua “o esquema funciona por inteiro”. Ela vai
+mais longe que as outras — tem posição na ocupação e número de
+empregados, e com isso **separa IVa de IVb**, que é justamente o que
+fica indeterminado pela porta do TSE. Mas falta a supervisão exercida
+sobre assalariados, que é o que define V. Nenhuma das quatro portas do
+pacote a tem, como `vignette("robustez")` já dizia corretamente — as
+três páginas agora concordam entre si.
+
+### A marca que recupera a pequena burguesia é `conta_propria`, não `proprietario`
+
+[`vignette("qual-regua")`](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+explicava que a pequena burguesia aparece “porque dez códigos nomeiam o
+proprietário no próprio rótulo e o pacote usa essa marca”. São duas
+marcas distintas desde 07/2026, e o EGP usa a outra: `conta_propria`,
+que tem **doze** códigos, contra dez de `proprietario`. A diferença é
+exatamente o agricultor e o pescador, que trabalham por conta própria —
+o `SEMPL = 2` que o esquema exige para chegar a IVc — sem pertencerem à
+classe proprietária. Os dois números passam a sair de um chunk.
+
+### A reedição do cadastro é de 2002; os códigos voltam depois
+
+Três páginas diziam que o código 214 “a partir de 2002 é escultor e
+pintor”. A reedição do cadastro é de 2002 — fato documental —, mas
+nenhum dos sete códigos reutilizados reaparece naquele ano: são 2004,
+2006 e 2008. O 214 só volta, como escultor, em **2006**, e há um
+intervalo em que aquele número não é declarado por ninguém.
+
+A distinção não é preciosismo: é `primeiro_ano_novo`, e não 2002, que o
+corte usa (`ano < primeiro_ano_novo`). Uma candidatura de 2004 com o
+código 214 volta `NA` — comportamento certo, que a prosa antiga não
+previa. Pior: a aba de classificações imprimia a coluna
+`primeiro_ano_novo` logo abaixo de afirmar o contrário.
+`vignette("percursos")` passa a imprimir também `tse_vigencia(214)`, e
+`test-rotulos.R` trava a concordância entre as duas tabelas.
+
+### Não há ano seguro para começar a série
+
+[`vignette("qual-regua")`](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
+recomendava “começar a série em 2004, ou declarar a descontinuidade”,
+sem dizer por que 2004. O dado não apoia a escolha: de 2002 para 2004
+nada se extingue, mas de 2004 para 2006 três códigos somem e treze
+trocam de rótulo, e dois reutilizados só reaparecem em 2006 e 2008. A
+recomendação passa a ser a que se sustenta — declarar a descontinuidade
+e passar o `ano`, que resolve os reutilizados código a código —, com os
+[`tse_diff_cadastro()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_diff_cadastro.md)
+impressos para o leitor conferir.
+
+No mesmo parágrafo, as contagens da troca de inventário (13 extintos,
+122 criados) passam a sair de um chunk em vez da digitação. As duas
+participações são o único par de números daquela vinheta que o pacote
+não recalcula sozinho — `tse_ocupacao_rotulos` traz `n` por vigência,
+não por ano —, e agora dizem de onde vêm:
+`data-raw/11_confere_retrospectivo.R`, que ganhou o bloco que as
+calcula. Recalculadas na microbase, são 12,4% (confere) e **33,1%**; a
+vinheta dizia 33,2%.
+
+### A etapa autoral do pacote entra no site
+
+A tradução do cadastro do TSE para a ISCO-88 é a única do pacote sem
+documento externo que a confirme — a OIT publica a ponte, o MTE publica
+a tábua da CBO, o IBGE publica a da COD, e esta é autoral. Era também a
+única que `vignette( "percursos")` não percorria, embora `R/crosswalk.R`
+já registrasse, **num comentário de código**, que “o erro de medida
+resultante não é ruído: é heterocedástico e correlacionado com o
+estrato”.
+
+A vinheta ganha uma seção que mede isso em vez de afirmá-lo. Os 258
+códigos do TSE com ISCO chegam a 42 valores distintos de ISCO-88 e **29
+de ISEI**, e a compressão não é uniforme: o refinamento a quatro dígitos
+alcança 12 dos 88 códigos da classe alta e **nenhum** dos 101 das
+classes populares.
+
+A consequência prática está dita com o alcance que ela tem, e não maior:
+comparações dentro das classes populares apoiam-se em escores mais
+agregados que as feitas dentro da classe alta, e diferenças finas no
+fundo da distribuição merecem menos confiança que as mesmas diferenças
+no topo. Não é razão para não usar a medida — é razão para não ler fino
+onde a tradução foi grossa.
+
+### A escada da CBO: os números e a causa estavam errados
+
+A vinheta dizia: “Quarenta códigos que a tradução direta não resolve, e
+a escada resolve trinta e três. Os sete restantes continuam `NA`, porque
+nem o prefixo de dois dígitos está na tábua.”
+
+São quarenta **entradas**, mas dezesseis códigos distintos; os sete `NA`
+são um código só, `142399`, repetido. E a razão é outra: a família
+`1423` **está** na tábua, e `cbo2002_para_isco("1423")` devolve
+`"2419"`. O que falta é ancestral comum na ISCO — as ocupações de 1423
+se espalham por 1233, 1234, 1239 e 2419.
+
+Corrigir isso expôs uma consequência que não estava declarada em lugar
+nenhum: **a escada e a consulta por família aplicam regras diferentes à
+mesma família**. Quatro dígitos consultam a moda; seis dígitos com
+`escada = TRUE` exigem ancestral comum. Em **oito** famílias as duas
+divergem, e a escada é a mais conservadora. A divergência é deliberada,
+mas quem alterna entre as duas entradas precisa saber que elas não
+respondem a mesma pergunta. Passa a estar em
+[`?cbo2002_para_isco`](https://moraespeixoto.github.io/ocupacoesBR/reference/cbo2002_para_isco.md),
+na vinheta, e travada em `test-cbo.R` — inclusive quais são as oito.
+
+### A ponte diz agora qual destino escolhe
+
+[`?isco88_para_isco08`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_para_isco08.md)
+já explicava que a sintaxe do ISMF guarda as alternativas na parte
+decimal e manda truncá-la; a vinheta falava em “destino escolhido” sem
+dizer por quem nem como. Passa a dizer, e a tirar a consequência: como o
+destino é sempre o mesmo para um dado código de origem, o desvio é
+**sistemático** e não se cancela ao agregar.
+
+### Mudança de comportamento: o ano na posição errada agora falha
+
+`tse_para_isei(cod, ano)` aceita o ano na **segunda** posição. Em
+[`tse_para_classe()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.md)
+a segunda é `superior`, e em
+[`tse_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_egp.md)
+é `conta_propria`. Quem escrevesse `tse_para_classe(cod, ano_vec)` por
+analogia não recebia erro nenhum: `as.logical(2000)` é `TRUE`, então o
+ano virava a marca **ligada em toda linha**, e a coluna saía errada em
+silêncio. Era o único engano de chamada do pacote que produzia número
+plausível sem aviso — e `vignette("comece-aqui")` chegava a dizer que
+bastava trocar o nome da função “e o comportamento é o mesmo”, o que só
+vale com `ano` nomeado.
+
+A correção é uma guarda de **valor**, não de posição: `superior` e
+`conta_propria` passam a recusar numérico fora de `{0, 1}`, e a mensagem
+diz onde o ano cabe. Reordenar os argumentos quebraria chamadas
+posicionais legítimas e o contrato já documentado; o único código que
+passa a falhar é o que já estava errado.
+
+``` r
+
+tse_para_classe(c(298, 298), c(2000, 2020))
+#> Erro: `superior` deve ser lógico (ou 0/1); recebeu 2000, 2020.
+#>   Isso parece ser o ano. Ele existe, mas em outra posição: passe-o
+#>   nomeado, `ano = `.
+```
+
+A sugestão do ano só aparece quando os valores têm cara de ano; fora
+disso a recusa é a mesma, sem palpite. `0`, `1`, lógico e `NA` seguem
+valendo, e `superior = NA` continua sem virar “médio ou menos”.
+
+A guarda roda **antes** do aviso de EGP incompleto. Avisar primeiro e
+falhar depois deixava no console um aviso descrevendo um cálculo que
+nunca aconteceu.
+
+### Os números da ajuda passam a ser conferidos contra as tabelas
+
+A regra do projeto — nenhum valor entra em `.Rd`, NEWS ou vinheta sem
+ter saído de execução própria — cobre o momento em que o número é
+escrito. Não cobre o depois: um valor correto no dia em que foi digitado
+continua na página de ajuda quando a tabela de onde ele veio muda.
+
+Foi assim que
+[`?tse_codigos_autorrotulo`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_codigos_autorrotulo.md)
+seguiu afirmando que a dispersão de patrimônio é “de 80 vezes (p90/p10)
+entre os que declaram empresário, mas de 47 entre os advogados e 54
+entre os comerciantes”. São os valores da agregação que somava cada bem
+duas vezes, corrigida em 09/2026. Os certos são **76, 48 e 55**, e
+[`?tse_para_componente_alta`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_componente_alta.md)
+já os lia da tabela desde aquela correção — este parágrafo é que tinha
+ficado para trás.
+
+Corrigido, o argumento fica mais forte do que era: o comerciante (55) é
+autorrótulo e cai **entre** o advogado ancorado (48) e o empresário
+(76). A dispersão bruta realmente não separa os dois grupos, que é o que
+o parágrafo sempre quis dizer.
+
+`tests/testthat/test-numeros-doc.R` é a trava geral. Ele não guarda os
+valores: recomputa das tabelas e confere contra o texto da ajuda, de
+modo que o que reprova é a **divergência** entre os dois. Cobre por ora
+a dispersão por autorrótulo, os quantis do 257, a regressão de gênero de
+[`?tse_para_isei`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei.md)
+(n, coeficiente e as duas médias) e a parcela mediada de
+[`?isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md).
+Um dos blocos trava também a ordem advogado \< comerciante \<
+empresário, porque é dela que o parágrafo depende: se ela inverter, o
+texto passa a afirmar o contrário do que o dado mostra, sem que número
+nenhum fique errado.
+
+### O Brasil estava no ISEI-88, e a justificativa do ISEI-BR dizia que não
+
+A documentação afirmava, em quatro lugares, que Ganzeboom, De Graaf e
+Treiman (1992) escalonaram a ISCO sobre “dezesseis países, nenhum deles
+o Brasil” — e que o ISEI-BR respondia a como o Brasil ordena as
+ocupações “em vez da média de dezesseis países ricos”. As duas metades
+são falsas, e o artigo original desmente as duas.
+
+O Apêndice A de Ganzeboom, De Graaf e Treiman (1992), sob o título *31
+Data Sets Used to Construct the ISEI Scale*, lista **a PNAD de 1973
+(BRA73, 6.697 casos) e a de 1982 (BRA82, 8.742)**. São 15.439 dos 73.901
+homens da amostra de estimação: **20,9%, a segunda maior contribuição
+nacional, atrás só da norte-americana**. E os dezesseis países não são
+ricos — o artigo descreve a amostra como indo “de países severamente
+subdesenvolvidos (Índia) ao mais desenvolvido (Estados Unidos), e de
+regimes socialistas do Leste Europeu (Hungria) a estados sul-americanos
+autocráticos (Brasil)”.
+
+A justificativa do ISEI-BR não desaba com a correção; ela fica
+verificável, que é o que não era. O Brasil entrou no ISEI-88 com dado de
+1973 e 1982, comprimido junto com outros quinze países num **único**
+escalonamento. O que não existia é um ângulo estimado só aqui, e com
+dado deste século. É isso que a régua nova faz, e é isso que a
+documentação passa a dizer — em
+[`?isco08_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md),
+[`?tse_para_isei_br`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md),
+`reguas$pergunta` e no cabeçalho de `data-raw/09_gera_isei_br.R`.
+
+O erro não era de cálculo, e por isso nenhum teste o pegaria: era um
+fato bibliográfico, a única classe de afirmação do pacote que nada
+confere.
+
+### A enfermagem não foi promovida pela ISCO-08
+
+Quatro páginas do site — `qual-regua`, `validacao`, a aba de
+classificações e
+[`?tse_para_isei08`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei08.md)
+— explicavam o salto de 26 pontos do enfermeiro dizendo que “a ISCO-08
+promoveu a enfermagem a profissão de nível superior (`2221`),
+separando-a dos técnicos (`3221`)”. O mecanismo é falso, e o pacote já
+sabia disso em dois lugares: `R/tse.R` e o `NEWS.md` da 0.6.0 dizem,
+corretamente, que a ISCO-88 põe a enfermagem em `2230` **apesar de** ser
+profissão universitária.
+
+A ISCO-88 já a situava no grande grupo 2, e já a separava da enfermagem
+técnica (`3231`). O que ela fazia era pontuá-la em 43, abaixo dos
+escriturários (45). O que muda de uma âncora para a outra é a
+**escala**: o ISEI-08, reestimado por Ganzeboom sobre o ISSP de
+2002-2007 e cobrindo os dois sexos, a põe em 68,7. A recomendação de
+ancorar na ISCO-08 para análise de gênero continua valendo — o que muda
+é a razão dela, que é de escore e não de alocação.
+
+Dois efeitos colaterais da versão antiga também saem. O primeiro é que
+`2221` é **médico** na ISCO-88 e enfermeiro na ISCO-08: o texto citava
+um código de quatro dígitos sem dizer de qual classificação, num pacote
+cuja tese é que código não sobrevive à troca de versão. Os códigos
+passam a vir com a âncora nomeada. O segundo é que o destino que o
+pacote de fato atribui ao 113 é o agregado `2220`, não `2221`.
+
+A aba de classificações precisava de um exemplo de promoção 3 → 2 na
+fronteira entre profissionais e técnicos, e a enfermagem não serve.
+Passa a usar os dois casos reais, que são os mesmos do artigo de método:
+a fisioterapia (`3226` → `2264`) e a nutrição (`3223` → `2265`).
+
+`tests/testthat/test-isco08-tse.R` ganhou dois blocos que travam os
+fatos que desmentem a versão antiga, para que ela não volte por cópia.
+
+### Valle Silva é da tradição de Duncan, e Ganzeboom o usou para aferir o ISEI
+
+A aba de antecedentes dizia que *Posição social das ocupações* (IBGE,
+1974) era “trabalho contemporâneo da própria tradição de Duncan, e não
+derivado dela”. Não é o que o próprio texto de 1974 diz: Duncan (1961) é
+a referência nº 14 da bibliografia, o procedimento do SEI é descrito em
+detalhe, e a escala brasileira é aferida contra as de Blishen e Bogue.
+
+A recíproca é o achado que valia a checagem: quando Ganzeboom, De Graaf
+e Treiman construíram o ISEI, foi **a escala de Valle Silva** que serviu
+de termo de comparação brasileiro, e ela está na bibliografia deles. A
+linhagem brasileira não foi paralela à internacional — foi o parâmetro
+contra o qual a internacional se mediu aqui. A aba passa a dizer isso.
+
+### Autorias que estavam fundidas numa só
+
+`vignette("antecedentes")` atribuía a Ganzeboom, De Graaf e Treiman a
+tradução da ISCO em ISEI, prestígio e EGP. São três autorias distintas:
+o ISEI é deles (1992), o prestígio é de Treiman (1977), o esquema de
+classes é de Erikson, Goldthorpe e Portocarero (1979). O que Ganzeboom e
+Treiman (1996) fizeram foi **mapear** as três sobre a ISCO-88. Pela
+mesma razão, Harry Ganzeboom passa a ser “um dos três autores do
+procedimento de 1992”, e o cartão do EGP na home deixa de dizer
+“sintaxes originais” — as sintaxes são a operacionalização do ISMF, não
+o texto de Erikson e Goldthorpe, que codificaram sobre classificações
+nacionais.
+
+### Correções menores na home
+
+O cartão do ISEI dizia “10 – 90”; o intervalo do ISEI-88 é **16 a 90**,
+e sai de `reguas`, não da digitação. O cartão do EGP dizia que o TSE não
+pergunta a posição na ocupação — o pacote a preenche pelo dicionário; o
+que falta, e gera o aviso, é o número de subordinados. E a chamada de
+`qual-regua` não conta mais os erros (“os sete”), porque a vinheta tem
+nove seções e o número envelhece calado.
+
 ## ocupacoesBR 0.7.0
 
 O pacote fica legível por quem lê máquina, e a regra que ele mais repete

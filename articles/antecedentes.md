@@ -15,9 +15,16 @@ A ideia de ordenar ocupações por posição social não chega ao Brasil com
 o índice internacional. Ela é anterior. **Nelson do Valle Silva**
 derivou do Censo de 1970 a primeira escala socioeconômica nacional das
 ocupações brasileiras, em *Posição social das ocupações* (IBGE, 1974) —
-trabalho contemporâneo da própria tradição de Duncan, e não derivado
-dela. Os estratos ocupacionais de **Pastore e Valle Silva** circulam na
-pesquisa brasileira até hoje.
+construída no Brasil pelo mesmo princípio de Duncan, cujo índice de 1961
+o texto discute em detalhe e cita, e aferida contra as escalas de
+Blishen e Bogue. Os estratos ocupacionais de **Pastore e Valle Silva**
+circulam na pesquisa brasileira até hoje.
+
+A dívida não corre só num sentido. Quando Ganzeboom, De Graaf e Treiman
+construíram o ISEI, dezoito anos depois, foi a escala de Valle Silva que
+serviu de termo de comparação brasileiro para aferir o índice
+internacional — ela está na bibliografia deles. E o dado brasileiro que
+alimentou aquela estimação foi a PNAD de 1973 e a de 1982.
 
 Sobre essa base construiu-se uma sociologia da estratificação brasileira
 com instrumento próprio: **Carlos Hasenbalg** e Valle Silva sobre
@@ -41,7 +48,10 @@ alcançado.
 ## O que já estava resolvido, e que aqui é reimplementação
 
 A tradução da ISCO em ISEI, prestígio e EGP **não é contribuição deste
-pacote**. Ela é de Ganzeboom, De Graaf e Treiman, publicada em sintaxes
+pacote**. Nem é de uma autoria só: o ISEI é de Ganzeboom, De Graaf e
+Treiman (1992); a escala de prestígio é de Treiman (1977); o esquema de
+classes é de Erikson, Goldthorpe e Portocarero (1979). O que Ganzeboom e
+Treiman (1996) fizeram foi mapear as três sobre a ISCO-88, em sintaxes
 SPSS que o pacote lê, converte por script e redistribui com atribuição.
 
 Existem, além disso, outros pacotes de R que fazem essa mesma tradução:
@@ -70,8 +80,8 @@ e **não** cobre a CBO brasileira. Nenhum dos pacotes acima cobre.
 
 Reestimar o índice socioeconômico em dado nacional, em vez de importar
 os escores, tem precedente recente e próximo. **Sofia Jaime e Harry
-Ganzeboom** — o próprio autor do procedimento de 1992 — publicaram em
-2025 o **ARSEI**, um índice argentino construído pelo mesmo
+Ganzeboom** — um dos três autores do procedimento de 1992 — publicaram
+em 2025 o **ARSEI**, um índice argentino construído pelo mesmo
 escalonamento ótimo de efeito indireto, aplicado tanto ao classificador
 nacional quanto à ISCO-08.
 

@@ -90,10 +90,18 @@ esses casos como zero, ou tirá-los da conta sem dizer.
 
 E há uma armadilha específica: o padrão de ausência é **fortemente
 generificado**. Entre as candidaturas ao TSE, cerca de 15% das mulheres
-declaram posição fora da PEA, contra pouco mais de 1% dos homens. Uma
-média de ISEI por gênero, com `na.rm = TRUE`, compara duas subpopulações
-truncadas de formas diferentes — e a “vantagem feminina em status” que
-aparece é, em boa parte, artefato disso.
+caem na classe `"Fora da PEA por posição"` — os códigos 581 e 931 —,
+contra pouco mais de 1% dos homens.
+
+Vale nomear a classe, porque a assimetria é dela e só dela: a outra
+residual, `"Inativo com trajetória"`, fica em torno de 4% nos **dois**
+sexos. Quem somar as duas dilui justamente o padrão que importa aqui.
+
+Uma média de ISEI por gênero, com `na.rm = TRUE`, compara então duas
+subpopulações truncadas de formas diferentes, e parte da “vantagem
+feminina em status” que aparece pode vir daí. Quanto exatamente, esta
+vinheta não mede — o ponto é que a comparação não é entre iguais, e que
+a cobertura tem de ser relatada ao lado da média.
 
 Quem for comparar médias por grupo **precisa reportar a cobertura
 junto**:
@@ -107,7 +115,10 @@ tapply(isei, genero, function(x) c(media = mean(x, na.rm = TRUE),
 
 [`isei_retrospectivo()`](https://moraespeixoto.github.io/ocupacoesBR/reference/isei_retrospectivo.md)
 recupera parte disso carregando a ocupação anterior da própria pessoa —
-a cobertura feminina sobe de 52,9% para 58,7%. Não resolve; reduz.
+a cobertura feminina sobe cerca de seis pontos (os valores exatos estão
+em
+[`?isei_retrospectivo`](https://moraespeixoto.github.io/ocupacoesBR/reference/isei_retrospectivo.md)).
+Não resolve; reduz.
 
 ## 3. A régua categórica cobre onde a contínua não chega
 
@@ -166,9 +177,22 @@ tse_para_egp(c(111, 169, 601))
 ```
 
 O aviso diz o que falta. Repare no que ele **não** diz mais: a pequena
-burguesia aparece, porque dez códigos nomeiam o proprietário no próprio
-rótulo e o pacote usa essa marca. O que continua indeterminado é a
-divisão entre IVa (com empregados) e IVb (sem).
+burguesia aparece, porque o dicionário do TSE marca quem trabalha por
+conta própria, e o pacote usa essa marca.
+
+``` r
+
+c(conta_propria = sum(tse_isco$conta_propria, na.rm = TRUE),
+  proprietario  = sum(tse_isco$proprietario,  na.rm = TRUE))
+#> conta_propria  proprietario 
+#>            12            10
+```
+
+São marcas distintas, e é a primeira que o EGP usa. O agricultor e o
+pescador trabalham por conta própria — o `SEMPL = 2` que o esquema exige
+para chegar a IVc — sem pertencerem à classe proprietária. O que
+continua indeterminado é a divisão entre IVa (com empregados) e IVb
+(sem).
 
 **Para publicar, colapse:**
 
@@ -188,8 +212,11 @@ table(tse_para_egp(tse_isco$cod_tse, n_classes = 5, avisar = FALSE),
 Em cinco classes, IVa e IVb se fundem em IVab e a indeterminação
 desaparece.
 
-Com dado que **tem** as variáveis — a PNAD Contínua tem —, o esquema
-funciona por inteiro: veja
+A PNAD Contínua vai mais longe: ela tem posição na ocupação e número de
+empregados, o que **separa IVa de IVb** — a distinção que aqui ficou
+indeterminada. Mas nem ela fecha o esquema: falta a supervisão exercida
+sobre assalariados, que é o que define V. Nenhuma das quatro portas do
+pacote a tem. Veja
 [`cod_para_egp()`](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_para_egp.md).
 
 ## 6. Série longa: o cadastro do TSE mudou embaixo do dado
@@ -242,14 +269,52 @@ table(tse_diff_cadastro(2000, 2002)$mudanca)
 #>      69      21      36
 ```
 
-Comparando os períodos inteiros, são 13 códigos extintos (12,4% das
-candidaturas de 1998–2000) e 122 criados (33,2% das de 2002 em diante),
-entre eles `COMERCIANTE` e `EMPRESÁRIO`. Uma série que atravesse 2002
-mede “Proprietários e empregadores” com dois vocabulários
-incomensuráveis.
+Comparando os períodos inteiros, o cadastro perde e ganha códigos:
 
-O caminho honesto é começar a série em 2004, ou declarar a
-descontinuidade.
+``` r
+
+r <- tse_ocupacao_rotulos
+extintos <- setdiff(r$cod_tse[r$ate <= 2000], r$cod_tse[r$ate > 2000])
+criados  <- setdiff(r$cod_tse[r$de  >= 2002], r$cod_tse[r$de  <  2002])
+c(extintos = length(extintos), criados = length(criados))
+#> extintos  criados 
+#>       13      122
+```
+
+São 12,4% das candidaturas de 1998–2000 nos treze extintos, e 33,1% das
+de 2002 em diante nos cento e vinte e dois criados — entre eles
+`COMERCIANTE` e `EMPRESÁRIO`. Estas duas participações são o único par
+de números desta vinheta que o pacote não recalcula sozinho:
+`tse_ocupacao_rotulos` traz `n` por vigência, não por ano, e por isso
+elas saem da microbase, em `data-raw/11_confere_retrospectivo.R`. Uma
+série que atravesse 2002 mede “Proprietários e empregadores” com dois
+vocabulários incomensuráveis.
+
+Não há um ano seguro para começar depois disso. A troca de inventário
+não se esgota em 2002:
+
+``` r
+
+for (p in list(c(2002, 2004), c(2004, 2006), c(2006, 2008))) {
+  cat(p[1], "->", p[2], ": ")
+  print(table(tse_diff_cadastro(p[1], p[2])$mudanca))
+}
+#> 2002 -> 2004 : 
+#> criado 
+#>     20 
+#> 2004 -> 2006 : 
+#>  criado extinto  rotulo 
+#>      34       3      13 
+#> 2006 -> 2008 : 
+#> criado 
+#>      6
+```
+
+De 2002 para 2004 nada se extingue, mas de 2004 para 2006 três códigos
+somem e treze trocam de rótulo — e dois dos sete reutilizados só
+reaparecem em 2006 e 2008. O caminho honesto não é escolher um ano de
+início: é **declarar a descontinuidade** e passar o `ano`, que é o que
+resolve os reutilizados código a código.
 
 ## 7. Não misture ISEI-88 e ISEI-08 na mesma série
 
@@ -266,26 +331,33 @@ data.frame(
 #> 3 411 VENDEDOR DE COMÉRCIO VAREJISTA E ATACADISTA     43   29.7
 ```
 
-O médico fica onde estava; o enfermeiro sobe 26 pontos, porque a ISCO-08
-promoveu a enfermagem a profissão de nível superior (`2221`),
-separando-a dos técnicos (`3221`); o vendedor cai 13, porque a revisão
-reavaliou o grupo `52` inteiro. Não é erro de nenhuma das duas réguas:
-são recortes diferentes. Numa série que troque de âncora no meio, os
-dois deslocamentos aparecem como mobilidade que não houve.
+O médico fica onde estava; o enfermeiro sobe 26 pontos — e não por ter
+mudado de lugar na classificação. A ISCO-88 já o punha entre os
+profissionais de nível superior (`2230` na ISCO-88), e já o separava da
+enfermagem técnica (`3231` na ISCO-88). O que ela fazia era pontuá-lo em
+43, **abaixo dos escriturários**, que recebem 45. O que mudou foi a
+escala: o ISEI-08, reestimado por Ganzeboom sobre o ISSP de 2002-2007,
+cobre homens e mulheres e o põe em 68,7. O vendedor cai 13 pelo mesmo
+mecanismo, em sentido contrário, com a reorganização do subgrupo `52`
+por cima. Não é erro de nenhuma das duas réguas: são recortes
+diferentes. Numa série que troque de âncora no meio, os dois
+deslocamentos aparecem como mobilidade que não houve.
 
 **Fique na ISCO-88** para comparar candidaturas entre si — é onde o
 pacote está ancorado. Use a ISCO-08 para juntar o dado eleitoral a
-fontes que já a usam, e para análise de gênero, onde a revisão de 2008
-corrigiu a subvalorização das ocupações de cuidado (veja
+fontes que já a usam, e para análise de gênero, onde o ISEI-08 reavalia
+para cima as ocupações de cuidado que o escalonamento de 1992, estimado
+só sobre homens, subestimava (veja
 [`vignette("validacao")`](https://moraespeixoto.github.io/ocupacoesBR/articles/validacao.md)).
 
 Desde a versão 0.5.0 há uma terceira régua,
 [`tse_para_isei_br()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_isei_br.md),
 estimada na PNAD Contínua em vez de importada. O aviso vale para ela
-igualmente, e com uma razão a mais: as três não têm sequer o mesmo
-denominador. A brasileira é de um ano só, 2025, e serve para perguntar
-como o mercado de trabalho **brasileiro** ordena as ocupações. Para
-comparação internacional, ou para qualquer série longa, ela não serve.
+igualmente, e com uma razão a mais: as três não foram estimadas na mesma
+população nem no mesmo ano. A brasileira é de um ano só, 2025, e serve
+para perguntar como o mercado de trabalho **brasileiro** ordena as
+ocupações. Para comparação internacional, ou para qualquer série longa,
+ela não serve.
 
 ## 8. Verifique antes, não depois
 

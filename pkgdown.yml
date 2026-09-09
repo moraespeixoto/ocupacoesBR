@@ -5,6 +5,7 @@ articles:
   articles/antecedentes: antecedentes.html
   articles/classificacoes: classificacoes.html
   articles/comece-aqui: comece-aqui.html
+  articles/comparar-fontes: comparar-fontes.html
   articles/percursos: percursos.html
   articles/publicacoes: publicacoes.html
   qual-regua: qual-regua.html
@@ -12,7 +13,7 @@ articles:
   articles/safra-2026: safra-2026.html
   articles/tidyverse: tidyverse.html
   validacao: validacao.html
-last_built: 2026-09-06T16:12Z
+last_built: 2026-09-09T00:46Z
 urls:
   reference: https://moraespeixoto.github.io/ocupacoesBR/reference
   article: https://moraespeixoto.github.io/ocupacoesBR/articles

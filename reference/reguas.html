@@ -9,7 +9,7 @@ que ela responde, o que ela mede e quando não usá-la."><meta property="og:imag
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -27,6 +27,7 @@ que ela responde, o que ela mede e quando não usá-la."><meta property="og:imag
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos"><li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
@@ -157,9 +158,10 @@ correspondência inverte classes inteiras.</p>
 <span class="r-in"><span><span class="co"># Antes de publicar EGP a partir do TSE, leia isto:</span></span></span>
 <span class="r-in"><span><span class="fu"><a href="https://rdrr.io/r/base/cat.html" class="external-link">cat</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/strwrap.html" class="external-link">strwrap</a></span><span class="op">(</span><span class="va">reguas</span><span class="op">$</span><span class="va">quando_nao_usar</span><span class="op">[</span><span class="va">reguas</span><span class="op">$</span><span class="va">medida</span> <span class="op">==</span> <span class="st">"EGP"</span><span class="op">]</span>, <span class="fl">72</span><span class="op">)</span>, sep <span class="op">=</span> <span class="st">"\n"</span><span class="op">)</span></span></span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> não publique onze classes a partir do TSE: sem número de subordinados,</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> IVa e IVb não se separam; colapse em 5 ou 3 para publicar; pela CBO e</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> pela COD o esquema sai degradado; com dado que tem as variáveis, como a</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> PNAD, funciona por inteiro</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> IVa e IVb não se separam; colapse em 5 ou 3 para publicar; pela RAIS e</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> pelo eSocial, que só registram empregados, IVa, IVb e V saem vazias por</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> construção; a PNAD separa IVa de IVb, mas nem ela tem a supervisão que</span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> define V</span>
 <span class="r-in"><span></span></span>
 <span class="r-in"><span><span class="co"># Qual régua responde a uma pergunta sobre relação de emprego?</span></span></span>
 <span class="r-in"><span><span class="va">reguas</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">grep</a></span><span class="op">(</span><span class="st">"emprego"</span>, <span class="va">reguas</span><span class="op">$</span><span class="va">pergunta</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"medida"</span>, <span class="st">"funcao_tse"</span><span class="op">)</span><span class="op">]</span></span></span>

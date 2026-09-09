@@ -13,7 +13,7 @@ vignette("validacao") afere o ISEI.'><meta property="og:image" content="https://
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -31,6 +31,7 @@ vignette("validacao") afere o ISEI.'><meta property="og:image" content="https://
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos"><li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
@@ -108,7 +109,9 @@ não é microdado, não identifica ninguém e pode viajar com o pacote.</p>
 exige um segundo piso, de 200 declarações de bens, porque mediana apoiada em
 poucas declarações é ruidosa: sem ele a correlação com o ISEI cai de 0,681
 para cerca de 0,63, não porque a medida piore, mas porque o critério externo
-fica instável.</p>
+fica instável. Este 0,63 é o único número desta página que não se recalcula a
+partir do pacote — as medianas abaixo do piso são <code>NA</code> aqui —, e sai de
+<code>data-raw/05_gera_validacao.R</code>.</p>
 <p><strong>O segundo piso zera a mediana; não descarta a linha</strong>, e a diferença
 importa. Até 29/07/2026 ele descartava a linha inteira, o que amputava do
 conjunto 44 ocupações cuja escolaridade e cuja composição por gênero estão
@@ -144,10 +147,12 @@ publicado — lia cinco linhas materialmente erradas.</p>
 
 <p>Contra a escolaridade, sobre as 207 ocupações com ISEI: r = 0,765 (Spearman
 0,816). Contra o logaritmo da mediana de patrimônio, sobre as 165 que também
-têm mediana: r = 0,681 (Spearman 0,695). No nível do <strong>indivíduo</strong> a
-correlação com patrimônio é de apenas 0,207, e o contraste entre 0,207 e 0,681
-é o resultado, não um defeito: o ISEI explica a variação entre ocupações e
-quase nada dentro de cada uma.</p>
+têm mediana: r = 0,681 (Spearman 0,695), ambas <strong>não ponderadas</strong> — cada
+ocupação conta uma, que é o certo para aferir uma régua de ocupações. No nível
+da <strong>candidatura</strong> a correlação com patrimônio é de apenas 0,207, e o
+contraste é o resultado, não um defeito. A comparação estritamente
+equivalente, na mesma unidade e com o mesmo peso, é com a correlação
+ecológica de 0,748; veja <a href="tse_dispersao_patrimonio.html">tse_dispersao_patrimonio</a>.</p>
     </div>
     <div class="section level2">
     <h2 id="o-patrim-nio-de-n-o-entra-e-por-qu-">O patrimônio de 2026 não entra, e por quê<a class="anchor" aria-label="anchor" href="#o-patrim-nio-de-n-o-entra-e-por-qu-"></a></h2>

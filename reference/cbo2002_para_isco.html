@@ -11,7 +11,7 @@ porta de entrada para o ISEI, o SIOPS e o EGP."><meta property="og:image" conten
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.7.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -29,6 +29,7 @@ porta de entrada para o ISEI, o SIOPS e o EGP."><meta property="og:image" conten
   <ul class="dropdown-menu" aria-labelledby="dropdown-artigos"><li><a class="dropdown-item" href="../articles/tidyverse.html">Com o tidyverse</a></li>
     <li><a class="dropdown-item" href="../articles/qual-regua.html">Qual régua responde à sua pergunta</a></li>
     <li><a class="dropdown-item" href="../articles/validacao.html">A medida se sustenta? Validação contra um critério externo</a></li>
+    <li><a class="dropdown-item" href="../articles/comparar-fontes.html">Comparar duas fontes: o que entra, o que sai, e quem fica de fora</a></li>
     <li><a class="dropdown-item" href="../articles/safra-2026.html">A safra de 2026, na régua</a></li>
   </ul></li>
 <li class="active nav-item"><a class="nav-link" href="../reference/index.html">Referência</a></li>
@@ -141,6 +142,16 @@ para impedir: o grande grupo 9 da CBO e reparacao e manutencao, o da ISCO e
 ocupacoes elementares. As 283 ocupacoes sem rota — em peso o bloco de
 diretores 12xx e as forcas armadas — nao tem correspondencia oficial
 nenhuma, e continuam <code>NA</code>.</p>
+<p><strong>A escada e a consulta por familia aplicam regras diferentes.</strong> Entrar com
+quatro digitos consulta <code>cbo2002_familia_isco88</code>, que traz a MODA das
+ocupacoes da familia. Entrar com seis e <code>escada = TRUE</code> exige ancestral comum
+na ISCO, e devolve <code>NA</code> quando ele nao existe acima do primeiro digito. Em
+oito familias as duas respostas divergem — <code>cbo2002_para_isco("1423")</code> da
+<code>"2419"</code>, e <code>cbo2002_para_isco("142399", escada = TRUE)</code> da <code>NA</code> —, porque as
+ocupacoes de 1423 se espalham por 1233, 1234, 1239 e 2419. A escada e a mais
+conservadora das duas, e a divergencia e deliberada; quem alterna entre as
+duas entradas precisa saber que elas nao respondem a mesma pergunta.
+<code>tests/testthat/test-cbo.R</code> trava a lista das oito.</p>
     </div>
     <div class="section level2">
     <h2 id="familias-empatadas">Familias empatadas<a class="anchor" aria-label="anchor" href="#familias-empatadas"></a></h2>
