@@ -113,6 +113,28 @@ que depende da pergunta — que é justamente o que o artigo ensina o leitor a
 decidir. Uma função ali viraria carimbo de aprovação sobre uma decisão que ela
 não pode tomar. Fica registrado que foi avaliada e descartada.
 
+## O repositório abriu, e o manual voltou a compilar
+
+O terceiro preprint saiu em 09/09/2026 — *As duas faces da classe no
+recrutamento político brasileiro*, `10.31235/osf.io/muxf8_v1` —, que era a
+condição para o repositório deixar de ser privado. Ele foi aberto, o GitHub
+Pages passou a servir <https://moraespeixoto.github.io/ocupacoesBR/>, e as três
+URLs do `DESCRIPTION` que respondiam 404 ao verificador anônimo do CRAN passaram
+a resolver. A NOTE que elas produziam em todo `R CMD check --as-cran` deixou de
+ocorrer, sem que nada no arquivo mudasse.
+
+A faixa de publicações da home tinha dois cartões e passa a ter três, agora com
+DOI em todos. O cartão do artigo de método ainda dizia "manuscrito em
+preparação" com o DOI vazio, o que estava errado desde 04/09. E o selo
+"R-CMD-check passing" da home era texto fixo, que afirmava aprovação sem ler o
+CI: passou a ser o selo do GitHub Actions, que diz o estado do momento. O README
+ganhou o mesmo par, que não tinha nenhum.
+
+Uma correção que só aparece no manual em PDF: três ocorrências do sinal de menos
+matemático (U+2212) numa passagem de `?tse_para_isei` faziam o `pdflatex` parar
+com "Unicode character not set up for use with LaTeX". Passaram a hífen ASCII. O
+leitor lê a mesma coisa; o CRAN, que constrói o manual, deixa de recusar.
+
 # ocupacoesBR 0.7.1
 
 Uma auditoria de conteúdo do site, em quatro frentes, encontrou afirmações que

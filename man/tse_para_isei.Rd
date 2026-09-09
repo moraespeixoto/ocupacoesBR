@@ -51,8 +51,8 @@ candidaturas, o que muda a população-alvo de códigos para candidaturas — é
 escolha defensável, mas o erro-padrão de \code{lm} ponderado não a descreve, e o
 ISEI é atributo determinístico do código, não estimativa com variância
 inversa a \code{n}. Trocando a especificação: com erro-padrão robusto (HC3) o
-coeficiente fica em −6,2 com p = 0,14; sem ponderação, −5,3 com p = 0,012;
-com \code{pct_mulher} contínuo em vez da dicotomia, −0,09 por ponto percentual com
+coeficiente fica em -6,2 com p = 0,14; sem ponderação, -5,3 com p = 0,012;
+com \code{pct_mulher} contínuo em vez da dicotomia, -0,09 por ponto percentual com
 p = 0,08. O sinal e a ordem de grandeza sobrevivem a todas; o \verb{p = 0,043} é da
 primeira. Use o intervalo de especificações, não o \code{p} pontual.
 

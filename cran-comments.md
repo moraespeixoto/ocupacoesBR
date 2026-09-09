@@ -2,27 +2,43 @@
 
 ## Verificação
 
-`R CMD check --as-cran` na versão 0.6.0, x86_64-pc-linux-gnu (Ubuntu 26.04):
-**0 ERROR, 0 WARNING, 1 NOTE.** Os testes passam sem falha e sem SKIP.
+`R CMD check --as-cran` na versão 0.8.0, x86_64-pc-linux-gnu (Ubuntu 26.04),
+R 4.6.1: **0 ERROR, 0 WARNING, 2 NOTEs.** Os testes passam sem falha e sem
+SKIP, e as vinhetas reconstroem.
 
-A verificação foi feita **também** numa biblioteca sem os pacotes sugeridos e
-com `_R_CHECK_FORCE_SUGGESTS_=true`, para reproduzir o ambiente do CRAN.
+A verificação foi feita **também** numa biblioteca sem nenhum dos pacotes
+sugeridos (`testthat`, `knitr`, `rmarkdown`, `readxl`): o pacote instala,
+carrega e traduz normalmente, e os exemplos de todas as páginas de ajuda rodam
+sem erro. Nenhuma função exportada depende de um pacote sugerido. Nessa
+biblioteca a suíte e as vinhetas naturalmente não rodam, porque `testthat` e
+`knitr` são justamente o que falta ali.
 
-## A NOTE
+## As duas NOTEs
 
-Vem de `checking CRAN incoming feasibility` e traz dois pontos.
+**1. "New submission"**, de `checking CRAN incoming feasibility` — é o primeiro
+envio do pacote.
 
-**1. "New submission"** — é o primeiro envio do pacote.
-
-**2. URLs com status 404.** São três, todas pelo mesmo motivo: o repositório
-está privado enquanto o pacote passa por revisão, e o verificador do CRAN é
-anônimo. Duas apontam para o repositório e para o rastreador de problemas; a
-terceira, `https://moraespeixoto.github.io/ocupacoesBR/`, é o site de
-documentação, que o GitHub Pages só passa a servir depois que o repositório for
-aberto. As três resolvem no mesmo momento. Se esta submissão ocorrer antes
-disso, os campos `URL` e `BugReports` serão removidos do `DESCRIPTION`.
+**2. `checking HTML version of manual`** — a máquina de verificação local não
+tem o `tidy` instalado, e o check informa que pulou a validação do HTML. É
+propriedade da máquina, não do pacote; não ocorre nas máquinas do CRAN.
 
 ### O que deixou de aparecer, e por quê
+
+**As três URLs com status 404**, até a 0.7.0. O repositório estava privado
+enquanto o pacote passava por revisão, e o verificador do CRAN é anônimo: as
+duas URLs do repositório e a do site de documentação respondiam 404 para
+qualquer visitante. Em 09/09/2026 o repositório foi aberto e o GitHub Pages
+passou a servir <https://moraespeixoto.github.io/ocupacoesBR/>. As três
+resolvem, e a NOTE deixou de ocorrer — os campos `URL` e `BugReports` do
+`DESCRIPTION` seguem como estavam.
+
+**O erro de LaTeX no manual em PDF**, na própria 0.8.0, antes desta submissão.
+Três ocorrências do sinal de menos matemático (U+2212) numa passagem de
+`?tse_para_isei` que relata coeficientes negativos faziam o `pdflatex` parar com
+"Unicode character not set up for use with LaTeX", o que produzia um WARNING e
+um ERROR. Passaram a hífen ASCII, que é o que o LaTeX espera e o que o leitor
+lê igual.
+
 
 **"Suggests or Enhances not in mainstream repositories: DIGCLASS"**, até a
 0.5.2. O `DIGCLASS` (Cimentada) é uma implementação independente das mesmas
