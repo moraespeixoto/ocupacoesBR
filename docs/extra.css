@@ -207,6 +207,8 @@ body > .container:not(.template-home) main table {
 .ocb-badge-k { background: var(--ocb-sup); color: var(--ocb-texto); padding: 3px 8px; }
 .ocb-badge-v { background: #1E8A99; color: #FFFFFF; padding: 3px 8px; }
 .ocb-badge-v.ocb-verde { background: #2E9E5B; }
+.ocb-badge-img { display: inline-flex; }
+.ocb-badge-img img { height: 22px; display: block; }
 
 .ocb-hero-arte { display: flex; justify-content: center; align-items: center; }
 .ocb-hero-arte img {

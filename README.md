@@ -3,6 +3,13 @@
 
 # ocupacoesBR <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
+<!-- badges: start -->
+
+[![R-CMD-check](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml)
+[![License:
+MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](https://opensource.org/licenses/MIT)
+<!-- badges: end -->
+
 Traduz a **ocupação declarada nas candidaturas ao TSE** em
 classificações padronizadas e medidas de posição social: ISCO-88,
 ISCO-08, ISEI, prestígio de Treiman, EGP e um esquema de classes e

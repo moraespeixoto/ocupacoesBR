@@ -33,11 +33,12 @@ existem porque este trabalho precisava comparar 1998 com 2024 sem somar
 duas ocupações na mesma linha.
 
 > Peixoto, V. (2026). As duas faces da classe no recrutamento político
-> brasileiro. **\[DOI em breve\]**
+> brasileiro. *SocArXiv* (preprint).
+> <https://doi.org/10.31235/osf.io/muxf8_v1>
 
 O trabalho que separa a classe de origem da classe de destino no
 recrutamento — e que é a razão de o pacote desacoplar as réguas em vez
-de escolher uma. O DOI entra aqui quando o preprint for depositado.
+de escolher uma.
 
 Se você publicou algo usando o pacote e quer que apareça nesta lista,
 abra uma questão em

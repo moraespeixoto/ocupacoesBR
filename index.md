@@ -30,7 +30,7 @@ remotes::install_github("moraespeixoto/ocupacoesBR")
 </div>
 
 <div class="ocb-badges">
-<span class="ocb-badge"><span class="ocb-badge-k">R-CMD-check</span><span class="ocb-badge-v ocb-verde">passing</span></span>
+<a class="ocb-badge-img" href="https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml"><img src="https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check" /></a>
 <span class="ocb-badge"><span class="ocb-badge-k">licença</span><span class="ocb-badge-v">MIT</span></span>
 <span class="ocb-badge"><span class="ocb-badge-k">cadastro TSE</span><span class="ocb-badge-v">1998–2026</span></span>
 <span class="ocb-badge"><span class="ocb-badge-k">idioma</span><span class="ocb-badge-v">pt-BR</span></span>
@@ -277,13 +277,19 @@ descritas. Os trabalhos empíricos usam o pacote como instrumento de medida.</p>
 <div class="ocb-pub">
 <span class="ocb-etiqueta ocb-etiqueta-pessego">Artigo de método</span>
 <p>Peixoto, V. (2026). Da ocupação declarada à posição social: as decisões de medida do pacote ocupacoesBR.</p>
-<div class="ocb-pub-meta"><span class="ocb-doi-vazio">[DOI EM BREVE]</span><span>Manuscrito em preparação</span></div>
+<div class="ocb-pub-meta"><a href="https://doi.org/10.31235/osf.io/b29kg_v1">doi:10.31235/osf.io/b29kg_v1</a><span>SocArXiv, 2026</span></div>
 </div>
 
 <div class="ocb-pub">
 <span class="ocb-etiqueta ocb-etiqueta-ciano">Trabalho empírico</span>
-<p>[TÍTULO DO ARTIGO SOBRE CLASSE E RECRUTAMENTO POLÍTICO]</p>
-<div class="ocb-pub-meta"><span class="ocb-doi-vazio">[DOI]</span><span>[PERIÓDICO, ANO]</span></div>
+<p>Peixoto, V. (2026). Os três corpos de uma eleição: eleitorado, candidaturas e eleitos no Brasil (1998–2026).</p>
+<div class="ocb-pub-meta"><a href="https://doi.org/10.31235/osf.io/57xp6_v1">doi:10.31235/osf.io/57xp6_v1</a><span>SocArXiv, 2026</span></div>
+</div>
+
+<div class="ocb-pub">
+<span class="ocb-etiqueta ocb-etiqueta-ciano">Trabalho empírico</span>
+<p>Peixoto, V. (2026). As duas faces da classe no recrutamento político brasileiro.</p>
+<div class="ocb-pub-meta"><a href="https://doi.org/10.31235/osf.io/muxf8_v1">doi:10.31235/osf.io/muxf8_v1</a><span>SocArXiv, 2026</span></div>
 </div>
 
 <div class="ocb-pub">
@@ -310,7 +316,7 @@ Contínua trimestral de 2025, que é o dado.</p>
 ```
 Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
 Declarada ao TSE em Classificacoes Padronizadas_. R
-package version 0.7.0,
+package version 0.8.0,
 <https://github.com/moraespeixoto/ocupacoesBR>.
 ```
 
@@ -319,7 +325,7 @@ package version 0.7.0,
 <div>
 <span class="ocb-rodape-titulo">Pacote</span>
 <a href="reference/index.html">Referência</a>
-<a href="news/index.html">Novidades (0.7.0)</a>
+<a href="news/index.html">Novidades (0.8.0)</a>
 <a href="https://github.com/moraespeixoto/ocupacoesBR">Código-fonte</a>
 <a href="https://github.com/moraespeixoto/ocupacoesBR/issues">Reportar um erro</a>
 </div>

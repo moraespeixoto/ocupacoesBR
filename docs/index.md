@@ -16,7 +16,8 @@ aqui](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md)
 usar?](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
 [Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
 
-R-CMD-checkpassing licençaMIT cadastro TSE1998–2026 idiomapt-BR
+[![R-CMD-check](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml)
+licençaMIT cadastro TSE1998–2026 idiomapt-BR
 
 ![Do código bruto de ocupação às ocupações
 classificadas](banner_ocupacoes.jpg)
@@ -235,13 +236,24 @@ Artigo de método
 Peixoto, V. (2026). Da ocupação declarada à posição social: as decisões
 de medida do pacote ocupacoesBR.
 
-\[DOI EM BREVE\]Manuscrito em preparação
+[doi:10.31235/osf.io/b29kg_v1](https://doi.org/10.31235/osf.io/b29kg_v1)SocArXiv,
+2026
 
 Trabalho empírico
 
-\[TÍTULO DO ARTIGO SOBRE CLASSE E RECRUTAMENTO POLÍTICO\]
+Peixoto, V. (2026). Os três corpos de uma eleição: eleitorado,
+candidaturas e eleitos no Brasil (1998–2026).
 
-\[DOI\]\[PERIÓDICO, ANO\]
+[doi:10.31235/osf.io/57xp6_v1](https://doi.org/10.31235/osf.io/57xp6_v1)SocArXiv,
+2026
+
+Trabalho empírico
+
+Peixoto, V. (2026). As duas faces da classe no recrutamento político
+brasileiro.
+
+[doi:10.31235/osf.io/muxf8_v1](https://doi.org/10.31235/osf.io/muxf8_v1)SocArXiv,
+2026
 
 A fonte das réguas
 
@@ -263,13 +275,13 @@ IBGE, pela PNAD Contínua trimestral de 2025, que é o dado.
 
     Peixoto V (2026). _ocupacoesBR: Traduz a Ocupacao
     Declarada ao TSE em Classificacoes Padronizadas_. R
-    package version 0.7.0,
+    package version 0.8.0,
     <https://github.com/moraespeixoto/ocupacoesBR>.
 
 Pacote
 [Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
 [Novidades
-(0.7.0)](https://moraespeixoto.github.io/ocupacoesBR/news/index.md)
+(0.8.0)](https://moraespeixoto.github.io/ocupacoesBR/news/index.md)
 [Código-fonte](https://github.com/moraespeixoto/ocupacoesBR) [Reportar
 um erro](https://github.com/moraespeixoto/ocupacoesBR/issues)
 

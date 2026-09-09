@@ -169,10 +169,11 @@ construtos diferentes.
 ## As quatro colunas não se somam a 100
 
 `pct_conta_propria`, `pct_setor_publico` e `pct_militar` são mutuamente
-exclusivas — `V4012` vale 2, 4 ou 5, 6, nunca duas — e a soma das três
-nunca passa de 100. O que sobra é empregado do setor privado,
-trabalhador doméstico e trabalhador familiar auxiliar. `pct_empregador`
-**não** entra nessa soma: é subconjunto de `pct_conta_propria`.
+exclusivas — `V4012` vale 2, 4, 5 ou 6, e nunca duas ao mesmo tempo — e
+a soma das três nunca passa de 100. O que sobra é empregado do setor
+privado, trabalhador doméstico e trabalhador familiar auxiliar.
+`pct_empregador` **não** entra nessa soma: é subconjunto de
+`pct_conta_propria`.
 
 ## A tabela atravessa a ponte reversa
 
