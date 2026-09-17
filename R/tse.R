@@ -429,6 +429,11 @@ tse_para_politico <- function(cod, ano = NULL) {
 #' separou `proprietario` de `conta_propria`, e pela mesma razão: quando dois
 #' conceitos compartilham um vetor, mexer num arrasta o outro.
 #'
+#' @return Não é função, e sim um vetor `character` de comprimento 10, exportado
+#'   como constante. Cada elemento é um código de ocupação do TSE, em texto com
+#'   três dígitos, cujo rótulo é autodescrição de propriedade ou empreendimento.
+#'   Serve de filtro: `x %in% tse_codigos_autorrotulo` marca as candidaturas
+#'   cujo escore ocupacional não tem registro externo que o ancore.
 #' @seealso [tse_para_componente_alta()], que documenta a assimetria de
 #'   confiabilidade entre as duas metades da classe alta.
 #' @examples

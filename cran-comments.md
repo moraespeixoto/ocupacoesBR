@@ -1,8 +1,26 @@
 # Comentários para a submissão ao CRAN
 
+## Resposta à revisão da 0.8.0
+
+Esta é uma ressubmissão. A revisão manual da 0.8.0 pediu duas correções, e as
+duas foram feitas na 0.8.1:
+
+- **Referências no `Description`.** O campo passa a citar, no formato
+  `autores (ano) <doi:...>` e `(ano, ISBN:...)`, as obras que descrevem os
+  métodos: Ganzeboom e Treiman (1996) <doi:10.1006/ssre.1996.0010>, Treiman
+  (1977, ISBN:0-12-698750-5), Erikson, Goldthorpe e Portocarero (1979)
+  <doi:10.2307/589632>, Ganzeboom, De Graaf e Treiman (1992)
+  <doi:10.1016/0049-089X(92)90017-B> e Peixoto (2026)
+  <doi:10.31235/osf.io/b29kg_v1>. Os DOIs foram conferidos no Crossref.
+- **`\value` ausente em `tse_codigos_autorrotulo.Rd`.** O objeto é uma
+  constante exportada (um vetor `character`), e não uma função; a página agora
+  descreve a classe, o comprimento e o significado do valor. Nenhuma outra
+  página de ajuda de objeto não-dado ficou sem `\value`.
+
+
 ## Verificação
 
-`R CMD check --as-cran` na versão 0.8.0, x86_64-pc-linux-gnu (Ubuntu 26.04),
+`R CMD check --as-cran` na versão 0.8.1, x86_64-pc-linux-gnu (Ubuntu 26.04),
 R 4.6.1: **0 ERROR, 0 WARNING, 2 NOTEs.** Os testes passam sem falha e sem
 SKIP, e as vinhetas reconstroem.
 

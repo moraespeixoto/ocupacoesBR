@@ -39,3 +39,4 @@
 ^index\.Rmd$
 ^index\.md$
 ^tests/testthat/test-digclass\.R$
+^artigo_isei_br_temporal$

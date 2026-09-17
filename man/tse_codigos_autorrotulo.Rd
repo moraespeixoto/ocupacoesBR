@@ -9,6 +9,13 @@ Vetor de texto com os códigos.
 \usage{
 tse_codigos_autorrotulo
 }
+\value{
+Não é função, e sim um vetor \code{character} de comprimento 10, exportado
+como constante. Cada elemento é um código de ocupação do TSE, em texto com
+três dígitos, cujo rótulo é autodescrição de propriedade ou empreendimento.
+Serve de filtro: \code{x \%in\% tse_codigos_autorrotulo} marca as candidaturas
+cujo escore ocupacional não tem registro externo que o ancore.
+}
 \description{
 Os códigos de ocupação do TSE que designam \strong{propriedade ou empreendimento}
 — empresário, comerciante, industrial, proprietário de estabelecimento — e
