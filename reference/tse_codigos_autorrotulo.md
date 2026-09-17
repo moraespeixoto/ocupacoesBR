@@ -15,6 +15,15 @@ tse_codigos_autorrotulo
 
 Vetor de texto com os códigos.
 
+## Value
+
+Não é função, e sim um vetor `character` de comprimento 10, exportado
+como constante. Cada elemento é um código de ocupação do TSE, em texto
+com três dígitos, cujo rótulo é autodescrição de propriedade ou
+empreendimento. Serve de filtro: `x %in% tse_codigos_autorrotulo` marca
+as candidaturas cujo escore ocupacional não tem registro externo que o
+ancore.
+
 ## Por que estes e não outros
 
 O critério é **a priori, não empírico**: existe um registro externo que

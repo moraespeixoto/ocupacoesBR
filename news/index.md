@@ -1,5 +1,20 @@
 # Changelog
 
+## ocupacoesBR 0.8.1
+
+Correções pedidas pela revisão manual do CRAN à 0.8.0, sem mudança de
+comportamento, de dado ou de resultado.
+
+- O campo `Description` do `DESCRIPTION` passa a citar, com DOI ou ISBN,
+  as obras que definem cada régua: Ganzeboom e Treiman (1996) para o
+  ISEI, Treiman (1977) para o prestígio, Erikson, Goldthorpe e
+  Portocarero (1979) para o EGP, além de Ganzeboom, De Graaf e Treiman
+  (1992), já citado, e do preprint de método do pacote.
+- [`?tse_codigos_autorrotulo`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_codigos_autorrotulo.md)
+  ganha a seção de valor (`\value`), que faltava por ser uma constante
+  exportada e não uma função: diz que o objeto é um vetor `character` de
+  dez códigos e para que serve.
+
 ## ocupacoesBR 0.8.0
 
 O índice de referência promete, na porta do IBGE, que “é por aqui que se

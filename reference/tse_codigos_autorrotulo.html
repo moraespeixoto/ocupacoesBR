@@ -13,7 +13,7 @@ análise com e sem eles, em uma linha."><meta property="og:image" content="https
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.0</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.1</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -73,6 +73,14 @@ análise com e sem eles, em uma linha.</p>
     <div class="section level2">
     <h2 id="format">Format<a class="anchor" aria-label="anchor" href="#format"></a></h2>
     <p>Vetor de texto com os códigos.</p>
+    </div>
+    <div class="section level2">
+    <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
+    <p>Não é função, e sim um vetor <code>character</code> de comprimento 10, exportado
+como constante. Cada elemento é um código de ocupação do TSE, em texto com
+três dígitos, cujo rótulo é autodescrição de propriedade ou empreendimento.
+Serve de filtro: <code>x %in% tse_codigos_autorrotulo</code> marca as candidaturas
+cujo escore ocupacional não tem registro externo que o ancore.</p>
     </div>
     <div class="section level2">
     <h2 id="por-que-estes-e-n-o-outros">Por que estes e não outros<a class="anchor" aria-label="anchor" href="#por-que-estes-e-n-o-outros"></a></h2>
