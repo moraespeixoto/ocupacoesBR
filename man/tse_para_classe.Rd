@@ -22,7 +22,7 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor de texto com a classe.
+Vetor de texto com o rotulo da classe (por exemplo "Classe alta", "Vinculo publico, superior"), nas categorias descritas acima. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo do TSE nao tem entrada no dicionario.
 }
 \description{
 Esquema de doze categorias desenhado para o dado eleitoral brasileiro. Não é

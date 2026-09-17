@@ -37,6 +37,12 @@ inclusive nas colapsadas; se \code{FALSE}, os códigos inteiros.}
 }
 \value{
 Vetor de texto (ou inteiro, se \code{rotulo = FALSE}).
+
+Se \code{rotulo = TRUE} (padrão), vetor de texto com o rótulo da classe
+EGP (por exemplo "I: dirigentes e profissionais superiores"); se
+\code{rotulo = FALSE}, o código inteiro da classe (1 a 11, ou menos nas
+versões colapsadas, conforme \code{n_classes}). Mesmo comprimento e ordem do
+vetor de entrada; \code{NA} onde o código ISCO-88 não tem correspondência.
 }
 \description{
 Implementação das sintaxes \code{iskopromo.sps} e \code{iskoegp.sps} do International

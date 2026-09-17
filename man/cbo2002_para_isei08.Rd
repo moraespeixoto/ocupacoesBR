@@ -22,7 +22,7 @@ ocupacao declarada e passa a ser o seu grupo. Use
 \code{\link[=crosswalk_cbo2002]{crosswalk_cbo2002()}} para ver \code{nivel_usado} caso a caso.}
 }
 \value{
-Vetor numerico com o escore ISEI-08.
+Vetor numerico com o escore ISEI-08, na escala de Ganzeboom e Treiman reestimada sobre o ISSP de 2002-2007 (de 11 a 89 neste dicionario). Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela \link{isco08_medidas}.
 }
 \description{
 ISEI-08 a partir da CBO-2002

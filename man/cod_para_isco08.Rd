@@ -10,7 +10,9 @@ cod_para_isco08(cod)
 \item{cod}{Vetor de codigos da COD, de quatro digitos.}
 }
 \value{
-Vetor de texto com o ISCO-08.
+Vetor de texto com o codigo ISCO-08 de quatro digitos. Mesmo
+comprimento e ordem do vetor de entrada; \code{NA} onde o codigo da COD nao
+tem correspondencia na tabela \link{cod_isco08}.
 }
 \description{
 Converte o codigo da Classificacao de Ocupacoes para Pesquisas Domiciliares

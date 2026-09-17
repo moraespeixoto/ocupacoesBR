@@ -172,7 +172,7 @@ checa_cobertura <- function(cod, silencioso = FALSE) {
 #'
 #' @param cbo Vetor de códigos da CBO-2002 observados no seu dado.
 #' @param silencioso Se `TRUE`, não escreve a mensagem de sucesso.
-#' @return Invisivelmente, `TRUE`.
+#' @return Invisivelmente, `TRUE`, se todo codigo observado tem entrada na tabela. O valor em si nao carrega informacao alem de confirmar que nao houve erro: a funcao para com `stop()`, nomeando os codigos sem entrada, quando a cobertura falha, e a mensagem de sucesso (a menos que `silencioso = TRUE`) e' o efeito colateral que interessa.
 #' @examples
 #' checa_cobertura_cbo2002(c("1111-05", "225120"))
 #' try(checa_cobertura_cbo2002(NULL))

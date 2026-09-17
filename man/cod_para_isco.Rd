@@ -10,7 +10,7 @@ cod_para_isco(cod)
 \item{cod}{Vetor de codigos da COD, de quatro digitos.}
 }
 \value{
-Vetor de texto com o ISCO-88.
+Vetor de texto com o codigo ISCO-88 de quatro digitos. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo da COD nao tem correspondencia.
 }
 \description{
 Passa pela ISCO-08 e desce pela ponte reversa. E o caminho para o ISEI-88 e

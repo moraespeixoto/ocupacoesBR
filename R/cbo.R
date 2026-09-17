@@ -250,7 +250,7 @@ cbo2002_concordancia <- function(cbo) {
 #' Indice socioeconomico ISEI a partir da CBO-2002
 #'
 #' @inheritParams cbo2002_para_isco
-#' @return Vetor numerico com o escore ISEI-88.
+#' @return Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman (de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco88_medidas].
 #' @examples
 #' cbo2002_para_isei(c("1111-05", "225120"))
 #' @export
@@ -262,7 +262,7 @@ cbo2002_para_isei <- function(cbo, empate = c("na", "moda"), escada = FALSE) {
 #' Prestigio ocupacional SIOPS a partir da CBO-2002
 #'
 #' @inheritParams cbo2002_para_isco
-#' @return Vetor numerico com o escore SIOPS.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' cbo2002_para_siops(c("1111-05", "225120"))
 #' @export
@@ -286,7 +286,7 @@ cbo2002_para_siops <- function(cbo, empate = c("na", "moda"), escada = FALSE) {
 #'
 #' @inheritParams cbo2002_para_isco
 #' @inheritParams isco88_para_egp
-#' @return Vetor de texto (ou inteiro, se `rotulo = FALSE`).
+#' @return Se `rotulo = TRUE` (padrao), vetor de texto com o rotulo da classe EGP (por exemplo "I: dirigentes e profissionais superiores"); se `rotulo = FALSE`, o codigo inteiro da classe (1 a 11, ou menos nas versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo de origem nao tem correspondencia.
 #' @examples
 #' cbo2002_para_egp("521110", avisar = FALSE)
 #' cbo2002_para_egp("521110", conta_propria = TRUE, n_supervisionados = 0)
@@ -361,7 +361,7 @@ cbo94_para_isco <- function(cbo94) {
 #' Indice socioeconomico ISEI a partir da CBO-94
 #'
 #' @inheritParams cbo94_para_isco
-#' @return Vetor numerico com o escore ISEI-88.
+#' @return Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman (de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco88_medidas].
 #' @examples
 #' cbo94_para_isei("2-11.20")
 #' @export
@@ -463,7 +463,7 @@ crosswalk_cbo2002 <- function(cbo = NULL, empate = c("na", "moda"),
 #' Indice socioeconomico ISEI a partir do ISCO-88
 #'
 #' @param isco88 Vetor de codigos ISCO-88.
-#' @return Vetor numerico com o escore ISEI-88.
+#' @return Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman (de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco88_medidas].
 #' @examples
 #' isco88_para_isei(c("2221", "5220", "9130"))
 #' @export
@@ -475,7 +475,7 @@ isco88_para_isei <- function(isco88) {
 #' Prestigio ocupacional de Treiman (SIOPS) a partir do ISCO-88
 #'
 #' @inheritParams isco88_para_isei
-#' @return Vetor numerico com o escore de prestigio.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' isco88_para_siops(c("2221", "5220", "9130"))
 #' @export
@@ -487,7 +487,7 @@ isco88_para_siops <- function(isco88) {
 #' Prestigio ocupacional de Treiman a partir da CBO-94
 #'
 #' @inheritParams cbo94_para_isco
-#' @return Vetor numerico com o escore de prestigio.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' cbo94_para_siops("2-11.20")
 #' @export
@@ -518,7 +518,7 @@ cbo94_para_isco08 <- function(cbo94, com_ambiguidade = FALSE) {
 #'
 #' @inheritParams cbo94_para_isco
 #' @inheritParams isco88_para_egp
-#' @return Vetor de texto (ou inteiro, se `rotulo = FALSE`).
+#' @return Se `rotulo = TRUE` (padrao), vetor de texto com o rotulo da classe EGP (por exemplo "I: dirigentes e profissionais superiores"); se `rotulo = FALSE`, o codigo inteiro da classe (1 a 11, ou menos nas versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo de origem nao tem correspondencia.
 #' @examples
 #' cbo94_para_egp("2-11.20", avisar = FALSE)
 #' @export
@@ -532,7 +532,7 @@ cbo94_para_egp <- function(cbo94, conta_propria = NULL,
 #' ISEI-08 a partir da CBO-2002
 #'
 #' @inheritParams cbo2002_para_isco
-#' @return Vetor numerico com o escore ISEI-08.
+#' @return Vetor numerico com o escore ISEI-08, na escala de Ganzeboom e Treiman reestimada sobre o ISSP de 2002-2007 (de 11 a 89 neste dicionario). Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco08_medidas].
 #' @examples
 #' cbo2002_para_isei08("225120")
 #' @export
@@ -545,7 +545,7 @@ cbo2002_para_isei08 <- function(cbo, empate = c("na", "moda"),
 #' Prestigio ancorado na ISCO-08 a partir da CBO-2002
 #'
 #' @inheritParams cbo2002_para_isco
-#' @return Vetor numerico com o escore de prestigio.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' cbo2002_para_siops08("225120")
 #' @export
@@ -561,7 +561,7 @@ cbo2002_para_siops08 <- function(cbo, empate = c("na", "moda"),
 #'
 #' @param cbo94 Vetor de codigos da CBO-94 observados no seu dado.
 #' @param silencioso Se `TRUE`, nao escreve a mensagem de sucesso.
-#' @return Invisivelmente, `TRUE`.
+#' @return Invisivelmente, `TRUE`, se todo codigo observado tem entrada na tabela. O valor em si nao carrega informacao alem de confirmar que nao houve erro: a funcao para com `stop()`, nomeando os codigos sem entrada, quando a cobertura falha, e a mensagem de sucesso (a menos que `silencioso = TRUE`) e' o efeito colateral que interessa.
 #' @examples
 #' checa_cobertura_cbo94(c("2-11.20", "21130"))
 #' @export

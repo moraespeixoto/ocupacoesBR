@@ -45,7 +45,7 @@ ocupacao declarada e passa a ser o seu grupo. Use
 \code{\link[=crosswalk_cbo2002]{crosswalk_cbo2002()}} para ver \code{nivel_usado} caso a caso.}
 }
 \value{
-Vetor de texto (ou inteiro, se \code{rotulo = FALSE}).
+Se \code{rotulo = TRUE} (padrao), vetor de texto com o rotulo da classe EGP (por exemplo "I: dirigentes e profissionais superiores"); se \code{rotulo = FALSE}, o codigo inteiro da classe (1 a 11, ou menos nas versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo de origem nao tem correspondencia.
 }
 \description{
 Depende da fonte, e a diferenca importa. A RAIS, o CAGED e o eSocial sao

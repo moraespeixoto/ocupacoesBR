@@ -30,7 +30,7 @@
 #' funcionando como alias depreciados.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor numerico com o escore de prestigio.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @references Treiman, D. J. (1977). *Occupational Prestige in Comparative
 #'   Perspective*. New York: Academic Press.
 #' @examples
@@ -53,7 +53,7 @@ tse_para_prestigio <- function(cod, ano = NULL) {
 #' 0.3.0; a assinatura agora e a mesma de `tse_para_siops08()`.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor numerico.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' tse_para_prestigio08(c(111, 169))
 #' tse_para_prestigio08("215", ano = 2000)   # reutilizado: NA com aviso
@@ -65,7 +65,7 @@ tse_para_prestigio08 <- function(cod, ano = NULL) {
 
 #' Prestigio de Treiman a partir do ISCO-88
 #' @inheritParams isco88_para_isei
-#' @return Vetor numerico.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' isco88_para_prestigio("2221")
 #' @export
@@ -73,7 +73,7 @@ isco88_para_prestigio <- function(isco88) isco88_para_siops(isco88)
 
 #' Prestigio de Treiman a partir da CBO-2002
 #' @inheritParams cbo2002_para_isco
-#' @return Vetor numerico.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' cbo2002_para_prestigio("225120")
 #' @export
@@ -85,7 +85,11 @@ cbo2002_para_prestigio <- function(cbo, empate = c("na", "moda"),
 
 #' Prestigio de Treiman a partir da CBO-94
 #' @inheritParams cbo94_para_isco
-#' @return Vetor numerico.
+#' @return Vetor numerico com o escore SIOPS (Standard International
+#'   Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF:
+#'   quanto maior, mais prestigiada a ocupacao na media dos estudos
+#'   originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o
+#'   codigo nao tem correspondencia na tabela.
 #' @examples
 #' cbo94_para_prestigio("2-11.20")
 #' @export
@@ -98,7 +102,7 @@ cbo94_para_prestigio <- function(cbo94) cbo94_para_siops(cbo94)
 #' codigo truncado. Veja [isco88_para_isco08()].
 #'
 #' @inheritParams cbo2002_para_isco
-#' @return Vetor numerico.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' cbo2002_para_prestigio08("225120")
 #' @export

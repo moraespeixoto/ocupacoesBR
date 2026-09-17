@@ -10,7 +10,7 @@ isco08_para_isei_br(isco08)
 \item{isco08}{Vetor de codigos ISCO-08.}
 }
 \value{
-Vetor numerico com o escore ISEI-BR, entre 10 e 90.
+Vetor numerico com o escore ISEI-BR, na escala estimada pelo proprio pacote sobre a PNAD Continua de 2025 (de 11,7 a 90 nesta tabela): quanto maior, mais a ocupacao converte escolaridade em renda no mercado de trabalho brasileiro de hoje. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela \link{isco08_isei_br}.
 }
 \description{
 Entrada direta para quem ja tem o codigo internacional. Leia

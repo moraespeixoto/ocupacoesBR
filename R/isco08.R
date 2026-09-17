@@ -201,7 +201,7 @@ tse_para_isco08 <- function(cod, com_ambiguidade = FALSE, ano = NULL) {
 #' mede essas duas coisas como se fossem mobilidade.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor numérico com o escore ISEI-08.
+#' @return Vetor numerico com o escore ISEI-08, na escala de Ganzeboom e Treiman reestimada sobre o ISSP de 2002-2007 (de 11 a 89 neste dicionario). Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco08_medidas].
 #' @examples
 #' data.frame(cod = c(111, 113), isei88 = tse_para_isei(c(111, 113)),
 #'            isei08 = tse_para_isei08(c(111, 113)))
@@ -213,7 +213,7 @@ tse_para_isei08 <- function(cod, ano = NULL) {
 #' SIOPS-08 da ocupação declarada ao TSE
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor numérico com o escore SIOPS ancorado na ISCO-08.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' tse_para_siops08(c(111, 169))
 #' @export

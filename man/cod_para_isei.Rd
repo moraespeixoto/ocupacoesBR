@@ -10,7 +10,7 @@ cod_para_isei(cod)
 \item{cod}{Vetor de codigos da COD, de quatro digitos.}
 }
 \value{
-Vetor numerico com o escore ISEI-88.
+Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman (de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela \link{isco88_medidas}.
 }
 \description{
 Use este, e nao \code{\link[=cod_para_isei08]{cod_para_isei08()}}, para comparar com dado eleitoral: o

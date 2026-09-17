@@ -22,7 +22,7 @@ ocupacao declarada e passa a ser o seu grupo. Use
 \code{\link[=crosswalk_cbo2002]{crosswalk_cbo2002()}} para ver \code{nivel_usado} caso a caso.}
 }
 \value{
-Vetor numerico com o escore ISEI-88.
+Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman (de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela \link{isco88_medidas}.
 }
 \description{
 Indice socioeconomico ISEI a partir da CBO-2002

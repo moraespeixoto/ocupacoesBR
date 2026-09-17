@@ -16,7 +16,7 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor numerico.
+Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela.
 }
 \description{
 Prestigio de Treiman ancorado na ISCO-08, a partir do TSE

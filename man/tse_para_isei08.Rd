@@ -16,7 +16,7 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor numérico com o escore ISEI-08.
+Vetor numerico com o escore ISEI-08, na escala de Ganzeboom e Treiman reestimada sobre o ISSP de 2002-2007 (de 11 a 89 neste dicionario). Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela \link{isco08_medidas}.
 }
 \description{
 Escore ISEI ancorado na ISCO-08, obtido pela ponte a partir do ISCO-88.

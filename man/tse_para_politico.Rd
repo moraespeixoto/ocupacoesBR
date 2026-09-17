@@ -16,7 +16,7 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor lógico.
+Vetor logico: \code{TRUE} quando o codigo e' um cargo ou mandato politico (vereador, deputado, prefeito, governador e afins), \code{FALSE} caso contrario. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo do TSE nao tem entrada no dicionario.
 }
 \description{
 Marca as ocupações que são o próprio ofício político (vereador, deputado,

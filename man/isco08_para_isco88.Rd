@@ -10,7 +10,7 @@ isco08_para_isco88(isco08)
 \item{isco08}{Vetor de codigos ISCO-08.}
 }
 \value{
-Vetor de texto com o ISCO-88.
+Vetor de texto com o codigo ISCO-88 de quatro digitos. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo ISCO-08 nao tem correspondencia na ponte reversa (veja a secao acima sobre a ida e a volta).
 }
 \description{
 A ponte de volta, do modulo \code{isco0888.sps} do ISMF.

@@ -16,7 +16,11 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor numérico com o escore SIOPS, ou \code{NA}.
+Vetor numérico com o escore SIOPS (Standard International
+Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF:
+quanto maior, mais prestigiada a ocupação na média dos estudos
+originais. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o
+código do TSE não tem entrada no dicionário.
 }
 \description{
 Devolve o escore SIOPS (Standard International Occupational Prestige Scale),

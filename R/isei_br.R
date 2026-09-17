@@ -38,7 +38,7 @@
 #' *Social Science Research*, 21(1), 1-56.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor numerico com o escore ISEI-BR, entre 10 e 90.
+#' @return Vetor numerico com o escore ISEI-BR, na escala estimada pelo proprio pacote sobre a PNAD Continua de 2025 (de 11,7 a 90 nesta tabela): quanto maior, mais a ocupacao converte escolaridade em renda no mercado de trabalho brasileiro de hoje. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco08_isei_br].
 #' @seealso [isco08_isei_br] para a tabela e o metodo; [tse_para_isei08()]
 #'   para a ancora internacional; `vignette("validacao")` para a comparacao
 #'   das duas contra o patrimonio dos candidatos.
@@ -59,7 +59,7 @@ tse_para_isei_br <- function(cod, ano = NULL) {
 #' Leia [tse_para_isei_br()] para o que a regua e e o que ela nao e.
 #'
 #' @inheritParams cod_para_isco08
-#' @return Vetor numerico com o escore ISEI-BR, entre 10 e 90.
+#' @return Vetor numerico com o escore ISEI-BR, na escala estimada pelo proprio pacote sobre a PNAD Continua de 2025 (de 11,7 a 90 nesta tabela): quanto maior, mais a ocupacao converte escolaridade em renda no mercado de trabalho brasileiro de hoje. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco08_isei_br].
 #' @seealso [tse_para_isei_br()], [isco08_isei_br]
 #' @examples
 #' cod_para_isei_br(c("2211", "9629"))
@@ -91,7 +91,7 @@ cod_para_isei_br <- function(cod) {
 #' serie de RAIS que comece em 2003.
 #'
 #' @inheritParams cbo2002_para_isco
-#' @return Vetor numerico com o escore ISEI-BR, entre 10 e 90.
+#' @return Vetor numerico com o escore ISEI-BR, na escala estimada pelo proprio pacote sobre a PNAD Continua de 2025 (de 11,7 a 90 nesta tabela): quanto maior, mais a ocupacao converte escolaridade em renda no mercado de trabalho brasileiro de hoje. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco08_isei_br].
 #' @seealso [tse_para_isei_br()], [isco08_isei_br]
 #' @examples
 #' cbo2002_para_isei_br("225120")
@@ -108,7 +108,7 @@ cbo2002_para_isei_br <- function(cbo, empate = c("na", "moda"),
 #' [tse_para_isei_br()] para o que a regua e e o que ela nao e.
 #'
 #' @param isco08 Vetor de codigos ISCO-08.
-#' @return Vetor numerico com o escore ISEI-BR, entre 10 e 90.
+#' @return Vetor numerico com o escore ISEI-BR, na escala estimada pelo proprio pacote sobre a PNAD Continua de 2025 (de 11,7 a 90 nesta tabela): quanto maior, mais a ocupacao converte escolaridade em renda no mercado de trabalho brasileiro de hoje. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco08_isei_br].
 #' @seealso [tse_para_isei_br()], [isco08_isei_br]
 #' @examples
 #' isco08_para_isei_br(c("2211", "5411"))

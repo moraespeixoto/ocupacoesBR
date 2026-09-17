@@ -16,7 +16,7 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor de texto, ou \code{NA} fora da classe alta.
+Vetor de texto com o componente da classe alta ("Proprietaria", "Credenciada" ou a categoria politica, conforme descrito acima), ou \code{NA} fora da classe alta e onde o codigo do TSE nao tem entrada no dicionario.
 }
 \description{
 Separa a classe alta nas duas espécies de recurso que a compõem — o capital e

@@ -43,7 +43,7 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor de texto (ou inteiro, se \code{rotulo = FALSE}).
+Se \code{rotulo = TRUE} (padrao), vetor de texto com o rotulo da classe EGP (por exemplo "I: dirigentes e profissionais superiores"); se \code{rotulo = FALSE}, o codigo inteiro da classe (1 a 11, ou menos nas versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo de origem nao tem correspondencia.
 }
 \description{
 Atalho de \code{\link[=tse_para_isco]{tse_para_isco()}} seguido de \code{\link[=isco88_para_egp]{isco88_para_egp()}}. Leia

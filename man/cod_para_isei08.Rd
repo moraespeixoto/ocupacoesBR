@@ -10,7 +10,7 @@ cod_para_isei08(cod)
 \item{cod}{Vetor de codigos da COD, de quatro digitos.}
 }
 \value{
-Vetor numerico com o escore ISEI-08.
+Vetor numerico com o escore ISEI-08, na escala de Ganzeboom e Treiman reestimada sobre o ISSP de 2002-2007 (de 11 a 89 neste dicionario). Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela \link{isco08_medidas}.
 }
 \description{
 ISEI-08 a partir da COD

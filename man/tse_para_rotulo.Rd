@@ -13,7 +13,7 @@ tse_para_rotulo(cod, ano = NULL)
 Com ele, devolve o rótulo vigente naquele ano; sem ele, o mais recente.}
 }
 \value{
-Vetor de texto com o rótulo, ou \code{NA}.
+Vetor de texto com o rotulo da ocupacao tal como o TSE o escreveu naquele ano (ou o mais recente, se \code{ano} for omitido). Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem entrada no cadastro de rotulos.
 }
 \description{
 Rótulo da ocupação, como o TSE o escreveu

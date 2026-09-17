@@ -76,7 +76,9 @@
 #' comportamento correto, nao um escore inventado.
 #'
 #' @param cod Vetor de codigos da COD, de quatro digitos.
-#' @return Vetor de texto com o ISCO-08.
+#' @return Vetor de texto com o codigo ISCO-08 de quatro digitos. Mesmo
+#'   comprimento e ordem do vetor de entrada; `NA` onde o codigo da COD nao
+#'   tem correspondencia na tabela [cod_isco08].
 #' @seealso [cod_para_isei08()], [cod_para_isco()], [crosswalk_cod()]
 #' @examples
 #' cod_para_isco08(c("2211", "0411", "6225"))
@@ -98,7 +100,7 @@ cod_para_isco08 <- function(cod) {
 #' tem volta ao mesmo lugar, e quem encadeia as duas pontes precisa saber disso.
 #'
 #' @param isco08 Vetor de codigos ISCO-08.
-#' @return Vetor de texto com o ISCO-88.
+#' @return Vetor de texto com o codigo ISCO-88 de quatro digitos. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo ISCO-08 nao tem correspondencia na ponte reversa (veja a secao acima sobre a ida e a volta).
 #' @examples
 #' isco08_para_isco88(c("2211", "5412"))
 #' @export
@@ -109,7 +111,7 @@ isco08_para_isco88 <- function(isco08) {
 
 #' ISEI-08 a partir da COD
 #' @inheritParams cod_para_isco08
-#' @return Vetor numerico com o escore ISEI-08.
+#' @return Vetor numerico com o escore ISEI-08, na escala de Ganzeboom e Treiman reestimada sobre o ISSP de 2002-2007 (de 11 a 89 neste dicionario). Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco08_medidas].
 #' @examples
 #' cod_para_isei08(c("2211", "9629"))
 #' @export
@@ -119,7 +121,7 @@ cod_para_isei08 <- function(cod) {
 
 #' Prestigio de Treiman ancorado na ISCO-08, a partir da COD
 #' @inheritParams cod_para_isco08
-#' @return Vetor numerico.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' cod_para_prestigio08(c("2211", "9629"))
 #' @export
@@ -141,7 +143,7 @@ cod_para_prestigio08 <- function(cod) {
 #' militar em outro. O exemplo abaixo mostra os dois caminhos.
 #'
 #' @inheritParams cod_para_isco08
-#' @return Vetor de texto com o ISCO-88.
+#' @return Vetor de texto com o codigo ISCO-88 de quatro digitos. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo da COD nao tem correspondencia.
 #' @seealso O artigo *Comparar duas fontes*, no site do pacote, que trata das
 #'   oito decisoes de uma comparacao entre candidaturas e populacao e explica
 #'   esta adaptacao em detalhe:
@@ -161,7 +163,7 @@ cod_para_isco <- function(cod) isco08_para_isco88(cod_para_isco08(cod))
 #' pacote e ancorado na ISCO-88 e e nela que o TSE aterrissa.
 #'
 #' @inheritParams cod_para_isco08
-#' @return Vetor numerico com o escore ISEI-88.
+#' @return Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman (de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela [isco88_medidas].
 #' @examples
 #' cod_para_isei(c("2211", "9629"))
 #' @export
@@ -171,7 +173,7 @@ cod_para_isei <- function(cod) {
 
 #' Prestigio de Treiman a partir da COD
 #' @inheritParams cod_para_isco08
-#' @return Vetor numerico.
+#' @return Vetor numerico com o escore SIOPS (Standard International Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior, mais prestigiada a ocupacao na media dos estudos originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem correspondencia na tabela.
 #' @examples
 #' cod_para_prestigio(c("2211", "9629"))
 #' @export
@@ -191,7 +193,11 @@ cod_para_prestigio <- function(cod) {
 #'
 #' @inheritParams cod_para_isco08
 #' @inheritParams isco88_para_egp
-#' @return Vetor de texto (ou inteiro, se `rotulo = FALSE`).
+#' @return Se `rotulo = TRUE` (padrao), vetor de texto com o rotulo da classe
+#'   EGP (por exemplo "I: dirigentes e profissionais superiores"); se
+#'   `rotulo = FALSE`, o codigo inteiro da classe (1 a 11, ou menos nas
+#'   versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; `NA`
+#'   onde o codigo de origem nao tem correspondencia.
 #' @examples
 #' cod_para_egp("2211", avisar = FALSE)
 #' @export
@@ -204,7 +210,7 @@ cod_para_egp <- function(cod, conta_propria = NULL, n_supervisionados = NULL,
 #' Verifica a cobertura de codigos da COD
 #' @param cod Vetor de codigos da COD observados no seu dado.
 #' @param silencioso Se `TRUE`, nao escreve a mensagem de sucesso.
-#' @return Invisivelmente, `TRUE`.
+#' @return Invisivelmente, `TRUE`, se todo codigo observado tem entrada na tabela. O valor em si nao carrega informacao alem de confirmar que nao houve erro: a funcao para com `stop()`, nomeando os codigos sem entrada, quando a cobertura falha, e a mensagem de sucesso (a menos que `silencioso = TRUE`) e' o efeito colateral que interessa.
 #' @examples
 #' checa_cobertura_cod(c("2211", "0411"))
 #' @export

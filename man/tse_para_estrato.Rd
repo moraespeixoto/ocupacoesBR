@@ -16,7 +16,7 @@ designava um cargo de direção até 2000 e passou a designar artista
 plástico. Sem ele, o comportamento é o de sempre. Veja \code{\link[=tse_vigencia]{tse_vigencia()}}.}
 }
 \value{
-Vetor de texto com o estrato.
+Vetor de texto com o estrato ("Classe alta", "Classe media", "Classes populares", ou uma das duas categorias residuais descritas acima). Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo do TSE nao tem entrada no dicionario.
 }
 \description{
 Agrega as classes de \code{\link[=tse_para_classe]{tse_para_classe()}} em classe alta, classe média e

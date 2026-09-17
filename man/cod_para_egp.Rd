@@ -31,7 +31,11 @@ inclusive nas colapsadas; se \code{FALSE}, os códigos inteiros.}
 \code{n_supervisionados} não são fornecidos.}
 }
 \value{
-Vetor de texto (ou inteiro, se \code{rotulo = FALSE}).
+Se \code{rotulo = TRUE} (padrao), vetor de texto com o rotulo da classe
+EGP (por exemplo "I: dirigentes e profissionais superiores"); se
+\code{rotulo = FALSE}, o codigo inteiro da classe (1 a 11, ou menos nas
+versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; \code{NA}
+onde o codigo de origem nao tem correspondencia.
 }
 \description{
 A PNAD Continua tem posicao na ocupacao (V4012) e o numero de empregados do

@@ -1,6 +1,6 @@
 Package: ocupacoesBR
 Title: Traduz a Ocupação Declarada ao TSE em Classificações Padronizadas
-Version: 0.8.1
+Version: 0.8.2
 Authors@R:
     person("Vitor", "Peixoto", , "moraespeixoto@gmail.com", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-6618-3311"))

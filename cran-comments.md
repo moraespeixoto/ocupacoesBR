@@ -2,8 +2,9 @@
 
 ## Resposta à revisão da 0.8.0
 
-Esta é uma ressubmissão. A revisão manual da 0.8.0 pediu duas correções, e as
-duas foram feitas na 0.8.1:
+Esta é uma ressubmissão. A revisão manual da 0.8.0 pediu duas correções. A
+0.8.1 atendeu a primeira por completo e a segunda só no item citado
+nominalmente; a 0.8.2 completa a segunda para as 61 funções exportadas.
 
 - **Referências no `Description`.** O campo passa a citar, no formato
   `autores (ano) <doi:...>` e `(ano, ISBN:...)`, as obras que descrevem os
@@ -12,10 +13,14 @@ duas foram feitas na 0.8.1:
   <doi:10.2307/589632>, Ganzeboom, De Graaf e Treiman (1992)
   <doi:10.1016/0049-089X(92)90017-B> e Peixoto (2026)
   <doi:10.31235/osf.io/b29kg_v1>. Os DOIs foram conferidos no Crossref.
-- **`\value` ausente em `tse_codigos_autorrotulo.Rd`.** O objeto é uma
-  constante exportada (um vetor `character`), e não uma função; a página agora
-  descreve a classe, o comprimento e o significado do valor. Nenhuma outra
-  página de ajuda de objeto não-dado ficou sem `\value`.
+- **`\value` explicando estrutura e significado, em todas as funções
+  exportadas.** O CRAN citou nominalmente só `tse_codigos_autorrotulo.Rd`,
+  que não tinha `\value` nenhum (é uma constante, não uma função); a 0.8.1
+  corrigiu esse. Mas o pedido do CRAN é mais geral — "explain the functions
+  results ... write about the structure of the output (class) and also what
+  the output means" — e uma varredura de todas as 61 páginas de função
+  achou 41 com `\value` presente mas raso, dizendo só a classe R ("Vetor
+  numérico.") sem o significado. A 0.8.2 expande as 41.
 
 
 ## Verificação

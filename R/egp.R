@@ -107,6 +107,11 @@
 #' Carvalhaes, F. (2015). A tipologia ocupacional
 #' Erikson-Goldthorpe-Portocarero (EGP): uma avaliação analítica e empírica.
 #' *Sociedade e Estado*, 30(3), 673--703.
+#' @return Se `rotulo = TRUE` (padrão), vetor de texto com o rótulo da classe
+#'   EGP (por exemplo "I: dirigentes e profissionais superiores"); se
+#'   `rotulo = FALSE`, o código inteiro da classe (1 a 11, ou menos nas
+#'   versões colapsadas, conforme `n_classes`). Mesmo comprimento e ordem do
+#'   vetor de entrada; `NA` onde o código ISCO-88 não tem correspondência.
 #' @examples
 #' isco88_para_egp(c("2211", "1300", "6100"), avisar = FALSE)
 #'
@@ -318,7 +323,7 @@ isco88_para_egp <- function(isco, conta_propria = NULL,
 #' @param usa_proprietario Se `TRUE` (padrão) e `conta_propria` não for
 #'   informado, usa a marca `proprietario` do dicionário como posição no
 #'   emprego. Informar `conta_propria` explicitamente tem precedência.
-#' @return Vetor de texto (ou inteiro, se `rotulo = FALSE`).
+#' @return Se `rotulo = TRUE` (padrao), vetor de texto com o rotulo da classe EGP (por exemplo "I: dirigentes e profissionais superiores"); se `rotulo = FALSE`, o codigo inteiro da classe (1 a 11, ou menos nas versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo de origem nao tem correspondencia.
 #' @examples
 #' # 169 é COMERCIANTE: pequena burguesia, não classe de serviço
 #' tse_para_egp(c(111, 169, 601), avisar = FALSE)

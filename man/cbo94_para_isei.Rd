@@ -10,7 +10,7 @@ cbo94_para_isei(cbo94)
 \item{cbo94}{Vetor de codigos da CBO-94. Aceita "2-11.20" ou "21120".}
 }
 \value{
-Vetor numerico com o escore ISEI-88.
+Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman (de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada; \code{NA} onde o codigo nao tem correspondencia na tabela \link{isco88_medidas}.
 }
 \description{
 Indice socioeconomico ISEI a partir da CBO-94

@@ -12,7 +12,7 @@ checa_cobertura_cbo2002(cbo, silencioso = FALSE)
 \item{silencioso}{Se \code{TRUE}, não escreve a mensagem de sucesso.}
 }
 \value{
-Invisivelmente, \code{TRUE}.
+Invisivelmente, \code{TRUE}, se todo codigo observado tem entrada na tabela. O valor em si nao carrega informacao alem de confirmar que nao houve erro: a funcao para com \code{stop()}, nomeando os codigos sem entrada, quando a cobertura falha, e a mensagem de sucesso (a menos que \code{silencioso = TRUE}) e' o efeito colateral que interessa.
 }
 \description{
 Equivalente de \code{\link[=checa_cobertura]{checa_cobertura()}} para a porta da CBO. Distingue o código

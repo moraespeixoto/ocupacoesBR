@@ -122,7 +122,11 @@ tse_para_isei <- function(cod, ano = NULL) {
 #' que mede posição socioeconômica.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor numérico com o escore SIOPS, ou `NA`.
+#' @return Vetor numérico com o escore SIOPS (Standard International
+#'   Occupational Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF:
+#'   quanto maior, mais prestigiada a ocupação na média dos estudos
+#'   originais. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o
+#'   código do TSE não tem entrada no dicionário.
 #' @examples
 #' tse_para_siops(c(111, 169, 257))
 #' @export
@@ -203,7 +207,7 @@ tse_para_siops <- function(cod, ano = NULL) {
 #'   "Vínculo público não especificado" — que sozinha reúne cerca de 9% das
 #'   candidaturas, do faxineiro ao secretário de finanças — é dividida pela
 #'   escolaridade declarada.
-#' @return Vetor de texto com a classe.
+#' @return Vetor de texto com o rotulo da classe (por exemplo "Classe alta", "Vinculo publico, superior"), nas categorias descritas acima. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo do TSE nao tem entrada no dicionario.
 #' @examples
 #' tse_para_classe(c(111, 169, 291))
 #' tse_para_classe(c(291, 291), superior = c(TRUE, FALSE))
@@ -279,7 +283,7 @@ tse_para_classe <- function(cod, superior = NULL, ano = NULL) {
 #' precisa dizer qual pergunta cada uma responde — veja `vignette("qual-regua")`.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor de texto com o estrato.
+#' @return Vetor de texto com o estrato ("Classe alta", "Classe media", "Classes populares", ou uma das duas categorias residuais descritas acima). Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo do TSE nao tem entrada no dicionario.
 #' @examples
 #' tse_para_estrato(c(111, 169, 291, 931))
 #' @export
@@ -348,7 +352,7 @@ tse_para_estrato <- function(cod, ano = NULL) {
 #' também sem [tse_codigos_autorrotulo] e relate as duas versões.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor de texto, ou `NA` fora da classe alta.
+#' @return Vetor de texto com o componente da classe alta ("Proprietaria", "Credenciada" ou a categoria politica, conforme descrito acima), ou `NA` fora da classe alta e onde o codigo do TSE nao tem entrada no dicionario.
 #' @examples
 #' tse_para_componente_alta(c(257, 111, 274, 411))
 #' @export
@@ -366,7 +370,7 @@ tse_para_componente_alta <- function(cod, ano = NULL) {
 #' quem chega a ela de outra ocupação.
 #'
 #' @inheritParams tse_para_isco
-#' @return Vetor lógico.
+#' @return Vetor logico: `TRUE` quando o codigo e' um cargo ou mandato politico (vereador, deputado, prefeito, governador e afins), `FALSE` caso contrario. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo do TSE nao tem entrada no dicionario.
 #' @examples
 #' tse_para_politico(c(274, 169))
 #' @export
