@@ -55,3 +55,9 @@ opencode.jsonc
 .github/*
 !.github/workflows/
 .claude/
+
+# Pasta de trabalho do artigo do ISEI-BR temporal (2012-2025).
+# Nao pertence ao pacote: fica aqui so por estar ao lado de data-raw/09_gera_isei_br.R
+# e dos microdados. Se os achados forem aprovados, as FUNCOES entram no pacote e o
+# .qmd migra para /dados/classe_recrutamento_politico/. A pasta nunca e commitada.
+artigo_isei_br_temporal/
