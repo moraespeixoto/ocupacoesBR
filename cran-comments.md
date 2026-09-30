@@ -45,100 +45,106 @@ functions.
 (Ubuntu 26.04), R 4.6.1: **0 ERROR, 0 WARNING, 2 NOTEs.** Tests pass with
 no failure and no skip, and the vignettes rebuild.
 
-A verificação foi feita **também** numa biblioteca sem nenhum dos pacotes
-sugeridos (`testthat`, `knitr`, `rmarkdown`, `readxl`): o pacote instala,
-carrega e traduz normalmente, e os exemplos de todas as páginas de ajuda rodam
-sem erro. Nenhuma função exportada depende de um pacote sugerido. Nessa
-biblioteca a suíte e as vinhetas naturalmente não rodam, porque `testthat` e
-`knitr` são justamente o que falta ali.
+The check was also run in a library with none of the suggested packages
+(`testthat`, `knitr`, `rmarkdown`, `readxl`): the package installs, loads and
+translates normally, and the examples on every help page run without error.
+No exported function depends on a suggested package. In that library the
+test suite and the vignettes naturally do not run, because `testthat` and
+`knitr` are exactly what is missing there.
 
-## As duas NOTEs
+## The two NOTEs
 
-**1. "New submission"**, de `checking CRAN incoming feasibility` — é o primeiro
-envio do pacote.
+**1. "New submission"**, from `checking CRAN incoming feasibility` — this is
+the package's first submission.
 
-**2. `checking HTML version of manual`** — a máquina de verificação local não
-tem o `tidy` instalado, e o check informa que pulou a validação do HTML. É
-propriedade da máquina, não do pacote; não ocorre nas máquinas do CRAN.
+**2. `checking HTML version of manual`** — the local check machine does not
+have `tidy` installed, and the check reports that it skipped HTML
+validation. This is a property of the machine, not of the package; it does
+not occur on CRAN's own machines.
 
-### O que deixou de aparecer, e por quê
+### What used to appear, and why it no longer does
 
-**As três URLs com status 404**, até a 0.7.0. O repositório estava privado
-enquanto o pacote passava por revisão, e o verificador do CRAN é anônimo: as
-duas URLs do repositório e a do site de documentação respondiam 404 para
-qualquer visitante. Em 09/09/2026 o repositório foi aberto e o GitHub Pages
-passou a servir <https://moraespeixoto.github.io/ocupacoesBR/>. As três
-resolvem, e a NOTE deixou de ocorrer — os campos `URL` e `BugReports` do
-`DESCRIPTION` seguem como estavam.
+**The three URLs with 404 status**, up to 0.7.0. The repository was private
+while the package went through review, and CRAN's checker is anonymous: both
+repository URLs and the documentation site URL returned 404 to any visitor.
+On 2026-09-09 the repository was made public and GitHub Pages started
+serving <https://moraespeixoto.github.io/ocupacoesBR/>. All three now
+resolve, and the NOTE no longer occurs — the `URL` and `BugReports` fields
+in `DESCRIPTION` are unchanged.
 
-**O erro de LaTeX no manual em PDF**, na própria 0.8.0, antes desta submissão.
-Três ocorrências do sinal de menos matemático (U+2212) numa passagem de
-`?tse_para_isei` que relata coeficientes negativos faziam o `pdflatex` parar com
-"Unicode character not set up for use with LaTeX", o que produzia um WARNING e
-um ERROR. Passaram a hífen ASCII, que é o que o LaTeX espera e o que o leitor
-lê igual.
+**The LaTeX error in the PDF manual**, in 0.8.0 itself, before this
+submission. Three occurrences of the mathematical minus sign (U+2212) in a
+passage of `?tse_para_isei` reporting negative coefficients made `pdflatex`
+stop with "Unicode character not set up for use with LaTeX", producing a
+WARNING and an ERROR. They were replaced with an ASCII hyphen, which is what
+LaTeX expects and reads the same to the eye.
 
+**"Suggests or Enhances not in mainstream repositories: DIGCLASS"**, up to
+0.5.2. `DIGCLASS` (Cimentada) is an independent implementation of the same
+ISMF syntax, used for a cross-check of the EGP scheme — the package's only
+validation against code that is neither its own nor from the source it
+itself reads.
 
-**"Suggests or Enhances not in mainstream repositories: DIGCLASS"**, até a
-0.5.2. O `DIGCLASS` (Cimentada) é uma implementação independente das mesmas
-sintaxes do ISMF, usada numa conferência cruzada do EGP — a única validação
-deste pacote contra código que não é dele nem da fonte que ele próprio leu.
-
-Ele não é distribuído por repositório algum: nem CRAN, nem Bioconductor, nem
-r-universe. Instala-se do HEAD do GitHub. Por isso `Additional_repositories:`
-não se aplica — o campo exige um repositório no formato do CRAN, com índice
-`PACKAGES` —, e mantê-lo em `Suggests` fazia o `R CMD check` devolver
+It is not distributed through any repository — not CRAN, not Bioconductor,
+not r-universe. It installs from the GitHub HEAD. `Additional_repositories:`
+therefore does not apply, since that field requires a CRAN-format repository
+with a `PACKAGES` index, and keeping it in `Suggests` made `R CMD check`
+return
 
 ```
 * checking package dependencies ... ERROR
 Package suggested but not available: 'DIGCLASS'
 ```
 
-em qualquer máquina que não o tivesse instalado, o que inclui as do CRAN.
+on any machine that did not have it installed, which includes CRAN's.
 
-Desde a 0.6.0 o `DIGCLASS` saiu de `Suggests` e o teste que o usa
-(`tests/testthat/test-digclass.R`) está em `.Rbuildignore`: ele permanece no
-repositório e roda no desenvolvimento, mas não viaja no pacote distribuído, que
-não menciona o `DIGCLASS` em lugar nenhum. A versão e o *commit* contra os
-quais a conferência foi feita ficam registrados em
-`inst/extdata/PROVENIENCIA.yml`, seção `conferencia_cruzada`.
+Since 0.6.0, `DIGCLASS` has been removed from `Suggests` and the test that
+uses it (`tests/testthat/test-digclass.R`) is listed in `.Rbuildignore`: it
+remains in the repository and runs in development, but does not travel with
+the distributed package, which does not mention `DIGCLASS` anywhere. The
+version and commit against which the cross-check was performed are recorded
+in `inst/extdata/PROVENIENCIA.yml`, section `conferencia_cruzada`.
 
-**"The Title field should be in title case"**, até a 0.2.1. Não era defeito do
-título: o verificador aplicava a convenção de capitalização do inglês a uma
-frase em português, cuja norma é a inversa. A partir da 0.3.0 o `DESCRIPTION`
-declara `Language: pt-BR`, como a política do CRAN pede para pacote que não é
-em inglês, e o aviso deixou de ocorrer. Declarar a língua era a correção certa;
-capitalizar "Ao", "Em" e "Da" teria produzido um título agramatical.
+**"The Title field should be in title case"**, up to 0.2.1. This was not a
+defect in the title: the checker applied English capitalization conventions
+to a Portuguese sentence, whose convention is the opposite. From 0.3.0
+onward, `DESCRIPTION` declares `Language: pt-BR`, as CRAN policy asks for a
+package that is not in English, and the warning stopped occurring.
+Declaring the language was the right fix; capitalizing "Ao", "Em" and "Da"
+would have produced an ungrammatical title.
 
-## O e-mail do mantenedor
+## Maintainer's e-mail
 
-O campo `Authors@R` traz `moraespeixoto@gmail.com`, um endereço pessoal, e não
-o institucional do autor. A escolha é deliberada e tem uma razão só: é o
-endereço que sobrevive a uma mudança de vínculo. O canal por onde o CRAN cobra
-o mantenedor precisa continuar respondendo daqui a dez anos, e um endereço de
-universidade morre com o vínculo — o pacote ficaria sem canal e seria
-arquivado por silêncio. O ORCID do autor entra no mesmo campo e liga o pacote
-ao registro público, que é onde a filiação institucional é verificável.
+The `Authors@R` field carries `moraespeixoto@gmail.com`, a personal address,
+rather than the author's institutional one. This is deliberate, for a
+single reason: it is the address that survives a change of institutional
+affiliation. The channel through which CRAN reaches the maintainer needs to
+keep working ten years from now, and a university address dies with the
+affiliation — the package would then lose its channel and be archived for
+silence. The author's ORCID, in the same field, links the package to the
+public record where the institutional affiliation can be verified.
 
-## Materiais de terceiros
+## Third-party material
 
-O pacote redistribui, em `inst/extdata/fontes/`, as sintaxes SPSS publicadas do
-International Stratification and Mobility File (Ganzeboom & Treiman) e uma
-cópia da tábua oficial de conversão do Ministério do Trabalho brasileiro.
+The package redistributes, in `inst/extdata/fontes/`, the published SPSS
+syntax files of the International Stratification and Mobility File
+(Ganzeboom & Treiman) and a copy of the official occupation conversion table
+of Brazil's Ministry of Labor.
 
-Elas viajam com o pacote **por necessidade metodológica**: nenhuma tabela de
-dados é digitada à mão, todas são geradas por script a partir dessas fontes, e
-a suíte de testes confere as tabelas contra elas linha a linha, mais o `sha256`
-de cada uma. Sem as fontes embarcadas, essa verificação não roda no ambiente de
-check.
+They ship with the package **out of methodological necessity**: no data
+table is typed by hand, all of them are generated by script from these
+sources, and the test suite checks the tables against them line by line,
+plus the `sha256` of each file. Without the embedded sources, that check
+cannot run in the CRAN check environment.
 
-A autoria e as condições estão declaradas em `LICENSE.note`, que também viaja
-com o pacote. As sintaxes do ISMF são distribuídas pelos autores para uso
-público em pesquisa, com pedido expresso de citação, que `citation(
-"ocupacoesBR")` atende: devolve o pacote **e** as referências das escalas. A
-tábua do MTE é dado administrativo público, produzido e publicado por órgão do
-Estado brasileiro.
+Authorship and terms are stated in `LICENSE.note`, which also ships with the
+package. The ISMF syntax files are distributed by their authors for public
+research use, with an explicit request for citation, which
+`citation("ocupacoesBR")` satisfies: it returns the package **and** the
+references for the scales. The Ministry of Labor table is public
+administrative data, produced and published by a Brazilian government
+agency.
 
-## Dependências
+## Dependencies
 
-Apenas `stats` e `utils` (base R). Nenhum código compilado.
+Only `stats` and `utils` (base R). No compiled code.
