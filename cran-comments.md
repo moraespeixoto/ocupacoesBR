@@ -1,10 +1,24 @@
 # Comentários para a submissão ao CRAN
 
+## Resposta à revisão da 0.8.1
+
+A revisão manual da 0.8.1 (Konstanze Lauseker, 28/09/2026) pediu: "please
+provide an English title and description in addition to the Portuguese
+one." Os campos `Title` e `Description` passam a trazer o texto em
+português seguido de "English: " e a tradução correspondente — o mesmo
+padrão que outros pacotes do CRAN em língua não inglesa usam para o mesmo
+pedido (por exemplo, `datos`, de Riva Quiroga, cujo `Description` termina
+com "English: It provides a Spanish translated version..."). `Language:
+pt-BR` continua declarado, e a NOTE de título com mais de 65 caracteres,
+que a versão bilíngue do `Title` provavelmente vai gerar, é a consequência
+esperada de atender ao pedido, não um defeito novo.
+
 ## Resposta à revisão da 0.8.0
 
-Esta é uma ressubmissão. A revisão manual da 0.8.0 pediu duas correções. A
-0.8.1 atendeu a primeira por completo e a segunda só no item citado
-nominalmente; a 0.8.2 completa a segunda para as 61 funções exportadas.
+A revisão manual da 0.8.0 (Leonore Hochhauser, 17/09/2026) pediu duas
+correções. A 0.8.1 atendeu a primeira por completo e a segunda só no item
+citado nominalmente; a 0.8.2 completa a segunda para as 61 funções
+exportadas.
 
 - **Referências no `Description`.** O campo passa a citar, no formato
   `autores (ano) <doi:...>` e `(ano, ISBN:...)`, as obras que descrevem os

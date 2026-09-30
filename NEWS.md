@@ -1,24 +1,31 @@
 # ocupacoesBR 0.8.2
 
-Completa, para as 61 funções exportadas, a exigência de `\value` que a 0.8.1
-só tinha atendido para o único objeto citado nominalmente pelo CRAN
-(`tse_codigos_autorrotulo`). O pedido do CRAN também é geral — "explain the
-functions results ... write about the structure of the output (class) and
-also what the output means" — e 41 páginas de ajuda tinham `\value` presente
-mas raso, dizendo só a classe R ("Vetor numérico.") sem dizer o que o número
-ou o rótulo significam. Sem mudança de comportamento, de dado ou de
-resultado.
+Duas correções pedidas pela revisão manual do CRAN à 0.8.1, sem mudança de
+comportamento, de dado ou de resultado.
 
-- Toda função que traduz um código em ISEI, prestígio (SIOPS) ou EGP agora
-  diz a escala (por exemplo, ISEI de 16 a 90, SIOPS de 0 a 100), o sentido de
-  "maior" e o comportamento de `NA` e de comprimento do vetor.
-- `checa_cobertura_cod()`, `checa_cobertura_cbo2002()` e
-  `checa_cobertura_cbo94()` agora dizem que o `TRUE` invisível não carrega
-  informação por si só — o que importa é o efeito colateral (mensagem de
-  sucesso, ou erro nomeando os códigos ausentes).
-- `tse_para_classe()`, `tse_para_estrato()`, `tse_para_componente_alta()`,
-  `tse_para_politico()` e `tse_para_rotulo()` agora descrevem as categorias
-  do vetor de texto ou lógico que devolvem, em vez de só a classe.
+- **`Title` e `Description` ganham a versão em inglês, ao lado da
+  portuguesa.** O CRAN pediu "an English title and description in addition
+  to the Portuguese one"; os dois campos passam a trazer o texto em
+  português seguido de "English: " e a tradução correspondente, no mesmo
+  padrão usado por outros pacotes do CRAN em língua não inglesa (por
+  exemplo, `datos`). `Language: pt-BR` continua declarado.
+- Completa, para as 61 funções exportadas, a exigência de `\value` que a
+  0.8.1 só tinha atendido para o único objeto citado nominalmente pelo CRAN
+  (`tse_codigos_autorrotulo`). O pedido do CRAN também é geral — "explain the
+  functions results ... write about the structure of the output (class) and
+  also what the output means" — e 41 páginas de ajuda tinham `\value` presente
+  mas raso, dizendo só a classe R ("Vetor numérico.") sem dizer o que o número
+  ou o rótulo significam.
+  - Toda função que traduz um código em ISEI, prestígio (SIOPS) ou EGP agora
+    diz a escala (por exemplo, ISEI de 16 a 90, SIOPS de 0 a 100), o sentido
+    de "maior" e o comportamento de `NA` e de comprimento do vetor.
+  - `checa_cobertura_cod()`, `checa_cobertura_cbo2002()` e
+    `checa_cobertura_cbo94()` agora dizem que o `TRUE` invisível não carrega
+    informação por si só — o que importa é o efeito colateral (mensagem de
+    sucesso, ou erro nomeando os códigos ausentes).
+  - `tse_para_classe()`, `tse_para_estrato()`, `tse_para_componente_alta()`,
+    `tse_para_politico()` e `tse_para_rotulo()` agora descrevem as categorias
+    do vetor de texto ou lógico que devolvem, em vez de só a classe.
 
 # ocupacoesBR 0.8.1
 
