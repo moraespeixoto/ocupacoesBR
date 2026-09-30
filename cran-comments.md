@@ -1,47 +1,49 @@
-# Comentários para a submissão ao CRAN
+# Comments for CRAN submission
 
-## Resposta à revisão da 0.8.1
+This is a resubmission.
 
-A revisão manual da 0.8.1 (Konstanze Lauseker, 28/09/2026) pediu: "please
+## Response to the review of 0.8.1
+
+The manual review of 0.8.1 (Konstanze Lauseker, 2026-09-28) asked: "please
 provide an English title and description in addition to the Portuguese
-one." Os campos `Title` e `Description` passam a trazer o texto em
-português seguido de "English: " e a tradução correspondente — o mesmo
-padrão que outros pacotes do CRAN em língua não inglesa usam para o mesmo
-pedido (por exemplo, `datos`, de Riva Quiroga, cujo `Description` termina
-com "English: It provides a Spanish translated version..."). `Language:
-pt-BR` continua declarado, e a NOTE de título com mais de 65 caracteres,
-que a versão bilíngue do `Title` provavelmente vai gerar, é a consequência
-esperada de atender ao pedido, não um defeito novo.
+one." Both the `Title` and `Description` fields now contain the Portuguese
+text followed by "English: " and an English translation. For `Description`
+this follows the precedent of the CRAN package `datos` (Riva Quiroga),
+whose `Description` ends with "English: It provides a Spanish translated
+version..."; we applied the same convention to `Title`, which `datos` does
+not do. `Language: pt-BR` remains declared. The `Title` is longer than the
+recommended 65 characters only because it is bilingual, as requested.
 
-## Resposta à revisão da 0.8.0
+## Response to the review of 0.8.0
 
-A revisão manual da 0.8.0 (Leonore Hochhauser, 17/09/2026) pediu duas
-correções. A 0.8.1 atendeu a primeira por completo e a segunda só no item
-citado nominalmente; a 0.8.2 completa a segunda para as 61 funções
-exportadas.
+The manual review of 0.8.0 (Leonore Hochhauser, 2026-09-17) asked for two
+corrections. 0.8.1 addressed the first in full and the second only for the
+object named explicitly; 0.8.2 completes the second for all 61 exported
+functions.
 
-- **Referências no `Description`.** O campo passa a citar, no formato
-  `autores (ano) <doi:...>` e `(ano, ISBN:...)`, as obras que descrevem os
-  métodos: Ganzeboom e Treiman (1996) <doi:10.1006/ssre.1996.0010>, Treiman
-  (1977, ISBN:0-12-698750-5), Erikson, Goldthorpe e Portocarero (1979)
-  <doi:10.2307/589632>, Ganzeboom, De Graaf e Treiman (1992)
-  <doi:10.1016/0049-089X(92)90017-B> e Peixoto (2026)
-  <doi:10.31235/osf.io/b29kg_v1>. Os DOIs foram conferidos no Crossref.
-- **`\value` explicando estrutura e significado, em todas as funções
-  exportadas.** O CRAN citou nominalmente só `tse_codigos_autorrotulo.Rd`,
-  que não tinha `\value` nenhum (é uma constante, não uma função); a 0.8.1
-  corrigiu esse. Mas o pedido do CRAN é mais geral — "explain the functions
-  results ... write about the structure of the output (class) and also what
-  the output means" — e uma varredura de todas as 61 páginas de função
-  achou 41 com `\value` presente mas raso, dizendo só a classe R ("Vetor
-  numérico.") sem o significado. A 0.8.2 expande as 41.
+- **References in `Description`.** The field now cites, in the format
+  `authors (year) <doi:...>` and `(year, ISBN:...)`, the works that
+  describe each method: Ganzeboom and Treiman (1996)
+  <doi:10.1006/ssre.1996.0010>, Treiman (1977, ISBN:0-12-698750-5),
+  Erikson, Goldthorpe and Portocarero (1979) <doi:10.2307/589632>,
+  Ganzeboom, De Graaf and Treiman (1992) <doi:10.1016/0049-089X(92)90017-B>,
+  and Peixoto (2026) <doi:10.31235/osf.io/b29kg_v1>. The DOIs were checked
+  against Crossref.
+- **`\value` explaining structure and meaning, in every exported
+  function.** CRAN named only `tse_codigos_autorrotulo.Rd` explicitly,
+  which had no `\value` at all (it documents a constant, not a function);
+  0.8.1 fixed that one. But CRAN's request was more general — "explain the
+  functions results ... write about the structure of the output (class)
+  and also what the output means" — and a sweep of all 61 function help
+  pages found 41 with a `\value` section that was present but shallow,
+  stating only the R class ("Numeric vector.") without its meaning. 0.8.2
+  expands all 41.
 
+## Verification
 
-## Verificação
-
-`R CMD check --as-cran` na versão 0.8.1, x86_64-pc-linux-gnu (Ubuntu 26.04),
-R 4.6.1: **0 ERROR, 0 WARNING, 2 NOTEs.** Os testes passam sem falha e sem
-SKIP, e as vinhetas reconstroem.
+`R CMD check --as-cran` on the final 0.8.2 tarball, x86_64-pc-linux-gnu
+(Ubuntu 26.04), R 4.6.1: **0 ERROR, 0 WARNING, 2 NOTEs.** Tests pass with
+no failure and no skip, and the vignettes rebuild.
 
 A verificação foi feita **também** numa biblioteca sem nenhum dos pacotes
 sugeridos (`testthat`, `knitr`, `rmarkdown`, `readxl`): o pacote instala,

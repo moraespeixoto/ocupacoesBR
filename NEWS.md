@@ -1,14 +1,18 @@
 # ocupacoesBR 0.8.2
 
-Duas correções pedidas pela revisão manual do CRAN à 0.8.1, sem mudança de
-comportamento, de dado ou de resultado.
+Duas correções, sem mudança de comportamento, de dado ou de resultado: uma
+pedida pela revisão manual à 0.8.1, outra completando um pedido da revisão
+à 0.8.0 que a 0.8.1 só tinha atendido em parte.
 
 - **`Title` e `Description` ganham a versão em inglês, ao lado da
-  portuguesa.** O CRAN pediu "an English title and description in addition
-  to the Portuguese one"; os dois campos passam a trazer o texto em
-  português seguido de "English: " e a tradução correspondente, no mesmo
-  padrão usado por outros pacotes do CRAN em língua não inglesa (por
-  exemplo, `datos`). `Language: pt-BR` continua declarado.
+  portuguesa** (pedido da revisão à 0.8.1). O CRAN pediu "an English title
+  and description in addition to the Portuguese one"; os dois campos
+  passam a trazer o texto em português seguido de "English: " e a tradução
+  correspondente. Para o `Description`, é o mesmo padrão usado pelo pacote
+  `datos` (CRAN); o `Title` bilíngue é a mesma convenção aplicada por
+  analogia, já que o `datos` não faz isso no `Title`. `Language: pt-BR`
+  continua declarado, e o `Title` passa dos 65 caracteres recomendados só
+  por ser bilíngue.
 - Completa, para as 61 funções exportadas, a exigência de `\value` que a
   0.8.1 só tinha atendido para o único objeto citado nominalmente pelo CRAN
   (`tse_codigos_autorrotulo`). O pedido do CRAN também é geral — "explain the
