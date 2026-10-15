@@ -18,6 +18,9 @@ PNAD.</p>
 <div class="ocb-install">
 
 ```r
+install.packages("ocupacoesBR")
+
+# versão em desenvolvimento, do GitHub
 remotes::install_github("moraespeixoto/ocupacoesBR")
 ```
 
@@ -30,6 +33,7 @@ remotes::install_github("moraespeixoto/ocupacoesBR")
 </div>
 
 <div class="ocb-badges">
+<a class="ocb-badge-img" href="https://CRAN.R-project.org/package=ocupacoesBR"><img src="https://www.r-pkg.org/badges/version/ocupacoesBR" alt="CRAN status" /></a>
 <a class="ocb-badge-img" href="https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml"><img src="https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml/badge.svg" alt="R-CMD-check" /></a>
 <span class="ocb-badge"><span class="ocb-badge-k">licença</span><span class="ocb-badge-v">MIT</span></span>
 <span class="ocb-badge"><span class="ocb-badge-k">cadastro TSE</span><span class="ocb-badge-v">1998–2026</span></span>

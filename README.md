@@ -5,6 +5,7 @@
 
 <!-- badges: start -->
 
+[![CRAN status](https://www.r-pkg.org/badges/version/ocupacoesBR)](https://CRAN.R-project.org/package=ocupacoesBR)
 [![R-CMD-check](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml)
 [![License:
 MIT](https://img.shields.io/badge/licen%C3%A7a-MIT-blue.svg)](https://opensource.org/licenses/MIT)
@@ -16,6 +17,9 @@ ISCO-08, ISEI, prestígio de Treiman, EGP e um esquema de classes e
 estratos desenhado para o dado eleitoral brasileiro.
 
 ``` r
+install.packages("ocupacoesBR")
+
+# versão em desenvolvimento, do GitHub
 # install.packages("remotes")
 remotes::install_github("moraespeixoto/ocupacoesBR")
 ```
