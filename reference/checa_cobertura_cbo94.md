@@ -22,7 +22,12 @@ checa_cobertura_cbo94(cbo94, silencioso = FALSE)
 
 ## Value
 
-Invisivelmente, `TRUE`.
+Invisivelmente, `TRUE`, se todo codigo observado tem entrada na tabela.
+O valor em si nao carrega informacao alem de confirmar que nao houve
+erro: a funcao para com [`stop()`](https://rdrr.io/r/base/stop.html),
+nomeando os codigos sem entrada, quando a cobertura falha, e a mensagem
+de sucesso (a menos que `silencioso = TRUE`) e' o efeito colateral que
+interessa.
 
 ## Examples
 

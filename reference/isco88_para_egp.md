@@ -55,6 +55,12 @@ isco88_para_egp(
 
 Vetor de texto (ou inteiro, se `rotulo = FALSE`).
 
+Se `rotulo = TRUE` (padrão), vetor de texto com o rótulo da classe EGP
+(por exemplo "I: dirigentes e profissionais superiores"); se
+`rotulo = FALSE`, o código inteiro da classe (1 a 11, ou menos nas
+versões colapsadas, conforme `n_classes`). Mesmo comprimento e ordem do
+vetor de entrada; `NA` onde o código ISCO-88 não tem correspondência.
+
 ## O que o EGP exige e o TSE não tem
 
 O EGP não é uma função só da ocupação. As suas regras usam duas

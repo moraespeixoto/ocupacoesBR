@@ -16,7 +16,10 @@ isco08_para_isco88(isco08)
 
 ## Value
 
-Vetor de texto com o ISCO-88.
+Vetor de texto com o codigo ISCO-88 de quatro digitos. Mesmo comprimento
+e ordem do vetor de entrada; `NA` onde o codigo ISCO-08 nao tem
+correspondencia na ponte reversa (veja a secao acima sobre a ida e a
+volta).
 
 ## A ida e a volta nao se cancelam
 

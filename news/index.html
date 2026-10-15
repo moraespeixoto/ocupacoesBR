@@ -7,7 +7,7 @@
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -51,6 +51,19 @@
       <small>Source: <a href="https://github.com/moraespeixoto/ocupacoesBR/blob/main/NEWS.md" class="external-link"><code>NEWS.md</code></a></small>
     </div>
 
+    <div class="section level2">
+<h2 class="pkg-version" data-toc-text="0.8.2" id="ocupacoesbr-082">ocupacoesBR 0.8.2<a class="anchor" aria-label="anchor" href="#ocupacoesbr-082"></a></h2><p class="text-muted">CRAN release: 2026-10-10</p>
+<p>Duas correções, sem mudança de comportamento, de dado ou de resultado: uma pedida pela revisão manual à 0.8.1, outra completando um pedido da revisão à 0.8.0 que a 0.8.1 só tinha atendido em parte.</p>
+<ul><li>
+<strong><code>Title</code> e <code>Description</code> ganham a versão em inglês, ao lado da portuguesa</strong> (pedido da revisão à 0.8.1). O CRAN pediu “an English title and description in addition to the Portuguese one”; os dois campos passam a trazer o texto em português seguido de “English:” e a tradução correspondente. Para o <code>Description</code>, é o mesmo padrão usado pelo pacote <code>datos</code> (CRAN); o <code>Title</code> bilíngue é a mesma convenção aplicada por analogia, já que o <code>datos</code> não faz isso no <code>Title</code>. <code>Language: pt-BR</code> continua declarado, e o <code>Title</code> passa dos 65 caracteres recomendados só por ser bilíngue.</li>
+<li>Completa, para as 61 funções exportadas, a exigência de <code>\value</code> que a 0.8.1 só tinha atendido para o único objeto citado nominalmente pelo CRAN (<code>tse_codigos_autorrotulo</code>). O pedido do CRAN também é geral — “explain the functions results … write about the structure of the output (class) and also what the output means” — e 41 páginas de ajuda tinham <code>\value</code> presente mas raso, dizendo só a classe R (“Vetor numérico.”) sem dizer o que o número ou o rótulo significam.
+<ul><li>Toda função que traduz um código em ISEI, prestígio (SIOPS) ou EGP agora diz a escala (por exemplo, ISEI de 16 a 90, SIOPS de 0 a 100), o sentido de “maior” e o comportamento de <code>NA</code> e de comprimento do vetor.</li>
+<li>
+<code><a href="../reference/checa_cobertura_cod.html">checa_cobertura_cod()</a></code>, <code><a href="../reference/checa_cobertura_cbo2002.html">checa_cobertura_cbo2002()</a></code> e <code><a href="../reference/checa_cobertura_cbo94.html">checa_cobertura_cbo94()</a></code> agora dizem que o <code>TRUE</code> invisível não carrega informação por si só — o que importa é o efeito colateral (mensagem de sucesso, ou erro nomeando os códigos ausentes).</li>
+<li>
+<code><a href="../reference/tse_para_classe.html">tse_para_classe()</a></code>, <code><a href="../reference/tse_para_estrato.html">tse_para_estrato()</a></code>, <code><a href="../reference/tse_para_componente_alta.html">tse_para_componente_alta()</a></code>, <code><a href="../reference/tse_para_politico.html">tse_para_politico()</a></code> e <code><a href="../reference/tse_para_rotulo.html">tse_para_rotulo()</a></code> agora descrevem as categorias do vetor de texto ou lógico que devolvem, em vez de só a classe.</li>
+</ul></li>
+</ul></div>
     <div class="section level2">
 <h2 class="pkg-version" data-toc-text="0.8.1" id="ocupacoesbr-081">ocupacoesBR 0.8.1<a class="anchor" aria-label="anchor" href="#ocupacoesbr-081"></a></h2>
 <p>Correções pedidas pela revisão manual do CRAN à 0.8.0, sem mudança de comportamento, de dado ou de resultado.</p>

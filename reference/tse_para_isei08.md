@@ -25,7 +25,11 @@ tse_para_isei08(cod, ano = NULL)
 
 ## Value
 
-Vetor numérico com o escore ISEI-08.
+Vetor numerico com o escore ISEI-08, na escala de Ganzeboom e Treiman
+reestimada sobre o ISSP de 2002-2007 (de 11 a 89 neste dicionario).
+Mesmo comprimento e ordem do vetor de entrada; `NA` onde o codigo nao
+tem correspondencia na tabela
+[isco08_medidas](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_medidas.md).
 
 ## Quando *não* usar
 

@@ -33,7 +33,11 @@ cbo2002_para_isei(cbo, empate = c("na", "moda"), escada = FALSE)
 
 ## Value
 
-Vetor numerico com o escore ISEI-88.
+Vetor numerico com o escore ISEI-88, na escala de Ganzeboom e Treiman
+(de 16 a 90 neste dicionario): quanto maior, mais a ocupacao converte
+escolaridade em renda. Mesmo comprimento e ordem do vetor de entrada;
+`NA` onde o codigo nao tem correspondencia na tabela
+[isco88_medidas](https://moraespeixoto.github.io/ocupacoesBR/reference/isco88_medidas.md).
 
 ## Examples
 

@@ -18,7 +18,10 @@ cod_para_isco08(cod)
 
 ## Value
 
-Vetor de texto com o ISCO-08.
+Vetor de texto com o codigo ISCO-08 de quatro digitos. Mesmo comprimento
+e ordem do vetor de entrada; `NA` onde o codigo da COD nao tem
+correspondencia na tabela
+[cod_isco08](https://moraespeixoto.github.io/ocupacoesBR/reference/cod_isco08.md).
 
 ## Por que esta perna e quase gratuita
 

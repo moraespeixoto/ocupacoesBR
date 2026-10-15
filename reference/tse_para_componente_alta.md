@@ -27,7 +27,10 @@ tse_para_componente_alta(cod, ano = NULL)
 
 ## Value
 
-Vetor de texto, ou `NA` fora da classe alta.
+Vetor de texto com o componente da classe alta ("Proprietaria",
+"Credenciada" ou a categoria politica, conforme descrito acima), ou `NA`
+fora da classe alta e onde o codigo do TSE nao tem entrada no
+dicionario.
 
 ## As duas metades não têm a mesma confiabilidade
 

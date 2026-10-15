@@ -27,7 +27,11 @@ tse_para_siops(cod, ano = NULL)
 
 ## Value
 
-Vetor numérico com o escore SIOPS, ou `NA`.
+Vetor numérico com o escore SIOPS (Standard International Occupational
+Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior,
+mais prestigiada a ocupação na média dos estudos originais. Mesmo
+comprimento e ordem do vetor de entrada; `NA` onde o código do TSE não
+tem entrada no dicionário.
 
 ## Examples
 

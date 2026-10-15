@@ -25,7 +25,11 @@ tse_para_siops08(cod, ano = NULL)
 
 ## Value
 
-Vetor numérico com o escore SIOPS ancorado na ISCO-08.
+Vetor numerico com o escore SIOPS (Standard International Occupational
+Prestige Scale) de Treiman, na escala de 0 a 100 do ISMF: quanto maior,
+mais prestigiada a ocupacao na media dos estudos originais. Mesmo
+comprimento e ordem do vetor de entrada; `NA` onde o codigo nao tem
+correspondencia na tabela.
 
 ## Examples
 

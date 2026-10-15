@@ -18,7 +18,12 @@ isco08_para_isei_br(isco08)
 
 ## Value
 
-Vetor numerico com o escore ISEI-BR, entre 10 e 90.
+Vetor numerico com o escore ISEI-BR, na escala estimada pelo proprio
+pacote sobre a PNAD Continua de 2025 (de 11,7 a 90 nesta tabela): quanto
+maior, mais a ocupacao converte escolaridade em renda no mercado de
+trabalho brasileiro de hoje. Mesmo comprimento e ordem do vetor de
+entrada; `NA` onde o codigo nao tem correspondencia na tabela
+[isco08_isei_br](https://moraespeixoto.github.io/ocupacoesBR/reference/isco08_isei_br.md).
 
 ## See also
 

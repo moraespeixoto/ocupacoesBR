@@ -17,7 +17,9 @@ cod_para_isco(cod)
 
 ## Value
 
-Vetor de texto com o ISCO-88.
+Vetor de texto com o codigo ISCO-88 de quatro digitos. Mesmo comprimento
+e ordem do vetor de entrada; `NA` onde o codigo da COD nao tem
+correspondencia.
 
 ## Details
 

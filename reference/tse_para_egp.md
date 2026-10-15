@@ -70,7 +70,11 @@ tse_para_egp(
 
 ## Value
 
-Vetor de texto (ou inteiro, se `rotulo = FALSE`).
+Se `rotulo = TRUE` (padrao), vetor de texto com o rotulo da classe EGP
+(por exemplo "I: dirigentes e profissionais superiores"); se
+`rotulo = FALSE`, o codigo inteiro da classe (1 a 11, ou menos nas
+versoes colapsadas). Mesmo comprimento e ordem do vetor de entrada; `NA`
+onde o codigo de origem nao tem correspondencia.
 
 ## A posição no emprego que o dicionário conhece
 

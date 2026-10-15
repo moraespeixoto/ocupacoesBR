@@ -27,7 +27,10 @@ tse_para_politico(cod, ano = NULL)
 
 ## Value
 
-Vetor lógico.
+Vetor logico: `TRUE` quando o codigo e' um cargo ou mandato politico
+(vereador, deputado, prefeito, governador e afins), `FALSE` caso
+contrario. Mesmo comprimento e ordem do vetor de entrada; `NA` onde o
+codigo do TSE nao tem entrada no dicionario.
 
 ## Examples
 

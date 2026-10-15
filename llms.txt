@@ -8,6 +8,9 @@ para o dado eleitoral. Também entra pela CBO da RAIS e pela COD da PNAD.
 
 ``` r
 
+install.packages("ocupacoesBR")
+
+# versão em desenvolvimento, do GitHub
 remotes::install_github("moraespeixoto/ocupacoesBR")
 ```
 
@@ -17,6 +20,8 @@ aqui](https://moraespeixoto.github.io/ocupacoesBR/articles/comece-aqui.md)
 usar?](https://moraespeixoto.github.io/ocupacoesBR/articles/qual-regua.md)
 [Referência](https://moraespeixoto.github.io/ocupacoesBR/reference/index.md)
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/ocupacoesBR)](https://CRAN.R-project.org/package=ocupacoesBR)
 [![R-CMD-check](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/moraespeixoto/ocupacoesBR/actions/workflows/R-CMD-check.yaml)
 licençaMIT cadastro TSE1998–2026 idiomapt-BR
 

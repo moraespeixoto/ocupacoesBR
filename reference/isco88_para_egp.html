@@ -9,7 +9,7 @@ Stratification and Mobility File, de Ganzeboom e Treiman."><meta property="og:im
 
     <a class="navbar-brand me-2" href="../index.html">ocupacoesBR</a>
 
-    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.1</small>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.8.2</small>
 
 
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
@@ -111,6 +111,11 @@ inclusive nas colapsadas; se <code>FALSE</code>, os códigos inteiros.</p></dd>
     <div class="section level2">
     <h2 id="value">Value<a class="anchor" aria-label="anchor" href="#value"></a></h2>
     <p>Vetor de texto (ou inteiro, se <code>rotulo = FALSE</code>).</p>
+<p>Se <code>rotulo = TRUE</code> (padrão), vetor de texto com o rótulo da classe
+EGP (por exemplo "I: dirigentes e profissionais superiores"); se
+<code>rotulo = FALSE</code>, o código inteiro da classe (1 a 11, ou menos nas
+versões colapsadas, conforme <code>n_classes</code>). Mesmo comprimento e ordem do
+vetor de entrada; <code>NA</code> onde o código ISCO-88 não tem correspondência.</p>
     </div>
     <div class="section level2">
     <h2 id="o-que-o-egp-exige-e-o-tse-n-o-tem">O que o EGP exige e o TSE não tem<a class="anchor" aria-label="anchor" href="#o-que-o-egp-exige-e-o-tse-n-o-tem"></a></h2>

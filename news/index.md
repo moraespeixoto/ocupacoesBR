@@ -1,5 +1,49 @@
 # Changelog
 
+## ocupacoesBR 0.8.2
+
+CRAN release: 2026-10-10
+
+Duas correções, sem mudança de comportamento, de dado ou de resultado:
+uma pedida pela revisão manual à 0.8.1, outra completando um pedido da
+revisão à 0.8.0 que a 0.8.1 só tinha atendido em parte.
+
+- **`Title` e `Description` ganham a versão em inglês, ao lado da
+  portuguesa** (pedido da revisão à 0.8.1). O CRAN pediu “an English
+  title and description in addition to the Portuguese one”; os dois
+  campos passam a trazer o texto em português seguido de “English:” e a
+  tradução correspondente. Para o `Description`, é o mesmo padrão usado
+  pelo pacote `datos` (CRAN); o `Title` bilíngue é a mesma convenção
+  aplicada por analogia, já que o `datos` não faz isso no `Title`.
+  `Language: pt-BR` continua declarado, e o `Title` passa dos 65
+  caracteres recomendados só por ser bilíngue.
+- Completa, para as 61 funções exportadas, a exigência de `\value` que a
+  0.8.1 só tinha atendido para o único objeto citado nominalmente pelo
+  CRAN (`tse_codigos_autorrotulo`). O pedido do CRAN também é geral —
+  “explain the functions results … write about the structure of the
+  output (class) and also what the output means” — e 41 páginas de ajuda
+  tinham `\value` presente mas raso, dizendo só a classe R (“Vetor
+  numérico.”) sem dizer o que o número ou o rótulo significam.
+  - Toda função que traduz um código em ISEI, prestígio (SIOPS) ou EGP
+    agora diz a escala (por exemplo, ISEI de 16 a 90, SIOPS de 0 a 100),
+    o sentido de “maior” e o comportamento de `NA` e de comprimento do
+    vetor.
+  - [`checa_cobertura_cod()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura_cod.md),
+    [`checa_cobertura_cbo2002()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura_cbo2002.md)
+    e
+    [`checa_cobertura_cbo94()`](https://moraespeixoto.github.io/ocupacoesBR/reference/checa_cobertura_cbo94.md)
+    agora dizem que o `TRUE` invisível não carrega informação por si só
+    — o que importa é o efeito colateral (mensagem de sucesso, ou erro
+    nomeando os códigos ausentes).
+  - [`tse_para_classe()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_classe.md),
+    [`tse_para_estrato()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_estrato.md),
+    [`tse_para_componente_alta()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_componente_alta.md),
+    [`tse_para_politico()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_politico.md)
+    e
+    [`tse_para_rotulo()`](https://moraespeixoto.github.io/ocupacoesBR/reference/tse_para_rotulo.md)
+    agora descrevem as categorias do vetor de texto ou lógico que
+    devolvem, em vez de só a classe.
+
 ## ocupacoesBR 0.8.1
 
 Correções pedidas pela revisão manual do CRAN à 0.8.0, sem mudança de

@@ -30,7 +30,10 @@ tse_para_estrato(cod, ano = NULL)
 
 ## Value
 
-Vetor de texto com o estrato.
+Vetor de texto com o estrato ("Classe alta", "Classe media", "Classes
+populares", ou uma das duas categorias residuais descritas acima). Mesmo
+comprimento e ordem do vetor de entrada; `NA` onde o codigo do TSE nao
+tem entrada no dicionario.
 
 ## O estrato e o ISEI se cruzam por desenho
 

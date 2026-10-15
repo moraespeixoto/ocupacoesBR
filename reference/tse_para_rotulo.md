@@ -21,7 +21,10 @@ tse_para_rotulo(cod, ano = NULL)
 
 ## Value
 
-Vetor de texto com o rótulo, ou `NA`.
+Vetor de texto com o rotulo da ocupacao tal como o TSE o escreveu
+naquele ano (ou o mais recente, se `ano` for omitido). Mesmo comprimento
+e ordem do vetor de entrada; `NA` onde o codigo nao tem entrada no
+cadastro de rotulos.
 
 ## Examples
 

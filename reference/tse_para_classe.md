@@ -39,7 +39,10 @@ tse_para_classe(cod, superior = NULL, ano = NULL)
 
 ## Value
 
-Vetor de texto com a classe.
+Vetor de texto com o rotulo da classe (por exemplo "Classe alta",
+"Vinculo publico, superior"), nas categorias descritas acima. Mesmo
+comprimento e ordem do vetor de entrada; `NA` onde o codigo do TSE nao
+tem entrada no dicionario.
 
 ## O agricultor, e por que ele não tem classe própria
 
